@@ -1,0 +1,66 @@
+table {
+    font-family: Arial;
+  }
+  
+  td {
+    font-weight: bold;
+  }
+
+
+  table {
+    border-collapse: collapse;
+    border: 1px solid black;
+    padding: 8px;
+  }
+  
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+  }
+  
+  th {
+    background-color: #ddd;
+    font-weight: bold;
+  }
+
+  
+  table {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    padding: 10px;
+  }
+  
+  td {
+    padding: 5px;
+  }
+
+  .gray-box {
+    background-color: rgba(240, 221, 221, 0.979);
+    padding: 10px;
+    border: 1px solid rgb(218, 204, 204);
+}
+
+  
+.form-control-50 {
+  display: block;
+  width: 50%;
+  height: 3.23077rem;
+  padding: 0.923077rem 1.307rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #878787;
+  background-color: #FFFFFF;
+  background-clip: padding-box;
+  border: 2px solid #ebebeb;
+  border-radius: 0;
+  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  height: 3.84615rem;
+  padding: 1.15385rem 1.307rem;
+  font-size: 1.154rem;
+  line-height: 1;
+}

@@ -340,6 +340,25 @@ include("conexion.php");
           </div>
         </div>-->
         <?php
+   $sqllist = "select * from contact";
+   $rows = mysqli_query($con, $sqllist);
+
+
+   if(isset($_GET['aksi']) == 'delete'){
+   $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES))); 
+   $delete = mysqli_query($con, "DELETE from Contact WHERE id=$nik");
+   if($delete){
+      echo '<script type="text/javascript">',
+ 'window.location.href="crm.php";',
+ '</script>';
+     
+     echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data successfully deleted.</div>';
+   }else{
+     echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, Data cannot be deleted.</div>';
+   }
+   }
+
+
         if(isset($_POST['save'])){
 				$first_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["first_name"],ENT_QUOTES)));//Escanpando caracteres
 				$last_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["last_name"],ENT_QUOTES)));//Escanpando caracteres
@@ -347,11 +366,10 @@ include("conexion.php");
         $address	     = mysqli_real_escape_string($con,(strip_tags($_POST["address"],ENT_QUOTES)));//Escanpando caracteres  
         $email	     = mysqli_real_escape_string($con,(strip_tags($_POST["email"],ENT_QUOTES)));//Escanpando caracteres
         $notes	     = mysqli_real_escape_string($con,(strip_tags($_POST["notes"],ENT_QUOTES)));//Escanpando caracteres
-        $sql= "insert into Contact (First_Name,Last_Name,Phone_Number,Address,Email,Notes) Values ('$first_name','$last_name','$phone_number','$address','$email','$notes')";
-        echo $sql;
-        $update = mysqli_query($con,sql) 
+        $sql= "insert into Contact (first_name,last_name,phone_number,address,email,notes) Values ('$first_name','$last_name','$phone_number','$address','$email','$notes')";
+        $update = mysqli_query($con,$sql) 
         or die(mysqli_error());
-        echo $update;
+       
       
       }
 ?>
@@ -388,7 +406,7 @@ include("conexion.php");
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Email</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input class="form-control" type="text" placeholder="Email" name="mail">
+                      <input class="form-control" type="text" placeholder="Email" name="email">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -415,10 +433,10 @@ include("conexion.php");
             </div>
           </div>
         </div>
-                <div class="row">
+        <div class="row">
           <div class="col-sm-12">
             <div class="card card-default card-table">
-              <div class="card-header">Responsive Table
+              <div class="card-header">Contact List
                 <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
               </div>
               <div class="card-body">
@@ -431,40 +449,64 @@ include("conexion.php");
                             <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
                           </label>
                         </th>
-                        <th style="width:20%;">User</th>
-                        <th style="width:17%;">Last Commit</th>
-                        <th style="width:15%;">Milestone</th>
-                        <th style="width:10%;">Branch</th>
-                        <th style="width:10%;">Date</th>
+                        <th style="width:20%;">First Name </th>
+                        <th style="width:17%;">Last Name </th>
+                        <th style="width:15%;">Phone #</th>
+                        <th style="width:10%;">Address</th>
+                        <th style="width:10%;">Email</th>
                         <th style="width:10%;"></th>
                       </tr>
                     </thead>
                     <tbody>
+                   <?php
+                   if(mysqli_num_rows($rows) == 0){
+                   }else{
+                   while($row = mysqli_fetch_assoc($rows)){
+                      ?>
                       <tr>
                         <td>
                           <label class="custom-control custom-control-sm custom-checkbox">
                             <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
                           </label>
                         </td>
-                        <td class="user-avatar cell-detail user-info"><img src="assets/img/avatar.jpg" alt="Avatar"><span>John Peterson</span><span class="cell-detail-description">Developer</span></td>
-                        <td class="cell-detail"> <span>Initial commit</span><span class="cell-detail-description">Bootstrap Admin</span></td>
-                        <td class="milestone"><span class="completed">8 / 15</span><span class="version">v1.2.0</span>
+                        <td class="user-avatar cell-detail user-info"><img src="assets/img/avatar.jpg" alt="Avatar"><span><?php echo $row ['first_name']; ?>
+                            </span>
+                            <!--<span class="cell-detail-description">Developer</span>-->
+                          </td>
+                        <td class="cell-detail"> <span><?php echo $row ['last_name']; ?>
+                            </span>
+                            <!--<span class="cell-detail-description">Bootstrap Admin</span>-->
+                          </td>
+                        <td class="cell-detail"><span><?php echo $row ['phone_number']; ?>
+                            </span>
+                            <!--<span class="version">v1.2.0</span>
                           <div class="progress">
                             <div class="progress-bar progress-bar-primary" style="width: 45%"></div>
-                          </div>
+                          </div>-->
                         </td>
-                        <td class="cell-detail"><span>master</span><span class="cell-detail-description">63e8ec3</span></td>
-                        <td class="cell-detail"><span>May 06, 2018</span><span class="cell-detail-description">8:30</span></td>
+                        <td class="cell-detail"><span><?php echo $row ['address']; ?>
+                            </span>
+                            <!--<span class="cell-detail-description">63e8ec3</span>-->
+                          </td>
+                        <td class="cell-detail"><span><?php echo $row ['email']; ?>
+                            </span>
+                            <!--<span class="cell-detail-description">8:30</span>-->
+                          </td>
                         <td class="text-right">
                           <div class="btn-group btn-hspace">
-                            <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                              <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
+                            <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Select <span class="icon-dropdown s7-angle-down"></span></button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                              <a class="dropdown-item" href="#">Edit</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="crm.php?aksi=delete&nik=<?php echo $row['id']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['Last_Name']; ?>')">Delete</a>
                             </div>
                           </div>
                         </td>
                       </tr>
-                      <tr class="online">
+                      <?php
+                    }}
+                    ?>
+                      <!--<tr class="online">
                         <td>
                           <label class="custom-control custom-control-sm custom-checkbox">
                             <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
@@ -559,15 +601,14 @@ include("conexion.php");
                             </div>
                           </div>
                         </td>
-                      </tr>
+                      </tr>-->
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- ESTE FORMULARIO CONTIENE CALENDARIO -->
+        </div>        <!-- ESTE FORMULARIO CONTIENE CALENDARIO -->
         <!--<div class="row">
           <div class="col-md-12">
             <div class="card card-default">
@@ -1295,5 +1336,64 @@ include("conexion.php");
       	App.formElements();
       });
     </script>
+    <script>
+      //function para poder editar y borrar las quotes DESPUES DE PONERLE LOGIN
+      function borrar(id){
+      //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
+      //console.log('borrar '+id_invoice)
+      let form=document.createElement('form')
+      form.action='crm.php'
+      form.method='post'
+      let username=document.createElement('input')
+      let password=document.createElement('input')
+      let aksi=document.createElement('input')
+      let nik=document.createElement('input')
+      username.value='test1'
+      username.name='username'
+      password.value='test1'
+      password.name='password'
+      aksi.name='aksi'
+      aksi.value='delete'
+      nik.name='nik'
+      nik.value=id
+      form.appendChild(aksi)
+      form.appendChild(username)
+      form.appendChild(password)
+      form.appendChild(nik)
+      document.body.appendChild(form)
+      form.submit()
+
+      }
+      //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
+      function editarQuote(id){
+    let form=document.createElement('form')
+    form.action='crm.php'
+    form.method='post'
+    let username=document.createElement('input')
+    let password=document.createElement('input')
+    let aksi=document.createElement('input')
+    let nik=document.createElement('input')
+    let edit=document.createElement('input')
+    let amount=document.createElement('input')
+    let date=document.createElement('input')
+    username.value='test1'
+    username.name='username'
+    password.value='test1'
+    password.name='password'
+    aksi.name='aksi'
+    aksi.value='edit'
+    nik.name='nik'
+    nik.value=id
+    edit.name='edit'
+    edit.value='yes'
+    form.appendChild(aksi)
+    form.appendChild(username)
+    form.appendChild(password)
+    form.appendChild(nik)
+    form.appendChild(edit)
+    document.body.appendChild(form)
+    form.submit()
+}
+</script>
   </body>
 </html>

@@ -376,7 +376,9 @@ $pdf->writeHTML($html5, true, false, true, false, '');
 
 
 // output the PDF file to the browser
-$pdf->Output('filename.pdf', 'I');
+$filename='Quote'.$aux.'.pdf';
+$pdf->Output($filename, 'D');
+//header('Location:hello.php');
 ?>
 
 

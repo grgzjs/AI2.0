@@ -9,7 +9,7 @@
 <?php
 // PHP PARA PASAR POR EL LOGIN
 session_start();
-if(isset($_POST['username']) ||$_SESSION['user']){
+if(isset($_POST['username']) ||$_SESSION['user']||(isset($_GET['aksi']) && $_GET['aksi']=='edit')){
   $username = $_POST['username'];
   $password = $_POST['password'];
  if(($username=='test1' && $password=='test1')||$_SESSION['user'])
@@ -223,8 +223,8 @@ include("conexion.php");
         }
         }
         
-        if(isset($_GET['aksi']) && $_GET['aksi'] == 'edit'){
-          $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES))); 
+        if(isset($_POST['aksi']) && $_POST['aksi'] == 'edit'){
+          $nik = mysqli_real_escape_string($con,(strip_tags($_POST["nik"],ENT_QUOTES))); 
           $edit = mysqli_query($con, "select * from invoices WHERE quote=$nik");
           if($edit){
           $rowedit = mysqli_fetch_assoc($edit);
@@ -324,8 +324,8 @@ include("conexion.php");
                     KM</div>
                     </div>
 <?php
-if(isset($_GET['aksi']) && $_GET['aksi'] == 'edit'){
-$nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES))); 
+if(isset($_POST['aksi']) && $_POST['aksi'] == 'edit'){
+$nik = mysqli_real_escape_string($con,(strip_tags($_POST["nik"],ENT_QUOTES))); 
 $edit = mysqli_query($con, "select * from invoices WHERE quote=$nik");
 if ($edit){
 $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice=$nik");
@@ -337,20 +337,20 @@ while($rowdetail = mysqli_fetch_assoc($editdetail)){
                       <div class="form-group row">
                     <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                      <div class="col-12 col-sm-8 col-lg-2">
-                      <input readonly ='readonly' class="form-control" type="text" value="<?php echo $rowdetail['fecha'];?>" placeholder="date" name= "<?php echo 'fdateh'.$i;?>">
+                      <input class="form-control" type="text" value="<?php echo $rowdetail['fecha'];?>" placeholder="date" name= "<?php echo 'fdateh'.$i;?>">
                         </div>
                         
                         <div class="col-12 col-sm-8 col-lg-2">
-                      <input readonly ='readonly' class="form-control" type="text" value="<?php echo $rowdetail['origen'];?>" placeholder="origen" name="<?php echo 'forigenh'.$i;?>">
+                      <input class="form-control" type="text" value="<?php echo $rowdetail['origen'];?>" placeholder="origen" name="<?php echo 'forigenh'.$i;?>">
                         </div>
                       <div class="col-12 col-sm-8 col-lg-2">
-                      <input readonly ='readonly' class="form-control" type="text" value="<?php echo $rowdetail['destino'];?>" placeholder="destino" name="<?php echo 'fdestinoh'.$i;?>">
+                      <input class="form-control" type="text" value="<?php echo $rowdetail['destino'];?>" placeholder="destino" name="<?php echo 'fdestinoh'.$i;?>">
                     </div>
                     <div class="col-12 col-sm-8 col-lg-1">
-                    <input readonly ='readonly' class="form-control" type="text" value="<?php echo $rowdetail['pax'];?>" placeholder="pax" name="<?php echo 'fpaxh'.$i;?>">
+                    <input class="form-control" type="text" value="<?php echo $rowdetail['pax'];?>" placeholder="pax" name="<?php echo 'fpaxh'.$i;?>">
                     </div>
                     <div class="col-12 col-sm-8 col-lg-1">
-                    <input readonly ='readonly' class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo'];?>" placeholder="kms" name="<?php echo 'km_vueloh'.$i;?>" id="km_vuelo1">
+                    <input class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo'];?>" placeholder="kms" name="<?php echo 'km_vueloh'.$i;?>" id="<?php echo 'km_vueloh'.$i;?>">
                     </div>
                     </div>
 <?php
@@ -373,7 +373,7 @@ while($rowdetail = mysqli_fetch_assoc($editdetail)){
     <script>
       document.onreadystatechange = function () {
     if (document.readyState == "interactive") {
-  //document.getElementById('select2').select2()
+      //document.getElementsByName('forigen1')[0].value=''
     }
 }
       //(document).ready(function() {
@@ -589,7 +589,7 @@ else {
                           <div class="btn-group btn-hspace">
                             <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Select <span class="icon-dropdown s7-angle-down"></span></button>
                             <div class="dropdown-menu dropdown-menu-right" role="menu">
-                              <a class="dropdown-item" href="hello.php?aksi=edit&nik=<?php echo $row['quote']; ?>" title="Cambiar" >View</a>
+                              <a class="dropdown-item" href='javascript:editarQuote ("<?php echo $row['quote']?>")' title="Cambiar" >View</a>
                               <div class="dropdown-divider"></div>
                               <a class="dropdown-item" href='javascript:borrar ("<?php echo $row['quote']?>")' title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['quote']; ?>')">Delete</a>
                             </div>
@@ -644,7 +644,7 @@ else {
 
       }
       //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
-      function editar(id_invoice){
+      function editarQuote(id_invoice){
     let form=document.createElement('form')
     form.action='hello.php'
     form.method='post'
@@ -689,6 +689,26 @@ else {
   document.getElementById('km_vuelo3').addEventListener('blur',refrescar)
   document.getElementById('km_vuelo4').addEventListener('blur',refrescar)
   document.getElementById('km_vuelo5').addEventListener('blur',refrescar)
+  let km_v1=document.getElementById('km_vueloh1')
+  if (km_v1){
+    km_v1.addEventListener('blur',refrescar)
+  }
+  let km_v2=document.getElementById('km_vueloh2')
+  if (km_v2){
+    km_v2.addEventListener('blur',refrescar)
+  }
+  let km_v3=document.getElementById('km_vueloh3')
+  if (km_v3){
+    km_v3.addEventListener('blur',refrescar)
+  }
+  let km_v4=document.getElementById('km_vueloh4')
+  if (km_v4){
+    km_v4.addEventListener('blur',refrescar)
+  }
+  let km_v5=document.getElementById('km_vueloh5')
+  if (km_v5){
+    km_v5.addEventListener('blur',refrescar)
+  }
  //function para agregar automatica el origen y destino 
   document.getElementById('fdestino1').addEventListener('blur',function (){
     let dest1=document.getElementById('fdestino1')
@@ -712,7 +732,44 @@ else {
 
   })
 
-  document.getElementById('tax').addEventListener('blur',function (){
+  document.getElementById('tax').addEventListener('blur',calculartotal)
+//function para sumar km  
+  function refrescar() {
+let km_vuelo1 = Number(document.getElementsByName('km_vuelo1')[0].value);
+let km_vuelo2 = Number(document.getElementsByName('km_vuelo2')[0].value);
+let km_vuelo3 = Number(document.getElementsByName('km_vuelo3')[0].value);
+let km_vuelo4 = Number(document.getElementsByName('km_vuelo4')[0].value);
+let km_vuelo5 = Number(document.getElementsByName('km_vuelo5')[0].value);
+let totalh=0
+if(document.getElementsByName('km_vueloh1')[0]){
+  let km_vueloh1 = Number(document.getElementsByName('km_vueloh1')[0].value);
+  totalh+=km_vueloh1
+}
+if(document.getElementsByName('km_vueloh2')[0]){
+  let km_vueloh2 = Number(document.getElementsByName('km_vueloh2')[0].value);
+  totalh+=km_vueloh2
+}
+if(document.getElementsByName('km_vueloh3')[0]){
+  let km_vueloh3 = Number(document.getElementsByName('km_vueloh3')[0].value);
+  totalh+=km_vueloh3
+}
+if(document.getElementsByName('km_vueloh4')[0]){
+  let km_vueloh4 = Number(document.getElementsByName('km_vueloh4')[0].value);
+  totalh+=km_vueloh4
+}
+if(document.getElementsByName('km_vueloh5')[0]){
+  let km_vueloh5 = Number(document.getElementsByName('km_vueloh5')[0].value);
+  totalh+=km_vueloh5
+}
+
+
+let total=(km_vuelo1+km_vuelo2+km_vuelo3+km_vuelo4+km_vuelo5)*3.9
+totalh*=3.9
+total=total+totalh
+document.getElementById('subtotal').value=total
+calculartotal()
+}
+function calculartotal(){
     let addons=document.getElementById('addons')
     let tax=document.getElementById('tax')
     let subtotal=document.getElementById('subtotal')
@@ -727,37 +784,9 @@ else {
       amount.value = parseFloat (subtotal.value) + parseFloat (addons.value) + parseFloat (tax.value)
     }
 
-  })
-//function para sumar km  
-  function refrescar() {
-let km_vuelo1 = Number(document.getElementsByName('km_vuelo1')[0].value);
-let km_vuelo2 = Number(document.getElementsByName('km_vuelo2')[0].value);
-let km_vuelo3 = Number(document.getElementsByName('km_vuelo3')[0].value);
-let km_vuelo4 = Number(document.getElementsByName('km_vuelo4')[0].value);
-let km_vuelo5 = Number(document.getElementsByName('km_vuelo5')[0].value);
-
-let total=(km_vuelo1+km_vuelo2+km_vuelo3+km_vuelo4+km_vuelo5)*3.9
-document.getElementById('subtotal').value=total
-}
+  }
 //TRYING TO GET A TOTAL CALCULATE VALUE
 
-
-//Another option 
-//function refrescar() {
- // let km_vuelo1 = Number(document.getElementsByName('km_vuelo1')[0].value);
- // let km_vuelo2 = Number(document.getElementsByName('km_vuelo2')[0].value);
- // let km_vuelo3 = Number(document.getElementsByName('km_vuelo3')[0].value);
- // let km_vuelo4 = Number(document.getElementsByName('km_vuelo4')[0].value);
- // let km_vuelo5 = Number(document.getElementsByName('km_vuelo5')[0].value);
-
- // let subtotal = (km_vuelo1 + km_vuelo2 + km_vuelo3 + km_vuelo4 + km_vuelo5) * 3.9;
- // document.getElementById('subtotal').value = subtotal;
-//}
-
-//function calculateTotal(subtotal, addons, tax) {
- // let amount = subtotal + addons + tax;
-//  return amount;
-//}
 
 </script>
     <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>

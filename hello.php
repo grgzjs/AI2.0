@@ -263,7 +263,24 @@ include("conexion.php");
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Buyer:</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input class="form-control" type="text" value="<?php echo $rowedit['buyer'];?>" placeholder="buyer" name="buyer">
+                    <?php
+                    $queryBuyer = "select * from Contact order by id";
+                    $buyers = mysqli_query($con, $queryBuyer);
+                   
+
+                    ?>
+
+                      <select name="buyer" class="form-control custom-select" onblur="updateaddress(this)">
+                        <?php
+                           while ($rowbuyer = mysqli_fetch_assoc($buyers)) {     
+                        ?>
+                        <option  value="<?php echo $rowbuyer['id'].'**'.$rowbuyer['address'];?>"
+                        ><?php echo $rowbuyer['first_name'].' '.$rowbuyer['last_name'];?> 
+                      </option>
+                      <?php
+                          }   
+                        ?>
+                      </select>
                     </div>
                   </div>
                   <!--<div class="form-group row">
@@ -275,7 +292,10 @@ include("conexion.php");
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Address:</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowedit['address'];?>" placeholder="address" name="address">
+                      <div class="form-control" id='divaddress'>
+                      <?php echo $rowedit['address'];?>
+                        </div>
+                    <input class="form-control" type="hidden" value="<?php echo $rowedit['address'];?>" placeholder="address" name="address" id="address">
                     </div>
                     </div>
                     <div class="form-group row">
@@ -786,6 +806,15 @@ function calculartotal(){
 
   }
 //TRYING TO GET A TOTAL CALCULATE VALUE
+function updateaddress(selectaddress) {
+  let idbuyer=selectaddress.value
+  let pos=idbuyer.indexOf('**')
+  let addressbuyer=idbuyer.substring(pos+2)
+  let divaddress=document.getElementById('divaddress')
+  divaddress.innerHTML=addressbuyer
+  let address=document.getElementById('address')
+  address.value=addressbuyer
+}
 
 
 </script>

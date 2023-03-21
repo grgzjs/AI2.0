@@ -266,8 +266,18 @@ include("conexion.php");
                     <?php
                     $queryBuyer = "select * from Contact order by id";
                     $buyers = mysqli_query($con, $queryBuyer);
-                   
-
+                  
+                    if (isset ($edit))
+                    {
+                      $queryBuyer = "select * from Contact where id=".$;
+                    $buyers = mysqli_query($con, $queryBuyer);
+                      ?>
+                      <input class="form-control" type = 'text' name='buyer' value="<?php echo $rowbuyer['first_name'].' '.$rowbuyer['last_name'];?>" readonly='readonly'> 
+                      <?php
+                      }
+                    else{
+                      
+                    
                     ?>
 
                       <select name="buyer" class="form-control custom-select" onblur="updateaddress(this)">
@@ -277,12 +287,14 @@ include("conexion.php");
                         <option  value="<?php echo $rowbuyer['id'].'**'.$rowbuyer['address'];?>"
                         ><?php echo $rowbuyer['first_name'].' '.$rowbuyer['last_name'];?> 
                       </option>
+
                       <?php
-                          }   
+                           }}
                         ?>
                       </select>
                     </div>
                   </div>
+
                   <!--<div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Address:</label>
                     <div class="col-12 col-sm-8 col-lg-6">
@@ -783,8 +795,8 @@ if(document.getElementsByName('km_vueloh5')[0]){
 }
 
 
-let total=(km_vuelo1+km_vuelo2+km_vuelo3+km_vuelo4+km_vuelo5)*3.9
-totalh*=3.9
+let total=(km_vuelo1+km_vuelo2+km_vuelo3+km_vuelo4+km_vuelo5)*4.8
+totalh*=4.8
 total=total+totalh
 document.getElementById('subtotal').value=total
 calculartotal()

@@ -1,0 +1,11 @@
+
+
+
+  if ($edit)
+                    {?>
+                      <input type = 'text' name='buyer' value="<?php echo $rowbuyer['first_name'].' '.$rowbuyer['last_name'];?>"readonly='readonly'> 
+                      <?php
+                      }
+                    else{
+                      
+                    }

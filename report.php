@@ -28,7 +28,15 @@ class MYPDF extends TCPDF {
 
 $date = date("Y-m-d h:i:s");
 $buyer = $_POST['buyer'];
+$posbuyer = strrpos ($buyer,"**");
+$idbuyer = substr ($buyer,0,$posbuyer);
+$adbuyer = substr ($buyer,$posbuyer + 2);
+$sqlbuyer = 'select * from contact where id = '.$idbuyer;
+$buyers = mysqli_query($con, $sqlbuyer);
+$rowbuyer = mysqli_fetch_assoc($buyers);
+$buyer = $rowbuyer['first_name'].' '.$rowbuyer['last_name'];
 $address = $_POST['address'];
+$address = $rowbuyer ['address'];
 $aircraft = $_POST['aircraft'];
 
 $fdate1 = $_POST['fdate1'];

@@ -36,7 +36,6 @@ $buyers = mysqli_query($con, $sqlbuyer);
 $rowbuyer = mysqli_fetch_assoc($buyers);
 $buyer = $rowbuyer['first_name'].' '.$rowbuyer['last_name'];
 $address = $_POST['address'];
-$address = $rowbuyer ['address'];
 $aircraft = $_POST['aircraft'];
 
 $fdate1 = $_POST['fdate1'];
@@ -111,7 +110,7 @@ $km5 = $_POST['km_vueloh5'];
 
 }
 else{
-    $sql= "insert into invoices (date,buyer,address,aircraft,subtotal,addons,tax,amount) Values ('$date','$buyer','$address','$aircraft','$subtotal','$addons','$tax','$amount')";
+    $sql= "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount) Values ('$date','$idbuyer','$aircraft','$subtotal','$addons','$tax','$amount')";
     $update = mysqli_query($con,$sql) 
     or die(mysqli_error());
     
@@ -386,7 +385,7 @@ $pdf->writeHTML($html5, true, false, true, false, '');
 // output the PDF file to the browser
 $filename='Quote'.$aux.'.pdf';
 $pdf->Output($filename, 'D');
-//header('Location:hello.php');
+//echo '<script>window.location.href = "hello.php";</script>';
 ?>
 
 

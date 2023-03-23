@@ -269,7 +269,7 @@ include("conexion.php");
                   
                     if (isset ($edit))
                     {
-                      $queryBuyer = "select * from Contact where id=".$;
+                      $queryBuyer = "select * from Contact where id=".$idbuyer;
                     $buyers = mysqli_query($con, $queryBuyer);
                       ?>
                       <input class="form-control" type = 'text' name='buyer' value="<?php echo $rowbuyer['first_name'].' '.$rowbuyer['last_name'];?>" readonly='readonly'> 
@@ -289,9 +289,12 @@ include("conexion.php");
                       </option>
 
                       <?php
-                           }}
+                           }
                         ?>
                       </select>
+                      <?php
+                           }
+                        ?>
                     </div>
                   </div>
 
@@ -613,7 +616,7 @@ else {
                             <div class="progress-bar progress-bar-primary" style="width: 45%"></div>
                           </div>-->
                         </td>
-                        <td class="cell-detail"><span><?php echo $row['buyer']; ?>
+                        <td class="cell-detail"><span><?php echo $row['buyer_id']; ?>
                             </span>
                             <!--<span class="cell-detail-description">8:30</span>-->
                           </td>

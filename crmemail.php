@@ -9,7 +9,7 @@ include("conexion.php");
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="assets/img/favicon.png">
-    <title>AIS CRM List</title>
+    <title>AI Soft V1.0</title>
     <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css"/>
     <link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css"/>
@@ -75,6 +75,49 @@ include("conexion.php");
               </li>
             </ul>
           </li>
+          <li class="dropdown nav-item mai-settings"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><span class="icon s7-settings"></span></a>
+            <ul class="dropdown-menu">
+              <li>
+                <div class="title">Settings</div>
+                <div class="content">
+                  <ul>
+                    <li><span>Enable Notifications</span>
+                      <div class="float-right">
+                        <div class="switch-button switch-button-sm">
+                          <input type="checkbox" checked="" name="check" id="switch1"><span>
+                            <label for="switch1"></label></span>
+                        </div>
+                      </div>
+                    </li>
+                    <li><span>Auto Commit</span>
+                      <div class="float-right">
+                        <div class="switch-button switch-button-sm">
+                          <input type="checkbox" checked="" name="check2" id="switch2"><span>
+                            <label for="switch2"></label></span>
+                        </div>
+                      </div>
+                    </li>
+                    <li><span>Sidebar</span>
+                      <div class="float-right">
+                        <div class="switch-button switch-button-sm">
+                          <input type="checkbox" name="check3" id="switch3"><span>
+                            <label for="switch3"></label></span>
+                        </div>
+                      </div>
+                    </li>
+                    <li><span>Full-width Layout</span>
+                      <div class="float-right">
+                        <div class="switch-button switch-button-sm">
+                          <input type="checkbox" checked="" name="check4" id="switch4"><span>
+                            <label for="switch4"></label></span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </li>
         </ul>
         <ul class="nav navbar-nav float-lg-right mai-user-nav">
           <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><img src="assets/img/avatar.jpg" alt="Avatar"><span class="user-name">Demo Account</span><span class="angle-down s7-angle-down"></span></a>
@@ -93,16 +136,15 @@ include("conexion.php");
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="dashboard.html"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
-                                          
+                                             
                                       </ul>
                                     </li>
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="javascript:loginuser()"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
                                                   </li>
-                                                  <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Base de Cotizaciones</span></a>
+                                                  <li class="nav-item"><a class="nav-link" href="javascript:loginuser()"><span class="icon s7-albums"></span><span class="name">Base de Cotizaciones</span></a>
                                                   </li>
-
                                       </ul>
                                     </li>
                                     <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
@@ -114,14 +156,16 @@ include("conexion.php");
                                                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                                                   </li>
                                                   <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
-                                                              <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="crmemail.php">Inbox</a><a class="dropdown-item" href="crmemail.php">Detail</a><a class="dropdown-item" href="crmemail.php">Compose</a>
+                                                              <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
                                                               </div>
                                                   </li>
+                                                  
+
                                       </ul>
                                     </li>
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                                  <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de vuelos></span></a>
+                                                  <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de vuelos</span></a>
                                                   </li>
                                                
                                       </ul>
@@ -130,147 +174,149 @@ include("conexion.php");
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Generales</span></a>
                                                   </li>
-                                                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Ingresos Generales</span></a>
-                                                  </li>
                                            
                                       </ul>
-</li>
-                                    </li>
-                                      <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
-                                      <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                                  <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
-                                                  </li>
-                                                  
                                       </ul>
-                                      </li>
-                        </ul>              
+                                    </li>
+    
+                                      </ul>
+
+                        </ul>
                       </div>
                     </nav>
-          <!--<div class="search">
-            <input type="text" placeholder="Search..." name="q"><span class="s7-search"></span>
-          </div>-->
         </div>
       </nav>
-      <div class="main-content container">
-        <?php
- 
-   if(isset($_GET['aksi']) == 'delete'){
-   $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES))); 
-   $delete = mysqli_query($con, "DELETE from Contact WHERE id=$nik");
-   if($delete){
-      echo '<script type="text/javascript">',
- 'window.location.href="crm.php";',
- '</script>';
-     
-     echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data successfully deleted.</div>';
-   }else{
-     echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, Data cannot be deleted.</div>';
-   }
-   }
 
-
-        if(isset($_POST['save'])){
-        $typeclient	     = mysqli_real_escape_string($con,(strip_tags($_POST["typeclient"],ENT_QUOTES)));//Escanpando caracteres
-				$first_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["first_name"],ENT_QUOTES)));//Escanpando caracteres
-				$last_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["last_name"],ENT_QUOTES)));//Escanpando caracteres
-        $phone_number	     = mysqli_real_escape_string($con,(strip_tags($_POST["phone_number"],ENT_QUOTES)));//Escanpando caracteres
-        $address	     = mysqli_real_escape_string($con,(strip_tags($_POST["address"],ENT_QUOTES)));//Escanpando caracteres  
-        $email	     = mysqli_real_escape_string($con,(strip_tags($_POST["email"],ENT_QUOTES)));//Escanpando caracteres
-        $notes	     = mysqli_real_escape_string($con,(strip_tags($_POST["notes"],ENT_QUOTES)));//Escanpando caracteres
-        $id	     = mysqli_real_escape_string($con,(strip_tags($_POST["id"],ENT_QUOTES)));//Escanpando caracteres
-        $pais       = mysqli_real_escape_string($con,(strip_tags($_POST["pais"],ENT_QUOTES)));//Escanpando caracteres
-        $funcion       = mysqli_real_escape_string($con,(strip_tags($_POST["funcion"],ENT_QUOTES)));//Escanpando caracteres
-        $dnipass       = mysqli_real_escape_string($con,(strip_tags($_POST["dnipass"],ENT_QUOTES)));//Escanpando caracteres
-        $licencia       = mysqli_real_escape_string($con,(strip_tags($_POST["licencia"],ENT_QUOTES)));//Escanpando caracteres
-        $f_nacimiento      = mysqli_real_escape_string($con,(strip_tags($_POST["f_nacimiento"],ENT_QUOTES)));//Escanpando caracteres
-        if ($id){
-          $sql= "update Contact set typeclient='$typeclient',first_name='$first_name',last_name='$last_name',phone_number='$phone_number',address='$address',email='$email',notes='$notes',pais='$pais',funcion='$funcion',dnipass='$dnipass',licencia='$licencia',f_nacimiento='$f_nacimiento' where id='$id'";
-        }
-        else{
-          $sql= "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('$typeclient','$first_name','$last_name','$phone_number','$address','$email','$notes','$pais','$funcion','$dnipass','$licencia','$f_nacimiento')";
-        }
-         $update = mysqli_query($con,$sql) 
-        or die(mysqli_error());
-       
+      <!-- Starts email -->
       
-      }
-      $sqllist = "select * from contact";
-      $rows = mysqli_query($con, $sqllist);
-?>
-       
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="card card-default card-table">
-              <div class="card-header">Lista de Contactos
-                <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive noSwipe">
-                  <table class="table table-striped table-hover">
-                    <thead>
-                      <tr>
-                        <th style="width:5%;">
-                          <label class="custom-control custom-control-sm custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                          </label>
-                        </th>
-                        <th style="width:14%;">Nombre Completo </th>
-                        <th style="width:8%;">Telefono</th>
-                        <th style="width:14%;">Direccion</th>
-                        <th style="width:10%;">Email</th>
-                        <th style="width:8%;">Contacto</th>
-                        <th style="width:10%;"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                   <?php
-                   if(mysqli_num_rows($rows) == 0){
-                   }else{
-                   while($row = mysqli_fetch_assoc($rows)){
-                      ?>
-                      <tr>
-                        <td>
-                          <label class="custom-control custom-control-sm custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                          </label>
-                        </td>
-                        <td class="cell-detail"><span><?php echo $row['first_name']; ?><?php echo ' '. $row['last_name']; ?></span></td>
-                            </span>
-                          </td>
-                        <td class="cell-detail"><span><?php echo $row ['phone_number']; ?>
-                            </span>
-                        </td>
-                        <td class="cell-detail"><span><?php echo $row ['address']; ?>
-                            </span>
-                          </td>
-                        <td class="cell-detail"><span><?php echo $row ['email']; ?>
-                            </span>
-                          </td>
-                          <td class="cell-detail"><span><?php echo $row ['typeclient']; ?>
-                            </span>
-                          </td>
-                        <td class="text-right">
-                          <div class="btn-group btn-hspace">
-                            <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar<span class="icon-dropdown s7-angle-down"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                              <a class="dropdown-item" href="javascript:editarcontacto(<?php echo $row['id'];?>)">Editar</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="crm.php?aksi=delete&nik=<?php echo $row['id']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['Last_Name']; ?>')">Borrar</a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php
-                    }}
-                    ?>
-                  
-                    </tbody>
-                  </table>
+      <div class="main-content container">
+        <div class="row email">
+          <div class="col-md-3 email-aside">
+            <div class="aside-content">
+              <div class="content">
+                <div class="aside-header navbar-expand-sm">
+                  <button class="navbar-toggler" data-target=".aside-nav" data-toggle="collapse" type="button"><span class="icon s7-angle-down"></span></button><span class="title">Mail Service</span>
+                  <p class="description">Service description</p>
+                </div>
+                <div class="aside-nav navbar-collapse collapse">
+                  <ul class="navbar-nav">
+                    <li class="nav-item active"><a class="nav-link" href="#"><span class="badge badge-primary">8</span><i class="icon s7-drawer"></i> Inbox</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="icon s7-mail"></i> Sent Mail</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><span class="badge badge-light">4</span><i class="icon s7-portfolio"></i> Important</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="icon s7-file"></i> Drafts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="icon s7-ticket"></i> Tags</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="icon s7-trash"></i> Trash</a></li>
+                  </ul><span class="title">Labels</span>
+                  <ul class="navbar-nav nav-pills nav-stacked">
+                    <li class="nav-item"><a class="nav-link" href="#"><span class="badge badge-info">2</span> Inbox</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><span class="badge badge-warning">7</span>Sent Mail</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><span class="badge badge-danger">0</span>Important</a></li>
+                  </ul>
+                  <div class="aside-compose"><a class="btn btn-secondary btn-block">Compose Email</a></div>
                 </div>
               </div>
             </div>
           </div>
-        </div>            
+          <div class="col-md-9 email-content">
+            <div class="email-inbox-header">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="email-title"><span class="icon s7-drawer"></span> Inbox <span class="new-messages">2 new messages</span>  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="email-search mt-2">
+                    <div class="input-group input-search">
+                      <input class="form-control" type="text" placeholder="Search mail..."><span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button"><i class="icon s7-search"></i></button></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="email-filters">
+              <div class="email-filters-left">
+                <label class="custom-control custom-checkbox mai-select-all">
+                  <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                </label>
+                <div class="btn-group">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">With selected  <span class="icon-dropdown s7-angle-down"></span></button>
+                  <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#">Mark as read</a><a class="dropdown-item" href="#">Mark as unread</a><a class="dropdown-item" href="#">Spam</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Delete</a>
+                  </div>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-secondary" type="button"><i class="icon s7-box1"></i></button>
+                  <button class="btn btn-secondary" type="button"><i class="icon s7-shield"></i></button>
+                  <button class="btn btn-secondary" type="button"><i class="icon s7-trash"></i></button>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Order by <span class="icon-dropdown s7-angle-down"></span></button>
+                  <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Date</a><a class="dropdown-item" href="#">From</a><a class="dropdown-item" href="#">Subject</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Size</a>
+                  </div>
+                </div>
+              </div>
+              <div class="email-filters-right"><span class="email-pagination-indicator">1-50 of 253</span>
+                <div class="btn-group email-pagination-nav">
+                  <button class="btn btn-secondary" type="button"><i class="s7-angle-left"></i></button>
+                  <button class="btn btn-secondary" type="button"><i class="s7-angle-right"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="email-list">
+              <div class="email-list-item email-list-item-unread">
+                <div class="email-list-actions">
+                  <label class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                  </label><a class="favorite active" href="#"><span class="s7-star"></span></a>
+                </div>
+                <div class="email-list-detail"><span class="from">Penelope Thornton</span>
+                  <p class="msg">Urgent - You forgot your keys in the class room, please come imediatly!</p><span class="date"><i class="icon s7-paperclip"></i> 28 Jul</span>
+                </div>
+              </div>
+              <div class="email-list-item email-list-item-unread">
+                <div class="email-list-actions">
+                  <label class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                  </label><a class="favorite" href="#"><span class="s7-star"></span></a>
+                </div>
+                <div class="email-list-detail"><span class="from">Benji Harper</span>
+                  <p class="msg">Urgent - You forgot your keys in the class room, please come imediatly!</p><span class="date"><i class="icon s7-paperclip"></i> 13 Jul</span>
+                </div>
+              </div>
+              <div class="email-list-item email-list-item-unread">
+                <div class="email-list-actions">
+                  <label class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                  </label><a class="favorite" href="#"><span class="s7-star"></span></a>
+                </div>
+                <div class="email-list-detail"><span class="from">Justine Myranda</span>
+                  <p class="msg">Urgent - You forgot your keys in the class room, please come imediatly!</p><span class="date"><i class="icon s7-paperclip"></i> 23 Jun</span>
+                </div>
+              </div>
+              <div class="email-list-item">
+                <div class="email-list-actions">
+                  <label class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                  </label><a class="favorite" href="#"><span class="s7-star"></span></a>
+                </div>
+                <div class="email-list-detail"><span class="from">Sherwood Clifford</span>
+                  <p class="msg">Urgent - You forgot your keys in the class room, please come imediatly!</p><span class="date"><i class="icon s7-paperclip"></i> 16 May</span>
+                </div>
+              </div>
+              <div class="email-list-item">
+                <div class="email-list-actions">
+                  <label class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                  </label><a class="favorite" href="#"><span class="s7-star"></span></a>
+                </div>
+                <div class="email-list-detail"><span class="from">Kristopher Donny</span>
+                  <p class="msg">Urgent - You forgot your keys in the class room, please come imediatly!</p><span class="date"><i class="icon s7-paperclip"></i> 12 May</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -289,33 +335,8 @@ include("conexion.php");
       	App.init();
       	App.formElements();
       });
-      function editarcontacto(idcontacto){
-      let form=document.createElement('form')
-      form.action='crmregistro.php'
-      form.method='post'
-      let username=document.createElement('input')
-      let password=document.createElement('input')
-      let aksi=document.createElement('input')
-      let nik=document.createElement('input')
-      username.value='test1'
-      username.type='hidden'
-      username.name='username'
-      password.value='test1'
-      password.type='hidden'
-      password.name='password'
-      aksi.name='aksi'
-      aksi.type='hidden'
-      aksi.value='edit'
-      nik.name='nik'
-      nik.type='hidden'
-      nik.value=idcontacto
-      form.appendChild(aksi)
-      form.appendChild(username)
-      form.appendChild(password)
-      form.appendChild(nik)
-      document.body.appendChild(form)
-      form.submit()
-      }
+    </script>
+    <script>
       //function para poder editar y borrar las quotes DESPUES DE PONERLE LOGIN
       function borrar(id){
       //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
@@ -328,16 +349,12 @@ include("conexion.php");
       let aksi=document.createElement('input')
       let nik=document.createElement('input')
       username.value='test1'
-      username.type='hidden'
       username.name='username'
       password.value='test1'
-      password.type='hidden'
       password.name='password'
       aksi.name='aksi'
-      aksi.type='hidden'
       aksi.value='delete'
       nik.name='nik'
-      nik.type='hidden'
       nik.value=id
       form.appendChild(aksi)
       form.appendChild(username)
@@ -360,19 +377,14 @@ include("conexion.php");
     let amount=document.createElement('input')
     let date=document.createElement('input')
     username.value='test1'
-    username.type='hidden'
     username.name='username'
     password.value='test1'
-    password.type='hidden'
     password.name='password'
     aksi.name='aksi'
-    aksi.type='hidden'
     aksi.value='edit'
     nik.name='nik'
-    nik.type='hidden'
     nik.value=id
     edit.name='edit'
-    edit.type='hidden'
     edit.value='yes'
     form.appendChild(aksi)
     form.appendChild(username)
@@ -395,24 +407,17 @@ function loginuser(){
     let amount=document.createElement('input')
     let date=document.createElement('input')
     username.value='test1'
-    username.type='hidden'
     username.name='username'
     password.value='test1'
-    password.type='hidden'
     password.name='password'
     aksi.name='aksi'
-    aksi.type='hidden'
     aksi.value='login'
     nik.name='nik'
-    nik.type='hidden'
     edit.name='edit'
-    edit.type='hidden'
     edit.value='yes'
     amount.name='amount'
-    amount.type='hidden'
     amount.value='<?php echo $rowedit["amount"]; ?>'
     date.name='date'
-    date.type='hidden'
     date.value='<?php echo $rowedit["date"]; ?>'
     form.appendChild(aksi)
     form.appendChild(username)
@@ -424,50 +429,6 @@ function loginuser(){
     document.body.appendChild(form)
     form.submit()
 }
-
-function loginuserhellolist(){
-    let form=document.createElement('form')
-    form.action='hellolist.php'
-    form.method='post'
-    let username=document.createElement('input')
-    let password=document.createElement('input')
-    let aksi=document.createElement('input')
-    let nik=document.createElement('input')
-    let edit=document.createElement('input')
-    let amount=document.createElement('input')
-    let date=document.createElement('input')
-    username.value='test1'
-    username.type='hidden'
-    username.name='username'
-    password.value='test1'
-    password.type='hidden'
-    password.name='password'
-    aksi.name='aksi'
-    aksi.value='login'
-    aksi.type='hidden'
-    nik.name='nik'
-    nik.type='hidden'
-    edit.name='edit'
-    edit.type='hidden'
-    edit.value='yes'
-    amount.name='amount'
-    amount.type='hidden'
-    amount.value='<?php echo $rowedit["amount"]; ?>'
-    date.name='date'
-    date.type='hidden'
-    date.value='<?php echo $rowedit["date"]; ?>'
-    form.appendChild(aksi)
-    form.appendChild(username)
-    form.appendChild(password)
-    form.appendChild(nik)
-    form.appendChild(edit)
-    form.appendChild(amount)
-    form.appendChild(date)
-    document.body.appendChild(form)
-    form.submit()
-}
-
-
 
 </script>
   </body>

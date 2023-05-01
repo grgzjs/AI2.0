@@ -64,3 +64,7 @@ table {
   font-size: 1.154rem;
   line-height: 1;
 }
+
+.justify-content{
+  justify-content: center;
+}

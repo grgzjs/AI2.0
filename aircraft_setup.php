@@ -9,7 +9,7 @@ include("conexion.php");
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="assets/img/favicon.png">
-    <title>AIS CRM List</title>
+    <title>AIS Plane Config</title>
     <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css"/>
     <link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css"/>
@@ -93,7 +93,7 @@ include("conexion.php");
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="dashboard.html"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
-                                          
+                                             
                                       </ul>
                                     </li>
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
@@ -102,7 +102,7 @@ include("conexion.php");
                                                   </li>
                                                   <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Base de Cotizaciones</span></a>
                                                   </li>
-
+                                                  
                                       </ul>
                                     </li>
                                     <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
@@ -114,14 +114,15 @@ include("conexion.php");
                                                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                                                   </li>
                                                   <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
-                                                              <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="crmemail.php">Inbox</a><a class="dropdown-item" href="crmemail.php">Detail</a><a class="dropdown-item" href="crmemail.php">Compose</a>
+                                                              <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
                                                               </div>
                                                   </li>
+
                                       </ul>
                                     </li>
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                                  <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de vuelos></span></a>
+                                                  <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-users"></span><span class="name">Base de vuelos</span></a>
                                                   </li>
                                                
                                       </ul>
@@ -130,36 +131,37 @@ include("conexion.php");
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Generales</span></a>
                                                   </li>
-                                                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Ingresos Generales</span></a>
-                                                  </li>
                                            
                                       </ul>
-</li>
-                                    </li>
                                       <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
-                                                  </li>
-                                                  
-                                      </ul>
-                                      </li>
-                        </ul>              
+                                                  </li>    
+                                                  </ul>
+                                     
+
+                        </ul>
                       </div>
                     </nav>
-          <!--<div class="search">
-            <input type="text" placeholder="Search..." name="q"><span class="s7-search"></span>
-          </div>-->
         </div>
       </nav>
+
+      <!--FINAL DE BOTONERA-->
+
       <div class="main-content container">
+        
+
         <?php
- 
+   $sqllist = "select * from Aircraft";
+   $rows = mysqli_query($con, $sqllist);
+
+
    if(isset($_GET['aksi']) == 'delete'){
    $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES))); 
-   $delete = mysqli_query($con, "DELETE from Contact WHERE id=$nik");
+   $delete = mysqli_query($con, "DELETE from Aircraft WHERE matricula='$nik'");
    if($delete){
       echo '<script type="text/javascript">',
- 'window.location.href="crm.php";',
+ 'window.location.href="aircraft_setup.php";',
  '</script>';
      
      echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data successfully deleted.</div>';
@@ -170,38 +172,163 @@ include("conexion.php");
 
 
         if(isset($_POST['save'])){
-        $typeclient	     = mysqli_real_escape_string($con,(strip_tags($_POST["typeclient"],ENT_QUOTES)));//Escanpando caracteres
-				$first_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["first_name"],ENT_QUOTES)));//Escanpando caracteres
-				$last_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["last_name"],ENT_QUOTES)));//Escanpando caracteres
-        $phone_number	     = mysqli_real_escape_string($con,(strip_tags($_POST["phone_number"],ENT_QUOTES)));//Escanpando caracteres
-        $address	     = mysqli_real_escape_string($con,(strip_tags($_POST["address"],ENT_QUOTES)));//Escanpando caracteres  
-        $email	     = mysqli_real_escape_string($con,(strip_tags($_POST["email"],ENT_QUOTES)));//Escanpando caracteres
-        $notes	     = mysqli_real_escape_string($con,(strip_tags($_POST["notes"],ENT_QUOTES)));//Escanpando caracteres
-        $id	     = mysqli_real_escape_string($con,(strip_tags($_POST["id"],ENT_QUOTES)));//Escanpando caracteres
-        $pais       = mysqli_real_escape_string($con,(strip_tags($_POST["pais"],ENT_QUOTES)));//Escanpando caracteres
-        $funcion       = mysqli_real_escape_string($con,(strip_tags($_POST["funcion"],ENT_QUOTES)));//Escanpando caracteres
-        $dnipass       = mysqli_real_escape_string($con,(strip_tags($_POST["dnipass"],ENT_QUOTES)));//Escanpando caracteres
-        $licencia       = mysqli_real_escape_string($con,(strip_tags($_POST["licencia"],ENT_QUOTES)));//Escanpando caracteres
-        $f_nacimiento      = mysqli_real_escape_string($con,(strip_tags($_POST["f_nacimiento"],ENT_QUOTES)));//Escanpando caracteres
-        if ($id){
-          $sql= "update Contact set typeclient='$typeclient',first_name='$first_name',last_name='$last_name',phone_number='$phone_number',address='$address',email='$email',notes='$notes',pais='$pais',funcion='$funcion',dnipass='$dnipass',licencia='$licencia',f_nacimiento='$f_nacimiento' where id='$id'";
+				$matricula	     = mysqli_real_escape_string($con,(strip_tags($_POST["matricula"],ENT_QUOTES)));//Escanpando caracteres
+				$aeronave	     = mysqli_real_escape_string($con,(strip_tags($_POST["aeronave"],ENT_QUOTES)));//Escanpando caracteres
+        $fabricacion	     = mysqli_real_escape_string($con,(strip_tags($_POST["fabricacion"],ENT_QUOTES)));//Escanpando caracteres
+        $capacidad	     = mysqli_real_escape_string($con,(strip_tags($_POST["capacidad"],ENT_QUOTES)));//Escanpando caracteres  
+        $cruisespeed	     = mysqli_real_escape_string($con,(strip_tags($_POST["cruisespeed"],ENT_QUOTES)));//Escanpando caracteres
+        $preciokm         = mysqli_real_escape_string($con,(strip_tags($_POST["preciokm"],ENT_QUOTES)));//Escanpando caracteres
+        $pesomaximo	     = mysqli_real_escape_string($con,(strip_tags($_POST["pesomaximo"],ENT_QUOTES)));//Escanpando caracteres
+        $ascentspeed     = mysqli_real_escape_string($con,(strip_tags($_POST["ascentspeed"],ENT_QUOTES)));//Escanpando caracteres
+        $fuelstop     = mysqli_real_escape_string($con,(strip_tags($_POST["fuelstop"],ENT_QUOTES)));//Escanpando caracteres
+        $distancia    = mysqli_real_escape_string($con,(strip_tags($_POST["distancia"],ENT_QUOTES)));//Escanpando caracteres
+        $pernocta    = mysqli_real_escape_string($con,(strip_tags($_POST["pernocta"],ENT_QUOTES)));//Escanpando caracteres
+        $descentspeed    = mysqli_real_escape_string($con,(strip_tags($_POST["descentspeed"],ENT_QUOTES)));//Escanpando caracteres
+
+     
+        if ($matricula){
+          $sql= "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',preciokm='$preciokm',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
         }
         else{
-          $sql= "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('$typeclient','$first_name','$last_name','$phone_number','$address','$email','$notes','$pais','$funcion','$dnipass','$licencia','$f_nacimiento')";
-        }
-         $update = mysqli_query($con,$sql) 
-        or die(mysqli_error());
+          $sql= "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
        
+            }
+            $update = mysqli_query($con,$sql) 
+            or die(mysqli_error());
+        ?>
+
+        <script>
+          setTimeout(() => {
+    window.location.href="aircraft_setup.php";
+  }, 100);
+  </script>
+       <?php
       
       }
-      $sqllist = "select * from contact";
-      $rows = mysqli_query($con, $sqllist);
 ?>
-       
+
+
+
+
+<?php
+if(isset($_POST['aksi']) && $_POST['aksi'] == 'edit'){
+$nik = mysqli_real_escape_string($con,(strip_tags($_POST["nik"],ENT_QUOTES))); 
+$edit = mysqli_query($con, "select * from Aircraft WHERE matricula='$nik'");
+$rowaircraft = mysqli_fetch_assoc($edit);
+
+
+}
+?>
+
+
+
+<!--AQUI COMIENZA EL FORMULARIO STEPS -->
+
+
+
+<div class="row">
+          <div class="col-md-12">
+            <div class="card card-default">
+              <div class="card-header card-header-divider">Registro de Aeronave<span class="card-subtitle">Ingresa la informacion de la Aeronave</span></div>
+              <div class="card-body pl-sm-5">
+                <form action="aircraft_setup.php" method="post" method="post">
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-4 col-form-label text-sm-right">Matricula </label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['matricula'];?>" placeholder="Matricula" name="matricula">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-4 col-form-label text-sm-right">Tipo de Aeronave</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['aeronave'];?>" placeholder="Tipo de Aeronave" name="aeronave">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-4 col-form-label text-sm-right">Año de Fabricacion</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['fabricacion'];?>" placeholder="Año de Fabricacion" name="fabricacion">
+                    </div>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card card-default">
+              <div class="card-header card-header-divider">Configuracion Tecnica<span class="card-subtitle">Ingresa la informacion Tecnica</span></div>
+              <div class="card-body pl-sm-5">
+
+                  <div class="form-group row " style="justify-content: center;">
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Capacidad Maxima
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['capacidad'];?>" placeholder="Capacidad Maxima" name="capacidad">
+                    </div>
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Velocidad Crucero
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['cruisespeed'];?>" placeholder="Velocidad Crucero" name="cruisespeed">
+                    </div>
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Precio KM
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['preciokm'];?>" placeholder="Precio KM" name="<?php echo 'preciokm'.$i;?>">
+                      <!--ESTO ES PARA SUBIR EL COSTO A HELLO>PHP DE KM -->
+                  </div>    
+                  </div>
+                  <div class="form-group row" style="justify-content: center;">
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Distancia Maxima
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['distancia'];?>" placeholder="Distancia Maxima" name="distancia">
+                    </div>
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Velocidad Decenso
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['descentspeed'];?>" placeholder="Velocidad Decenso" name="descentspeed">
+                      </div>
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Precio Pernocta
+                    <input class="form-control" type="text" value="<?php echo $rowaircraft['pernocta'];?>" placeholder="Pernocta " name="pernocta">
+                  </div>
+                  </div>
+                  <div class="form-group row" style="justify-content: center;">
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Peso Maximo
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['pesomaximo'];?>" placeholder="Peso Maximo" name="pesomaximo">
+                    </div>
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Velocidad Ascenso
+                      <input class="form-control" type="text" value="<?php echo $rowaircraft['ascentspeed'];?>" placeholder="Velocidad Acenso" name="ascentspeed">
+                      </div>
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Precio Fuel Stop
+                    <input class="form-control" type="text" value="<?php echo $rowaircraft['fuelstop'];?>" placeholder="Parada Tecnica" name="fuelstop">
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                
+
+              </div>
+              <div class="col-lg-12">
+                      <p class="text-right">
+                        <button class="btn btn-space btn-primary" name="save" 
+                        type="submit">Procesar</button>
+                        <button class="btn btn-space btn-secondary">Cancelar</button>
+                      </p>
+                    </div>
+                  </div>
+                  
+            </div>
+    </form>
+          
+        </div>
+
+
+<!-- AQUI TERMINA LA REGISTRACION-->
+
+<!-- AQUI COMIENZA EL LISTADO-->
+
         <div class="row">
           <div class="col-sm-12">
             <div class="card card-default card-table">
-              <div class="card-header">Lista de Contactos
+              <div class="card-header">Lista de Aeronaves
                 <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
               </div>
               <div class="card-body">
@@ -214,11 +341,10 @@ include("conexion.php");
                             <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
                           </label>
                         </th>
-                        <th style="width:14%;">Nombre Completo </th>
-                        <th style="width:8%;">Telefono</th>
-                        <th style="width:14%;">Direccion</th>
-                        <th style="width:10%;">Email</th>
-                        <th style="width:8%;">Contacto</th>
+                        <th style="width:20%;">Matricula </th>
+                        <th style="width:17%;">tipo de AC </th>
+                        <th style="width:15%;">Fabricacion #</th>
+                        <th style="width:10%;">Precio Km</th>
                         <th style="width:10%;"></th>
                       </tr>
                     </thead>
@@ -234,28 +360,25 @@ include("conexion.php");
                             <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
                           </label>
                         </td>
-                        <td class="cell-detail"><span><?php echo $row['first_name']; ?><?php echo ' '. $row['last_name']; ?></span></td>
+                        <td class="user-avatar cell-detail user-info"><img src="assets/img/avatar.jpg" alt="Avatar"><span><?php echo $row ['matricula']; ?>
                             </span>
                           </td>
-                        <td class="cell-detail"><span><?php echo $row ['phone_number']; ?>
+                        <td class="cell-detail"> <span><?php echo $row ['aeronave']; ?>
+                            </span>
+                          </td>
+                        <td class="cell-detail"><span><?php echo $row ['fabricacion']; ?>
                             </span>
                         </td>
-                        <td class="cell-detail"><span><?php echo $row ['address']; ?>
-                            </span>
-                          </td>
-                        <td class="cell-detail"><span><?php echo $row ['email']; ?>
-                            </span>
-                          </td>
-                          <td class="cell-detail"><span><?php echo $row ['typeclient']; ?>
+                        <td class="cell-detail"><span><?php echo $row ['preciokm']; ?>
                             </span>
                           </td>
                         <td class="text-right">
                           <div class="btn-group btn-hspace">
-                            <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar<span class="icon-dropdown s7-angle-down"></span></button>
+                            <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Select <span class="icon-dropdown s7-angle-down"></span></button>
                             <div class="dropdown-menu dropdown-menu-right" role="menu">
-                              <a class="dropdown-item" href="javascript:editarcontacto(<?php echo $row['id'];?>)">Editar</a>
+                              <a class="dropdown-item" href='javascript:editarmatricula ("<?php echo $row['matricula']?>")'>Edit</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="crm.php?aksi=delete&nik=<?php echo $row['id']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['Last_Name']; ?>')">Borrar</a>
+                              <a class="dropdown-item" href="aircraft_setup.php?aksi=delete&nik=<?php echo $row['matricula']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['matricula']; ?>')">Delete</a>
                             </div>
                           </div>
                         </td>
@@ -263,14 +386,16 @@ include("conexion.php");
                       <?php
                     }}
                     ?>
-                  
+                      
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-        </div>            
+        </div>        
+        
+
       </div>
     </div>
     <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -289,39 +414,14 @@ include("conexion.php");
       	App.init();
       	App.formElements();
       });
-      function editarcontacto(idcontacto){
-      let form=document.createElement('form')
-      form.action='crmregistro.php'
-      form.method='post'
-      let username=document.createElement('input')
-      let password=document.createElement('input')
-      let aksi=document.createElement('input')
-      let nik=document.createElement('input')
-      username.value='test1'
-      username.type='hidden'
-      username.name='username'
-      password.value='test1'
-      password.type='hidden'
-      password.name='password'
-      aksi.name='aksi'
-      aksi.type='hidden'
-      aksi.value='edit'
-      nik.name='nik'
-      nik.type='hidden'
-      nik.value=idcontacto
-      form.appendChild(aksi)
-      form.appendChild(username)
-      form.appendChild(password)
-      form.appendChild(nik)
-      document.body.appendChild(form)
-      form.submit()
-      }
+    </script>
+    <script>
       //function para poder editar y borrar las quotes DESPUES DE PONERLE LOGIN
       function borrar(id){
       //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
       //console.log('borrar '+id_invoice)
       let form=document.createElement('form')
-      form.action='crm.php'
+      form.action='aircraft_setup.php'
       form.method='post'
       let username=document.createElement('input')
       let password=document.createElement('input')
@@ -350,7 +450,7 @@ include("conexion.php");
       //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
       function editarQuote(id){
     let form=document.createElement('form')
-    form.action='crm.php'
+    form.action='aircraft_setup.php'
     form.method='post'
     let username=document.createElement('input')
     let password=document.createElement('input')
@@ -468,7 +568,48 @@ function loginuserhellolist(){
 }
 
 
-
+//function refrescar search quotes
+function refreshpage(){
+  setTimeout(() => {
+    window.location.href="aircraft_setup.php";
+  }, 100);
+   
+}
+function editarmatricula(matricula) {
+  let form=document.createElement('form')
+    form.action='aircraft_setup.php'
+    form.method='post'
+    let username=document.createElement('input')
+    let password=document.createElement('input')
+    let aksi=document.createElement('input')
+    let nik=document.createElement('input')
+    let edit=document.createElement('input')
+    let amount=document.createElement('input')
+    let date=document.createElement('input')
+    username.value='test1'
+    username.type='hidden'
+    username.name='username'
+    password.value='test1'
+    password.type='hidden'
+    password.name='password'
+    aksi.name='aksi'
+    aksi.type='hidden'
+    aksi.value='edit'
+    nik.name='nik'
+    nik.type='hidden'
+    nik.value=matricula
+    edit.name='edit'
+    edit.type='hidden'
+    edit.value='yes'
+    form.appendChild(aksi)
+    form.appendChild(username)
+    form.appendChild(password)
+    form.appendChild(nik)
+    form.appendChild(edit)
+    document.body.appendChild(form)
+    form.submit()
+  
+}
 </script>
   </body>
 </html>

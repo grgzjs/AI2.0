@@ -9,7 +9,7 @@ include("conexion.php");
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="assets/img/favicon.png">
-    <title>AIS CRM List</title>
+    <title>AIS CRM</title>
     <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css"/>
     <link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css"/>
@@ -93,7 +93,6 @@ include("conexion.php");
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="dashboard.html"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
-                                          
                                       </ul>
                                     </li>
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
@@ -102,13 +101,12 @@ include("conexion.php");
                                                   </li>
                                                   <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Base de Cotizaciones</span></a>
                                                   </li>
-
                                       </ul>
                                     </li>
                                     <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                                  <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
-                                                  </li> 
+                                                   <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
+                                                  </li>            
                                                   <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Base de contactos</span></a>
                                                   </li>
                                                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
@@ -130,20 +128,21 @@ include("conexion.php");
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Generales</span></a>
                                                   </li>
-                                                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Ingresos Generales</span></a>
+                                                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">ingresos Generales</span></a>
                                                   </li>
                                            
                                       </ul>
-</li>
                                     </li>
-                                      <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
+                                    <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                                   <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
-                                                  </li>
-                                                  
+                                                  </li>    
+                                                  </ul>
+                                     
+                                           
                                       </ul>
-                                      </li>
-                        </ul>              
+                                  
+                        </ul>
                       </div>
                     </nav>
           <!--<div class="search">
@@ -152,8 +151,12 @@ include("conexion.php");
         </div>
       </nav>
       <div class="main-content container">
+   
         <?php
- 
+   $sqllist = "select * from contact";
+   $rows = mysqli_query($con, $sqllist);
+
+
    if(isset($_GET['aksi']) == 'delete'){
    $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES))); 
    $delete = mysqli_query($con, "DELETE from Contact WHERE id=$nik");
@@ -173,104 +176,138 @@ include("conexion.php");
         $typeclient	     = mysqli_real_escape_string($con,(strip_tags($_POST["typeclient"],ENT_QUOTES)));//Escanpando caracteres
 				$first_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["first_name"],ENT_QUOTES)));//Escanpando caracteres
 				$last_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["last_name"],ENT_QUOTES)));//Escanpando caracteres
+        $f_nacimiento     = mysqli_real_escape_string($con,(strip_tags($_POST["f_nacimiento"],ENT_QUOTES)));//Escanpando caracteres
         $phone_number	     = mysqli_real_escape_string($con,(strip_tags($_POST["phone_number"],ENT_QUOTES)));//Escanpando caracteres
         $address	     = mysqli_real_escape_string($con,(strip_tags($_POST["address"],ENT_QUOTES)));//Escanpando caracteres  
         $email	     = mysqli_real_escape_string($con,(strip_tags($_POST["email"],ENT_QUOTES)));//Escanpando caracteres
         $notes	     = mysqli_real_escape_string($con,(strip_tags($_POST["notes"],ENT_QUOTES)));//Escanpando caracteres
-        $id	     = mysqli_real_escape_string($con,(strip_tags($_POST["id"],ENT_QUOTES)));//Escanpando caracteres
-        $pais       = mysqli_real_escape_string($con,(strip_tags($_POST["pais"],ENT_QUOTES)));//Escanpando caracteres
-        $funcion       = mysqli_real_escape_string($con,(strip_tags($_POST["funcion"],ENT_QUOTES)));//Escanpando caracteres
-        $dnipass       = mysqli_real_escape_string($con,(strip_tags($_POST["dnipass"],ENT_QUOTES)));//Escanpando caracteres
-        $licencia       = mysqli_real_escape_string($con,(strip_tags($_POST["licencia"],ENT_QUOTES)));//Escanpando caracteres
-        $f_nacimiento      = mysqli_real_escape_string($con,(strip_tags($_POST["f_nacimiento"],ENT_QUOTES)));//Escanpando caracteres
-        if ($id){
-          $sql= "update Contact set typeclient='$typeclient',first_name='$first_name',last_name='$last_name',phone_number='$phone_number',address='$address',email='$email',notes='$notes',pais='$pais',funcion='$funcion',dnipass='$dnipass',licencia='$licencia',f_nacimiento='$f_nacimiento' where id='$id'";
-        }
-        else{
-          $sql= "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('$typeclient','$first_name','$last_name','$phone_number','$address','$email','$notes','$pais','$funcion','$dnipass','$licencia','$f_nacimiento')";
-        }
-         $update = mysqli_query($con,$sql) 
+
+        $sql= "insert into Contact (typeclient,first_name,last_name,f_nacimiento,phone_number,address,email,notes) Values ('$typeclient','$first_name','$last_name','$f_nacimiento','$phone_number','$address','$email','$notes')";
+        $update = mysqli_query($con,$sql) 
         or die(mysqli_error());
        
+          
+      }
+
+      if(isset($_POST['aksi'])&& $_POST['aksi']=='edit'){
+        $sql='select * from Contact where id ='.$_POST['nik'];
+        $rows = mysqli_query($con, $sql);
+        $row = mysqli_fetch_assoc($rows);
       
       }
-      $sqllist = "select * from contact";
-      $rows = mysqli_query($con, $sqllist);
 ?>
-       
         <div class="row">
-          <div class="col-sm-12">
-            <div class="card card-default card-table">
-              <div class="card-header">Lista de Contactos
-                <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive noSwipe">
-                  <table class="table table-striped table-hover">
-                    <thead>
-                      <tr>
-                        <th style="width:5%;">
-                          <label class="custom-control custom-control-sm custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                          </label>
-                        </th>
-                        <th style="width:14%;">Nombre Completo </th>
-                        <th style="width:8%;">Telefono</th>
-                        <th style="width:14%;">Direccion</th>
-                        <th style="width:10%;">Email</th>
-                        <th style="width:8%;">Contacto</th>
-                        <th style="width:10%;"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                   <?php
-                   if(mysqli_num_rows($rows) == 0){
-                   }else{
-                   while($row = mysqli_fetch_assoc($rows)){
-                      ?>
-                      <tr>
-                        <td>
-                          <label class="custom-control custom-control-sm custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                          </label>
-                        </td>
-                        <td class="cell-detail"><span><?php echo $row['first_name']; ?><?php echo ' '. $row['last_name']; ?></span></td>
-                            </span>
-                          </td>
-                        <td class="cell-detail"><span><?php echo $row ['phone_number']; ?>
-                            </span>
-                        </td>
-                        <td class="cell-detail"><span><?php echo $row ['address']; ?>
-                            </span>
-                          </td>
-                        <td class="cell-detail"><span><?php echo $row ['email']; ?>
-                            </span>
-                          </td>
-                          <td class="cell-detail"><span><?php echo $row ['typeclient']; ?>
-                            </span>
-                          </td>
-                        <td class="text-right">
-                          <div class="btn-group btn-hspace">
-                            <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar<span class="icon-dropdown s7-angle-down"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                              <a class="dropdown-item" href="javascript:editarcontacto(<?php echo $row['id'];?>)">Editar</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="crm.php?aksi=delete&nik=<?php echo $row['id']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['Last_Name']; ?>')">Borrar</a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <?php
-                    }}
-                    ?>
-                  
-                    </tbody>
-                  </table>
+          <div class="col-md-12">
+            <div class="card card-default">
+              <div class="card-header card-header-divider">Informacion de Contactos<span class="card-subtitle">Ingresa los detalles de Contacto</span></div>
+              <div class="card-body pl-sm-5">
+                <form action="crm.php" method="post">
+                <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Contacto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                    <select class="form-control custom-select" name="typeclient" onchange="showHideFields(this.value)">
+                    <option value="Cliente Final" <?php if ($row['typeclient'] == 'Cliente Final') { echo 'selected'; } ?>>Cliente Final</option>
+                    <option value="Broker" <?php if ($row['typeclient'] == 'Broker') { echo 'selected'; } ?>>Broker</option>
+                    <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') { echo 'selected'; } ?>>Corporativo</option>
+                    <option value="Proveedor" <?php if ($row['typeclient'] == 'Proveedor') { echo 'selected'; } ?>>Proveedor</option>
+                    <option value="Empleados" <?php if ($row['typeclient'] == 'tripulacion') { echo 'selected'; } ?>>Tripulacion</option>
+                    </select>
+
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Nombre</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $row['first_name'];?>" placeholder="Nombre" name="first_name"> 
+                      <input type="hidden" value="<?php echo $row['id'];?>" name="id">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Apellido</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $row['last_name'];?>" placeholder="Apellido" name="last_name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Fecha de Nacimiento</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="date" value="<?php echo $row['f_nacimiento'];?>" placeholder="F.de Nacimiento" name="f_nacimiento">
+                    </div>
+                  </div>
+                  <div class="form-group row" id="dnipass_div" >
+                <label class="col-12 col-sm-3 col-form-label text-sm-right">DNI/Pasaporte</label>
+                <div class="col-12 col-sm-8 col-lg-6">
+                 <input class="form-control" type="text" value="" placeholder="DNI/Pasaporte" name="dnipass">
+                  </div>
+                 </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Telefono</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $row['phone_number'];?>" placeholder="Telefono" name="phone_number">
+                    </div>
+                  </div>
+                  <div class="form-group row" id="email_div">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Email</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $row['email'];?>" placeholder="Email" name="email">
+                    </div>
+                  </div>
+                  <div class="form-group row" id="address_div">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Direccion</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $row['address'];?>" placeholder="Direccion" name="address">
+                    </div>
+                  </div>
+                  <div class="form-group row" id="pais_div">
+                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Pais</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                  <input class="form-control" type="text" value="" placeholder="Pais" name="pais">
+                  </div>
+                  </div>
+                   <div class="form-group row" id="notes_div">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Notas</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <textarea class="form-control" placeholder="Observaciones" name="notes"><?php echo $row['notes'];?></textarea>
+                    </div>
+                  </div>
+
+                  <div class="form-group row" id="funcion_div" style="display:none;">
+                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Funcion</label>
+                <div class="col-12 col-sm-8 col-lg-6">
+                <select class="form-control custom-select" name="funcion">
+                    <option value="Piloto" <?php if ($row['funcion'] == 'Piloto') { echo 'selected'; } ?>>Piloto</option>
+                    <option value="Copiloto" <?php if ($row['funcion'] == 'Copiloto') { echo 'selected'; } ?>>Copiloto</option>
+                    <option value="TCP" <?php if ($row['funcion'] == 'TCP') { echo 'selected'; } ?>>TCP</option>
+                    </select>
                 </div>
+                </div>
+
+              <div class="form-group row" id="licencia_div" style="display:none;">
+              <label class="col-12 col-sm-3 col-form-label text-sm-right">Licencia N</label>
+              <div class="col-12 col-sm-8 col-lg-6">
+              <input class="form-control" type="text" value="" placeholder="Licencia N" name="licencia">
+              </div>
+              </div>
+
+               
+                  <div class="row pt-0 pt-0 pt-lg-5">
+                    <div class="col-lg-6 pb-4 pb-lg-0">
+                      <!--<label class="custom-control custom-checkbox mt-2">
+                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Remember me</span>
+                      </label>-->
+                    </div>
+                    <div class="col-lg-6">
+                      <p class="text-right">
+                        <button class="btn btn-space btn-primary" name="save" type="submit">Procesar</button>
+                        <button class="btn btn-space btn-secondary">Cancelar</button>
+                      </p>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-        </div>            
+        </div>
       </div>
     </div>
     <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -289,33 +326,40 @@ include("conexion.php");
       	App.init();
       	App.formElements();
       });
-      function editarcontacto(idcontacto){
-      let form=document.createElement('form')
-      form.action='crmregistro.php'
-      form.method='post'
-      let username=document.createElement('input')
-      let password=document.createElement('input')
-      let aksi=document.createElement('input')
-      let nik=document.createElement('input')
-      username.value='test1'
-      username.type='hidden'
-      username.name='username'
-      password.value='test1'
-      password.type='hidden'
-      password.name='password'
-      aksi.name='aksi'
-      aksi.type='hidden'
-      aksi.value='edit'
-      nik.name='nik'
-      nik.type='hidden'
-      nik.value=idcontacto
-      form.appendChild(aksi)
-      form.appendChild(username)
-      form.appendChild(password)
-      form.appendChild(nik)
-      document.body.appendChild(form)
-      form.submit()
-      }
+    </script>
+    <script>
+
+function showHideFields(selectedValue) {
+  if (selectedValue === "Empleados") {
+    // show tripulacion fields
+
+    // show other fields
+ 
+    document.getElementById("funcion_div").style.display = "";
+    document.getElementById("licencia_div").style.display = "";
+
+    // hide tripulacion fields
+   
+    document.getElementById("email_div").style.display = "none";
+    document.getElementById("address_div").style.display = "none";
+    document.getElementById("notes_div").style.display = "none";
+ 
+  } else {
+
+    document.getElementById("email_div").style.display = "";
+    document.getElementById("address_div").style.display = "";
+    document.getElementById("notes_div").style.display = "";
+
+    // hide other fields
+
+    document.getElementById("funcion_div").style.display = "none";
+    document.getElementById("licencia_div").style.display = "none";
+
+
+  }
+}
+
+
       //function para poder editar y borrar las quotes DESPUES DE PONERLE LOGIN
       function borrar(id){
       //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
@@ -328,16 +372,12 @@ include("conexion.php");
       let aksi=document.createElement('input')
       let nik=document.createElement('input')
       username.value='test1'
-      username.type='hidden'
       username.name='username'
       password.value='test1'
-      password.type='hidden'
       password.name='password'
       aksi.name='aksi'
-      aksi.type='hidden'
       aksi.value='delete'
       nik.name='nik'
-      nik.type='hidden'
       nik.value=id
       form.appendChild(aksi)
       form.appendChild(username)
@@ -360,19 +400,14 @@ include("conexion.php");
     let amount=document.createElement('input')
     let date=document.createElement('input')
     username.value='test1'
-    username.type='hidden'
     username.name='username'
     password.value='test1'
-    password.type='hidden'
     password.name='password'
     aksi.name='aksi'
-    aksi.type='hidden'
     aksi.value='edit'
     nik.name='nik'
-    nik.type='hidden'
     nik.value=id
     edit.name='edit'
-    edit.type='hidden'
     edit.value='yes'
     form.appendChild(aksi)
     form.appendChild(username)
@@ -395,24 +430,17 @@ function loginuser(){
     let amount=document.createElement('input')
     let date=document.createElement('input')
     username.value='test1'
-    username.type='hidden'
     username.name='username'
     password.value='test1'
-    password.type='hidden'
     password.name='password'
     aksi.name='aksi'
-    aksi.type='hidden'
     aksi.value='login'
     nik.name='nik'
-    nik.type='hidden'
     edit.name='edit'
-    edit.type='hidden'
     edit.value='yes'
     amount.name='amount'
-    amount.type='hidden'
     amount.value='<?php echo $rowedit["amount"]; ?>'
     date.name='date'
-    date.type='hidden'
     date.value='<?php echo $rowedit["date"]; ?>'
     form.appendChild(aksi)
     form.appendChild(username)
@@ -437,24 +465,17 @@ function loginuserhellolist(){
     let amount=document.createElement('input')
     let date=document.createElement('input')
     username.value='test1'
-    username.type='hidden'
     username.name='username'
     password.value='test1'
-    password.type='hidden'
     password.name='password'
     aksi.name='aksi'
     aksi.value='login'
-    aksi.type='hidden'
     nik.name='nik'
-    nik.type='hidden'
     edit.name='edit'
-    edit.type='hidden'
     edit.value='yes'
     amount.name='amount'
-    amount.type='hidden'
     amount.value='<?php echo $rowedit["amount"]; ?>'
     date.name='date'
-    date.type='hidden'
     date.value='<?php echo $rowedit["date"]; ?>'
     form.appendChild(aksi)
     form.appendChild(username)
@@ -466,7 +487,6 @@ function loginuserhellolist(){
     document.body.appendChild(form)
     form.submit()
 }
-
 
 
 </script>

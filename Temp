@@ -1237,4 +1237,24 @@ function addbutton() {
 
     ,'$pais','$funcion','$dnipass','$licencia'
 
-    
+
+
+
+    //document.getElementById('form').appendChild(input0)
+//document.getElementById('form').appendChild(input1)
+//document.getElementById('form').appendChild(input2)
+//document.getElementById('form').appendChild(input3)
+//document.getElementById('form').appendChild(input4)
+//document.getElementById('form').appendChild(input5)
+//document.getElementById('form').appendChild(input6)
+
+
+let e=document.getElementById('tripulacion')
+let nombre=e.options[e.selectedIndex].text;
+input1.value=nombre
+document.getElementById('paispilot').value=''
+document.getElementById('dnipasspilot').value=''
+document.getElementById('licenciapilot').value=''
+document.getElementById('f_nacimientopilot').value=''
+
+

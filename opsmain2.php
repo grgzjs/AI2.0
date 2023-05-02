@@ -128,9 +128,6 @@ include("conexion.php");
   <body>
 
   <?php
-  //if(isset($_POST['idpilot'])){
-  //$idpilot	     = mysqli_real_escape_string($con,(strip_tags($_POST["idpilot"],ENT_QUOTES)));//Escanpando caracteres
-  //}
 $quote=$_GET['id'];
 $sql='select * from invoice_detail where id_invoice='.$quote;
 $detail = mysqli_query($con, $sql);
@@ -150,7 +147,7 @@ $detail2 = mysqli_query($con, $sql);
 
 ?>
 
-                    <li class="inactive" data-step="<?php echo $i?>">Tramo <?php echo $i?><span class="chevron"></span></li>
+                    <li class="active" data-step="<?php echo $i?>">Tramo <?php echo $i?><span class="chevron"></span></li>
 
 <?php
 $i++;
@@ -170,8 +167,7 @@ while($rowdetail = mysqli_fetch_assoc($detail)){
                 
                   <div class="step-pane active" data-step="<?php echo $i?>">
                     
-                      <form class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" id="form"
-                      data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                      <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
                         <div class="form-group row">
                           <div class="offset-sm-4 col-sm-6">
                             <h4 class="wizard-title">Programacion - Vuelo # <?php echo $quote ?></h4>
@@ -316,7 +312,7 @@ while($row = mysqli_fetch_assoc($rows)){
                         <div class="form-group row pt-3">
                         <div class="col-sm-12">
                             <button class="btn btn-secondary btn-space">Cancel</button>
-                            <button class="btn btn-primary btn-space wizard-next" type="submit"    data-wizard="#wizard1">Next Step</button>
+                            <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
                           </div>
                         </div>
                       </form>
@@ -494,14 +490,6 @@ document.getElementById('divpilot').appendChild(input5)
 input6.classList.add('form-control','col-1')
 document.getElementById('divpilot').appendChild(input6)
 document.getElementById('divpilot').appendChild(input0)
-//document.getElementById('form').appendChild(input0)
-//document.getElementById('form').appendChild(input1)
-//document.getElementById('form').appendChild(input2)
-//document.getElementById('form').appendChild(input3)
-//document.getElementById('form').appendChild(input4)
-//document.getElementById('form').appendChild(input5)
-//document.getElementById('form').appendChild(input6)
-
 let e=document.getElementById('tripulacion')
 let nombre=e.options[e.selectedIndex].text;
 input1.value=nombre

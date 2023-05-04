@@ -132,7 +132,17 @@ $quote=$_GET['id'];
 $sql='select * from invoice_detail where id_invoice='.$quote;
 $detail = mysqli_query($con, $sql);
 $detail2 = mysqli_query($con, $sql);
-    ?>
+if(isset($_POST['guardar'])){
+  $funcion=$_POST['funcionpilot'];
+  $contact_id=$_POST['idpilot'];
+  $tramoid=$_POST['tramoid'];
+  
+$sql="insert into opstramo (contact_id,tramo_id,funcion) values (".$contact_id.",".$tramoid.",'".$funcion."')";
+$update = mysqli_query($con,$sql) ;
+
+}
+
+?>
 
       <div class="main-content container">
         <div class="row wizard-row">
@@ -172,6 +182,7 @@ while($rowdetail = mysqli_fetch_assoc($detail)){
                           <div class="offset-sm-4 col-sm-6">
                             <h4 class="wizard-title">Programacion - Vuelo # <?php echo $quote ?></h4>
                             <h5  class="wizard-title">  Tramo - <?php echo $rowdetail['origen'].' - '. $rowdetail['destino']?></h5>
+                            <input type="hidden" id='tramoid' value="<?php echo $rowdetail['id'] ?>">
                           </div>
                         </div>
 
@@ -228,8 +239,30 @@ while($row = mysqli_fetch_assoc($rows)){
                     <div class="form-group row">
                     <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                     <div class="col-12 col-sm-10 col-lg-12 row" id='divpilot'>
+                    <?php 
+                      if(isset($tramoid)){
+                      $sqlpilotlist = "select * from opstramo o, contact c where o.contact_id=c.id and o.tramo_id=".$tramoid;
+                      $rowspilot = mysqli_query($con, $sqlpilotlist);
+                      while($rowp = mysqli_fetch_assoc($rowspilot)){
+                      ?>
+                      
+                    
+                      <input class="col-12 col-sm-3 col-lg-3"  value="<?php echo $rowp['last_name'].', '.$rowp['first_name']?>" readonly>
+                      <input class="col-12 col-sm-3 col-lg-3"  value="<?php echo $rowp['f_nacimiento']?>" readonly>
+                      <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['pais']?>" readonly>
+                      <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['licencia']?>" readonly>
+                      <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['dnipass']?>" readonly>
+                      
+
+                      <?php
+                      }
+                    }
+                      ?>
                     </div>
                   </div>
+
+
+
 </div>
 <hr>
 
@@ -456,6 +489,7 @@ document.getElementById('licenciapilot').classList.add('form-control')
 
 function addbutton2() {
 let input0=document.createElement('input')
+console.log ('1')
 input0.type='hidden'
 input0.name='idpilot'
 input0.value=document.getElementById('idpilot').value
@@ -463,12 +497,14 @@ let input1=document.createElement('input')
 input1.value=document.getElementById('tripulacion').value
 input1.readOnly='readonly'
 let input2=document.createElement('input')
+console.log ('2')
 input2.value=document.getElementById('paispilot').value
 input2.readOnly='readonly'
 let input3=document.createElement('input')
 input3.value=document.getElementById('f_nacimientopilot').value
 input3.readOnly='readonly'
 let input4=document.createElement('input')
+console.log ('3')
 input4.value=document.getElementById('dnipasspilot').value
 input4.readOnly='readonly'
 let input5=document.createElement('input')
@@ -477,6 +513,11 @@ input5.readOnly='readonly'
 let input6=document.createElement('input')
 input6.value=document.getElementById('funcion').value
 input6.readOnly='readonly'
+input6.name='funcionpilot'
+let input7=document.createElement('input')
+console.log ('4')
+input7.value=document.getElementById('tramoid').value
+input7.name='tramoid'
 input1.classList.add('form-control','col-3')
 document.getElementById('divpilot').appendChild(input1)
 input2.classList.add('form-control','col-2')
@@ -491,14 +532,35 @@ input6.classList.add('form-control','col-1')
 document.getElementById('divpilot').appendChild(input6)
 document.getElementById('divpilot').appendChild(input0)
 let e=document.getElementById('tripulacion')
+console.log ('5')
 let nombre=e.options[e.selectedIndex].text;
 input1.value=nombre
 document.getElementById('paispilot').value=''
 document.getElementById('dnipasspilot').value=''
 document.getElementById('licenciapilot').value=''
 document.getElementById('f_nacimientopilot').value=''
-
-
+console.log('submnit');
+let form=document.createElement('form')
+console.log ('6')
+form.appendChild(input0)
+form.appendChild(input1)
+form.appendChild(input2)
+form.appendChild(input3)
+form.appendChild(input4)
+form.appendChild(input5)
+form.appendChild(input6)
+form.appendChild(input7)
+let button1=document.createElement('button')
+form.appendChild(button1)
+button1.name='guardar'
+form.action='opsmain2.php?id=<?php echo $quote?>'
+form.method='post'
+console.log('submnit2');
+document.body.appendChild(form)
+console.log ('7')
+//form.submit()
+button1.click() 
+console.log('submnit3');
 }
 
 

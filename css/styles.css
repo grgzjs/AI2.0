@@ -68,3 +68,9 @@ table {
 .justify-content{
   justify-content: center;
 }
+.btn-marginl{
+  margin-left: 5px;
+}
+.margin30{
+  margin-left: 30px;
+}

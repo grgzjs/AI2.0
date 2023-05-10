@@ -128,10 +128,24 @@ include("conexion.php");
   <body>
 
   <?php
+  if(isset($_GET['id'])){
+  
 $quote=$_GET['id'];
 $sql='select * from invoice_detail where id_invoice='.$quote;
 $detail = mysqli_query($con, $sql);
 $detail2 = mysqli_query($con, $sql);
+}
+
+echo 'hola <br>';
+if(isset($_POST['save'])){
+  echo 'hola2 <br>';
+  $fbo=$_POST['fbo'];
+  echo $fbo;
+  die();
+$sql="insert into opstramo_detail (fbo) values (".$fbo.")";
+$update = mysqli_query($con,$sql) ;
+
+}
 if(isset($_POST['guardar'])){
   $funcion=$_POST['funcionpilot'];
   $contact_id=$_POST['idpilot'];
@@ -150,7 +164,7 @@ $update = mysqli_query($con,$sql) ;
 
 }
 
-if(isset($_POST['aksi']) == 'delete'){
+if(($_POST['aksi']) == 'delete'){
   $nik = mysqli_real_escape_string($con,(strip_tags($_POST["nik"],ENT_QUOTES))); 
   $delete = mysqli_query($con, "DELETE from opstramo WHERE id=$nik");
   if($delete){
@@ -194,7 +208,7 @@ while($rowdetail = mysqli_fetch_assoc($detail)){
                 
                   <div class="step-pane active" data-step="<?php echo $i?>">
                     
-                      <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                      <form class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
                         <div class="form-group row">
                           <div class="offset-sm-4 col-sm-6">
                             <h4 class="wizard-title">Programacion - Vuelo # <?php echo $quote ?></h4>
@@ -220,8 +234,8 @@ $sqllist = "select * from contact where typeclient='Empleados' order by last_nam
 $rows = mysqli_query($con, $sqllist);
 while($row = mysqli_fetch_assoc($rows)){
 ?>
-                    
-                      <option value="<?php echo $row['id'].'*'.$row['pais'].'*'.$row['f_nacimiento'].'*'.$row['dnipass'].'*'.$row['licencia'] ?>"><?php echo $row['last_name'].', '.$row['first_name']?></option>
+                    <!-- Le agregue funcion para ver si lo refleja el listado de pilotos -->
+                      <option value="<?php echo $row['id'].'*'.$row['pais'].'*'.$row['f_nacimiento'].'*'.$row['dnipass'].'*'.$row['licencia'].'*'.$row['funcion'] ?>"><?php echo $row['last_name'].', '.$row['first_name']?></option>
 <?php
 }
 ?>
@@ -259,23 +273,26 @@ while($row = mysqli_fetch_assoc($rows)){
                     
                     <?php 
                       if(isset($tramoid)){
-                      $sqlpilotlist = "select * from opstramo o, contact c where o.contact_id=c.id and o.funcion <>'null' and o.tramo_id=".$tramoid;
+                      $sqlpilotlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion <>'null' and o.tramo_id=".$tramoid;
                       $rowspilot = mysqli_query($con, $sqlpilotlist);
                       while($rowp = mysqli_fetch_assoc($rowspilot)){
                       ?>
                       
-                    
+                      <div class="input-group-append">
                       <input class="col-12 col-sm-3 col-lg-3"  value="<?php echo $rowp['last_name'].', '.$rowp['first_name']?>" readonly>
                       <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['f_nacimiento']?>" readonly>
                       <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['pais']?>" readonly>
-                      <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['licencia']?>" readonly>
-                      <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['dnipass']?>" readonly>
+                      <input class="col-12 col-sm-1 col-lg-1"  value="<?php echo $rowp['licencia']?>" readonly>
+                      <input class="col-12 col-sm-1 col-lg-1"  value="<?php echo $rowp['dnipass']?>" readonly>
+                      <input class="col-12 col-sm-1 col-lg-1"  value="<?php echo $rowp['funmcion']?>" readonly>
                      
-                      <a class="btn btn-danger btn-rounded btn-space btn-marginl" onclick="javascript:deletepax(<?php echo $rowp['id']?>)"> 
+                      <button class="btn btn-dark btn-danger btn-xs " onclick="javascript:deletepax2(<?php echo $rowp['id']?>,<?php echo $quote?>,event)">Delete
                       <span class="s7-trash"></span>
-                         </a>
+                      </button>
+<!-- changed from a to button-->
 
-
+                         </div>
+                         
                       <?php
                       }
                     }
@@ -334,20 +351,20 @@ while($row = mysqli_fetch_assoc($rows)){
                          <div class="col-10 col-sm-8 col-lg-10 row" id='divpax'>
                          <?php 
                       if(isset($tramoid)){
-                      $sqlpilotlist = "select * from opstramo o, contact c where o.contact_id=c.id and o.funcion ='null' and o.tramo_id=".$tramoid;
+                      $sqlpilotlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and o.tramo_id=".$tramoid;
                       $rowspilot = mysqli_query($con, $sqlpilotlist);
                       while($rowp = mysqli_fetch_assoc($rowspilot)){
                       ?>
                       
-                    
+                      <div class="input-group-append">
                       <input class="col-12 col-sm-3 col-lg-3"  value="<?php echo $rowp['last_name'].', '.$rowp['first_name']?>" readonly>
                       <input class="col-12 col-sm-3 col-lg-3"  value="<?php echo $rowp['f_nacimiento']?>" readonly>
                       <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['pais']?>" readonly> 
                       <input class="col-12 col-sm-2 col-lg-2"  value="<?php echo $rowp['dnipass']?>" readonly>
-                      <button class="btn btn-danger btn-rounded btn-space btn-marginl"> 
+                      <button class="btn btn-dark btn-danger " type="button" onclick="javascript:deletepax2(<?php echo $rowp['id']?>,<?php echo $quote?>,event)">Delete
                       <span class="s7-trash"></span>
                          </button>
-
+                      </div>
                      
                       
 
@@ -364,35 +381,35 @@ while($row = mysqli_fetch_assoc($rows)){
 <hr>
                         <div class="card-header">Informacion de Tramo<span class="card-subtitle">Ingresa los detalles del Tramo</span></div>
 <br>  
-
+<!--COMIENZO tramo info-->
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el FBO">
+                            <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="informacion de Combustible">
+                            <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Catering</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el Comisariato ">
+                            <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Notas Especiales</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese Notas ">
+                            <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas">
                           </div>
                         </div>
                         <div class="form-group row pt-3">
                         <div class="col-sm-12">
                             <button class="btn btn-secondary btn-space">Cancel</button>
-                            <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
+                            <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1" value="save">Next Step</button>
                           </div>
                         </div>
                       </form>
@@ -675,27 +692,27 @@ button1.click()
 }
 
 
-function deletepax(id) {
+function deletepax2(id,quote,event) {
+  event.preventDefault()
   let form=document.createElement('form')
-      form.action='opsmain2.php?id=<?php echo $quote?>'
-      form.method='post'
-      console.log('1');
+      form.action='opsmain2.php?id='+ quote
+      form.method='POST'
       let username=document.createElement('input')
       let password=document.createElement('input')
       let aksi=document.createElement('input')
-      console.log('2');
       let nik=document.createElement('input')
+      let quoteid=document.createElement('input')
       username.value='test1'
       username.name='username'
-      console.log('3');
       password.value='test1'
       password.name='password'
       aksi.name='aksi'
       aksi.value='delete'
       nik.name='nik'
       nik.value=id
+      quoteid.name='quote'
+      quoteid.value='<?php echo $quote?>'
       form.appendChild(aksi)
-      console.log('4');
       form.appendChild(username)
       form.appendChild(password)
       form.appendChild(nik)
@@ -703,6 +720,8 @@ function deletepax(id) {
       form.submit()
   
 }
+
+
 
     </script>
   </body>

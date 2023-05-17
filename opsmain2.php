@@ -135,13 +135,12 @@ $sql='select * from invoice_detail where id_invoice='.$quote;
 $detail = mysqli_query($con, $sql);
 $detail2 = mysqli_query($con, $sql);
 }
+if(isset($_GET['tramon'])){
 
-echo 'hola <br>';
+}
+
 if(isset($_POST['save'])){
-  echo 'hola2 <br>';
-  $fbo=$_POST['fbo'];
-  echo $fbo;
-  die();
+$fbo=$_POST['fbo'];
 $sql="insert into opstramo_detail (fbo) values (".$fbo.")";
 $update = mysqli_query($con,$sql) ;
 
@@ -170,6 +169,18 @@ if(($_POST['aksi']) == 'delete'){
   if($delete){
   }
 }
+
+if(($_POST['aksi']) == 'addtramo'){
+  $fbo = mysqli_real_escape_string($con,(strip_tags($_POST["fbo"],ENT_QUOTES)));
+  $fuel = mysqli_real_escape_string($con,(strip_tags($_POST["fuel"],ENT_QUOTES))); 
+  $catering = mysqli_real_escape_string($con,(strip_tags($_POST["catering"],ENT_QUOTES))); 
+  $notas = mysqli_real_escape_string($con,(strip_tags($_POST["notas"],ENT_QUOTES)));  
+  $tramo_id = mysqli_real_escape_string($con,(strip_tags($_POST["nik"],ENT_QUOTES)));
+  $sql="INSERT into opstramo_detail (tramo_id,fbo,fuel,catering,notas) values (".$tramo_id.",'".$fbo."','".$fuel."','".$catering."','".$notas."')";
+  $addtramo = mysqli_query($con, $sql);
+ 
+}
+
 ?>
 
       <div class="main-content container">
@@ -185,7 +196,8 @@ if(($_POST['aksi']) == 'delete'){
 
 ?>
 
-                    <li class="active" data-step="<?php echo $i?>">Tramo <?php echo $i?><span class="chevron"></span></li>
+                    <li class="active" name='step' data-step="<?php echo $i?>">Tramo <?php echo $i?><span class="chevron"></span></li>
+                    <input type="hidden" name='inputstep' value='<?php echo $i?>'>
 
 <?php
 $i++;
@@ -194,12 +206,19 @@ $i++;
                   </ul>
                 </div>
                 <div class="actions">
-                  <button class="btn btn-xs btn-prev btn-secondary" type="button"><i class="icon s7-angle-left"></i>Prev</button>
-                  <button class="btn btn-xs btn-next btn-secondary" type="button" data-last="Finish">Next<i class="icon s7-angle-right"></i></button>
+                  <button class="btn btn-xs btn-prev btn-secondary" type="button" onclick="javascript:tramoant(event)"><i class="icon s7-angle-left"></i>Prev</button>
+                  <button class="btn btn-xs btn-next btn-secondary" type="button" data-last="Finish" onclick="javascript:tramosig(event)">Next<i class="icon s7-angle-right"></i></button>
                 </div>
                 <div class="step-content">
 <?php
 $i=1;
+
+$sqlcount='select count(*) as total from invoice_detail where id_invoice='.$quote;
+$result=mysqli_query($con, $sqlcount);
+$data=mysqli_fetch_assoc($result);
+//echo $data['total'];
+
+
 while($rowdetail = mysqli_fetch_assoc($detail)){   
   if(!isset($tramoid)){
     $tramoid=$rowdetail['id'];
@@ -213,7 +232,7 @@ while($rowdetail = mysqli_fetch_assoc($detail)){
                           <div class="offset-sm-4 col-sm-6">
                             <h4 class="wizard-title">Programacion - Vuelo # <?php echo $quote ?></h4>
                             <h5  class="wizard-title">  Tramo - <?php echo $rowdetail['origen'].' - '. $rowdetail['destino']?></h5>
-                            <input type="hidden" id='tramoid' value="<?php echo $rowdetail['id'] ?>">
+                            <input type="hidden" id='tramoid' name='tramoid' value="<?php echo $rowdetail['id'] ?>">
                           </div>
                         </div>
 
@@ -385,33 +404,42 @@ while($row = mysqli_fetch_assoc($rows)){
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo">
+                            <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo" id="fbo">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel">
+                            <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel" id="fuel">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Catering</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering">
+                            <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering" id="catering">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Notas Especiales</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas">
+                            <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas" id="notas">
                           </div>
                         </div>
+                        <?php
+                        if ($data['total'] == $i) {
+
+                        ?>
+
                         <div class="form-group row pt-3">
                         <div class="col-sm-12">
-                            <button class="btn btn-secondary btn-space">Cancel</button>
-                            <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1" value="save">Next Step</button>
+                            <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1" value="save" onclick="javascript:guardardetalle(event)">Save</button>
                           </div>
                         </div>
+                        <?php
+                        }
+
+                        ?>
+
                       </form>
                     
                   </div>
@@ -720,6 +748,92 @@ function deletepax2(id,quote,event) {
       form.submit()
   
 }
+
+function guardardetalle(event) {
+  event.preventDefault()
+  let form=document.createElement('form')
+      form.action='opsmain2.php?id='+ quote
+      form.method='POST'
+      let username=document.createElement('input')
+      let password=document.createElement('input')
+      let aksi=document.createElement('input')
+      let nik=document.createElement('input')
+      let quoteid=document.createElement('input')
+      username.value='test1'
+      username.name='username'
+      password.value='test1'
+      password.name='password'
+      aksi.name='aksi'
+      aksi.value='delete'
+      nik.name='nik'
+      nik.value=id
+      quoteid.name='quote'
+      quoteid.value='<?php echo $quote?>'
+      form.appendChild(aksi)
+      form.appendChild(username)
+      form.appendChild(password)
+      form.appendChild(nik)
+      document.body.appendChild(form)
+      form.submit()
+  
+}
+let numtramo=1
+function tramosig(event) {
+event.preventDefault()
+let idtramo = document.getElementsByName('inputstep')
+
+console.log('numtramo '+ numtramo);
+  let form=document.createElement('form')
+      form.action='opsmain2.php?id='+ <?php echo $quote?>;
+      form.method='POST'
+      let username=document.createElement('input')
+      let password=document.createElement('input')
+      let aksi=document.createElement('input')
+      let nik=document.createElement('input')
+      let fbo=document.createElement('input')
+      let fuel=document.createElement('input')
+      let catering=document.createElement('input')
+      let notas=document.createElement('input')
+      fbo.value=document.getElementById('fbo').value
+      fbo.name='fbo'
+      fuel.value=document.getElementById('fuel').value
+      fuel.name='fuel'
+      catering.value=document.getElementById('catering').value
+      catering.name='catering'
+      notas.value=document.getElementById('notas').value
+      notas.name='notas'
+      let inputtramo=document.getElementsByName('tramoid')[numtramo-1]
+
+
+
+      username.value='test1'
+      username.name='username'
+      password.value='test1'
+      password.name='password'
+      aksi.name='aksi'
+      aksi.value='addtramo'
+      nik.name='nik'
+      nik.value=inputtramo.value
+      form.appendChild(aksi)
+      form.appendChild(username)
+      form.appendChild(password)
+      form.appendChild(nik)
+      form.appendChild(fbo)
+      form.appendChild(fuel)
+      form.appendChild(catering)
+      form.appendChild(notas)
+      document.body.appendChild(form)
+      numtramo++
+      form.submit()
+} 
+
+function tramoant(event) {
+event.preventDefault()
+let idtramo = document.getElementsByName('inputstep')
+numtramo--
+console.log('numtramo '+ numtramo);
+}
+
 
 
 

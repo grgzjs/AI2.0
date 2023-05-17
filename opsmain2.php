@@ -170,7 +170,7 @@ if(($_POST['aksi']) == 'delete'){
   }
 }
 
-if(($_POST['aksi']) == 'addtramo'){
+if(($_POST['aksi']) == 'guardardetalle'){
   $fbo = mysqli_real_escape_string($con,(strip_tags($_POST["fbo"],ENT_QUOTES)));
   $fuel = mysqli_real_escape_string($con,(strip_tags($_POST["fuel"],ENT_QUOTES))); 
   $catering = mysqli_real_escape_string($con,(strip_tags($_POST["catering"],ENT_QUOTES))); 
@@ -425,21 +425,13 @@ while($row = mysqli_fetch_assoc($rows)){
                             <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas" id="notas">
                           </div>
                         </div>
-                        <?php
-                        if ($data['total'] == $i) {
-
-                        ?>
-
+                       
                         <div class="form-group row pt-3">
                         <div class="col-sm-12">
                             <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1" value="save" onclick="javascript:guardardetalle(event)">Save</button>
                           </div>
                         </div>
-                        <?php
-                        }
-
-                        ?>
-
+                       
                       </form>
                     
                   </div>
@@ -752,84 +744,61 @@ function deletepax2(id,quote,event) {
 function guardardetalle(event) {
   event.preventDefault()
   let form=document.createElement('form')
-      form.action='opsmain2.php?id='+ quote
+      form.action='opsmain2.php?id='+ '<?php echo $quote?>'
       form.method='POST'
       let username=document.createElement('input')
       let password=document.createElement('input')
       let aksi=document.createElement('input')
       let nik=document.createElement('input')
       let quoteid=document.createElement('input')
-      username.value='test1'
-      username.name='username'
-      password.value='test1'
-      password.name='password'
-      aksi.name='aksi'
-      aksi.value='delete'
-      nik.name='nik'
-      nik.value=id
-      quoteid.name='quote'
-      quoteid.value='<?php echo $quote?>'
-      form.appendChild(aksi)
-      form.appendChild(username)
-      form.appendChild(password)
-      form.appendChild(nik)
-      document.body.appendChild(form)
-      form.submit()
-  
-}
-let numtramo=1
-function tramosig(event) {
-event.preventDefault()
-let idtramo = document.getElementsByName('inputstep')
-
-console.log('numtramo '+ numtramo);
-  let form=document.createElement('form')
-      form.action='opsmain2.php?id='+ <?php echo $quote?>;
-      form.method='POST'
-      let username=document.createElement('input')
-      let password=document.createElement('input')
-      let aksi=document.createElement('input')
-      let nik=document.createElement('input')
       let fbo=document.createElement('input')
       let fuel=document.createElement('input')
       let catering=document.createElement('input')
       let notas=document.createElement('input')
       fbo.value=document.getElementById('fbo').value
       fbo.name='fbo'
-      fuel.value=document.getElementById('fuel').value
+      fuel.value=document.getElementsByName('fuel')[numtramo-1].value
       fuel.name='fuel'
-      catering.value=document.getElementById('catering').value
+      catering.value=document.getElementsByName('catering')[numtramo-1].value
       catering.name='catering'
-      notas.value=document.getElementById('notas').value
+      notas.value=document.getElementsByName('notas')[numtramo-1].value
       notas.name='notas'
       let inputtramo=document.getElementsByName('tramoid')[numtramo-1]
-
-
 
       username.value='test1'
       username.name='username'
       password.value='test1'
       password.name='password'
       aksi.name='aksi'
-      aksi.value='addtramo'
+      aksi.value='guardardetalle'
       nik.name='nik'
       nik.value=inputtramo.value
+      quoteid.name='quote'
+      quoteid.value='<?php echo $quote?>'
       form.appendChild(aksi)
       form.appendChild(username)
       form.appendChild(password)
       form.appendChild(nik)
+
       form.appendChild(fbo)
       form.appendChild(fuel)
       form.appendChild(catering)
       form.appendChild(notas)
       document.body.appendChild(form)
-      numtramo++
+      
       form.submit()
+  
+}
+let numtramo=1
+
+function tramosig(event) {
+    
+      numtramo++
+    
 } 
 
 function tramoant(event) {
-event.preventDefault()
-let idtramo = document.getElementsByName('inputstep')
+
 numtramo--
 console.log('numtramo '+ numtramo);
 }

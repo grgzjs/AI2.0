@@ -74,3 +74,51 @@ table {
 .margin30{
   margin-left: 30px;
 }
+
+/* JULIOS CSS */
+
+.buscador{
+  display:flex;
+  margin-left:10px;
+  margin-right:10px;
+  justify-content: space-between;
+}
+
+.select-tripulacion{
+  width: 10%;
+}
+
+.ch-width10{
+  width: 10em !important;
+  
+}
+
+.elemento-buscador{
+  height: 3.23077rem;
+  padding: 0.923077rem 1.307rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #878787;
+  background-color: #FFFFFF;
+  background-clip: padding-box;
+  border: 2px solid #ebebeb;
+  border-radius: 0;
+  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.elemento-buscador:focus {
+  color: #878787;
+  background-color: #FFFFFF;
+  border-color: #89e4bf;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0 transparent;
+          box-shadow: 0 0 0 0 transparent;
+}
+
+textarea.elemento-buscador {
+  height: auto;
+}

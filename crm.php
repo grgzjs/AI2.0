@@ -92,7 +92,7 @@ include("conexion.php");
                         <ul class="nav navbar-nav">
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                                  <li class="nav-item"><a class="nav-link" href="dashboard.html"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
+                                                  <li class="nav-item"><a class="nav-link" href="dashboard.php"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
                                           
                                       </ul>
                                     </li>
@@ -153,8 +153,9 @@ include("conexion.php");
       </nav>
       <div class="main-content container">
         <?php
- 
+ echo '<script>console.log("antes")</script>';
    if(isset($_GET['aksi']) == 'delete'){
+    echo '<script>console.log("delete")</script>';
    $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES))); 
    $delete = mysqli_query($con, "DELETE from Contact WHERE id=$nik");
    if($delete){
@@ -168,8 +169,8 @@ include("conexion.php");
    }
    }
 
-   echo "hola1";
         if(isset($_POST['save'])){
+
         $typeclient	     = mysqli_real_escape_string($con,(strip_tags($_POST["typeclient"],ENT_QUOTES)));//Escanpando caracteres
 				$first_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["first_name"],ENT_QUOTES)));//Escanpando caracteres
 				$last_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["last_name"],ENT_QUOTES)));//Escanpando caracteres
@@ -178,24 +179,28 @@ include("conexion.php");
         $email	     = mysqli_real_escape_string($con,(strip_tags($_POST["email"],ENT_QUOTES)));//Escanpando caracteres
         $notes	     = mysqli_real_escape_string($con,(strip_tags($_POST["notes"],ENT_QUOTES)));//Escanpando caracteres
         $id	     = mysqli_real_escape_string($con,(strip_tags($_POST["id"],ENT_QUOTES)));//Escanpando caracteres
-        echo "hola2";
         $pais       = mysqli_real_escape_string($con,(strip_tags($_POST["pais"],ENT_QUOTES)));//Escanpando caracteres
         $funcion       = mysqli_real_escape_string($con,(strip_tags($_POST["funcion"],ENT_QUOTES)));//Escanpando caracteres
         $dnipass       = mysqli_real_escape_string($con,(strip_tags($_POST["dnipass"],ENT_QUOTES)));//Escanpando caracteres
         $licencia       = mysqli_real_escape_string($con,(strip_tags($_POST["licencia"],ENT_QUOTES)));//Escanpando caracteres
         $f_nacimiento      = mysqli_real_escape_string($con,(strip_tags($_POST["f_nacimiento"],ENT_QUOTES)));//Escanpando caracteres
-        if ($id){
-          $sql= "update Contact set typeclient='$typeclient',first_name='$first_name',last_name='$last_name',phone_number='$phone_number',address='$address',email='$email',notes='$notes',pais='$pais',funcion='$funcion',dnipass='$dnipass',licencia=$licencia,f_nacimiento='$f_nacimiento' where id='$id'";
+        
+        if (!isset($licencia) || $licencia == "") $licencia = "licencia";
+        if (!isset($funcion) || $funcion == "") $funcion = "funcion";
+        if (!isset($dnipass) || $dnipass == "") $dnipass = "dni";
+
+        if (isset($id)){
+          $sql= "update Contact set typeclient='".$typeclient."',first_name='".$first_name."',last_name='".$last_name."',phone_number=".$phone_number.",address='".$address."',email='".$email."',notes='".$notes."',pais='".$pais."',funcion=".$funcion.",dnipass=".$dnipass.",licencia=".$licencia.",f_nacimiento='".$f_nacimiento."' where id=".$id;
         }
         else{
-          $sql= "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('$typeclient','$first_name','$last_name','$phone_number','$address','$email','$notes','$pais','$funcion','$dnipass',$licencia,'$f_nacimiento')";
+          $sql= "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('".$typeclient."','".$first_name."','".$last_name."',".$phone_number.",'".$address."','".$email."','".$notes."','".$pais."',".$funcion.",".$dnipass.",".$licencia.",'".$f_nacimiento."')";
         }
 
-         $update = mysqli_query($con,$sql) 
-        or die(mysqli_error());
-       
+        $update = mysqli_query($con,$sql); //or die(mysqli_error());
+
       
       }
+
       $sqllist = "select * from contact";
       $rows = mysqli_query($con, $sqllist);
 ?>
@@ -225,9 +230,12 @@ include("conexion.php");
                       </tr>
                     </thead>
                     <tbody>
+                      
                    <?php
                    if(mysqli_num_rows($rows) == 0){
+                     echo '<script>console.log("Hola")</script>';
                    }else{
+                    echo '<script>console.log("Hola2")</script>';
                    while($row = mysqli_fetch_assoc($rows)){
                       ?>
                       <tr>

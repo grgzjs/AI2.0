@@ -92,7 +92,7 @@ include("conexion.php");
                         <ul class="nav navbar-nav">
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
                                       <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                                  <li class="nav-item"><a class="nav-link" href="dashboard.html"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
+                                                  <li class="nav-item"><a class="nav-link" href="dashboard.php"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
                                       </ul>
                                     </li>
                                     <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
@@ -183,8 +183,7 @@ include("conexion.php");
         $notes	     = mysqli_real_escape_string($con,(strip_tags($_POST["notes"],ENT_QUOTES)));//Escanpando caracteres
 
         $sql= "insert into Contact (typeclient,first_name,last_name,f_nacimiento,phone_number,address,email,notes) Values ('$typeclient','$first_name','$last_name','$f_nacimiento','$phone_number','$address','$email','$notes')";
-        $update = mysqli_query($con,$sql) 
-        or die(mysqli_error());
+        $update = mysqli_query($con,$sql); //or die(mysqli_error());
        
           
       }
@@ -237,7 +236,7 @@ include("conexion.php");
                   <div class="form-group row" id="dnipass_div" >
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">DNI/Pasaporte</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                 <input class="form-control" type="text" value="" placeholder="DNI/Pasaporte" name="dnipass">
+                 <input class="form-control" type="text" value="<?php echo $row['dnipass'];?>" placeholder="DNI/Pasaporte" name="dnipass">
                   </div>
                  </div>
                   <div class="form-group row">
@@ -261,7 +260,7 @@ include("conexion.php");
                   <div class="form-group row" id="pais_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Pais</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" type="text" value="" placeholder="Pais" name="pais">
+                  <input class="form-control" type="text" value="<?php echo $row['pais'];?>" placeholder="Pais" name="pais">
                   </div>
                   </div>
                    <div class="form-group row" id="notes_div">
@@ -271,7 +270,7 @@ include("conexion.php");
                     </div>
                   </div>
 
-                  <div class="form-group row" id="funcion_div" style="display:none;">
+                  <!-- <div class="form-group row" id="funcion_div" style="display:none;">
                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Funcion</label>
                 <div class="col-12 col-sm-8 col-lg-6">
                 <select class="form-control custom-select" name="funcion">
@@ -280,7 +279,7 @@ include("conexion.php");
                     <option value="TCP" <?php if ($row['funcion'] == 'TCP') { echo 'selected'; } ?>>TCP</option>
                     </select>
                 </div>
-                </div>
+                </div> -->
 
               <div class="form-group row" id="licencia_div" style="display:none;">
               <label class="col-12 col-sm-3 col-form-label text-sm-right">Licencia N</label>
@@ -298,7 +297,7 @@ include("conexion.php");
                     </div>
                     <div class="col-lg-6">
                       <p class="text-right">
-                        <button class="btn btn-space btn-primary" name="save" type="submit">Procesar</button>
+                        <button class="btn btn-space btn-primary" name="save" value="submit" type="submit">Procesar</button>
                         <button class="btn btn-space btn-secondary">Cancelar</button>
                       </p>
                     </div>
@@ -335,7 +334,7 @@ function showHideFields(selectedValue) {
 
     // show other fields
  
-    document.getElementById("funcion_div").style.display = "";
+    //document.getElementById("funcion_div").style.display = "";
     document.getElementById("licencia_div").style.display = "";
 
     // hide tripulacion fields
@@ -352,7 +351,7 @@ function showHideFields(selectedValue) {
 
     // hide other fields
 
-    document.getElementById("funcion_div").style.display = "none";
+    //document.getElementById("funcion_div").style.display = "none";
     document.getElementById("licencia_div").style.display = "none";
 
 

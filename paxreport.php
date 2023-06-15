@@ -62,11 +62,13 @@ for ($i = 0; $i < count($tramoids); $i++) {
 }
 $sqlpaxlist .= ")";
 
-// get this data with db
-// $fbo = $_POST["fbo"];
-// $fuel = $_POST["fuel"];
-// $catering = $_POST["catering"];
-// $notas = $_POST["notas"];
+$sqltramo_detail = "select * from opstramo_detail where ";
+for ($i = 0; $i < count($tramoids); $i++) {
+    $sqltramo_detail .= "tramo_id=" . $tramoids[$i];
+    if ($i < count($tramoids) - 1) {
+        $sqltramo_detail .= " or ";
+    }
+}
 
 // set document information
 $pdf->SetCreator('Gustoso Marketing');
@@ -149,7 +151,7 @@ $html = $html . '</table>';
 
 $html = $html . '
 <br><br><br><br><br>
-<table style="width:30%"> ';
+<table style="width:100%"> ';
 // TODO: do this inside the html
 $rowspilot = mysqli_query($con, $sqlpilotlist);
 while ($rowp = mysqli_fetch_assoc($rowspilot)) {
@@ -258,7 +260,7 @@ $html4 = '
     </tr>
     </table>
     <br><br><br><br>
-    <img src = "src/pagina3.png">';
+    <!--<img src = "src/pagina3.png">-->';
 
 
 $pdf->writeHTML($html4, true, false, true, false, '');
@@ -286,6 +288,7 @@ $pdf->writeHTML($html5, true, false, true, false, '');
 
 // output the PDF file to the browser
 $filename = 'Quote' . $quote . '.pdf';
+ob_end_clean();
 $pdf->Output($filename, 'D');
-// echo '<script>window.location.href = "opsmain.php";</script>';
+
 header('Location: opsmain.php');

@@ -653,8 +653,8 @@ include("conexion.php");
         function guardardetalle(event) {
             event.preventDefault()
             let form = document.createElement('form')
-            form.action = 'paxreport.php?id=<?php echo $row['quote']?>'
-            form.method = 'get'
+            form.action = 'paxreport.php?id=<?php echo $quote?>'
+            form.method = 'post'
             let username = document.createElement('input')
             let password = document.createElement('input')
             let aksi = document.createElement('input')

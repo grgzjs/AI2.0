@@ -259,12 +259,13 @@ include("conexion.php");
 
                                     <div class="step-pane active" data-step="<?php echo $i ?>">
 
-                                        <form class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                                    <form class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
                                             <!-- <div class="form-group row">
                           <div class="offset-sm-4 col-sm-6">
                             <h4 class="wizard-title">Programacion - Vuelo # <?php //echo $quote 
                                                                             ?></h4>
-                            <h5  class="wizard-title">  Tramo - <?php // echo $rowdetail['origen'].' - '. $rowdetail['destino'] ?></h5>
+                            <h5  class="wizard-title">  Tramo - <?php // echo $rowdetail['origen'].' - '. $rowdetail['destino'] 
+                                                                ?></h5>
                             <input type="hidden" id='tramoid' name='tramoid' value="<?php //echo $rowdetail['id'] 
                                                                                     ?>">
                           </div>
@@ -298,6 +299,20 @@ include("conexion.php");
 
                                             <br>
                                             <!--COMIENZO tramo info-->
+
+                                            <?php
+                                                for ($i=0; $i < count($tramoids); $i++) {
+                                            ?>
+
+                                            <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                                            
+                                            <div class="card-header">
+                                                Tramo#<?php echo $tramoids[$i]; ?>
+                                                <span class="card-subtitle">Ingresa los detalles del Tramo</span>
+                                            </div>
+
+                                            <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+
                                             <div class="form-group row">
                                                 <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
                                                 <div class="col-12 col-sm-8 col-lg-6">
@@ -323,6 +338,10 @@ include("conexion.php");
                                                     <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas" id="notas">
                                                 </div>
                                             </div>
+
+                                            <?php
+                                                }
+                                            ?>
 
                                             <div class="form-group row pt-3" style="display:flex;justify-content:center">
                                                 <div>
@@ -660,18 +679,6 @@ include("conexion.php");
             let aksi = document.createElement('input')
             let nik = document.createElement('input')
             let quoteid = document.createElement('input')
-            let fbo = document.createElement('input')
-            let fuel = document.createElement('input')
-            let catering = document.createElement('input')
-            let notas = document.createElement('input')
-            fbo.value = document.getElementById('fbo').value
-            fbo.name = 'fbo'
-            fuel.value = document.getElementsByName('fuel')[numtramo - 1].value
-            fuel.name = 'fuel'
-            catering.value = document.getElementsByName('catering')[numtramo - 1].value
-            catering.name = 'catering'
-            notas.value = document.getElementsByName('notas')[numtramo - 1].value
-            notas.name = 'notas'
             let inputtramo = document.getElementsByName('tramoid')[numtramo - 1]
 
             username.value = 'test1'
@@ -688,14 +695,11 @@ include("conexion.php");
             form.appendChild(username)
             form.appendChild(password)
             form.appendChild(nik)
-
-            form.appendChild(fbo)
-            form.appendChild(fuel)
-            form.appendChild(catering)
-            form.appendChild(notas)
             document.body.appendChild(form)
 
             form.submit()
+
+            // TODO: fix leg details not loading into db
         }
         let numtramo = 1
 

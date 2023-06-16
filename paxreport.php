@@ -64,7 +64,7 @@ $sqlpaxlist .= ")";
 
 $sqldetail = "select * from opstramo_detail where ";
 for ($i = 0; $i < count($tramoids); $i++) {
-    $sqldetail .= "o.tramo_id=" . $tramoids[$i];
+    $sqldetail .= "tramo_id=" . $tramoids[$i];
     if ($i < count($tramoids) - 1) {
         $sqldetail .= " or ";
     }
@@ -102,60 +102,95 @@ $pdf->AddPage();
 
 // set font
 $pdf->SetFont('helvetica', 'b', 10);
-
 // write some text
 
 $html = '
+<style>
+    table {
+        border: 2px solid black;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 2px solid black;
+        background-color: dark-gray;
+        color: white;
+        height: 70px;
+        text-align: center;
+        vertical-align: center;
+    }
+
+    td {
+        border: 2px solid black;
+        height: 35px;
+        text-align: center;
+        vertical-align: center;
+    }
+</style>';
+
+$html = $html . '
 <div style="text-align:center;">
     <img src="src/youlogo1.png" alt="Logo">
 </div>
 
-<table class="pdf-table"> 
-    <tr class="pdf-table-row">
-        <td class="pdf-table-cell">Name</td>
-        <td class="pdf-table-cell">Last Name</td>
-        <td class="pdf-table-cell">Date of Birth</td>
-        <td class="pdf-table-cell">Country of Origin</td>
-        <td class="pdf-table-cell">License</td>
-        <td class="pdf-table-cell">DNI Pass</td>
-        <td class="pdf-table-cell">Role</td>
+<table> 
+    <tr>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Date of Birth</th>
+        <th>Country of Origin</th>
+        <th>License</th>
+        <th>DNI Pass</th>
+        <th>Role</th>';
+        foreach ($tramoids as $tramo) {
+            $html = $html . '<th>Tramo#'.$tramo.'</th>';
+        }
+    $html = $html . '
     </tr>';
-// TODO: do this inside the html
+
+$pilot_dni_list = array();
 $rowspilot = mysqli_query($con, $sqlpilotlist);
 while ($rowp = mysqli_fetch_assoc($rowspilot)) {
+    
+    //prevents duplicate db entries
+    if (in_array($rowp['dnipass'], $pilot_dni_list)) {
+        continue;
+    }
+    array_push($pilot_dni_list, $rowp['dnipass']);
+
+    // allows to have checkboxes checked if the pilot is on that leg
+    $sqlcontact = "select tramo_id from opstramo where contact_id=" . $rowp['contact_id'];
+    $detailleg = mysqli_query($con, $sqlcontact);
+    $pilot_tramos = array();
+    while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
+        array_push($pilot_tramos, $rowdetail['tramo_id']);
+    }
+
     $html = $html . '
     <tr>
-        <td class="pdf-table-cell">' . $rowp['first_name'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['last_name'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['f_nacimiento'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['pais'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['licencia'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['dnipass'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['funcion'] . '</td>
+        <td>' . $rowp['first_name'] . '</td>
+        <td>' . $rowp['last_name'] . '</td>
+        <td>' . $rowp['f_nacimiento'] . '</td>
+        <td>' . $rowp['pais'] . '</td>
+        <td>' . $rowp['licencia'] . '</td>
+        <td>' . $rowp['dnipass'] . '</td>
+        <td>' . $rowp['funcion'] . '</td>';
+        foreach ($tramoids as $tramo) {
+            if (in_array($tramo, $pilot_tramos)) {
+                $html = $html . '
+        <td> X </td>';
+            } else {
+                $html = $html . '
+        <td>  </td>';
+            }
+        }
+    $html = $html . '
     </tr>';
     // loop pilots, get info and add to html
 }
 $html = $html . '
 </table>';
-
-$html = $html . '
-<style>
-    .pdf-table {
-        display: grid;
-        grid-template-columns: repeat(6, auto);
-        grid-template-rows: 5rem;
-        justify-content: stretch;
-        justify-items: center;
-    }
-
-    .pdf-table-row {
-        background-color:grey;
-    }
-
-    .pdf-table-cell {
-        
-    }
-</style>';
 
 $pdf->writeHTML($html, true, false, true, false, '');
 
@@ -164,28 +199,80 @@ $pdf->AddPage();
 $pdf->SetFont('helvetica', 'b', 10);
 
 $html2 = '
+<style>
+    table {
+        border: 2px solid black;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 2px solid black;
+        background-color: dark-gray;
+        color: white;
+        height: 70px;
+        text-align: center;
+        vertical-align: center;
+    }
+
+    td {
+        border: 2px solid black;
+        height: 35px;
+        text-align: center;
+        vertical-align: center;
+    }
+</style>';
+
+$html2 = $html2 . '
 <div style="text-align:center;">
     <img src="src/youlogo1.png" alt="Logo">
 </div>
 
-<table class="pdf-table"> 
-    <tr class="pdf-table-row">
-        <td class="pdf-table-cell">Name</td>
-        <td class="pdf-table-cell">Last Name</td>
-        <td class="pdf-table-cell">Date of Birth</td>
-        <td class="pdf-table-cell">Country of Origin</td>
-        <td class="pdf-table-cell">DNI Pass</td>
+<table> 
+    <tr>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Date of Birth</th>
+        <th>Country of Origin</th>
+        <th>DNI Pass</th>';
+        foreach ($tramoids as $tramo) {
+            $html2 = $html2 . '<th>Tramo#'.$tramo.'</th>';
+        }
+        $html2 = $html2 . '
     </tr>';
-// TODO: do this inside the html
+
+$pax_dni_list = array();
 $rowspax = mysqli_query($con, $sqlpaxlist);
 while ($rowp = mysqli_fetch_assoc($rowspax)) {
+    if (in_array($rowp['dnipass'], $pilot_dni_list)) {
+        continue;
+    }
+    array_push($pilot_dni_list, $rowp['dnipass']);
+
+    $sqlcontact = "select tramo_id from opstramo where contact_id=" . $rowp['contact_id'];
+    $detailleg = mysqli_query($con, $sqlcontact);
+    $pax_dni_list = array();
+    while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
+        array_push($pax_dni_list, $rowdetail['tramo_id']);
+    }
+
     $html2 = $html2 . '
     <tr>
-        <td class="pdf-table-cell">' . $rowp['first_name'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['last_name'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['f_nacimiento'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['pais'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['dnipass'] . '</td>
+        <td>' . $rowp['first_name'] . '</td>
+        <td>' . $rowp['last_name'] . '</td>
+        <td>' . $rowp['f_nacimiento'] . '</td>
+        <td>' . $rowp['pais'] . '</td>
+        <td>' . $rowp['dnipass'] . '</td>';
+        foreach ($tramoids as $tramo) {
+            if (in_array($tramo, $pax_dni_list)) {
+                $html2 = $html2 . '
+        <td> X </td>';
+            } else {
+                $html2 = $html2 . '
+        <td>  </td>';
+            }
+        }
+    $html2 = $html2 . '
     </tr>';
 }
 $html2 = $html2 . '
@@ -198,26 +285,82 @@ $pdf->AddPage();
 $pdf->SetFont('helvetica', 'b', 10);
 
 $html3 = '
+<style>
+    table {
+        border: 2px solid black;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        border: 2px solid black;
+        background-color: dark-gray;
+        color: white;
+        height: 70px;
+        text-align: center;
+        vertical-align: center;
+    }
+
+    td {
+        border: 2px solid black;
+        height: 35px;
+        text-align: center;
+        vertical-align: center;
+    }
+</style>';
+
+$html3 = $html3 . '
 <div style="text-align:center;">
     <img src="src/youlogo1.png" alt="Logo">
 </div>
 
-<table class="pdf-table"> 
-    <tr class="pdf-table-row">
-        <td class="pdf-table-cell">FBO</td>
-        <td class="pdf-table-cell">Fuel</td>
-        <td class="pdf-table-cell">Catering</td>
-        <td class="pdf-table-cell">Notes</td>
+<table> 
+    <tr>
+        <th>FBO</th>
+        <th>Fuel</th>
+        <th>Catering</th>
+        <th>Notes</th>';
+        foreach ($tramoids as $tramo) {
+            $html3 = $html3 . '<th>Tramo#'.$tramo.'</th>';
+        }
+    $html3 = $html3 . '
     </tr>';
-// TODO: do this inside the html
 $rowsdetail = mysqli_query($con, $sqldetail);
 while ($rowp = mysqli_fetch_assoc($rowsdetail)) {
+
+    // if (in_array($rowp['dnipass'], $pilot_dni_list)) {
+    //     continue;
+    // }
+    // array_push($pilot_dni_list, $rowp['dnipass']);
+
+    // $sqlcontact = "select tramo_id from opstramo_detail";
+    // $detailleg = mysqli_query($con, $sqlcontact);
+    // $pax_dni_list = array();
+    // while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
+    //     array_push($pax_dni_list, $rowdetail['tramo_id']);
+    // }
+
     $html3 = $html3 . '
     <tr>
-        <td class="pdf-table-cell">' . $rowp['fbo'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['fuel'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['catering'] . '</td>
-        <td class="pdf-table-cell">' . $rowp['notas'] . '</td>
+        <td>' . $rowp['fbo'] . '</td>
+        <td>' . $rowp['fuel'] . '</td>
+        <td>' . $rowp['catering'] . '</td>
+        <td>' . $rowp['notas'] . '</td>';
+        foreach ($tramoids as $tramo) {
+            if ($rowp['tramo_id'] < $tramo) {
+                $html3 = $html3 . '
+                <td>  </td>';
+            }
+            else if ($rowp['tramo_id'] == $tramo) {
+                $html3 = $html3 . '
+                <td> X </td>';
+            }
+            else {
+                $html3 = $html3 . '
+                <td>  </td>';
+            }
+        }
+    $html3 = $html3 .'
     </tr>';
 }
 $html3 = $html3 . '

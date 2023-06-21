@@ -268,7 +268,7 @@ include("conexion.php");
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programacion</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Costos</a>
+                                <a class="dropdown-item" href='reserva.php?id=<?php echo $row['quote'] ?>' title="View">Costos</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Tripsheet</a>
                                 <div class="dropdown-divider"></div>

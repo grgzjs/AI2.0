@@ -180,6 +180,21 @@ include("conexion.php");
     while ($rowdetail = mysqli_fetch_assoc($detail)) {
         array_push($tramoids, $rowdetail['id']);
     }
+
+    if (isset($_POST['guardar_reserva'])) {
+        $tramo_reserva = $_POST['tramo_reserva'];
+        $referencia = $_POST['referencia'];
+        $concepto = $_POST['concepto'];
+        $monto = $_POST['monto'];
+        $fecha_gasto = $_POST['fecha_gasto'];
+
+        $cambio = $_POST['cambio'];
+        $fecha_cambio = $_POST['fecha_cambio'];
+
+        // figure out where to save
+        // $sql = "insert into opstramo (contact_id,tramo_id,funcion) values (" . $contact_id . "," . $tramo . ",'" . $funcion . "')";
+        // mysqli_query($con, $sql);
+    }
   ?>
 
       <div class="main-content container">
@@ -198,20 +213,21 @@ include("conexion.php");
                   <button class="btn btn-xs btn-prev btn-secondary" type="button"><i class="icon s7-angle-left"></i>Prev</button>
                   <button class="btn btn-xs btn-next btn-secondary" type="button" data-last="Finish">Next<i class="icon s7-angle-right"></i></button>
                 </div> -->
-                <select class="form-control custom-select" name="typeclient">
-                    <?php
-
-                    for ($tramoid=1; $tramoid <= count($tramoids); $tramoid++) {
-                    ?>
-                        <option value="TramoSelected">Tramo<?php echo $tramoid; ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
+                
                 <div class="step-content">
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                            <select class="form-control custom-select" id="tramo_reserva">
+                                <?php for ($tramoid=1; $tramoid <= count($tramoids); $tramoid++) { ?>
+                                <option value="<?php echo $tramoid; ?>">Tramo<?php echo $tramoid; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                
                   <!-- <div class="step-pane active">
                     <div class="container pl-sm-5"> -->
-                      <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                      <!-- <form class="form-horizontal group-border-dashed" action="#" method="POST"> -->
                         <div class="form-group row">
                           <div class="col-sm-9">
                             <h3 class="wizard-title">Entrada de Ingresos</h3>
@@ -220,7 +236,7 @@ include("conexion.php");
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Date" placeholder="Seleccione Fecha">
+                            <input class="form-control" type="Date" placeholder="Seleccione Fecha" id="fecha">
                           </div>
                         </div>
                         <div class="form-group row">
@@ -237,19 +253,19 @@ include("conexion.php");
                          <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Referencia</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el numero de ">
+                            <input class="form-control" type="Text" placeholder="Ingrese el numero de Referencia" id="referencia">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el concepto">
+                            <input class="form-control" type="Text" placeholder="Ingrese el concepto" id="concepto">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                            <input class="form-control" type="Text" placeholder="Ingrese el monto" id="monto">
                           </div>
                         </div>
                         <!-- <div class="form-group row pt-3">
@@ -276,7 +292,7 @@ include("conexion.php");
                           <p>Aqui indicamos el cambio dolar actual</p>
                         </div>
                         <div class="offset-sm-3 col-sm-3 xs-pt-15">  
-                        <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                        <input class="form-control" type="Text" placeholder="Ingrese el monto" id="cambio">
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
@@ -285,7 +301,7 @@ include("conexion.php");
                           <p>Aqui indicamos el la fecha en cual se efectuo la conversion</p>
                         </div>
                         <div class="offset-sm-3 col-sm-3 xs-pt-15"> 
-                        <input class="form-control" type="Date" placeholder="Seleccione la fecha ">
+                        <input class="form-control" type="Date" placeholder="Seleccione la fecha" id="fecha_cambio">
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
@@ -339,7 +355,7 @@ include("conexion.php");
                         <div>
                             <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Reserva</button>
                         </div>
-                    </form>
+                    <!-- </form> -->
 
                       <!-- <div class="form-group row">
                         <div class="col-sm-12">
@@ -444,46 +460,43 @@ include("conexion.php");
                   <table class="table table-striped table-hover ma-table-responsive" id="table1">
                     <thead>
                       <tr>
-                        <th style="width:20%;">User</th>
-                        <th style="width:17%;">Last Commit</th>
-                        <th style="width:15%;">Milestone</th>
-                        <th style="width:10%;">Branch</th>
-                        <th style="width:10%;">Date</th>
-                        <th style="width:10%;"></th>
+                        <th style="width:10%;">Vuelo</th>
+                        <th style="width:17%;">Fecha</th>
+                        <th style="width:17%;">Monto</th>
+                        <th style="width:10%;">Añadidos</th>
+                        <th style="width:10%;">Impuesto</th>
+                        <th style="width:17%;">Subtotal</th>
+                        <!-- <th style="width:10%;"></th> -->
                       </tr>
                     </thead>
                     <tbody>
                         <?php
-                            // loop for every expense
-                            // get from db
-                            // get date, ref, concepto, monto, tramo
+                            // get per tramo
+                            $sql_detail = 'select * from invoices where quote=' . $quote;
+                            $detail = mysqli_query($con, $sql_detail);
+                            $tramoids = [];
+                            while ($rowp = mysqli_fetch_assoc($detail)) {                               
                         ?>
                         <tr>
-                            <td class="user-avatar cell-detail user-info">
-                                <img src="assets/img/avatar.jpg" alt="Avatar">
-                                <span>John Peterson</span>
-                                <!-- <span class="cell-detail-description">Developer</span> -->
-                            </td>
-                            <td class="cell-detail" data-project="Bootstrap">
-                                <span>Initial commit</span>
-                                <!-- <span class="cell-detail-description">Bootstrap Admin</span> -->
-                            </td>
-                            <td class="milestone" data-progress="0,45">
-                                <span class="completed">8 / 15</span>
-                                <!-- <span class="version">v1.2.0</span>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-primary" style="width: 45%"></div>
-                                </div> -->
+                            <td class="cell-detail">
+                                <span><?php echo $rowp["quote"]?></span>
                             </td>
                             <td class="cell-detail">
-                                <span>master</span>
-                                <!-- <span class="cell-detail-description">63e8ec3</span> -->
+                                <span class="date"><?php echo $rowp["date"]?></span>
                             </td>
                             <td class="cell-detail">
-                                <span class="date">May 6, 2018</span>
-                                <!-- <span class="cell-detail-description">8:30</span> -->
+                                <span>$<?php echo $rowp["amount"]?></span>
                             </td>
-                            <td class="text-right">
+                            <td class="cell-detail">
+                                <span>$<?php echo $rowp["addons"]?></span>
+                            </td>
+                            <td class="cell-detail">
+                                <span>$<?php echo $rowp["tax"]?></span>
+                            </td>
+                            <td class="cell-detail">
+                                <span>$<?php echo $rowp["subtotal"]?></span>
+                            </td>
+                            <!-- <td class="text-right">
                                 <div class="btn-group btn-hspace">
                                     <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open<span class="icon-dropdown s7-angle-down"></span></button>
                                     <div class="dropdown-menu dropdown-menu-right" role="menu">
@@ -494,9 +507,10 @@ include("conexion.php");
                                         <a class="dropdown-item" href="#">Separated link</a>
                                     </div>
                                 </div>
-                            </td>
+                            </td> -->
                       </tr>
                       <?php
+                      }
                       ?>
                     </tbody>
                     <!-- <tbody>
@@ -851,9 +865,51 @@ function loginuserhellolist(){
 }
 
 function save_all() {
-    let form=document.createElement('form')
-    form.action='#'
-    form.method='post'
+    let form = document.createElement('form')
+
+    let tramo = document.createElement('input')
+    tramo.value = document.getElementById('tramo_reserva').value
+    tramo.name = 'tramo_reserva'
+
+    let referencia = document.createElement('input')
+    referencia.value = document.getElementById('referencia').value
+    referencia.name="referencia"
+    let concepto = document.createElement('input')
+    concepto.value = document.getElementById('concepto').value
+    concepto.name = "concepto"
+    let monto = document.createElement('input')
+    monto.value = document.getElementById('monto').value
+    monto.name = "monto"
+    let fecha_gasto = document.createElement('input')
+    fecha_gasto.value = document.getElementById('fecha').value
+    fecha_gasto.name = "fecha_gasto"
+
+    let cambio = document.createElement('input')
+    cambio.value = document.getElementById('cambio').value
+    cambio.name = "cambio"
+    let fecha_cambio = document.createElement('input')
+    fecha_cambio.value = document.getElementById('fecha_cambio').value
+    fecha_cambio.name = "fecha_cambio"
+
+    let button1 = document.createElement('button')
+    button1.name = 'guardar_reserva'
+    
+    form.appendChild(tramo)
+
+    form.appendChild(referencia)
+    form.appendChild(concepto)
+    form.appendChild(monto)
+    form.appendChild(fecha_gasto)
+
+    form.appendChild(cambio)
+    form.appendChild(fecha_cambio)
+
+    form.appendChild(button1)   
+
+    document.body.appendChild(form)
+    form.action = ''
+    form.method = 'post'
+    form.submit()
 }
 
     </script>

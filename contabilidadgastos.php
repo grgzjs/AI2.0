@@ -198,7 +198,7 @@ include("conexion.php");
                 </div> -->
                 <div class="step-content">
                   <!-- <div class="step-pane active" data-step="1"> -->
-                  <div class="container pl-sm-5">
+                  <!-- <div class="container pl-sm-7"> -->
                     <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                     <div class="form-group row">
                       <div class="offset-sm-3 col-sm-9">
@@ -258,7 +258,7 @@ include("conexion.php");
                       </div>
                     </div> -->
                     <!-- </form> -->
-                  </div>
+                  <!-- </div> -->
                   <!-- </div> -->
 
                   <!-- <div class="step-pane" data-step="2"> -->
@@ -368,14 +368,13 @@ include("conexion.php");
                   <th style="width:17%;">Concepto</th>
                   <th style="width:10%;">Tipo de Gasto</th>
                   <th style="width:15%;">Monto</th>
-                  <!-- <th style="width:17%;">Subtotal</th> -->
-                  <!-- <th style="width:10%;"></th> -->
+                  <!-- add cambio, fecha cambio, moneda cambio -->
                 </tr>
               </thead>
               <tbody>
                 <?php
-                // get per tramo
-                $sql_detail = 'select * from opstramo_gastos where quote=' . $quote;
+                // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
+                $sql_detail = 'select * from gastos_generales where quote=' . $quote;
                 $detail = mysqli_query($con, $sql_detail);
                 $tramoids = [];
                 while ($rowp = mysqli_fetch_assoc($detail)) {

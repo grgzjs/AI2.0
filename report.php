@@ -3,43 +3,45 @@
 include("conexion.php");
 require_once('tcpdf/tcpdf.php');
 
-class MYPDF extends TCPDF {
+class MYPDF extends TCPDF
+{
 
     //Page header
-    public function Header() {
+    public function Header()
+    {
         // Logo
         $image_file = 'src/youlogo1.png';
         $this->SetY(-15);
         $this->SetFont('helvetica', 'I', 8);
         // Page number
-        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-  
-        }
-      // Page footer
-      public function Footer() {
+        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+    }
+    // Page footer
+    public function Footer()
+    {
         // Position at 15 mm from bottom
         $this->SetY(-15);
         // Set font
         $this->SetFont('helvetica', 'I', 8);
         // Page number
-        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 }
 
 $date = date("Y-m-d h:i:s");
 $buyer = $_POST['buyer'];
-$posbuyer = strrpos ($buyer,"**");
-$idbuyer = substr ($buyer,0,$posbuyer);
-$adbuyer = substr ($buyer,$posbuyer + 2);
-$sqlbuyer = 'select * from contact where id = '.$idbuyer;
+$posbuyer = strrpos($buyer, "**");
+$idbuyer = substr($buyer, 0, $posbuyer);
+$adbuyer = substr($buyer, $posbuyer + 2);
+$sqlbuyer = 'select * from contact where id = ' . $idbuyer;
 $buyers = mysqli_query($con, $sqlbuyer);
 $rowbuyer = mysqli_fetch_assoc($buyers);
-$buyer = $rowbuyer['first_name'].' '.$rowbuyer['last_name'];
+$buyer = $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name'];
 $address = $_POST['address'];
 $aircraft = $_POST['aircraft'];
-$pos=strpos($aircraft,"*");
-$preciokm=substr($aircraft,0,$pos);
-$aircraft=substr($aircraft,$pos+1);
+$pos = strpos($aircraft, "*");
+$preciokm = substr($aircraft, 0, $pos);
+$aircraft = substr($aircraft, $pos + 1);
 
 $fdate1 = $_POST['fdate1'];
 $forigen1 = $_POST['forigen1'];
@@ -78,86 +80,80 @@ $amount = $_POST['amount'];
 $idpdf = $_POST['idpdf'];
 
 if ($idpdf) {
-$query = 'select * from invoices where quote = '.$idpdf;
-$aux = $idpdf;
-//h1 esta hecho para view y reveer el pdf
-$fdate1=$_POST['fdateh1'];
-$forigen1=$_POST['forigenh1'];
-$fdestino1=$_POST['fdestinoh1'];
-$fpax1 = $_POST['fpaxh1'];
-$km1 = $_POST['km_vueloh1'];
+    $query = 'select * from invoices where quote = ' . $idpdf;
+    $aux = $idpdf;
+    //h1 esta hecho para view y reveer el pdf
+    $fdate1 = $_POST['fdateh1'];
+    $forigen1 = $_POST['forigenh1'];
+    $fdestino1 = $_POST['fdestinoh1'];
+    $fpax1 = $_POST['fpaxh1'];
+    $km1 = $_POST['km_vueloh1'];
 
-$fdate2=$_POST['fdateh2'];
-$forigen2=$_POST['forigenh2'];
-$fdestino2=$_POST['fdestinoh2'];
-$fpax2 = $_POST['fpaxh2'];
-$km2 = $_POST['km_vueloh2'];
+    $fdate2 = $_POST['fdateh2'];
+    $forigen2 = $_POST['forigenh2'];
+    $fdestino2 = $_POST['fdestinoh2'];
+    $fpax2 = $_POST['fpaxh2'];
+    $km2 = $_POST['km_vueloh2'];
 
-$fdate3=$_POST['fdateh3'];
-$forigen3=$_POST['forigenh3'];
-$fdestino3=$_POST['fdestinoh3'];
-$fpax3 = $_POST['fpaxh3'];
-$km3 = $_POST['km_vueloh3'];
+    $fdate3 = $_POST['fdateh3'];
+    $forigen3 = $_POST['forigenh3'];
+    $fdestino3 = $_POST['fdestinoh3'];
+    $fpax3 = $_POST['fpaxh3'];
+    $km3 = $_POST['km_vueloh3'];
 
-$fdate4=$_POST['fdateh4'];
-$forigen4=$_POST['forigenh4'];
-$fdestino4=$_POST['fdestinoh4'];
-$fpax4 = $_POST['fpaxh4'];
-$km4 = $_POST['km_vueloh4'];
+    $fdate4 = $_POST['fdateh4'];
+    $forigen4 = $_POST['forigenh4'];
+    $fdestino4 = $_POST['fdestinoh4'];
+    $fpax4 = $_POST['fpaxh4'];
+    $km4 = $_POST['km_vueloh4'];
 
-$fdate5=$_POST['fdateh5'];
-$forigen5=$_POST['forigenh5'];
-$fdestino5=$_POST['fdestinoh5'];
-$fpax5 = $_POST['fpaxh5'];
-$km5 = $_POST['km_vueloh5'];
+    $fdate5 = $_POST['fdateh5'];
+    $forigen5 = $_POST['forigenh5'];
+    $fdestino5 = $_POST['fdestinoh5'];
+    $fpax5 = $_POST['fpaxh5'];
+    $km5 = $_POST['km_vueloh5'];
+} else {
 
-}
-else{
+    $sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date','$idbuyer','$aircraft','$subtotal','$addons','$tax','$amount',1)";
+    $update = mysqli_query($con, $sql)
+        or die(mysqli_error());
 
-   $sql= "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date','$idbuyer','$aircraft','$subtotal','$addons','$tax','$amount',1)";
-   $update = mysqli_query($con,$sql) 
-   or die(mysqli_error());
-    
-   $query = "select * from invoices order by date desc";
-    $result = mysqli_query($con,$query);
+    $query = "select * from invoices order by date desc";
+    $result = mysqli_query($con, $query);
 
-    if($row = mysqli_fetch_array($result)) {
+    if ($row = mysqli_fetch_array($result)) {
 
-    $aux = $row['quote'];
-    $sql= "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$km1','$aux')";
-    $update = mysqli_query($con,$sql) 
-    or die(mysqli_error());
-   
-
-    if(!empty($fdate2)){
-    $sql= "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$km2','$aux')";
-    $update = mysqli_query($con,$sql) 
-    or die(mysqli_error());
-    } 
+        $aux = $row['quote'];
+        $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$km1','$aux')";
+        $update = mysqli_query($con, $sql)
+            or die(mysqli_error());
 
 
-    if(!empty($fdate3)){
-        $sql= "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$km3','$aux')";
-    $update = mysqli_query($con,$sql) 
-    or die(mysqli_error());
+        if (!empty($fdate2)) {
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$km2','$aux')";
+            $update = mysqli_query($con, $sql)
+                or die(mysqli_error());
+        }
+
+
+        if (!empty($fdate3)) {
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$km3','$aux')";
+            $update = mysqli_query($con, $sql)
+                or die(mysqli_error());
+        }
+
+        if (!empty($fdate4)) {
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$km4','$aux')";
+            $update = mysqli_query($con, $sql)
+                or die(mysqli_error());
+        }
+
+        if (!empty($fdate5)) {
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$km5','$aux')";
+            $update = mysqli_query($con, $sql)
+                or die(mysqli_error());
+        }
     }
-
-    if(!empty($fdate4)){
-        $sql= "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$km4','$aux')";
-    $update = mysqli_query($con,$sql) 
-    or die(mysqli_error());
-    }
-
-    if(!empty($fdate5)){
-        $sql= "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$km5','$aux')";
-    $update = mysqli_query($con,$sql) 
-    or die(mysqli_error());
-    }
-
-        
-    }
- 
-
 }
 
 
@@ -174,8 +170,8 @@ $pdf->SetKeywords('Keywords');
 //$pdf->SetHeaderData('src/youlogo.gif', 130,'Charter Quote', 'descripcion');
 
 // set header and footer fonts
-$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
@@ -205,19 +201,19 @@ $html = '
 </div>
     <table> 
         <tr>
-            <td>Quote # : '.$aux.'</td>
+            <td>Quote # : ' . $aux . '</td>
         </tr>
         <tr>
-            <td>Date: '.$date.'</td>
+            <td>Date: ' . $date . '</td>
         </tr>
         <tr>
-            <td>Buyer: '.$buyer.'</td>
+            <td>Buyer: ' . $buyer . '</td>
         </tr>
         <tr>
-            <td>Address: '.$address.'</td>
+            <td>Address: ' . $address . '</td>
         </tr>
     </table>
-<p>Aircraft: '.$aircraft.'</p><br><br>
+<p>Aircraft: ' . $aircraft . '</p><br><br>
 <div style="text-align:center;">
     <img src="src/citationv.png" alt="Logo">
 </div>
@@ -231,47 +227,47 @@ $html = '
         <th>Kms</th>
     </tr>
     <tr>
-        <td>'.$fdate1.'</td>
-        <td>'.$forigen1.'</td>
-        <td>'.$fdestino1.'</td>
-        <td>'.$fpax1.'</td>
-        <td>'.$km1.'</td>
+        <td>' . $fdate1 . '</td>
+        <td>' . $forigen1 . '</td>
+        <td>' . $fdestino1 . '</td>
+        <td>' . $fpax1 . '</td>
+        <td>' . $km1 . '</td>
     </tr>
     <tr>
-    <td>'.$fdate2.'</td>
-    <td>'.$forigen2.'</td>
-    <td>'.$fdestino2.'</td>
-    <td>'.$fpax2.'</td>
-    <td>'.$km2.'</td>
+    <td>' . $fdate2 . '</td>
+    <td>' . $forigen2 . '</td>
+    <td>' . $fdestino2 . '</td>
+    <td>' . $fpax2 . '</td>
+    <td>' . $km2 . '</td>
 </tr>
 <tr>
-<td>'.$fdate3.'</td>
-<td>'.$forigen3.'</td>
-<td>'.$fdestino3.'</td>
-<td>'.$fpax3.'</td>
-<td>'.$km3.'</td>
+<td>' . $fdate3 . '</td>
+<td>' . $forigen3 . '</td>
+<td>' . $fdestino3 . '</td>
+<td>' . $fpax3 . '</td>
+<td>' . $km3 . '</td>
 </tr>
 <tr>
-<td>'.$fdate4.'</td>
-<td>'.$forigen4.'</td>
-<td>'.$fdestino4.'</td>
-<td>'.$fpax4.'</td>
-<td>'.$km4.'</td>
+<td>' . $fdate4 . '</td>
+<td>' . $forigen4 . '</td>
+<td>' . $fdestino4 . '</td>
+<td>' . $fpax4 . '</td>
+<td>' . $km4 . '</td>
 </tr>
 <tr>
-<td>'.$fdate5.'</td>
-<td>'.$forigen5.'</td>
-<td>'.$fdestino5.'</td>
-<td>'.$fpax5.'</td>
-<td>'.$km5.'</td>
+<td>' . $fdate5 . '</td>
+<td>' . $forigen5 . '</td>
+<td>' . $fdestino5 . '</td>
+<td>' . $fpax5 . '</td>
+<td>' . $km5 . '</td>
 </tr>
 </table>
 <br><br><br><br><br>
 <table style="width:30%"> 
-    <tr><td>Subtotal:</td><td> $'.$subtotal.'</td></tr>
-    <tr><td>Addons:</td><td> $'.$addons.'</td></tr>
-    <tr><td>Tax:</td><td> $'.$tax.'</td></tr>
-    <tr><td>Amount:</td><td> $'.$amount.'</td></tr>
+    <tr><td>Subtotal:</td><td> $' . $subtotal . '</td></tr>
+    <tr><td>Addons:</td><td> $' . $addons . '</td></tr>
+    <tr><td>Tax:</td><td> $' . $tax . '</td></tr>
+    <tr><td>Amount:</td><td> $' . $amount . '</td></tr>
 </table>
 <br><br><br><br>
 <p>Le adjunto la cotización y nuestra información bancaria. Quedo a su disposición por cualquier consulta.</p>
@@ -298,10 +294,10 @@ $html2 = '
 </div>
     <table> 
     <tr>
-    <td>Quote # : '.$aux.'</td>
+    <td>Quote # : ' . $aux . '</td>
     </tr>
     <tr>
-    <td>Date: '.$date.'</td>
+    <td>Date: ' . $date . '</td>
     </tr>
     </table>';
 
@@ -349,15 +345,14 @@ $html4 = '
 </div>
     <table> 
     <tr>
-    <td>Quote # : '.$aux.'</td>
+    <td>Quote # : ' . $aux . '</td>
     </tr>
     <tr>
-    <td>Date: '.$date.'</td>
+    <td>Date: ' . $date . '</td>
     </tr>
     </table>
     <br><br><br><br>
-    <img src = "src/pagina3.png">'
-    ;
+    <img src = "src/pagina3.png">';
 
 
 $pdf->writeHTML($html4, true, false, true, false, '');
@@ -372,26 +367,22 @@ $html5 = '
 </div>
     <table> 
     <tr>
-    <td>Quote # : '.$aux.'</td>
+    <td>Quote # : ' . $aux . '</td>
     </tr>
     <tr>
-    <td>Date: '.$date.'</td>
+    <td>Date: ' . $date . '</td>
     </tr>
     </table>
     <br>
-    <img src = "src/pagina4.png">'
-    ;
+    <img src = "src/pagina4.png">';
 
 
 $pdf->writeHTML($html5, true, false, true, false, '');
 
 
 // output the PDF file to the browser
-$filename='Quote'.$aux.'.pdf';
+$filename = 'Quote' . $aux . '.pdf';
 //$pdf->Output($filename, 'D');
 $pdf->Output($filename, 'D');
 header('Location: hellolist.php');
 //echo '<script>window.location.href = "hello.php";</script>';
-?>
-
-

@@ -60,10 +60,9 @@
 //$articles = [ "first" => "First post", "Second" => "Another post", "Third" => "Read this!" ];
 //var_dump($articles);
 
-$articles = [ 
-    "first" => "First post", 
-    "Second" => "Another post", 
-    "Third" => "Read this!" 
+$articles = [
+    "first" => "First post",
+    "Second" => "Another post",
+    "Third" => "Read this!"
 ];
 var_dump($articles["Second"]);
-

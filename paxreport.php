@@ -143,16 +143,16 @@ $html = $html . '
         <th>License</th>
         <th>DNI Pass</th>
         <th>Role</th>';
-        foreach ($tramoids as $tramo) {
-            $html = $html . '<th>Tramo#'.$tramo.'</th>';
-        }
-    $html = $html . '
+foreach ($tramoids as $tramo) {
+    $html = $html . '<th>Tramo#' . $tramo . '</th>';
+}
+$html = $html . '
     </tr>';
 
 $pilot_dni_list = array();
 $rowspilot = mysqli_query($con, $sqlpilotlist);
 while ($rowp = mysqli_fetch_assoc($rowspilot)) {
-    
+
     //prevents duplicate db entries
     if (in_array($rowp['dnipass'], $pilot_dni_list)) {
         continue;
@@ -176,15 +176,15 @@ while ($rowp = mysqli_fetch_assoc($rowspilot)) {
         <td>' . $rowp['licencia'] . '</td>
         <td>' . $rowp['dnipass'] . '</td>
         <td>' . $rowp['funcion'] . '</td>';
-        foreach ($tramoids as $tramo) {
-            if (in_array($tramo, $pilot_tramos)) {
-                $html = $html . '
+    foreach ($tramoids as $tramo) {
+        if (in_array($tramo, $pilot_tramos)) {
+            $html = $html . '
         <td> X </td>';
-            } else {
-                $html = $html . '
+        } else {
+            $html = $html . '
         <td>  </td>';
-            }
         }
+    }
     $html = $html . '
     </tr>';
     // loop pilots, get info and add to html
@@ -235,10 +235,10 @@ $html2 = $html2 . '
         <th>Date of Birth</th>
         <th>Country of Origin</th>
         <th>DNI Pass</th>';
-        foreach ($tramoids as $tramo) {
-            $html2 = $html2 . '<th>Tramo#'.$tramo.'</th>';
-        }
-        $html2 = $html2 . '
+foreach ($tramoids as $tramo) {
+    $html2 = $html2 . '<th>Tramo#' . $tramo . '</th>';
+}
+$html2 = $html2 . '
     </tr>';
 
 $pax_dni_list = array();
@@ -263,15 +263,15 @@ while ($rowp = mysqli_fetch_assoc($rowspax)) {
         <td>' . $rowp['f_nacimiento'] . '</td>
         <td>' . $rowp['pais'] . '</td>
         <td>' . $rowp['dnipass'] . '</td>';
-        foreach ($tramoids as $tramo) {
-            if (in_array($tramo, $pax_dni_list)) {
-                $html2 = $html2 . '
+    foreach ($tramoids as $tramo) {
+        if (in_array($tramo, $pax_dni_list)) {
+            $html2 = $html2 . '
         <td> X </td>';
-            } else {
-                $html2 = $html2 . '
+        } else {
+            $html2 = $html2 . '
         <td>  </td>';
-            }
         }
+    }
     $html2 = $html2 . '
     </tr>';
 }
@@ -320,10 +320,10 @@ $html3 = $html3 . '
         <th>Fuel</th>
         <th>Catering</th>
         <th>Notes</th>';
-        foreach ($tramoids as $tramo) {
-            $html3 = $html3 . '<th>Tramo#'.$tramo.'</th>';
-        }
-    $html3 = $html3 . '
+foreach ($tramoids as $tramo) {
+    $html3 = $html3 . '<th>Tramo#' . $tramo . '</th>';
+}
+$html3 = $html3 . '
     </tr>';
 $rowsdetail = mysqli_query($con, $sqldetail);
 while ($rowp = mysqli_fetch_assoc($rowsdetail)) {
@@ -346,21 +346,19 @@ while ($rowp = mysqli_fetch_assoc($rowsdetail)) {
         <td>' . $rowp['fuel'] . '</td>
         <td>' . $rowp['catering'] . '</td>
         <td>' . $rowp['notas'] . '</td>';
-        foreach ($tramoids as $tramo) {
-            if ($rowp['tramo_id'] < $tramo) {
-                $html3 = $html3 . '
+    foreach ($tramoids as $tramo) {
+        if ($rowp['tramo_id'] < $tramo) {
+            $html3 = $html3 . '
                 <td>  </td>';
-            }
-            else if ($rowp['tramo_id'] == $tramo) {
-                $html3 = $html3 . '
+        } else if ($rowp['tramo_id'] == $tramo) {
+            $html3 = $html3 . '
                 <td> X </td>';
-            }
-            else {
-                $html3 = $html3 . '
+        } else {
+            $html3 = $html3 . '
                 <td>  </td>';
-            }
         }
-    $html3 = $html3 .'
+    }
+    $html3 = $html3 . '
     </tr>';
 }
 $html3 = $html3 . '

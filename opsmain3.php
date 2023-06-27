@@ -222,7 +222,7 @@ include("conexion.php");
 
                     <li class="active" name='step' data-step="<?php //echo $i
                                                                 ?>">Tramo <?php //echo $i
-                                                                                        ?><span class="chevron"></span></li>
+                                                                            ?><span class="chevron"></span></li>
                     <input type="hidden" name='inputstep' value='<?php //echo $i
                                                                     ?>'>
 
@@ -259,7 +259,7 @@ include("conexion.php");
 
                                     <div class="step-pane active" data-step="<?php echo $i ?>">
 
-                                    <form class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                                        <form class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
                                             <!-- <div class="form-group row">
                           <div class="offset-sm-4 col-sm-6">
                             <h4 class="wizard-title">Programacion - Vuelo # <?php //echo $quote 
@@ -301,46 +301,46 @@ include("conexion.php");
                                             <!--COMIENZO tramo info-->
 
                                             <?php
-                                                for ($i=0; $i < count($tramoids); $i++) {
+                                            for ($i = 0; $i < count($tramoids); $i++) {
                                             ?>
 
-                                            <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                                            
-                                            <div class="card-header">
-                                                Tramo#<?php echo $tramoids[$i]; ?>
-                                                <span class="card-subtitle">Ingresa los detalles del Tramo</span>
-                                            </div>
+                                                <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
 
-                                            <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                                                <div class="card-header">
+                                                    Tramo#<?php echo $tramoids[$i]; ?>
+                                                    <span class="card-subtitle">Ingresa los detalles del Tramo</span>
+                                                </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
-                                                <div class="col-12 col-sm-8 col-lg-6">
-                                                    <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo" id="fbo">
+                                                <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+
+                                                <div class="form-group row">
+                                                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
+                                                    <div class="col-12 col-sm-8 col-lg-6">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo" id="fbo">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
-                                                <div class="col-12 col-sm-8 col-lg-6">
-                                                    <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel" id="fuel">
+                                                <div class="form-group row">
+                                                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
+                                                    <div class="col-12 col-sm-8 col-lg-6">
+                                                        <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel" id="fuel">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Catering</label>
-                                                <div class="col-12 col-sm-8 col-lg-6">
-                                                    <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering" id="catering">
+                                                <div class="form-group row">
+                                                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Catering</label>
+                                                    <div class="col-12 col-sm-8 col-lg-6">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering" id="catering">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Notas
-                                                    Especiales</label>
-                                                <div class="col-12 col-sm-8 col-lg-6">
-                                                    <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas" id="notas">
+                                                <div class="form-group row">
+                                                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Notas
+                                                        Especiales</label>
+                                                    <div class="col-12 col-sm-8 col-lg-6">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas" id="notas">
+                                                    </div>
                                                 </div>
-                                            </div>
 
                                             <?php
-                                                }
+                                            }
                                             ?>
 
                                             <div class="form-group row pt-3" style="display:flex;justify-content:center">
@@ -672,7 +672,7 @@ include("conexion.php");
         function guardardetalle(event) {
             event.preventDefault()
             let form = document.createElement('form')
-            form.action = 'paxreport.php?id=<?php echo $quote?>'
+            form.action = 'paxreport.php?id=<?php echo $quote ?>'
             form.method = 'post'
             let username = document.createElement('input')
             let password = document.createElement('input')

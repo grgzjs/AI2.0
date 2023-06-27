@@ -240,10 +240,10 @@ include("conexion.php");
                     </tr>
                   </thead>
                   <tbody>
-                        <?php
-                        if (mysqli_num_rows($rows) != 0) {
-                          while ($row = mysqli_fetch_assoc($rows)) {
-                        ?>
+                    <?php
+                    if (mysqli_num_rows($rows) != 0) {
+                      while ($row = mysqli_fetch_assoc($rows)) {
+                    ?>
                         <tr>
                           <td>
                             <label class="custom-control custom-control-sm custom-checkbox">

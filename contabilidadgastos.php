@@ -373,11 +373,14 @@ include("conexion.php");
               </thead>
               <tbody>
                 <?php
+                echo "<script>console.log('hi')</script>";
                 // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
-                $sql_detail = 'select * from gastos_generales cross join opstramo_gastos where quote=' . $quote;
-                $detail = mysqli_query($con, $sql_detail);
-                $tramoids = [];
-                while ($rowp = mysqli_fetch_assoc($detail)) {
+                $sql_gastos = 'select * from YAC.opstramo_gastos as og left join YAC.gastos_generales as gg on og.`quote`=gg.`quote`';
+                echo "<script>console.log('$sql_gastos')</script>";
+                $gastos = mysqli_query($con, $sql_gastos);
+                echo "<script>console.log('hi')</script>";
+                while ($rowp = mysqli_fetch_assoc($gastos)) {
+                  echo "<script>console.log('hi')</script>";
                 ?>
                   <tr>
                     <td class="cell-detail">

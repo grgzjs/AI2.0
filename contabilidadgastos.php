@@ -199,65 +199,65 @@ include("conexion.php");
                 <div class="step-content">
                   <!-- <div class="step-pane active" data-step="1"> -->
                   <!-- <div class="container pl-sm-7"> -->
-                    <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
-                    <div class="form-group row">
-                      <div class="offset-sm-3 col-sm-9">
-                        <h3 class="wizard-title">Ingreso de Gastos</h3>
-                      </div>
+                  <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
+                  <div class="form-group row">
+                    <div class="offset-sm-3 col-sm-9">
+                      <h3 class="wizard-title">Ingreso de Gastos</h3>
                     </div>
-                    <div class="form-group row">
-                      <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
-                      <div class="col-12 col-sm-8 col-lg-6">
-                        <input class="form-control" type="Date" placeholder="Seleccione Fecha">
-                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="Date" placeholder="Seleccione Fecha">
                     </div>
-                    <div class="form-group row">
-                      <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Gasto</label>
-                      <div class="col-12 col-sm-8 col-lg-6">
-                        <select class="form-control custom-select" name="typeclient">
-                          <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Gasto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <select class="form-control custom-select" name="typeclient">
+                        <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
+                                                    echo 'selected';
+                                                  } ?>>Generales</option>
+                        <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
+                                                          echo 'selected';
+                                                        } ?>>Administrativos</option>
+                        <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
+                                                          echo 'selected';
+                                                        } ?>>Aeronave</option>
+                        <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
+                                                          echo 'selected';
+                                                        } ?>>Comercializacion</option>
+                        <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
                                                       echo 'selected';
-                                                    } ?>>Generales</option>
-                          <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
-                                                            echo 'selected';
-                                                          } ?>>Administrativos</option>
-                          <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
-                                                            echo 'selected';
-                                                          } ?>>Aeronave</option>
-                          <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
-                                                            echo 'selected';
-                                                          } ?>>Comercializacion</option>
-                          <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
-                                                        echo 'selected';
-                                                      } ?>>Corporativo</option>
-                          <option value="Proveedor" <?php if ($row['typeclient'] == 'Proveedor') {
-                                                      echo 'selected';
-                                                    } ?>>Proveedor</option>
-                          <option value="Otros" <?php if ($row['typeclient'] == 'Empleados') {
-                                                  echo 'selected';
-                                                } ?>>Otros</option>
-                        </select>
-                      </div>
+                                                    } ?>>Corporativo</option>
+                        <option value="Proveedor" <?php if ($row['typeclient'] == 'Proveedor') {
+                                                    echo 'selected';
+                                                  } ?>>Proveedor</option>
+                        <option value="Otros" <?php if ($row['typeclient'] == 'Empleados') {
+                                                echo 'selected';
+                                              } ?>>Otros</option>
+                      </select>
                     </div>
-                    <div class="form-group row">
-                      <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
-                      <div class="col-12 col-sm-8 col-lg-6">
-                        <input class="form-control" type="Text" placeholder="Ingrese el concepto">
-                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="Text" placeholder="Ingrese el concepto">
                     </div>
-                    <div class="form-group row">
-                      <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
-                      <div class="col-12 col-sm-8 col-lg-6">
-                        <input class="form-control" type="Text" placeholder="Ingrese el monto ">
-                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
-                    <!-- <div class="form-group row pt-3">
+                  </div>
+                  <!-- <div class="form-group row pt-3">
                       <div class="col-sm-12">
                         <button class="btn btn-secondary btn-space">Cancel</button>
                         <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
                       </div>
                     </div> -->
-                    <!-- </form> -->
+                  <!-- </form> -->
                   <!-- </div> -->
                   <!-- </div> -->
 
@@ -374,7 +374,7 @@ include("conexion.php");
               <tbody>
                 <?php
                 // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
-                $sql_detail = 'select * from gastos_generales where quote=' . $quote;
+                $sql_detail = 'select * from gastos_generales cross join opstramo_gastos where quote=' . $quote;
                 $detail = mysqli_query($con, $sql_detail);
                 $tramoids = [];
                 while ($rowp = mysqli_fetch_assoc($detail)) {

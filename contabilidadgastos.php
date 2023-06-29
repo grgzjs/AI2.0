@@ -21,6 +21,24 @@ include("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/dropzone/dropzone.css" />
 </head>
 
+  <?php
+  if (isset($_POST['guardar_gasto'])) {
+    $tipo_ingreso = $_POST['tipo_ingreso'] ? $_POST['tipo_ingreso'] : 'null';
+    $referencia = $_POST['referencia']; // unused
+    $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
+    $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
+    $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
+    $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
+    $fecha_cambio = $_POST['fecha_cambio']; // unused
+    echo "<scrip>console.log('$cambio');</scrip>";
+    // figure out where to save
+    $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, moneda_cambio) values ('" . $fecha_gasto . "','" .$tipo_ingreso . "','" . $concepto . "'," . $monto . ",'".$cambio."')";
+    echo "<scrip>console.log('$sql');</scrip>";
+    mysqli_query($con, $sql);
+    // clean post data
+  }
+  ?>
+
 <body>
   <nav class="navbar navbar-expand navbar-dark mai-top-header">
     <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
@@ -201,13 +219,13 @@ include("conexion.php");
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input class="form-control" type="Date" placeholder="Seleccione Fecha">
+                      <input id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Gasto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <select class="form-control custom-select" name="typeclient">
+                      <select id="tipo_gasto" class="form-control custom-select" name="typeclient">
                         <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                     echo 'selected';
                                                   } ?>>Generales</option>
@@ -235,13 +253,13 @@ include("conexion.php");
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input class="form-control" type="Text" placeholder="Ingrese el concepto">
+                      <input id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
                   </div>
                   <!-- <div class="form-group row pt-3">
@@ -267,7 +285,7 @@ include("conexion.php");
                       <p>Aqui indicamos el cambio dolar actual</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input id="monto_cambio" class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
                   </div>
                   <div class="form-group row align-items-center">
@@ -276,7 +294,7 @@ include("conexion.php");
                       <p>Aqui indicamos el la fecha en cual se efectuo la conversion</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <input class="form-control" type="Date" placeholder="Seleccione la fecha ">
+                      <input id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
                     </div>
                   </div>
                   <div class="form-group row align-items-center">
@@ -285,7 +303,7 @@ include("conexion.php");
                       <p>Aqui indicamos el gasto fue efectuado en que moneda</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <select class="form-control custom-select" name="typeclient">
+                      <select id="cambio" class="form-control custom-select" name="typeclient">
                         <option value="Pesosarg" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                     echo 'selected';
                                                   } ?>>Pesos Arg</option>
@@ -367,14 +385,14 @@ include("conexion.php");
               <tbody>
                 <?php
                 // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
-                $sql_gastos = 'select * from YAC.opstramo_gastos as og left join YAC.gastos_generales as gg on og.`quote`=gg.`quote`';
+                $sql_gastos = 'select * from YAC.opstramo_gastos as og cross join YAC.gastos_generales as gg';
                 $gastos = mysqli_query($con, $sql_gastos);
                 while ($rowp = mysqli_fetch_assoc($gastos)) {
                 ?>
                   <tr>
-                    <td class="cell-detail">
+                    <!-- <td class="cell-detail">
                       <span><?php echo $rowp["tramo"] ?></span>
-                    </td>
+                    </td> -->
                     <td class="cell-detail">
                       <span class="date"><?php echo $rowp["date"] ?></span>
                     </td>
@@ -386,6 +404,9 @@ include("conexion.php");
                     </td>
                     <td class="cell-detail">
                       <span><?php echo $rowp["tipogasto"] ?></span>
+                    </td>
+                    <td class="cell-detail">
+                      <span><?php echo $rowp["moneda_cambio"] ?></span>
                     </td>
                     <td class="cell-detail">
                       <span>$<?php echo $rowp["monto"] ?></span>
@@ -461,6 +482,59 @@ include("conexion.php");
       document.body.appendChild(form)
       form.submit()
     }
+
+    function save_all() {
+    let form = document.createElement('form')
+
+    // let tramo = document.createElement('input')
+    // tramo.value = document.getElementById('tramo_reserva').value
+    // tramo.name = 'tramo_reserva'
+
+    let tipo_ingreso = document.createElement('input')
+    tipo_ingreso.value = document.getElementById('tipo_gasto').value
+    tipo_ingreso.name = 'tipo_gasto'
+    // let referencia = document.createElement('input')
+    // referencia.value = document.getElementById('referencia').value
+    // referencia.name="referencia"
+    let concepto = document.createElement('input')
+    concepto.value = document.getElementById('concepto').value
+    concepto.name = "concepto"
+    let monto = document.createElement('input')
+    monto.value = document.getElementById('monto').value
+    monto.name = "monto"
+    let fecha_gasto = document.createElement('input')
+    fecha_gasto.value = document.getElementById('fecha').value
+    fecha_gasto.name = "fecha_gasto"
+
+    let cambio = document.createElement('input')
+    cambio.value = document.getElementById('cambio').value
+    cambio.name = "cambio"
+    let fecha_cambio = document.createElement('input')
+    fecha_cambio.value = document.getElementById('fecha_cambio').value
+    fecha_cambio.name = "fecha_cambio"
+
+    let button1 = document.createElement('button')
+    button1.name = 'guardar_gasto'
+
+    // form.appendChild(tramo)
+
+    form.appendChild(tipo_ingreso)
+    // form.appendChild(referencia)
+    form.appendChild(concepto)
+    form.appendChild(monto)
+    form.appendChild(fecha_gasto)
+
+    form.appendChild(cambio)
+    form.appendChild(fecha_cambio)
+
+    form.appendChild(button1)   
+
+    document.body.appendChild(form)
+    form.action = 'contabilidadgastos.php'
+    form.method = 'post'
+    // form.submit()
+    button1.click()
+}
 
     function loginuserhellolist() {
       let form = document.createElement('form')

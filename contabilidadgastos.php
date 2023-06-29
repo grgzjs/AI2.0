@@ -23,17 +23,18 @@ include("conexion.php");
 
   <?php
   if (isset($_POST['guardar_gasto'])) {
-    $tipo_ingreso = $_POST['tipo_ingreso'] ? $_POST['tipo_ingreso'] : 'null';
+    $tipo_ingreso = $_POST['tipo_gasto'] ? $_POST['tipo_gasto'] : 'null';
     $referencia = $_POST['referencia']; // unused
     $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
     $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
     $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
+
     $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
     $fecha_cambio = $_POST['fecha_cambio']; // unused
-    echo "<scrip>console.log('$cambio');</scrip>";
+
     // figure out where to save
     $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, moneda_cambio) values ('" . $fecha_gasto . "','" .$tipo_ingreso . "','" . $concepto . "'," . $monto . ",'".$cambio."')";
-    echo "<scrip>console.log('$sql');</scrip>";
+
     mysqli_query($con, $sql);
     // clean post data
   }
@@ -152,18 +153,18 @@ include("conexion.php");
                   </li>
                 </ul>
               </li>
-              <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
+              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de vuelos</span></a>
                   </li>
 
                 </ul>
               </li>
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
+              <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Generales</span></a>
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Generales</span></a>
+                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Ingresos Generales</span></a>
                   </li>
 
                 </ul>
@@ -304,7 +305,7 @@ include("conexion.php");
                     </div>
                     <div class="col-sm-3 xs-pt-15">
                       <select id="cambio" class="form-control custom-select" name="typeclient">
-                        <option value="Pesosarg" <?php if ($row['typeclient'] == 'Cliente Final') {
+                        <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                     echo 'selected';
                                                   } ?>>Pesos Arg</option>
                         <option value="Usdollar" <?php if ($row['typeclient'] == 'Broker') {
@@ -374,7 +375,6 @@ include("conexion.php");
             <table class="table table-striped table-hover ma-table-responsive" id="table1">
               <thead>
                 <tr>
-                  <th style="width:10%;">Tramo</th>
                   <th style="width:17%;">Fecha</th>
                   <th style="width:15%;">Concepto</th>
                   <th style="width:10%;">Tipo de Gasto</th>
@@ -385,22 +385,16 @@ include("conexion.php");
               <tbody>
                 <?php
                 // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
-                $sql_gastos = 'select * from YAC.opstramo_gastos as og cross join YAC.gastos_generales as gg';
-                $gastos = mysqli_query($con, $sql_gastos);
-                while ($rowp = mysqli_fetch_assoc($gastos)) {
+                $sql_gastos_tramo = 'select * from opstramo_gastos';
+                $gastos_tramo = mysqli_query($con, $sql_gastos_tramo);
+                while ($rowp = mysqli_fetch_assoc($gastos_tramo)) {
                 ?>
                   <tr>
-                    <!-- <td class="cell-detail">
-                      <span><?php echo $rowp["tramo"] ?></span>
-                    </td> -->
                     <td class="cell-detail">
                       <span class="date"><?php echo $rowp["date"] ?></span>
                     </td>
                     <td class="cell-detail">
                       <span><?php echo $rowp["concepto"] ?></span>
-                    </td>
-                    <td class="cell-detail">
-                      <span><?php echo $rowp["moneda_cambio"] ?></span>
                     </td>
                     <td class="cell-detail">
                       <span><?php echo $rowp["tipogasto"] ?></span>
@@ -410,6 +404,30 @@ include("conexion.php");
                     </td>
                     <td class="cell-detail">
                       <span>$<?php echo $rowp["monto"] ?></span>
+                    </td>
+                  </tr>
+                <?php
+                }
+
+                $sql_gastos_generales = 'select * from gastos_generales';
+                $gastos_generales = mysqli_query($con, $sql_gastos_generales);
+                while ($rowp = mysqli_fetch_assoc($gastos_generales)) {
+                ?>
+                  <tr>
+                    <td class="cell-detail">
+                      <span class="date"><?php echo $rowp["date"] ?></span>
+                    </td>
+                    <td class="cell-detail">
+                      <span><?php echo $rowp["concept"] ?></span>
+                    </td>
+                    <td class="cell-detail">
+                      <span><?php echo $rowp["type"] ?></span>
+                    </td>
+                    <td class="cell-detail">
+                      <span><?php echo $rowp["moneda_cambio"] ?></span>
+                    </td>
+                    <td class="cell-detail">
+                      <span>$<?php echo $rowp["amount"] ?></span>
                     </td>
                   </tr>
                 <?php

@@ -139,8 +139,8 @@ include("conexion.php");
                                                   </li>
                                                   <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Ingresos Generales</span></a>
                                                   </li>
-                                                  <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Reportes</span></a>
-                                                  </li>
+                                                  <!-- <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Reportes</span></a>
+                                                  </li> -->
                                       </ul>
                                            
                                     </li>
@@ -183,19 +183,17 @@ include("conexion.php");
 
     if (isset($_POST['guardar_reserva'])) {
         $tramo_reserva = $_POST['tramo_reserva'] ? $_POST['tramo_reserva'] : 1;
-        $tipo_ingreso = $_POST['tipo_ingreso'] ? $_POST['tipo_ingreso'] : 'null';
+        $tipo_ingreso = $_POST['tipo_ingreso'] != null ? $_POST['tipo_ingreso'] : 'null';
         $referencia = $_POST['referencia']; // unused
         $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
         $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
         $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
 
-        $cambio = $_POST['cambio']; // unused
+        $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
         $fecha_cambio = $_POST['fecha_cambio']; // unused
 
-        // figure out where to save
-        $sql = "insert into opstramo_gastos (`date`,tipogasto,concepto,monto, tramo, quote) values ('" . $fecha_gasto . "','" .$tipo_ingreso . "','" . $concepto . "'," . $monto . "," .$tramoids[$tramo_reserva - 1].",".$quote.")";
+        $sql = "insert into opstramo_gastos (`date`,tipogasto,concepto,monto, tramo, quote, moneda_cambio) values ('" . $fecha_gasto . "','" .$tipo_ingreso . "','" . $concepto . "'," . $monto . "," .$tramoids[$tramo_reserva - 1].",".$quote.",'".$cambio."')";
         mysqli_query($con, $sql);
-        // clean post data
     }
   ?>
 
@@ -294,7 +292,7 @@ include("conexion.php");
                           <p>Aqui indicamos el cambio dolar actual</p>
                         </div>
                         <div class="offset-sm-3 col-sm-3 xs-pt-15">  
-                        <input class="form-control" type="Text" placeholder="Ingrese el monto" id="cambio">
+                        <input class="form-control" type="Text" placeholder="Ingrese el monto">
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
@@ -312,8 +310,8 @@ include("conexion.php");
                           <p>Aqui indicamos el gasto fue efectuado en que moneda</p>
                         </div>
                         <div class="offset-sm-3 col-sm-3 xs-pt-15"> 
-                        <select class="form-control custom-select" name="typeclient">
-                    <option value="Pesosarg" <?php if ($row['typeclient'] == 'Cliente Final') { echo 'selected'; } ?>>Pesos Arg</option>
+                        <select id="cambio" class="form-control custom-select" name="typeclient">
+                    <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') { echo 'selected'; } ?>>Pesos Arg</option>
                     <option value="Usdollar" <?php if ($row['typeclient'] == 'Broker') { echo 'selected'; } ?>>Dolares</option>
                     </select>
                         </div>
@@ -389,9 +387,8 @@ include("conexion.php");
                         <th style="width:17%;">Fecha</th>
                         <th style="width:17%;">Concepto</th>
                         <th style="width:10%;">Tipo de Gasto</th>
+                        <th style="width:13%;">Moneda de Cambio</th>
                         <th style="width:15%;">Monto</th>
-                        <!-- <th style="width:17%;">Subtotal</th> -->
-                        <!-- <th style="width:10%;"></th> -->
                       </tr>
                     </thead>
                     <tbody>
@@ -414,6 +411,9 @@ include("conexion.php");
                             </td>
                             <td class="cell-detail">
                                 <span><?php echo $rowp["tipogasto"]?></span>
+                            </td>
+                            <td class="cell-detail">
+                              <span><?php echo $rowp["moneda_cambio"] ?></span>
                             </td>
                             <td class="cell-detail">
                                 <span>$<?php echo $rowp["monto"]?></span>

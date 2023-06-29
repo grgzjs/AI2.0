@@ -99,7 +99,7 @@ include("conexion.php");
   <!--COMIENZO BOTONERA PRINCIPAL-->
 
   <div class="mai-wrapper">
-    <nav class="navbar navbar-expand-lg mai-sub-header">
+  <nav class="navbar navbar-expand-lg mai-sub-header">
       <div class="container">
         <nav class="navbar navbar-expand-md">
           <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
@@ -117,14 +117,14 @@ include("conexion.php");
                   </li>
                   <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Base de Cotizaciones</span></a>
                   </li>
-
                 </ul>
+
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Base de contactos </span></a>
+                  <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Base de contactos</span></a>
                   </li>
                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                   </li>
@@ -132,27 +132,23 @@ include("conexion.php");
                     <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
                     </div>
                   </li>
-
                 </ul>
               </li>
-
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
+              <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de vuelos</span></a>
                   </li>
 
                 </ul>
               </li>
-              <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
+              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-shopbag"></span><span class="name">Gastos Generales</span></a>
+                  <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Generales</span></a>
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Ingresos Generales</span></a>
+                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Generales</span></a>
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Reportes</span></a>
-                  </li>
-                </ul>
 
+                </ul>
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
@@ -162,9 +158,6 @@ include("conexion.php");
             </ul>
           </div>
         </nav>
-        <!--<div class="search">
-            <input type="text" placeholder="Search..." name="q"><span class="s7-search"></span>
-          </div>-->
       </div>
     </nav>
 
@@ -365,22 +358,18 @@ include("conexion.php");
                 <tr>
                   <th style="width:10%;">Tramo</th>
                   <th style="width:17%;">Fecha</th>
-                  <th style="width:17%;">Concepto</th>
+                  <th style="width:15%;">Concepto</th>
                   <th style="width:10%;">Tipo de Gasto</th>
-                  <th style="width:15%;">Monto</th>
-                  <!-- add cambio, fecha cambio, moneda cambio -->
+                  <th style="width:13%;">Moneda de Cambio</th>
+                  <th style="width:13%;">Monto</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                echo "<script>console.log('hi')</script>";
                 // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
                 $sql_gastos = 'select * from YAC.opstramo_gastos as og left join YAC.gastos_generales as gg on og.`quote`=gg.`quote`';
-                echo "<script>console.log('$sql_gastos')</script>";
                 $gastos = mysqli_query($con, $sql_gastos);
-                echo "<script>console.log('hi')</script>";
                 while ($rowp = mysqli_fetch_assoc($gastos)) {
-                  echo "<script>console.log('hi')</script>";
                 ?>
                   <tr>
                     <td class="cell-detail">
@@ -391,6 +380,9 @@ include("conexion.php");
                     </td>
                     <td class="cell-detail">
                       <span><?php echo $rowp["concepto"] ?></span>
+                    </td>
+                    <td class="cell-detail">
+                      <span><?php echo $rowp["moneda_cambio"] ?></span>
                     </td>
                     <td class="cell-detail">
                       <span><?php echo $rowp["tipogasto"] ?></span>

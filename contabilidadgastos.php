@@ -334,13 +334,13 @@ include("conexion.php");
                   <div class="form-group row">
                     <div class="col-sm-3 xs-pt-15">
                       <div class="main-content container">
-                        <!-- <form class="dropzone" id="my-awesome-dropzone" action="assets/lib/dropzone/upload.php"> -->
-                        <div class="dz-message">
-                          <div class="icon"><span class="s7-cloud-upload"></span></div>
-                          <h2>Drag and Drop files here</h2><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                          <div class="dropzone-mobile-trigger needsclick"></div>
-                        </div>
-                        <!-- </form> -->
+                        <form class="dropzone" id="my-awesome-dropzone" action="assets/lib/dropzone/upload.php">
+                          <div class="dz-message">
+                            <div class="icon"><span class="s7-cloud-upload"></span></div>
+                            <h2>Drag and Drop files here</h2><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                            <div class="dropzone-mobile-trigger needsclick"></div>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>

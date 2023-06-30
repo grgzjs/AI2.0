@@ -23,7 +23,7 @@ include("conexion.php");
 
 <?php
 if (isset($_POST['guardar_ingreso'])) {
-  $tipo_ingreso = $_POST['tipo_ingreso'] ? $_POST['tipo_gasto'] : 'null';
+  $tipo_ingreso = $_POST['tipo_ingreso'] ? $_POST['tipo_ingreso'] : 'null';
   $referencia = $_POST['referencia']; // unused
   $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
   $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
@@ -253,6 +253,23 @@ if (isset($_POST['guardar_ingreso'])) {
                           </div>
                         </div>
                         <!-- <div class="form-group row">
+                          <label class="col-12 col-sm-3 col-form-label text-sm-right">Nombre de la Empresa</label>
+                          <div class="col-12 col-sm-8 col-lg-6">
+                            <select id="empresa" class="form-control custom-select" name="typeclient">
+                              <?php 
+                              // get nombre_empresa, id from Contact
+                              // $sql_empresas< = "select id, nombre_empresa from Contact where nombre_empresa != null";
+                              // $empresas = mysqli_query($con, $sql_empresas);
+                              // while ($rowp = mysqli_fetch_assoc($empresas)) {
+                              ?>
+                              <option value='<?php //echo $rowp["id"] ?>'><?php //echo $rowp["nombre_empresa"] ?></option>
+                              <?php
+                              // }
+                              ?>
+                            </select>
+                          </div>
+                        </div> -->
+                        <!-- <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Referencia</label>
                           <div class="col-12 col-sm-8 col-lg-6">
                             <input class="form-control" type="Text" placeholder="Ingrese el numero de ">
@@ -313,7 +330,7 @@ if (isset($_POST['guardar_ingreso'])) {
                         </div>
                         <div class="col-sm-3 xs-pt-15">
                           <select id="moneda_cambio" class="form-control custom-select" name="typeclient">
-                            <option value="Pesosarg" <?php if ($row['typeclient'] == 'Cliente Final') {
+                            <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                         echo 'selected';
                                                       } ?>>Pesos Arg</option>
                             <option value="Usdollar" <?php if ($row['typeclient'] == 'Broker') {
@@ -323,35 +340,35 @@ if (isset($_POST['guardar_ingreso'])) {
                         </div>
                       </div>
 
-                      <div class="form-group row pt-3">
+                      <!-- <div class="form-group row pt-3">
                         <div class="col-sm-12">
                           <button class="btn btn-secondary btn-space wizard-previous" data-wizard="#wizard1">Previous</button>
                           <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
                         </div>
-                      </div>
+                      </div> -->
                     <!-- </form> -->
                   <!-- </div> -->
 
                   <!-- <div class="step-pane" data-step="3"> -->
                     <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
-                      <div class="form-group row">
-                        <div class="col-sm-7">
-                          <h3 class="wizard-title">Sube el recibo al sistema</h3><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <div class="col-sm-3 xs-pt-15">
-                          <div class="main-content container">
-                            <form class="dropzone" id="my-awesome-dropzone" action="assets/lib/dropzone/upload.php">
-                              <div class="dz-message">
-                                <div class="icon"><span class="s7-cloud-upload"></span></div>
-                                <h2>Drag and Drop files here</h2><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                                <div class="dropzone-mobile-trigger needsclick"></div>
-                              </div>
-                            </form>
+                  <div class="form-group row">
+                    <div class="col-sm-7">
+                      <h3 class="wizard-title">Sube el recibo al sistema</h3><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3 xs-pt-15">
+                      <div class="main-content container">
+                        <form class="dropzone" id="my-awesome-dropzone" action="assets/lib/dropzone/upload.php">
+                          <div class="dz-message">
+                            <div class="icon"><span class="s7-cloud-upload"></span></div>
+                            <h2>Drag and Drop files here</h2><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                            <div class="dropzone-mobile-trigger needsclick"></div>
                           </div>
-                        </div>
+                        </form>
                       </div>
+                    </div>
+                  </div>
 
                       <div>
                         <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Ingreso</button>
@@ -379,7 +396,7 @@ if (isset($_POST['guardar_ingreso'])) {
     <div class="row">
       <div class="col-12">
         <div class="card card-default card-table">
-          <div class="row table-filters-container">
+          <!-- <div class="row table-filters-container">
             <div class="col-12 col-lg-12 col-xl-6">
               <div class="row">
                 <div class="col-12 col-md-6 col-lg-6 table-filters pb-0 pb-xl-4"><span class="table-filter-title">Milestone progress</span>
@@ -453,7 +470,7 @@ if (isset($_POST['guardar_ingreso'])) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="card-body">
             <div class="noSwipe">
             <table class="table table-striped table-hover ma-table-responsive" id="table1">

@@ -126,15 +126,15 @@ while ($rowp = mysqli_fetch_assoc($rowsincome)) {
             <span>'. $rowp["concepto"] .'</span>
         </td>
         <td class="cell-detail">
-            <span>'. echo $rowp["tipoingreso"] .'</span>
+            <span>'. $rowp["tipoingreso"] .'</span>
         </td>
         <td class="cell-detail">
             <span>'. $rowp["moneda_cambio"] .'</span>
         </td>
         <td class="cell-detail">
-            <span>$'. echo $rowp["monto"] .'</span>
+            <span>'. $rowp["monto"] .'</span>
         </td>
-    </tr>'
+    </tr>';
 }
 $html = $html . '
 </table>';
@@ -194,15 +194,15 @@ while ($rowp = mysqli_fetch_assoc($rowsexp)) {
             <span>'. $rowp["concepto"] .'</span>
         </td>
         <td class="cell-detail">
-            <span>'. echo $rowp["tipogasto"] .'</span>
+            <span>'. $rowp["tipogasto"] .'</span>
         </td>
         <td class="cell-detail">
             <span>'. $rowp["moneda_cambio"] .'</span>
         </td>
         <td class="cell-detail">
-            <span>$'. echo $rowp["monto"] .'</span>
+            <span>$'. $rowp["monto"] .'</span>
         </td>
-    </tr>'
+    </tr>';
 }
 // also get from opstramo_gastos
 $html2 = $html2 . '
@@ -246,51 +246,34 @@ $pdf->writeHTML($html2, true, false, true, false, '');
 
 // <table> 
 //     <tr>
-//         <th>FBO</th>
-//         <th>Fuel</th>
-//         <th>Catering</th>
-//         <th>Notes</th>';
-// foreach ($tramoids as $tramo) {
-//     $html3 = $html3 . '<th>Tramo#' . $tramo . '</th>';
-// }
-// $html3 = $html3 . '
+//         <th style="width:17%;">Fecha</th>
+//         <th style="width:15%;">Concepto</th>
+//         <th style="width:10%;">Tipo de Gasto</th>
+//         <th style="width:13%;">Moneda de Cambio</th>
+//         <th style="width:13%;">Monto</th>
 //     </tr>';
-// $rowsdetail = mysqli_query($con, $sqldetail);
-// while ($rowp = mysqli_fetch_assoc($rowsdetail)) {
 
-//     // if (in_array($rowp['dnipass'], $pilot_dni_list)) {
-//     //     continue;
-//     // }
-//     // array_push($pilot_dni_list, $rowp['dnipass']);
-
-//     // $sqlcontact = "select tramo_id from opstramo_detail";
-//     // $detailleg = mysqli_query($con, $sqlcontact);
-//     // $pax_dni_list = array();
-//     // while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
-//     //     array_push($pax_dni_list, $rowdetail['tramo_id']);
-//     // }
-
-//     $html3 = $html3 . '
-//     <tr>
-//         <td>' . $rowp['fbo'] . '</td>
-//         <td>' . $rowp['fuel'] . '</td>
-//         <td>' . $rowp['catering'] . '</td>
-//         <td>' . $rowp['notas'] . '</td>';
-//     foreach ($tramoids as $tramo) {
-//         if ($rowp['tramo_id'] < $tramo) {
-//             $html3 = $html3 . '
-//                 <td>  </td>';
-//         } else if ($rowp['tramo_id'] == $tramo) {
-//             $html3 = $html3 . '
-//                 <td> X </td>';
-//         } else {
-//             $html3 = $html3 . '
-//                 <td>  </td>';
-//         }
-//     }
-//     $html3 = $html3 . '
+// $rowsexp = mysqli_query($con, $sqlexplist);
+// while ($rowp = mysqli_fetch_assoc($rowsexp)) {
+//     $html3 = $html3 .'<tr>
+//         <td class="cell-detail">
+//             <span class="date">'.$rowp["date"].'</span>
+//         </td>
+//         <td class="cell-detail">
+//             <span>'. $rowp["concepto"] .'</span>
+//         </td>
+//         <td class="cell-detail">
+//             <span>'. $rowp["tipogasto"] .'</span>
+//         </td>
+//         <td class="cell-detail">
+//             <span>'. $rowp["moneda_cambio"] .'</span>
+//         </td>
+//         <td class="cell-detail">
+//             <span>$'. $rowp["monto"] .'</span>
+//         </td>
 //     </tr>';
 // }
+// // also get from opstramo_gastos
 // $html3 = $html3 . '
 // </table>';
 

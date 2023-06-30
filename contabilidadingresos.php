@@ -21,6 +21,24 @@ include("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/dropzone/dropzone.css" />
 </head>
 
+<?php
+if (isset($_POST['guardar_ingreso'])) {
+  $tipo_ingreso = $_POST['tipo_ingreso'] ? $_POST['tipo_gasto'] : 'null';
+  $referencia = $_POST['referencia']; // unused
+  $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
+  $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
+  $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
+
+  $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
+  $fecha_cambio = $_POST['fecha_cambio']; // unused
+
+  // figure out where to save
+  $sql = "insert into ingresos_generales (`date`,tipoingreso,concepto,monto, moneda_cambio) values ('" . $fecha_gasto . "','" .$tipo_ingreso . "','" . $concepto . "'," . $monto . ",'".$cambio."')";
+
+  mysqli_query($con, $sql);
+}
+?>
+
 <body>
   <nav class="navbar navbar-expand navbar-dark mai-top-header">
     <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
@@ -189,21 +207,21 @@ include("conexion.php");
           <div class="col-md-12 fuelux">
             <div class="block-wizard">
               <div class="wizard wizard-ux" id="wizard1">
-                <div class="steps-container">
+                <!-- <div class="steps-container">
                   <ul class="steps">
                     <li class="active" data-step="1">Step 1<span class="chevron"></span></li>
                     <li data-step="2">Step 2<span class="chevron"></span></li>
                     <li data-step="3">Step 3<span class="chevron"></span></li>
                   </ul>
-                </div>
-                <div class="actions">
+                </div> -->
+                <!-- <div class="actions">
                   <button class="btn btn-xs btn-prev btn-secondary" type="button"><i class="icon s7-angle-left"></i>Prev</button>
                   <button class="btn btn-xs btn-next btn-secondary" type="button" data-last="Finish">Next<i class="icon s7-angle-right"></i></button>
-                </div>
+                </div> -->
                 <div class="step-content">
-                  <div class="step-pane active" data-step="1">
-                    <div class="container pl-sm-5">
-                      <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                  <!-- <div class="step-pane active" data-step="1"> -->
+                    <!-- <div class="container pl-sm-5"> -->
+                      <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                         <div class="form-group row">
                           <div class="offset-sm-3 col-sm-9">
                             <h3 class="wizard-title">Entrada de Ingresos</h3>
@@ -212,13 +230,13 @@ include("conexion.php");
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Date" placeholder="Seleccione Fecha">
+                            <input id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Ingreso</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <select class="form-control custom-select" name="typeclient">
+                            <select id="tipo_ingreso" class="form-control custom-select" name="typeclient">
                               <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                           echo 'selected';
                                                         } ?>>Cotizaciones</option>
@@ -234,37 +252,37 @@ include("conexion.php");
                             </select>
                           </div>
                         </div>
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Referencia</label>
                           <div class="col-12 col-sm-8 col-lg-6">
                             <input class="form-control" type="Text" placeholder="Ingrese el numero de ">
                           </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el concepto">
+                            <input id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
                           <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                            <input id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
                           </div>
                         </div>
-                        <div class="form-group row pt-3">
+                        <!-- <div class="form-group row pt-3">
                           <div class="col-sm-12">
                             <button class="btn btn-secondary btn-space">Cancel</button>
                             <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
                           </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
+                        </div> -->
+                      <!-- </form> -->
+                    <!-- </div> -->
+                  <!-- </div> -->
 
 
-                  <div class="step-pane" data-step="2">
-                    <form class="group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                  <!-- <div class="step-pane" data-step="2"> -->
+                    <!-- <form class="group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                       <div class="form-group row">
                         <div class="col-sm-7">
                           <h3 class="wizard-title">Tipo de Cambio</h3>
@@ -285,7 +303,7 @@ include("conexion.php");
                           <p>Aqui indicamos el la fecha en cual se efectuo la conversion</p>
                         </div>
                         <div class="col-sm-3 xs-pt-15">
-                          <input class="form-control" type="Date" placeholder="Seleccione la fecha ">
+                          <input id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
@@ -294,7 +312,7 @@ include("conexion.php");
                           <p>Aqui indicamos el gasto fue efectuado en que moneda</p>
                         </div>
                         <div class="col-sm-3 xs-pt-15">
-                          <select class="form-control custom-select" name="typeclient">
+                          <select id="moneda_cambio" class="form-control custom-select" name="typeclient">
                             <option value="Pesosarg" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                         echo 'selected';
                                                       } ?>>Pesos Arg</option>
@@ -311,16 +329,11 @@ include("conexion.php");
                           <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
                         </div>
                       </div>
-                    </form>
-                  </div>
+                    <!-- </form> -->
+                  <!-- </div> -->
 
-
-
-
-
-
-                  <div class="step-pane" data-step="3">
-                    <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                  <!-- <div class="step-pane" data-step="3"> -->
+                    <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                       <div class="form-group row">
                         <div class="col-sm-7">
                           <h3 class="wizard-title">Sube el recibo al sistema</h3><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
@@ -340,14 +353,18 @@ include("conexion.php");
                         </div>
                       </div>
 
-                      <div class="form-group row">
+                      <div>
+                        <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Ingreso</button>
+                      </div>
+
+                      <!-- <div class="form-group row">
                         <div class="col-sm-12">
                           <button class="btn btn-secondary btn-space wizard-previous" data-wizard="#wizard1">Previous</button>
                           <button class="btn btn-success btn-space wizard-next" data-wizard="#wizard1">Complete</button>
                         </div>
-                      </div>
-                    </form>
-                  </div>
+                      </div> -->
+                    <!-- </form> -->
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
@@ -439,263 +456,42 @@ include("conexion.php");
           </div>
           <div class="card-body">
             <div class="noSwipe">
-              <table class="table table-striped table-hover ma-table-responsive" id="table1">
+            <table class="table table-striped table-hover ma-table-responsive" id="table1">
                 <thead>
                   <tr>
-                    <th style="width:5%;">
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </th>
-                    <th style="width:20%;">User</th>
-                    <th style="width:17%;">Last Commit</th>
-                    <th style="width:15%;">Milestone</th>
-                    <th style="width:10%;">Branch</th>
-                    <th style="width:10%;">Date</th>
-                    <th style="width:10%;"></th>
+                    <th style="width:17%;">Fecha</th>
+                    <th style="width:15%;">Concepto</th>
+                    <th style="width:10%;">Tipo de Ingreso</th>
+                    <th style="width:13%;">Moneda de Cambio</th>
+                    <th style="width:13%;">Monto</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="success done">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatar.jpg" alt="Avatar"><span>John Peterson</span><span class="cell-detail-description">Developer</span></td>
-                    <td class="cell-detail" data-project="Bootstrap"><span>Initial commit</span><span class="cell-detail-description">Bootstrap Admin</span></td>
-                    <td class="milestone" data-progress="0,45"><span class="completed">8 / 15</span><span class="version">v1.2.0</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 45%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>master</span><span class="cell-detail-description">63e8ec3</span></td>
-                    <td class="cell-detail"><span class="date">May 6, 2018</span><span class="cell-detail-description">8:30</span></td>
-                    <td class="text-right">
-                      <div class="btn-group btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="info to-do">
-                    <td data-status="in-progress">
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img1.jpg" alt="Avatar"><span>Ryan Lawrence</span><span class="cell-detail-description">Designer</span></td>
-                    <td class="cell-detail" data-project="CLI"><span>Main structure</span><span class="cell-detail-description">CLI Connector</span></td>
-                    <td class="milestone" data-progress="0,75"><span class="completed">22 / 30</span><span class="version">v1.1.5</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 75%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>develop</span><span class="cell-detail-description">4cc1bc2</span></td>
-                    <td class="cell-detail"><span class="date">April 22, 2018</span><span class="cell-detail-description">14:45</span></td>
-                    <td class="text-right">
-                      <div class="btn-group btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="danger in-review">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img2.jpg" alt="Avatar"><span>Benji Miller</span><span class="cell-detail-description">Designer</span></td>
-                    <td class="cell-detail" data-project="Back-end"><span>Left sidebar adjusments</span><span class="cell-detail-description">Back-end Manager</span></td>
-                    <td class="milestone" data-progress="0,33"><span class="completed">10 / 30</span><span class="version">v1.1.3</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 33%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>develop</span><span class="cell-detail-description">5477993</span></td>
-                    <td class="cell-detail"><span class="date">April 15, 2018</span><span class="cell-detail-description">10:00</span></td>
-                    <td class="text-right">
-                      <div class="btn-group dropup btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="warning in-progress">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img3.jpg" alt="Avatar"><span>Justin Adams</span><span class="cell-detail-description">Developer</span></td>
-                    <td class="cell-detail" data-project="Bootstrap"><span>Topbar dropdown style</span><span class="cell-detail-description">Bootstrap Admin</span></td>
-                    <td class="milestone" data-progress="0,55"><span class="completed">25 / 40</span><span class="version">v1.0.4</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 55%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>master</span><span class="cell-detail-description">8cb98ec</span></td>
-                    <td class="cell-detail"><span class="date">April 8, 2018</span><span class="cell-detail-description">17:24</span></td>
-                    <td class="text-right">
-                      <div class="btn-group dropup btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="info to-do">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img4.jpg" alt="Avatar"><span>Brett Harris</span><span class="cell-detail-description">Designer</span></td>
-                    <td class="cell-detail" data-project="CLI"><span>Right sidebar adjusments</span><span class="cell-detail-description">CLI Connector</span></td>
-                    <td class="milestone" data-progress="0,98"><span class="completed">38 / 40</span><span class="version">v1.0.1</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 98%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>master</span><span class="cell-detail-description">65bc2da</span></td>
-                    <td class="cell-detail"><span class="date">March 18, 2018</span><span class="cell-detail-description">13:02</span></td>
-                    <td class="text-right">
-                      <div class="btn-group dropup btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="danger in-review">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img3.jpg" alt="Avatar"><span>Justin Adams</span><span class="cell-detail-description">Developer</span></td>
-                    <td class="cell-detail" data-project="CLI"><span>Topbar dropdown style</span><span class="cell-detail-description">CLI Connector</span></td>
-                    <td class="milestone" data-progress="0,25"><span class="completed">15 / 70</span><span class="version">v1.0.4</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 25%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>master</span><span class="cell-detail-description">8cb98ec</span></td>
-                    <td class="cell-detail"><span class="date">Jun 2, 2018</span><span class="cell-detail-description">17:24</span></td>
-                    <td class="text-right">
-                      <div class="btn-group dropup btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="info to-do">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img1.jpg" alt="Avatar"><span>Ryan Lawrence</span><span class="cell-detail-description">Designer</span></td>
-                    <td class="cell-detail" data-project="Back-end"><span>Main structure</span><span class="cell-detail-description">Back-end Manager</span></td>
-                    <td class="milestone" data-progress="0,80"><span class="completed">30 / 34</span><span class="version">v1.1.5</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 80%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>develop</span><span class="cell-detail-description">4cc1bc2</span></td>
-                    <td class="cell-detail"><span class="date">Jan 22, 2018</span><span class="cell-detail-description">14:45</span></td>
-                    <td class="text-right">
-                      <div class="btn-group btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="warning in-progress">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img2.jpg" alt="Avatar"><span>Benji Miller</span><span class="cell-detail-description">Designer</span></td>
-                    <td class="cell-detail" data-project="Bootstrap"><span>Left sidebar adjusments</span><span class="cell-detail-description">Bootstrap Admin</span></td>
-                    <td class="milestone" data-progress="0,63"><span class="completed">25 / 43</span><span class="version">v1.1.3</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 63%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>develop</span><span class="cell-detail-description">5477993</span></td>
-                    <td class="cell-detail"><span class="date">May 10, 2018</span><span class="cell-detail-description">10:00</span></td>
-                    <td class="text-right">
-                      <div class="btn-group dropup btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="success done">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatar.jpg" alt="Avatar"><span>John Peterson</span><span class="cell-detail-description">Developer</span></td>
-                    <td class="cell-detail" data-project="CLI"><span>Initial commit</span><span class="cell-detail-description">CLI Connector</span></td>
-                    <td class="milestone" data-progress="0,7"><span class="completed">3 / 20</span><span class="version">v1.2.0</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 7%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>master</span><span class="cell-detail-description">63e8ec3</span></td>
-                    <td class="cell-detail"><span class="date">April 6, 2018</span><span class="cell-detail-description">8:30</span></td>
-                    <td class="text-right">
-                      <div class="btn-group btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link </a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr class="info to-do">
-                    <td>
-                      <label class="custom-control custom-control-sm custom-checkbox">
-                        <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                      </label>
-                    </td>
-                    <td class="user-avatar cell-detail user-info"><img src="assets/img/avatars/img4.jpg" alt="Avatar"><span>Brett Harris</span><span class="cell-detail-description">Designer</span></td>
-                    <td class="cell-detail" data-project="Bootstrap"><span>Right sidebar adjusments</span><span class="cell-detail-description">Bootstrap Admin</span></td>
-                    <td class="milestone" data-progress="0,15"><span class="completed">7 / 50</span><span class="version">v1.0.1</span>
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-primary" style="width: 15%"></div>
-                      </div>
-                    </td>
-                    <td class="cell-detail"><span>master</span><span class="cell-detail-description">65bc2da</span></td>
-                    <td class="cell-detail"><span class="date">Jun 10, 2018</span><span class="cell-detail-description">13:02</span></td>
-                    <td class="text-right">
-                      <div class="btn-group dropup btn-hspace">
-                        <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Open <span class="icon-dropdown s7-angle-down"></span></button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu"><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                          <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                  <?php
+                  $sql_ingresos = 'select * from ingresos_generales';
+                  $ingresos = mysqli_query($con, $sql_ingresos);
+                  while ($rowp = mysqli_fetch_assoc($ingresos)) {
+                  ?>
+                    <tr>
+                      <td class="cell-detail">
+                        <span class="date"><?php echo $rowp["date"] ?></span>
+                      </td>
+                      <td class="cell-detail">
+                        <span><?php echo $rowp["concepto"] ?></span>
+                      </td>
+                      <td class="cell-detail">
+                        <span><?php echo $rowp["tipoingreso"] ?></span>
+                      </td>
+                      <td class="cell-detail">
+                        <span><?php echo $rowp["moneda_cambio"] ?></span>
+                      </td>
+                      <td class="cell-detail">
+                        <span>$<?php echo $rowp["monto"] ?></span>
+                      </td>
+                    </tr>
+                  <?php
+                  }
+                  ?>
                 </tbody>
               </table>
             </div>
@@ -721,6 +517,58 @@ include("conexion.php");
       App.wizard();
     });
 
+    function save_all() {
+        let form = document.createElement('form')
+
+        // let tramo = document.createElement('input')
+        // tramo.value = document.getElementById('tramo_reserva').value
+        // tramo.name = 'tramo_reserva'
+
+        let tipo_ingreso = document.createElement('input')
+        tipo_ingreso.value = document.getElementById('tipo_ingreso').value
+        tipo_ingreso.name = 'tipo_ingreso'
+        // let referencia = document.createElement('input')
+        // referencia.value = document.getElementById('referencia').value
+        // referencia.name="referencia"
+        let concepto = document.createElement('input')
+        concepto.value = document.getElementById('concepto').value
+        concepto.name = "concepto"
+        let monto = document.createElement('input')
+        monto.value = document.getElementById('monto').value
+        monto.name = "monto"
+        let fecha_gasto = document.createElement('input')
+        fecha_gasto.value = document.getElementById('fecha').value
+        fecha_gasto.name = "fecha_gasto"
+
+        let cambio = document.createElement('input')
+        cambio.value = document.getElementById('moneda_cambio').value
+        cambio.name = "cambio"
+        let fecha_cambio = document.createElement('input')
+        fecha_cambio.value = document.getElementById('fecha_cambio').value
+        fecha_cambio.name = "fecha_cambio"
+
+        let button1 = document.createElement('button')
+        button1.name = 'guardar_ingreso'
+
+        // form.appendChild(tramo)
+
+        form.appendChild(tipo_ingreso)
+        // form.appendChild(referencia)
+        form.appendChild(concepto)
+        form.appendChild(monto)
+        form.appendChild(fecha_gasto)
+
+        form.appendChild(cambio)
+        form.appendChild(fecha_cambio)
+
+        form.appendChild(button1)   
+
+        document.body.appendChild(form)
+        form.action = 'contabilidadingresos.php'
+        form.method = 'post'
+        // form.submit()
+        button1.click()
+    }
 
     function loginuser() {
       let form = document.createElement('form')

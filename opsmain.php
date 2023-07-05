@@ -136,7 +136,7 @@ include("conexion.php");
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de vuelos</span></a>
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="#"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
+                  <li class="nav-item"><a class="nav-link" href="calendar.php"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
                   </li>
                 </ul>
               </li>

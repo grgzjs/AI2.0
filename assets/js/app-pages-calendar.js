@@ -8,7 +8,7 @@
 var App = (function () {
   'use strict';
   
-  App.pageCalendar = function( ){
+  App.pageCalendar = function(){
 
 
     /* initialize the external events

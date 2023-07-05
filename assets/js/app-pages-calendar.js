@@ -35,13 +35,35 @@ var App = (function () {
     /* initialize the calendar
     -----------------------------------------------------------------*/
 
+    
+    let response = ""
+
+    let xhttp;
+    if (str == "") {
+      response = "";
+      return;
+    }
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        response = this.responseText;
+      }
+    };
+    xhttp.open("GET", "calendar_query.php?q="+str, true);
+    xhttp.send();
+
+    console.log(response);
+
+    let d = new Date();
+    let today = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
+
     $('#calendar').fullCalendar({
       header: {
         left: 'title',
         center: '',
         right: 'month,agendaWeek,agendaDay, today, prev,next',
       },
-      defaultDate: '2017-02-12',
+      defaultDate: today,
       editable: true,
       eventLimit: true,
       droppable: true, // this allows things to be dropped onto the calendar
@@ -53,60 +75,60 @@ var App = (function () {
         }
       },
       events: [
-        {
-          title: 'All Day Event',
-          start: '2017-02-01'
-        },
-        {
-          title: 'Long Event',
-          start: '2017-02-07',
-          end: '2017-02-10'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2017-02-09T16:00:00'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2017-02-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2017-02-11',
-          end: '2017-02-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2017-02-12T10:30:00',
-          end: '2017-02-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2017-02-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2017-02-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2017-02-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2017-02-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2017-02-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2017-02-28'
-        }
+        // {
+        //   title: 'All Day Event',
+        //   start: '2017-02-01'
+        // },
+        // {
+        //   title: 'Long Event',
+        //   start: '2017-02-07',
+        //   end: '2017-02-10'
+        // },
+        // {
+        //   id: 999,
+        //   title: 'Repeating Event',
+        //   start: '2017-02-09T16:00:00'
+        // },
+        // {
+        //   id: 999,
+        //   title: 'Repeating Event',
+        //   start: '2017-02-16T16:00:00'
+        // },
+        // {
+        //   title: 'Conference',
+        //   start: '2017-02-11',
+        //   end: '2017-02-13'
+        // },
+        // {
+        //   title: 'Meeting',
+        //   start: '2017-02-12T10:30:00',
+        //   end: '2017-02-12T12:30:00'
+        // },
+        // {
+        //   title: 'Lunch',
+        //   start: '2017-02-12T12:00:00'
+        // },
+        // {
+        //   title: 'Meeting',
+        //   start: '2017-02-12T14:30:00'
+        // },
+        // {
+        //   title: 'Happy Hour',
+        //   start: '2017-02-12T17:30:00'
+        // },
+        // {
+        //   title: 'Dinner',
+        //   start: '2017-02-12T20:00:00'
+        // },
+        // {
+        //   title: 'Birthday Party',
+        //   start: '2017-02-13T07:00:00'
+        // },
+        // {
+        //   title: 'Click for Google',
+        //   url: 'http://google.com/',
+        //   start: '2017-02-28'
+        // }
       ]
     });
 

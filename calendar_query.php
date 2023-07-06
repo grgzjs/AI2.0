@@ -1,34 +1,15 @@
 <?php
 include("conexion.php");
 
-$sql = "select fecha from invoice_detail"; // add where clause
+$sql = "select fecha, origen, destino from invoice_detail"; // add where clause
 
-// $sql = "SELECT customerid, companyname, contactname, address, city, postalcode, country
-// FROM customers WHERE customerid = ?";
+$calendar_dates = mysqli_query($con, $sql);
 
-$stmt = $mysqli->prepare($sql);
-$stmt->bind_param("s", $_GET['q']);
-$stmt->execute();
-$stmt->store_result();
-$stmt->bind_result($cid, $cname, $name, $adr, $city, $pcode, $country);
-$stmt->fetch();
-$stmt->close();
+while ($row = mysqli_fetch_assoc($calendar_dates)) {
+    $title = $row["origen"] . $row["destino"];
+    $fecha = $row["fecha"];
+}
 
-echo "<table>";
-echo "<tr>";
-echo "<th>CustomerID</th>";
-echo "<td>" . $cid . "</td>";
-echo "<th>CompanyName</th>";
-echo "<td>" . $cname . "</td>";
-echo "<th>ContactName</th>";
-echo "<td>" . $name . "</td>";
-echo "<th>Address</th>";
-echo "<td>" . $adr . "</td>";
-echo "<th>City</th>";
-echo "<td>" . $city . "</td>";
-echo "<th>PostalCode</th>";
-echo "<td>" . $pcode . "</td>";
-echo "<th>Country</th>";
-echo "<td>" . $country . "</td>";
-echo "</tr>";
-echo "</table>";
+echo "1";
+echo "<span>2</span>";
+echo "<script>console.log(3)</script>";

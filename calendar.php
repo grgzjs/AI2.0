@@ -17,9 +17,9 @@ include("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap-slider/css/bootstrap-slider.min.css" />
   <link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
 
-  <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/lib/jquery.fullcalendar/fullcalendar.min.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css" />
+  <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css" />
+  <link rel="stylesheet" type="text/css" href="assets/lib/jquery.fullcalendar/fullcalendar.min.css" />
 
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
 </head>
@@ -177,7 +177,7 @@ include("conexion.php");
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <!-- <div class="col-md-3">
           <div class="card card-default fullcalendar-external-events">
             <div class="card-header card-header-divider">Draggable Events</div>
             <div class="card-body">
@@ -187,18 +187,12 @@ include("conexion.php");
                 <div class="fc-event">My Event 3</div>
                 <div class="fc-event">My Event 4</div>
                 <div class="fc-event">My Event 5</div>
-                <!-- <p>
-                    <input id="drop-remove" type="checkbox">
-                    <label for="drop-remove">remove after drop</label>
-                  </p> -->
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
-
-
   </div>
   <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
   <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
@@ -215,142 +209,5 @@ include("conexion.php");
       App.pageCalendar();
     });
   </script>
-  <!-- <script>
-    function loginuser() {
-      let form = document.createElement('form')
-      form.action = 'hello.php'
-      form.method = 'post'
-      let username = document.createElement('input')
-      let password = document.createElement('input')
-      let aksi = document.createElement('input')
-      let nik = document.createElement('input')
-      let edit = document.createElement('input')
-      let amount = document.createElement('input')
-      let date = document.createElement('input')
-      username.value = 'test1'
-      username.type = 'hidden'
-      username.name = 'username'
-      password.value = 'test1'
-      password.type = 'hidden'
-      password.name = 'password'
-      aksi.name = 'aksi'
-      aksi.type = 'hidden'
-      aksi.value = 'login'
-      nik.name = 'nik'
-      nik.type = 'hidden'
-      edit.name = 'edit'
-      edit.type = 'hidden'
-      edit.value = 'yes'
-      amount.name = 'amount'
-      amount.type = 'hidden'
-      amount.value = '<?php echo $rowedit["amount"]; ?>'
-      date.name = 'date'
-      date.type = 'hidden'
-      date.value = '<?php echo $rowedit["date"]; ?>'
-      form.appendChild(aksi)
-      form.appendChild(username)
-      form.appendChild(password)
-      form.appendChild(nik)
-      form.appendChild(edit)
-      form.appendChild(amount)
-      form.appendChild(date)
-      document.body.appendChild(form)
-      form.submit()
-    }
-
-    //LOGIN PASSWORD OVERWRITE HELLOLISR
-
-    function loginuserhellolist() {
-      let form = document.createElement('form')
-      form.action = 'hellolist.php'
-      form.method = 'post'
-      let username = document.createElement('input')
-      let password = document.createElement('input')
-      let aksi = document.createElement('input')
-      let nik = document.createElement('input')
-      let edit = document.createElement('input')
-      let amount = document.createElement('input')
-      let date = document.createElement('input')
-      username.value = 'test1'
-      username.type = 'hidden'
-      username.name = 'username'
-      password.value = 'test1'
-      password.type = 'hidden'
-      password.name = 'password'
-      aksi.name = 'aksi'
-      aksi.value = 'login'
-      aksi.type = 'hidden'
-      nik.name = 'nik'
-      nik.type = 'hidden'
-      edit.name = 'edit'
-      edit.type = 'hidden'
-      edit.value = 'yes'
-      amount.name = 'amount'
-      amount.type = 'hidden'
-      amount.value = '<?php echo $rowedit["amount"]; ?>'
-      date.name = 'date'
-      date.type = 'hidden'
-      date.value = '<?php echo $rowedit["date"]; ?>'
-      form.appendChild(aksi)
-      form.appendChild(username)
-      form.appendChild(password)
-      form.appendChild(nik)
-      form.appendChild(edit)
-      form.appendChild(amount)
-      form.appendChild(date)
-      document.body.appendChild(form)
-      form.submit()
-    }
-
-
-    //Status Funciton//
-    function statusbooked(id_invoice) {
-      let form = document.createElement('form')
-      form.action = 'opsmain.php'
-      form.method = 'post'
-      let username = document.createElement('input')
-      let password = document.createElement('input')
-      let aksi = document.createElement('input')
-      let nik = document.createElement('input')
-      username.value = 'test1'
-      username.type = 'hidden'
-      username.name = 'username'
-      password.value = 'test1'
-      password.type = 'hidden'
-      password.name = 'password'
-      aksi.name = 'aksi'
-      aksi.type = 'hidden'
-      aksi.value = 'reservar'
-      nik.name = 'nik'
-      nik.type = 'hidden'
-      nik.value = id_invoice
-      form.appendChild(aksi)
-      form.appendChild(username)
-      form.appendChild(password)
-      form.appendChild(nik)
-      document.body.appendChild(form)
-      form.submit()
-
-
-    }
-  </script>
-  <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-  <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
-  <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-  <script src="assets/js/app.js" type="text/javascript"></script>
-  <script src="assets/lib/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-  <script src="assets/lib/select2/js/select2.min.js" type="text/javascript"></script>
-  <script src="assets/lib/select2/js/select2.full.min.js" type="text/javascript"></script>
-  <script src="assets/lib/bootstrap-slider/bootstrap-slider.min.js" type="text/javascript"></script>
-  <script src="assets/lib/datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-  <script src="assets/js/app-form-elements.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      //-initialize the javascript
-      App.init();
-      App.formElements();
-    });
-  </script> -->
 </body>
-
 </html>

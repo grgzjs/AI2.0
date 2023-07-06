@@ -305,6 +305,8 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                 <div class="card-header card-header-divider"> Detalle de Tramos<span class="card-subtitle">Ingresa las piernes de vuelo</span></div>
                 <br>
 
+                <div id='form-container'>
+
                 <div class="form-group row">
                   <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                   <div class="col-12 col-sm-8 col-lg-2">Fecha</div>
@@ -312,6 +314,9 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                   <div class="col-12 col-sm-8 col-lg-2">Destino</div>
                   <div class="col-12 col-sm-8 col-lg-1">Pax</div>
                   <div class="col-12 col-sm-8 col-lg-1">KM</div>
+                  <div class="input-group-append">
+                    <button class="btn btn-primary " onclick='javascript:add_tramo()' type="button">+</button>
+                  </div>
                 </div>
                 <?php
                 if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
@@ -349,37 +354,15 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                 }
                 //if(!$edit)
                 ?>
+                
                 <div class="form-group row">
                   <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-
                   <div class="col-12 col-sm-8 col-lg-2">
                     <input class="form-control" type="date" placeholder="fecha" name="fdate1">
                   </div>
                   <div class="col-12 col-sm-8 col-lg-2">
-                    <?php
-                    //FUNCTION TO ADD THE AIRPORT TO ORIGEN  
-                    $sqlairports = 'select * from airports';
-                    $airport = mysqli_query($con, $sqlairports);
-                    ?>
-                    <select name='forigen1' class="form-control custom-select select2" id='select2'>
-                      <script>
-                        document.onreadystatechange = function() {
-                          if (document.readyState == "interactive") {
-                            //document.getElementsByName('forigen1')[0].value=''
-                          }
-                        }
-                        //(document).ready(function() {
-                        // $('.select2').select2();
-                        //});
-                      </script>
-                      <?php while ($rowairport = mysqli_fetch_assoc($airport)) : ?>
-                        <option>
-                          <?php echo $rowairport['airport_code']; ?>
-                        </option>
-                      <?php endwhile; ?>
-                    </select>
+                    <input class="form-control" type="text" placeholder="origen" name="forigen1" id="forigen1">
                   </div>
-
                   <div class="col-12 col-sm-8 col-lg-2">
                     <input class="form-control" type="text" placeholder="destino" name="fdestino1" id="fdestino1">
                   </div>
@@ -391,87 +374,6 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                   </div>
                 </div>
 
-
-
-                <div class="form-group row">
-                  <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="date" placeholder="fecha" name="fdate2">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="origen" name="forigen2" id="forigen2">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="destino" name="fdestino2" id="fdestino2">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="pax" name="fpax2">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo2" id="km_vuelo2">
-                  </div>
-                </div>
-
-
-
-                <div class="form-group row">
-                  <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="date" placeholder="fecha" name="fdate3">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="origen" name="forigen3" id="forigen3">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="destino" name="fdestino3" id="fdestino3">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="pax" name="fpax3">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo3" id="km_vuelo3">
-                  </div>
-                </div>
-
-
-
-                <div class="form-group row">
-                  <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="date" placeholder="fecha" name="fdate4">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="origen" name="forigen4">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="destino" name="fdestino4">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="pax" name="fpax4">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo4" id="km_vuelo4">
-                  </div>
-                </div>
-
-
-                <div class="form-group row">
-                  <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="date" placeholder="fecha" name="fdate5">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="origen" name="forigen5">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="destino" name="fdestino5">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="pax" name="fpax5">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo5" id="km_vuelo5">
-                  </div>
                 </div>
 
                 <hr>
@@ -528,6 +430,83 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
       </div>
       </div>
       <script>
+        var tramo = 1;
+        function add_tramo(old_tramo) {
+          tramo++;
+
+          // can be limited using 'tramo'
+
+          console.log(tramo)
+          let master_container = document.getElementById('form-container')
+
+          let container = document.createElement('div')
+          master_container.appendChild(container)
+
+          let label = document.createElement('label')
+          container.classList.add('form-group', 'row')
+
+          label.classList.add('col-12', 'col-sm-1', 'col-form-label', 'text-sm-right')
+          container.appendChild(label)
+
+          let date_div = document.createElement('div')
+          container.appendChild(date_div)
+          let date_input = document.createElement('input')
+          date_div.appendChild(date_input)
+
+          date_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
+          date_input.classList.add('form-control')
+          date_input.type = 'date'
+          date_input.placeholder = 'fecha'
+          date_input.name = 'fdate'+ tramo
+
+          let origen_div = document.createElement('div')
+          container.appendChild(origen_div)
+          let origen_input = document.createElement('input')
+          origen_div.appendChild(origen_input)
+
+          origen_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
+          origen_input.classList.add('form-control')
+          origen_input.type = 'text'
+          origen_input.placeholder = 'origen'
+          origen_input.name = 'forigen'+ tramo
+          origen_input.id = 'forigen'+ tramo
+
+          let destino_div = document.createElement('div')
+          container.appendChild(destino_div)
+          let destino_input = document.createElement('input')
+          destino_div.appendChild(destino_input)
+
+          destino_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
+          destino_input.classList.add('form-control')
+          destino_input.type = 'text'
+          destino_input.placeholder = 'destino'
+          destino_input.name = 'fdestino'+ tramo
+          destino_input.id = 'fdestino'+ tramo
+
+          let pax_div = document.createElement('div')
+          container.appendChild(pax_div)
+          let pax_input = document.createElement('input')
+          pax_div.appendChild(pax_input)
+
+          pax_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
+          pax_input.classList.add('form-control')
+          pax_input.type = 'text'
+          pax_input.placeholder = 'pax'
+          pax_input.name = 'fpax'+ tramo
+
+          let km_div = document.createElement('div')
+          container.appendChild(km_div)
+          let km_input = document.createElement('input')
+          km_div.appendChild(km_input)
+
+          km_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
+          km_input.classList.add('form-control')
+          km_input.type = 'text'
+          km_input.placeholder = 'kms'
+          km_input.name = 'km_vuelo'+ tramo
+          km_input.id = 'km_vuelo'+ tramo
+        }
+
         function borrar(id_invoice) {
           //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
           //console.log('borrar '+id_invoice)

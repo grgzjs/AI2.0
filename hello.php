@@ -126,7 +126,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                       <li class="nav-item"><a class="nav-link" href="javascript:loginuser()"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
                       </li>
-                      <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Base de Cotizaciones</span></a>
+                      <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
                       </li>
 
                     </ul>
@@ -149,16 +149,16 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
 
                   <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                      <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de vuelos</span></a>
+                      <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Lista de Vuelos</span></a>
                       </li>
 
                     </ul>
                   </li>
                   <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                      <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Generales</span></a>
+                      <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Gral</span></a>
                       </li>
-                      <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Generales</span></a>
+                      <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Gral</span></a>
                       </li>
                     </ul>
                   <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
@@ -183,7 +183,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           <?php
           // SECCION DE BORRAR Y EDITAR
           $sqllist = "select * from invoices";
-          $rows = mysqli_query($con, $sqllist) or die(mysqli_error());
+          $rows = mysqli_query($con, $sqllist);
 
 
           if (isset($_POST['username']) && ($_POST['aksi'] == 'delete' || $_POST['aksi'] == 'edit')) {
@@ -270,13 +270,14 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Direccion:</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                  <?php
+                    <?php
                     if (isset($edit)) {
                       $queryBuyer = "select * from Contact where id=" . $idbuyer;
                       $buyers = mysqli_query($con, $queryBuyer);
                     ?>
-                      <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address" >
-                      <!-- <input class="form-control" type='text' name='buyer' value="<?php //echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>" readonly='readonly'> -->
+                      <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address">
+                      <!-- <input class="form-control" type='text' name='buyer' value="<?php //echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; 
+                                                                                        ?>" readonly='readonly'> -->
                     <?php
                     } else {
 
@@ -298,9 +299,11 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                     }
                     ?>
                     <!-- <div class="form-control" id='divaddress'>
-                      <?php// echo $rowedit['address']; ?>
+                      <?php // echo $rowedit['address']; 
+                      ?>
                     </div>
-                    <input class="form-control" type="hidden" value="<?php //echo $rowedit['address']; ?>" placeholder="address" name="address" id="address"> -->
+                    <input class="form-control" type="hidden" value="<?php //echo $rowedit['address']; 
+                                                                      ?>" placeholder="address" name="address" id="address"> -->
                   </div>
                 </div>
                 <div class="form-group row">
@@ -335,74 +338,74 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
 
                 <div id='form-container'>
 
-                <div class="form-group row">
-                  <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                  <div class="col-12 col-sm-8 col-lg-2">Fecha</div>
-                  <div class="col-12 col-sm-8 col-lg-2">Origen</div>
-                  <div class="col-12 col-sm-8 col-lg-2">Destino</div>
-                  <div class="col-12 col-sm-8 col-lg-1">Pax</div>
-                  <div class="col-12 col-sm-8 col-lg-1">KM</div>
-                  <div class="input-group-append">
-                    <button class="btn btn-primary " onclick='javascript:add_tramo()' type="button">
-                      <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
-                    </button>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">Fecha</div>
+                    <div class="col-12 col-sm-8 col-lg-2">Origen</div>
+                    <div class="col-12 col-sm-8 col-lg-2">Destino</div>
+                    <div class="col-12 col-sm-8 col-lg-1">Pax</div>
+                    <div class="col-12 col-sm-8 col-lg-1">KM</div>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary " onclick='javascript:add_tramo()' type="button">
+                        <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <?php
-                if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
-                  $nik = mysqli_real_escape_string($con, (strip_tags($_POST["nik"], ENT_QUOTES)));
-                  $edit = mysqli_query($con, "select * from invoices WHERE quote=$nik");
-                  if ($edit) {
-                    $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice=$nik");
-                    $i = 0;
-                    while ($rowdetail = mysqli_fetch_assoc($editdetail)) {
-                      //$i esta hecho para view y reveer el pdf
-                      $i++;
-                ?>
-                      <div class="form-group row">
-                        <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                        <div class="col-12 col-sm-8 col-lg-2">
-                          <input class="form-control" type="date" value="<?php echo $rowdetail['fecha']; ?>" placeholder="Fecha" name="<?php echo 'fdateh' . $i; ?>">
-                        </div>
+                  <?php
+                  if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
+                    $nik = mysqli_real_escape_string($con, (strip_tags($_POST["nik"], ENT_QUOTES)));
+                    $edit = mysqli_query($con, "select * from invoices WHERE quote=$nik");
+                    if ($edit) {
+                      $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice=$nik");
+                      $i = 0;
+                      while ($rowdetail = mysqli_fetch_assoc($editdetail)) {
+                        //$i esta hecho para view y reveer el pdf
+                        $i++;
+                  ?>
+                        <div class="form-group row">
+                          <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                          <div class="col-12 col-sm-8 col-lg-2">
+                            <input class="form-control" type="date" value="<?php echo $rowdetail['fecha']; ?>" placeholder="Fecha" name="<?php echo 'fdateh' . $i; ?>">
+                          </div>
 
-                        <div class="col-12 col-sm-8 col-lg-2">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['origen']; ?>" placeholder="origen" name="<?php echo 'forigenh' . $i; ?>">
+                          <div class="col-12 col-sm-8 col-lg-2">
+                            <input class="form-control" type="text" value="<?php echo $rowdetail['origen']; ?>" placeholder="origen" name="<?php echo 'forigenh' . $i; ?>">
+                          </div>
+                          <div class="col-12 col-sm-8 col-lg-2">
+                            <input class="form-control" type="text" value="<?php echo $rowdetail['destino']; ?>" placeholder="destino" name="<?php echo 'fdestinoh' . $i; ?>">
+                          </div>
+                          <div class="col-12 col-sm-8 col-lg-1">
+                            <input class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
+                          </div>
+                          <div class="col-12 col-sm-8 col-lg-1">
+                            <input class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
+                          </div>
                         </div>
-                        <div class="col-12 col-sm-8 col-lg-2">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['destino']; ?>" placeholder="destino" name="<?php echo 'fdestinoh' . $i; ?>">
-                        </div>
-                        <div class="col-12 col-sm-8 col-lg-1">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
-                        </div>
-                        <div class="col-12 col-sm-8 col-lg-1">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
-                        </div>
-                      </div>
-                <?php
+                  <?php
+                      }
                     }
                   }
-                }
-                //if(!$edit)
-                ?>
-                
-                <div class="form-group row">
-                  <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="date" placeholder="fecha" name="fdate1">
+                  //if(!$edit)
+                  ?>
+
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                    <div class="col-12 col-sm-8 col-lg-2">
+                      <input class="form-control" type="date" placeholder="fecha" name="fdate1">
+                    </div>
+                    <div class="col-12 col-sm-8 col-lg-2">
+                      <input class="form-control" type="text" placeholder="origen" name="forigen1" id="forigen1">
+                    </div>
+                    <div class="col-12 col-sm-8 col-lg-2">
+                      <input class="form-control" type="text" placeholder="destino" name="fdestino1" id="fdestino1">
+                    </div>
+                    <div class="col-12 col-sm-8 col-lg-1">
+                      <input class="form-control" type="text" placeholder="pax" name="fpax1">
+                    </div>
+                    <div class="col-12 col-sm-8 col-lg-1">
+                      <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1">
+                    </div>
                   </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="origen" name="forigen1" id="forigen1">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="destino" name="fdestino1" id="fdestino1">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="pax" name="fpax1">
-                  </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1">
-                  </div>
-                </div>
 
                 </div>
 
@@ -461,6 +464,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
       </div>
       <script>
         var tramo = 1;
+
         function add_tramo(old_tramo) {
           tramo++;
 
@@ -487,7 +491,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           date_input.classList.add('form-control')
           date_input.type = 'date'
           date_input.placeholder = 'fecha'
-          date_input.name = 'fdate'+ tramo
+          date_input.name = 'fdate' + tramo
 
           let origen_div = document.createElement('div')
           container.appendChild(origen_div)
@@ -498,8 +502,8 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           origen_input.classList.add('form-control')
           origen_input.type = 'text'
           origen_input.placeholder = 'origen'
-          origen_input.name = 'forigen'+ tramo
-          origen_input.id = 'forigen'+ tramo
+          origen_input.name = 'forigen' + tramo
+          origen_input.id = 'forigen' + tramo
 
           let destino_div = document.createElement('div')
           container.appendChild(destino_div)
@@ -510,8 +514,8 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           destino_input.classList.add('form-control')
           destino_input.type = 'text'
           destino_input.placeholder = 'destino'
-          destino_input.name = 'fdestino'+ tramo
-          destino_input.id = 'fdestino'+ tramo
+          destino_input.name = 'fdestino' + tramo
+          destino_input.id = 'fdestino' + tramo
 
           let pax_div = document.createElement('div')
           container.appendChild(pax_div)
@@ -522,7 +526,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           pax_input.classList.add('form-control')
           pax_input.type = 'text'
           pax_input.placeholder = 'pax'
-          pax_input.name = 'fpax'+ tramo
+          pax_input.name = 'fpax' + tramo
 
           let km_div = document.createElement('div')
           container.appendChild(km_div)
@@ -533,8 +537,8 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           km_input.classList.add('form-control')
           km_input.type = 'text'
           km_input.placeholder = 'kms'
-          km_input.name = 'km_vuelo'+ tramo
-          km_input.id = 'km_vuelo'+ tramo
+          km_input.name = 'km_vuelo' + tramo
+          km_input.id = 'km_vuelo' + tramo
         }
 
         function borrar(id_invoice) {

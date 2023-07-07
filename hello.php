@@ -32,6 +32,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
     <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap-slider/css/bootstrap-slider.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
     <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+    <link rel="stylesheet" href="css/styles.css" type="text/css" />
     </head>
 
     <body>
@@ -269,10 +270,37 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Direccion:</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <div class="form-control" id='divaddress'>
-                      <?php echo $rowedit['address']; ?>
+                  <?php
+                    if (isset($edit)) {
+                      $queryBuyer = "select * from Contact where id=" . $idbuyer;
+                      $buyers = mysqli_query($con, $queryBuyer);
+                    ?>
+                      <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address" >
+                      <!-- <input class="form-control" type='text' name='buyer' value="<?php //echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>" readonly='readonly'> -->
+                    <?php
+                    } else {
+
+
+                    ?>
+
+                      <select name="buyer" class="form-control custom-select" onblur="updateaddress(this)">
+                        <?php
+                        while ($rowbuyer = mysqli_fetch_assoc($buyers)) {
+                        ?>
+                          <option value="<?php echo $rowbuyer['id'] . '**' . $rowbuyer['address']; ?>"><?php echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>
+                          </option>
+
+                        <?php
+                        }
+                        ?>
+                      </select>
+                    <?php
+                    }
+                    ?>
+                    <!-- <div class="form-control" id='divaddress'>
+                      <?php// echo $rowedit['address']; ?>
                     </div>
-                    <input class="form-control" type="hidden" value="<?php echo $rowedit['address']; ?>" placeholder="address" name="address" id="address">
+                    <input class="form-control" type="hidden" value="<?php //echo $rowedit['address']; ?>" placeholder="address" name="address" id="address"> -->
                   </div>
                 </div>
                 <div class="form-group row">
@@ -315,7 +343,9 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                   <div class="col-12 col-sm-8 col-lg-1">Pax</div>
                   <div class="col-12 col-sm-8 col-lg-1">KM</div>
                   <div class="input-group-append">
-                    <button class="btn btn-primary " onclick='javascript:add_tramo()' type="button">+</button>
+                    <button class="btn btn-primary " onclick='javascript:add_tramo()' type="button">
+                      <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                    </button>
                   </div>
                 </div>
                 <?php

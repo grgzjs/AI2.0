@@ -133,7 +133,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                       <li class="nav-item"><a class="nav-link" href="javascript:loginuser()"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
                       </li>
-                      <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Base de Cotizaciones</span></a>
+                      <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
                       </li>
 
                     </ul>
@@ -197,7 +197,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
 
           // SECCION DE BORRAR Y EDITAR
           //$sqllist = "select * from invoices where status = 1";
-          $sqllist = "select i.*,c.* from invoices i, contact c where i.status = 1 and i.buyer_id=c.id";
+          $sqllist = "select i.*,c.* from invoices i, contact c where i.status = 1 and i.buyer_id=c.id ORDER BY i.`date` DESC";
           $rows = mysqli_query($con, $sqllist) or die(mysqli_error());
 
 

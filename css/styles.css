@@ -122,3 +122,24 @@ table {
 textarea.elemento-buscador {
   height: auto;
 }
+
+.ai-icon {
+  width: 25px;
+  height: auto;
+}
+
+.ai-button-checkbox {
+  pointer-events: none;
+}
+
+.ai-checked {
+  background-color: green;
+}
+
+.ai-unchecked {
+  background-color: blue;
+}
+
+.ai-hide-checkmark {
+  visibility: hidden;
+}

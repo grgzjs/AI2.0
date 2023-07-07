@@ -417,7 +417,9 @@ include("conexion.php");
 
                                                     </div>
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-primary " onclick='javascript:addbutton2()' type="button">+</button>
+                                                        <button class="btn btn-primary" onclick='javascript:addbutton2()' type="button" class="ai-button">
+                                                            <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                                                        </button>
                                                     </div>
                                                 </div>
 
@@ -476,18 +478,26 @@ include("conexion.php");
                                                                 foreach ($tramoids as $tramo) {
                                                                     if (in_array($tramo, $pilot_tramos)) {
                                                                 ?>
-                                                                        <input class="form-control col-6 col-sm-1 col-lg-1" type="checkbox" name="<?php echo 'pax' . $tramo ?>" disabled='disabled' checked>
+                                                                <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <!-- <span class="s7-trash"></span> -->
+                                                                    <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon">
+                                                                </button>
+                                                                        
                                                                     <?php
                                                                     } else {
                                                                     ?>
-                                                                        <input class="form-control col-6 col-sm-1 col-lg-1" type="checkbox" name="<?php echo 'pax' . $tramo ?>" disabled='disabled'>
+                                                                    <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <!-- <span class="s7-trash"></span> -->
+                                                                    <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon ai-hide-checkmark">
+                                                                </button>
                                                                 <?php
                                                                     }
                                                                 }
                                                                 ?>
 
-                                                                <button class="form-control btn btn-dark btn-danger btn-xs " onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
-                                                                    <span class="s7-trash"></span>
+                                                                <button class="btn btn-danger" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <!-- <span class="s7-trash"></span> -->
+                                                                    <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
                                                                 </button>
                                                                 <!-- changed from a to button-->
 
@@ -559,9 +569,9 @@ include("conexion.php");
                                                         ?>
 
                                                     </div>
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-primary " onclick='javascript:addbutton()' type="button">+</button>
-                                                    </div>
+                                                    <button class="btn btn-primary" onclick='javascript:addbutton()' type="button" class="ai-button">
+                                                            <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                                                        </button>
                                                 </div>
                                                 <div class="form-group row container">
                                                     <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
@@ -614,17 +624,25 @@ include("conexion.php");
                                                                 foreach ($tramoids as $tramo) {
                                                                     if (in_array($tramo, $pilot_tramos)) {
                                                                 ?>
-                                                                        <input class="form-control col-6 col-sm-1 col-lg-1" type="checkbox" name="<?php echo 'pax' . $tramo ?>" disabled='disabled' checked>
+                                                                        <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <!-- <span class="s7-trash"></span> -->
+                                                                    <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon">
+                                                                </button>
                                                                     <?php
                                                                     } else {
                                                                     ?>
-                                                                        <input class="form-control col-6 col-sm-1 col-lg-1" type="checkbox" name="<?php echo 'pax' . $tramo ?>" disabled='disabled'>
+                                                                         <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <!-- <span class="s7-trash"></span> -->
+                                                                    <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon ai-hide-checkmark">
+                                                                </button>
                                                                 <?php
                                                                     }
                                                                 }
                                                                 ?>
-                                                                <button class="form-control btn btn-dark btn-danger " type="button" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
-                                                                    <span class="s7-trash"></span>
+                                                                
+                                                                <button class="btn btn-danger" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <!-- <span class="s7-trash"></span> -->
+                                                                    <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
                                                                 </button>
                                                             </div>
                                                         <?php

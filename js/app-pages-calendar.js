@@ -59,7 +59,7 @@ var App = (function () {
         center: '',
         right: 'month,agendaWeek,agendaDay, today, prev,next',
       },
-      defaultDate: today,
+      defaultDate: "2018-06-06",
       editable: true,
       eventLimit: true,
       droppable: true, // this allows things to be dropped onto the calendar

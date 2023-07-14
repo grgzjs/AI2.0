@@ -7,51 +7,56 @@
 
 var App = (function () {
   // 'use strict';
-  App.pageCalendar = function( ){
+  App.pageCalendar = function(){
 
     /* initialize the external events
     -----------------------------------------------------------------*/
 
-    $('#external-events .fc-event').each(function() {
+    // $('#external-events .fc-event').each(function() {
 
-      // store data so the calendar knows to render an event upon drop
-      $(this).data('event', {
-        title: $.trim($(this).text()), // use the element's text as the event title
-        stick: true // maintain when user navigates (see docs on the renderEvent method)
-      });
+    //   // store data so the calendar knows to render an event upon drop
+    //   $(this).data('event', {
+    //     title: $.trim($(this).text()), // use the element's text as the event title
+    //     stick: true // maintain when user navigates (see docs on the renderEvent method)
+    //   });
 
-      // make the event draggable using jQuery UI
-      $(this).draggable({
-        zIndex: 999,
-        revert: true,      // will cause the event to go back to its
-        revertDuration: 0  //  original position after the drag
-      });
+    //   // make the event draggable using jQuery UI
+    //   $(this).draggable({
+    //     zIndex: 999,
+    //     revert: true,      // will cause the event to go back to its
+    //     revertDuration: 0  //  original position after the drag
+    //   });
 
-    });
+    // });
 
 
     /* initialize the calendar
     -----------------------------------------------------------------*/
 
-    //     let xhttp;
-    //     let str="123"
-    //     if (str == "") {
-    //       response = "";
-    //       return;
-    //     }
-    //     xhttp = new XMLHttpRequest();
-    //     xhttp.onreadystatechange = function() {
-    //       if (this.readyState == 4 && this.status == 200) {
-    //         response = this.responseText;
-    //       }
-    //     };
-    //     xhttp.open("GET", "calendar_query.php?q="+str, true);
-    //     xhttp.send();
+    // let mysql = require('mysql');
+    // let con = mysql.createConnection({
+    //   host: "208.109.21.16",
+    //   user: "w3ezyugzcrtk",
+    //   password: "Charter1221!",
+    //   database: "YouAirCharter"
+    // });
+    // con.connect(function(err) {
+    //   if (err) throw err;
+    //   con.query("SELECT fecha, origen, destino FROM invoice_detail", function (err, result, fields) {
+    //     if (err) throw err;
+    //     console.log(result);
+    //   });
+    // });
 
-    //     console.log(response);
+    const date = new Date();
 
-    let d = new Date();
-    let today = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
+    let currentDay= String(date.getDate()).padStart(2, '0');
+    let currentMonth = String(date.getMonth()+1).padStart(2,"0");
+    let currentYear = date.getFullYear();
+
+    let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+
+    // console.log("The current date is " + currentDate); 
 
     $('#calendar').fullCalendar({
       header: {
@@ -59,7 +64,7 @@ var App = (function () {
         center: '',
         right: 'month,agendaWeek,agendaDay, today, prev,next',
       },
-      defaultDate: "2018-06-06",
+      defaultDate: currentDate,
       editable: true,
       eventLimit: true,
       droppable: true, // this allows things to be dropped onto the calendar

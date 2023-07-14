@@ -9,3 +9,7 @@ while ($row = mysqli_fetch_assoc($calendar_dates)) {
     $title = $row["origen"] . $row["destino"];
     $fecha = $row["fecha"];
 }
+
+echo "<script>console.log('1')</script>";
+?>
+<script>console.log('2');</script>

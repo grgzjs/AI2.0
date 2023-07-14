@@ -1,5 +1,4 @@
 <?php
-
 include("conexion.php");
 require_once('tcpdf/tcpdf.php');
 
@@ -385,4 +384,3 @@ $filename = 'Quote' . $aux . '.pdf';
 //$pdf->Output($filename, 'D');
 $pdf->Output($filename, 'D');
 header('Location: hellolist.php');
-//echo '<script>window.location.href = "hello.php";</script>';

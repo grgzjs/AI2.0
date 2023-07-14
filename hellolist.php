@@ -199,7 +199,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           // SECCION DE BORRAR Y EDITAR
           //$sqllist = "select * from invoices where status = 1";
           $sqllist = "select i.*,c.* from invoices i, contact c where i.status = 1 and i.buyer_id=c.id ORDER BY i.`date` DESC";
-          $rows = mysqli_query($con, $sqllist) or die(mysqli_error());
+          $rows = mysqli_query($con, $sqllist);
 
 
 

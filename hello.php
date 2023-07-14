@@ -569,8 +569,8 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           form.appendChild(nik)
           document.body.appendChild(form)
           form.submit()
-
         }
+        
         //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
         function editarQuote(id_invoice) {
           let form = document.createElement('form')

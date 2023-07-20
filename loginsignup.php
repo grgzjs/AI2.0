@@ -28,7 +28,7 @@
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend"><i class="icon s7-mail"></i></div>
-                <input class="form-control" id="password" type="text" placeholder="Email">
+                <input class="form-control" id="email" type="text" placeholder="Email">
               </div>
             </div>
             <div class="form-group inline row">
@@ -41,7 +41,7 @@
               <div class="col-sm-6">
                 <div class="input-group">
                   <div class="input-group-prepend"><i class="icon s7-lock"></i></div>
-                  <input class="form-control" type="password" placeholder="Confirm">
+                  <input class="form-control" id="pass2" type="password" placeholder="Confirm">
                 </div>
               </div>
             </div>
@@ -59,7 +59,7 @@
           </form>
           <div class="out-links"><a href="#">© 2023 Gustoso Soft</a></div>
         </div>
-        <div class="col-md-6 user-message"><span class="splash-message text-left">Welcome to<br> Maisonette<br> Enjoy</span><span class="alternative-message text-right">Don't have an account? <a href="pages-sign-up.html">Sign Up</a></span></div>
+        <div class="col-md-6 user-message"><span class="splash-message text-left">Welcome to<br> YouAir<br> Enjoy</span></div> <!-- <span class="alternative-message text-right">Don't have an account? <a href="pages-sign-up.html">Sign Up</a></span> -->
       </div>
     </div>
   </div>
@@ -72,6 +72,9 @@
       //-initialize the javascript
       App.init();
     });
+  </script>
+  <script>
+
   </script>
 </body>
 

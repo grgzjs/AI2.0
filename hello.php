@@ -3,8 +3,8 @@
 
 <head>
   <link rel="shortcut icon" href="assets/img/favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script> -->
 
 </head>
 <?php
@@ -28,11 +28,12 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
     <title>AIS Quote</title>
     <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css" />
     <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css" /> -->
     <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap-slider/css/bootstrap-slider.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
     <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
     <link rel="stylesheet" href="css/styles.css" type="text/css" />
+    <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -139,10 +140,10 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                       </li>
                       <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                       </li>
-                      <li class="nav-item dropdown parent"><a class="nav-link" href="crmemail.php" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
+                      <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="crmemail.php" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
                         <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="crmemail.php">Inbox</a><a class="dropdown-item" href="crmemail.php">Detail</a><a class="dropdown-item" href="crmemail.php">Compose</a>
                         </div>
-                      </li>
+                      </li> -->
 
                     </ul>
                   </li>
@@ -151,7 +152,8 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                       <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Lista de Vuelos</span></a>
                       </li>
-
+                      <li class="nav-item"><a class="nav-link" href="ops_calendar.php"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
+                      </li>
                     </ul>
                   </li>
                   <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
@@ -228,232 +230,230 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
             <div class="col-md-12">
               <div class="card card-default">
                 <div class="card-header card-header-divider">Info de Cotizacion<span class="card-subtitle">Ingresa detalles del comprador</span></div>
-                <div class="card-body pl-sm-5">
-                  <form action="report.php" method="post">
-                </div>
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Comprador:</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <?php
-                    $queryBuyer = "select * from Contact order by id";
-                    $buyers = mysqli_query($con, $queryBuyer);
-
-                    if (isset($edit)) {
-                      $queryBuyer = "select * from Contact where id=" . $idbuyer;
+                <!-- <div class="card-body pl-sm-5"> -->
+                <form id="quote-form"> <!-- action="report.php" method="post" > -->
+                  <!-- </div> -->
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Comprador:</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <script type="text/javascript">
+                        window.addEventListener("load", function() {
+                          updateaddress(document.getElementById("name-select"))
+                        }, false);
+                      </script>
+                      <?php
+                      $queryBuyer = "select * from Contact order by id";
                       $buyers = mysqli_query($con, $queryBuyer);
-                    ?>
-                      <input class="form-control" type='text' name='buyer' value="<?php echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>" readonly='readonly'>
-                    <?php
-                    } else {
 
-
-                    ?>
-
-                      <select name="buyer" class="form-control custom-select" onblur="updateaddress(this)">
-                        <?php
-                        while ($rowbuyer = mysqli_fetch_assoc($buyers)) {
-                        ?>
-                          <option value="<?php echo $rowbuyer['id'] . '**' . $rowbuyer['address']; ?>"><?php echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>
-                          </option>
-
-                        <?php
-                        }
-                        ?>
-                      </select>
-                    <?php
-                    }
-                    ?>
+                      if (isset($edit)) {
+                        $queryBuyer = "select * from Contact where id=" . $idbuyer;
+                        $buyers = mysqli_query($con, $queryBuyer);
+                      ?>
+                        <input class="form-control" type='text' name='buyer' value="<?php echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>" readonly='readonly'>
+                      <?php
+                      } else {
+                      ?>
+                        <select id="name-select" name="buyer" class="form-control custom-select" onblur="updateaddress(this)">
+                          <?php
+                          while ($rowbuyer = mysqli_fetch_assoc($buyers)) {
+                          ?>
+                            <option value="<?php echo $rowbuyer['id'] . '**' . $rowbuyer['address']; ?>"><?php echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>
+                            </option>
+                          <?php
+                          }
+                          ?>
+                        </select>
+                      <?php
+                      }
+                      ?>
+                    </div>
                   </div>
-                </div>
 
 
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Direccion:</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <?php
-                    if (isset($edit)) {
-                      $queryBuyer = "select * from Contact where id=" . $idbuyer;
-                      $buyers = mysqli_query($con, $queryBuyer);
-                    ?>
-                      <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address">
-                      <!-- <input class="form-control" type='text' name='buyer' value="<?php //echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; 
-                                                                                        ?>" readonly='readonly'> -->
-                    <?php
-                    } else {
-
-
-                    ?>
-
-                      <select name="buyer" class="form-control custom-select" onblur="updateaddress(this)">
-                        <?php
-                        while ($rowbuyer = mysqli_fetch_assoc($buyers)) {
-                        ?>
-                          <option value="<?php echo $rowbuyer['id'] . '**' . $rowbuyer['address']; ?>"><?php echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; ?>
-                          </option>
-
-                        <?php
-                        }
-                        ?>
-                      </select>
-                    <?php
-                    }
-                    ?>
-                    <!-- <div class="form-control" id='divaddress'>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Direccion:</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <?php
+                      if (isset($edit)) {
+                        $queryBuyer = "select * from Contact where id=" . $idbuyer;
+                        $buyers = mysqli_query($con, $queryBuyer);
+                      ?>
+                        <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address">
+                        <!-- <input class="form-control" type='text' name='buyer' value="<?php //echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name']; 
+                                                                                          ?>" readonly='readonly'> -->
+                      <?php
+                      } else {
+                      ?>
+                        <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address" disabled>
+                      <?php
+                      }
+                      ?>
+                      <!-- <div class="form-control" id='divaddress'>
                       <?php // echo $rowedit['address']; 
                       ?>
                     </div>
                     <input class="form-control" type="hidden" value="<?php //echo $rowedit['address']; 
                                                                       ?>" placeholder="address" name="address" id="address"> -->
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Aeronave:</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <?php
-                    //AIRCRAFT TABLE
-                    $sqlaircraft = 'select * from Aircraft';
-                    $aircraft = mysqli_query($con, $sqlaircraft);
-
-
-                    ?>
-                    <select name='aircraft' class="form-control custom-select" id="aircraft">
-                      <?php
-                      while ($rowaircraft = mysqli_fetch_assoc($aircraft)) {
-                      ?>
-                        <option value="<?php echo $rowaircraft['preciokm'] . '*' . $rowaircraft['matricula'] ?>">
-                          <?php
-                          echo $rowaircraft['matricula'];
-                          ?>
-                        <?php
-                      }
-                        ?>
-
-                    </select>
-                  </div>
-                </div>
-
-
-                <div class="card-header card-header-divider"> Detalle de Tramos<span class="card-subtitle">Ingresa las piernes de vuelo</span></div>
-                <br>
-
-                <div id='form-container'>
-
-                  <div class="form-group row">
-                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                    <div class="col-12 col-sm-8 col-lg-2">Fecha</div>
-                    <div class="col-12 col-sm-8 col-lg-2">Origen</div>
-                    <div class="col-12 col-sm-8 col-lg-2">Destino</div>
-                    <div class="col-12 col-sm-8 col-lg-1">Pax</div>
-                    <div class="col-12 col-sm-8 col-lg-1">KM</div>
-                    <div class="input-group-append">
-                      <button class="btn btn-primary " onclick='javascript:add_tramo()' type="button">
-                        <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
-                      </button>
                     </div>
                   </div>
-                  <?php
-                  if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
-                    $nik = mysqli_real_escape_string($con, (strip_tags($_POST["nik"], ENT_QUOTES)));
-                    $edit = mysqli_query($con, "select * from invoices WHERE quote=$nik");
-                    if ($edit) {
-                      $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice=$nik");
-                      $i = 0;
-                      while ($rowdetail = mysqli_fetch_assoc($editdetail)) {
-                        //$i esta hecho para view y reveer el pdf
-                        $i++;
-                  ?>
-                        <div class="form-group row">
-                          <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                          <div class="col-12 col-sm-8 col-lg-2">
-                            <input class="form-control" type="date" value="<?php echo $rowdetail['fecha']; ?>" placeholder="Fecha" name="<?php echo 'fdateh' . $i; ?>">
-                          </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Aeronave:</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <script type="text/javascript">
+                        window.addEventListener("load", function() {
+                          update_km_price(document.getElementById("aircraft"))
+                        }, false);
+                      </script>
+                      <?php
+                      //AIRCRAFT TABLE
+                      $sqlaircraft = 'select * from Aircraft';
+                      $aircraft = mysqli_query($con, $sqlaircraft);
 
-                          <div class="col-12 col-sm-8 col-lg-2">
-                            <input class="form-control" type="text" value="<?php echo $rowdetail['origen']; ?>" placeholder="origen" name="<?php echo 'forigenh' . $i; ?>">
+
+                      ?>
+                      <select name='aircraft' class="form-control custom-select" id="aircraft" onblur="update_km_price(this)">
+                        <?php
+                        while ($rowaircraft = mysqli_fetch_assoc($aircraft)) {
+                        ?>
+                          <option value="<?php echo $rowaircraft['matricula'] . '*' . $rowaircraft['preciokm'] ?>">
+                            <?php echo $rowaircraft['matricula']; ?>
+                          <?php
+                        }
+                          ?>
+
+                      </select>
+                    </div>
+                  </div>
+
+
+                  <div class="card-header card-header-divider"> Detalle de Tramos<span class="card-subtitle">Ingresa las piernes de vuelo</span></div>
+                  <br>
+
+                  <div id='form-container'>
+
+                    <div class="form-group row">
+                      <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                      <style>
+                        .center-text {
+                          display: flex;
+                          align-items: center
+                        }
+                      </style>
+                      <div class="col-12 col-sm-8 col-lg-2 center-text">Fecha</div>
+                      <div class="col-12 col-sm-8 col-lg-2 center-text">Origen</div>
+                      <div class="col-12 col-sm-8 col-lg-2 center-text">Destino</div>
+                      <div class="col-12 col-sm-8 col-lg-1 center-text">Pax</div>
+                      <div class="col-12 col-sm-8 col-lg-1 center-text">KM</div>
+                    </div>
+                    <?php
+                    if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
+                      $nik = mysqli_real_escape_string($con, (strip_tags($_POST["nik"], ENT_QUOTES)));
+                      $edit = mysqli_query($con, "select * from invoices WHERE quote=$nik");
+                      if ($edit) {
+                        $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice=$nik");
+                        $i = 0;
+                        while ($rowdetail = mysqli_fetch_assoc($editdetail)) {
+                          //$i esta hecho para view y reveer el pdf
+                          $i++;
+                    ?>
+                          <div class="form-group row">
+                            <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                            <div class="col-12 col-sm-8 col-lg-2">
+                              <input class="form-control" type="date" value="<?php echo $rowdetail['fecha']; ?>" placeholder="Fecha" name="<?php echo 'fdateh' . $i; ?>">
+                            </div>
+
+                            <div class="col-12 col-sm-8 col-lg-2">
+                              <input class="form-control" type="text" value="<?php echo $rowdetail['origen']; ?>" placeholder="origen" name="<?php echo 'forigenh' . $i; ?>">
+                            </div>
+                            <div class="col-12 col-sm-8 col-lg-2">
+                              <input class="form-control" type="text" value="<?php echo $rowdetail['destino']; ?>" placeholder="destino" name="<?php echo 'fdestinoh' . $i; ?>">
+                            </div>
+                            <div class="col-12 col-sm-8 col-lg-1">
+                              <input class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
+                            </div>
+                            <div class="col-12 col-sm-8 col-lg-1">
+                              <input class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
+                            </div>
                           </div>
-                          <div class="col-12 col-sm-8 col-lg-2">
-                            <input class="form-control" type="text" value="<?php echo $rowdetail['destino']; ?>" placeholder="destino" name="<?php echo 'fdestinoh' . $i; ?>">
-                          </div>
-                          <div class="col-12 col-sm-8 col-lg-1">
-                            <input class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
-                          </div>
-                          <div class="col-12 col-sm-8 col-lg-1">
-                            <input class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
-                          </div>
-                        </div>
-                  <?php
+                    <?php
+                        }
                       }
                     }
-                  }
-                  //if(!$edit)
-                  ?>
+                    //if(!$edit)
+                    ?>
+
+                    <div class="form-group row" id="tramo-1">
+                      <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                      <div class="col-12 col-sm-8 col-lg-2">
+                        <input class="form-control" type="date" placeholder="fecha" name="fdate1" id="fdate1">
+                      </div>
+                      <div class="col-12 col-sm-8 col-lg-2">
+                        <input class="form-control" type="text" placeholder="origen" name="forigen1" id="forigen1">
+                      </div>
+                      <div class="col-12 col-sm-8 col-lg-2">
+                        <input class="form-control" type="text" placeholder="destino" name="fdestino1" id="fdestino1">
+                      </div>
+                      <div class="col-12 col-sm-8 col-lg-1">
+                        <input class="form-control" type="text" placeholder="pax" name="fpax1">
+                      </div>
+                      <div class="col-12 col-sm-8 col-lg-1">
+                        <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1" onchange="editSubtotal(this.value)">
+                      </div>
+                      <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
+                        <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                      </button>
+                      <button id="delete-tramo-btn" class="btn btn-danger" onclick='javascript:delete_tramo()' type="button" style="display: none">
+                          <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
+                      </button>
+                    </div>
+
+                  </div>
+
+                  <hr>
+                  <br>
 
                   <div class="form-group row">
-                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                    <div class="col-12 col-sm-8 col-lg-2">
-                      <input class="form-control" type="date" placeholder="fecha" name="fdate1">
-                    </div>
-                    <div class="col-12 col-sm-8 col-lg-2">
-                      <input class="form-control" type="text" placeholder="origen" name="forigen1" id="forigen1">
-                    </div>
-                    <div class="col-12 col-sm-8 col-lg-2">
-                      <input class="form-control" type="text" placeholder="destino" name="fdestino1" id="fdestino1">
-                    </div>
-                    <div class="col-12 col-sm-8 col-lg-1">
-                      <input class="form-control" type="text" placeholder="pax" name="fpax1">
-                    </div>
-                    <div class="col-12 col-sm-8 col-lg-1">
-                      <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Subtotal:</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="0" placeholder="subtotal" name="subtotal" id="subtotal" readonly>
                     </div>
                   </div>
-
-                </div>
-
-                <hr>
-                <br>
-
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Subtotal:</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowedit['subtotal']; ?>" placeholder="subtotal" name="subtotal" id="subtotal">
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Adicionales:</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $rowedit['addons']; ?>" placeholder="addons" name="addons" id="addons" onchange="editTotal(this.value)">
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Adicionales:</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowedit['addons']; ?>" placeholder="addons" name="addons" id="addons">
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="<?php echo $rowedit['tax']; ?>" placeholder="tax" name="tax" id="tax" onchange="editTotal(this.value)">
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowedit['tax']; ?>" placeholder="tax" name="tax" id="tax">
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Total:</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="text" value="0" placeholder="amount" name="amount" id="amount" readonly>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Total:</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowedit['amount']; ?>" placeholder="amount" name="amount" id="amount">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="hidden" value="<?php echo $rowedit['quote']; ?>" placeholder="idpdf" name="idpdf" id="idpdf">
-                  </div>
+                  <div class="form-group row">
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input class="form-control" type="hidden" value="<?php echo $rowedit['quote']; ?>" placeholder="idpdf" name="idpdf" id="idpdf">
+                    </div>
 
 
 
-                  <div class="col-lg-6 pb-4 pb-lg-0">
+                    <div class="col-lg-6 pb-4 pb-lg-0">
+                    </div>
+                    <div class="col-lg-6">
+                    </div>
+                    <div class="col-lg-6">
+                      <p class="text-right">
+                        <button class="btn btn-space btn-primary" name="save" type="submit">Procesar</button>
+                        <button class="btn btn-space btn-secondary">Cancelar</button>
+                      </p>
+                    </div>
                   </div>
-                  <div class="col-lg-6">
-                  </div>
-                  <div class="col-lg-6">
-                    <p class="text-right">
-                      <button class="btn btn-space btn-primary" name="save" type="submit">Procesar</button>
-                      <button class="btn btn-space btn-secondary">Cancelar</button>
-                    </p>
-                  </div>
-                </div>
                 </form>
               </div>
             </div>
@@ -465,25 +465,34 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
       <script>
         var tramo = 1;
 
-        function add_tramo(old_tramo) {
+        $('#quote-form').on('submit', function(e) {
+          e.preventDefault();
+          // alert($(this).serialize());
+          $.post('report.php', $(this).serialize());
+          location.reload();
+        });
+
+        function add_tramo() {
           tramo++;
 
+          // let form_container = document.getElementById('quote-form');
+
           // can be limited using 'tramo'
-
-          console.log(tramo)
           let master_container = document.getElementById('form-container')
+          // form_container.appendChild(master_container)
 
-          let container = document.createElement('div')
-          master_container.appendChild(container)
+          let new_container = document.createElement('div')
+          master_container.appendChild(new_container)
 
           let label = document.createElement('label')
-          container.classList.add('form-group', 'row')
+          new_container.classList.add('form-group', 'row')
+          new_container.setAttribute("id", "tramo-"+tramo);
 
           label.classList.add('col-12', 'col-sm-1', 'col-form-label', 'text-sm-right')
-          container.appendChild(label)
+          new_container.appendChild(label)
 
           let date_div = document.createElement('div')
-          container.appendChild(date_div)
+          new_container.appendChild(date_div)
           let date_input = document.createElement('input')
           date_div.appendChild(date_input)
 
@@ -492,9 +501,11 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           date_input.type = 'date'
           date_input.placeholder = 'fecha'
           date_input.name = 'fdate' + tramo
+          date_input.id = 'fdate' + tramo
+          date_input.min = document.getElementById('fdate' + (tramo - 1)).value;
 
           let origen_div = document.createElement('div')
-          container.appendChild(origen_div)
+          new_container.appendChild(origen_div)
           let origen_input = document.createElement('input')
           origen_div.appendChild(origen_input)
 
@@ -504,9 +515,10 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           origen_input.placeholder = 'origen'
           origen_input.name = 'forigen' + tramo
           origen_input.id = 'forigen' + tramo
+          origen_input.value = document.getElementById('fdestino' + (tramo - 1)).value
 
           let destino_div = document.createElement('div')
-          container.appendChild(destino_div)
+          new_container.appendChild(destino_div)
           let destino_input = document.createElement('input')
           destino_div.appendChild(destino_input)
 
@@ -516,9 +528,10 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           destino_input.placeholder = 'destino'
           destino_input.name = 'fdestino' + tramo
           destino_input.id = 'fdestino' + tramo
+          // destino_input.value = document.getElementById('forigen' + (tramo - 1)).value
 
           let pax_div = document.createElement('div')
-          container.appendChild(pax_div)
+          new_container.appendChild(pax_div)
           let pax_input = document.createElement('input')
           pax_div.appendChild(pax_input)
 
@@ -529,7 +542,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           pax_input.name = 'fpax' + tramo
 
           let km_div = document.createElement('div')
-          container.appendChild(km_div)
+          new_container.appendChild(km_div)
           let km_input = document.createElement('input')
           km_div.appendChild(km_input)
 
@@ -539,11 +552,57 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           km_input.placeholder = 'kms'
           km_input.name = 'km_vuelo' + tramo
           km_input.id = 'km_vuelo' + tramo
+          // km_input.onchange = editSubtotal(this.value)
+          km_input.addEventListener('change', function() {
+            editSubtotal(this.value);
+          }, false)
+
+          // move buttons to new element
+          let add_tramo_bnt = document.getElementById('add-tramo-btn')
+          let delete_tramo_bnt = document.getElementById('delete-tramo-btn')
+
+          new_container.appendChild(add_tramo_bnt)
+          new_container.appendChild(delete_tramo_bnt)
+
+          if ((tramo-1) == 1) {
+            delete_tramo_bnt.style.display = "block";
+          }
+        }
+
+        function delete_tramo() {
+          let add_tramo_bnt = document.getElementById('add-tramo-btn')
+          let delete_tramo_bnt = document.getElementById('delete-tramo-btn')
+
+          let prev_container = document.getElementById("tramo-"+(tramo-1))
+          prev_container.appendChild(add_tramo_bnt)
+          prev_container.appendChild(delete_tramo_bnt)
+          
+          let last_container = document.getElementById("tramo-"+tramo)
+          last_container.remove() // delete the new container
+
+          tramo--
+
+          if (tramo == 1) {
+            delete_tramo_bnt.style.display = "none";
+          }
+        }
+
+        kmPrice = 0
+
+        function editSubtotal(newPrice) {
+          newPrice *= kmPrice
+          document.getElementById('subtotal').setAttribute('value', parseFloat(document.getElementById('subtotal').value) + parseFloat(newPrice));
+          document.getElementById('subtotal').value = parseFloat(document.getElementById('subtotal').value) + parseFloat(newPrice);
+          editTotal(newPrice); // also add to total
+        }
+
+        function editTotal(newValue) {
+          document.getElementById('amount').setAttribute('value', parseFloat(document.getElementById('amount').value) + parseFloat(newValue));
+          document.getElementById('amount').value = parseFloat(document.getElementById('amount').value) + parseFloat(newValue);
         }
 
         function borrar(id_invoice) {
           //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
-          //console.log('borrar '+id_invoice)
           let form = document.createElement('form')
           form.action = 'hello.php'
           form.method = 'post'
@@ -570,7 +629,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           document.body.appendChild(form)
           form.submit()
         }
-        
+
         //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
         function editarQuote(id_invoice) {
           let form = document.createElement('form')
@@ -742,55 +801,6 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
           form.submit()
         }
 
-        //function para sumar km 
-        document.getElementById('km_vuelo1').addEventListener('blur', refrescar)
-        document.getElementById('km_vuelo2').addEventListener('blur', refrescar)
-        document.getElementById('km_vuelo3').addEventListener('blur', refrescar)
-        document.getElementById('km_vuelo4').addEventListener('blur', refrescar)
-        document.getElementById('km_vuelo5').addEventListener('blur', refrescar)
-        let km_v1 = document.getElementById('km_vueloh1')
-        if (km_v1) {
-          km_v1.addEventListener('blur', refrescar)
-        }
-        let km_v2 = document.getElementById('km_vueloh2')
-        if (km_v2) {
-          km_v2.addEventListener('blur', refrescar)
-        }
-        let km_v3 = document.getElementById('km_vueloh3')
-        if (km_v3) {
-          km_v3.addEventListener('blur', refrescar)
-        }
-        let km_v4 = document.getElementById('km_vueloh4')
-        if (km_v4) {
-          km_v4.addEventListener('blur', refrescar)
-        }
-        let km_v5 = document.getElementById('km_vueloh5')
-        if (km_v5) {
-          km_v5.addEventListener('blur', refrescar)
-        }
-        //function para agregar automatica el origen y destino 
-        document.getElementById('fdestino1').addEventListener('blur', function() {
-          let dest1 = document.getElementById('fdestino1')
-          let ori2 = document.getElementById('forigen2')
-
-          if (dest1 != undefined && ori2 != undefined) {
-            ori2.value = dest1.value
-          }
-
-        })
-
-        document.getElementById('fdestino2').addEventListener('blur', function() {
-          let dest2 = document.getElementById('fdestino2')
-          let ori3 = document.getElementById('forigen3')
-
-          if (dest2 != undefined && ori3 != undefined) {
-            ori3.value = dest2.value
-          }
-
-        })
-
-        document.getElementById('tax').addEventListener('blur', calculartotal)
-
         //function refrescar search quotes
         function refreshpage() {
           setTimeout(() => {
@@ -800,66 +810,18 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
 
         }
 
-        //function para sumar km  
-        function refrescar() {
-          let km_vuelo1 = Number(document.getElementsByName('km_vuelo1')[0].value);
-          let km_vuelo2 = Number(document.getElementsByName('km_vuelo2')[0].value);
-          let km_vuelo3 = Number(document.getElementsByName('km_vuelo3')[0].value);
-          let km_vuelo4 = Number(document.getElementsByName('km_vuelo4')[0].value);
-          let km_vuelo5 = Number(document.getElementsByName('km_vuelo5')[0].value);
-          let totalh = 0
-          if (document.getElementsByName('km_vueloh1')[0]) {
-            let km_vueloh1 = Number(document.getElementsByName('km_vueloh1')[0].value);
-            totalh += km_vueloh1
-          }
-          if (document.getElementsByName('km_vueloh2')[0]) {
-            let km_vueloh2 = Number(document.getElementsByName('km_vueloh2')[0].value);
-            totalh += km_vueloh2
-          }
-          if (document.getElementsByName('km_vueloh3')[0]) {
-            let km_vueloh3 = Number(document.getElementsByName('km_vueloh3')[0].value);
-            totalh += km_vueloh3
-          }
-          if (document.getElementsByName('km_vueloh4')[0]) {
-            let km_vueloh4 = Number(document.getElementsByName('km_vueloh4')[0].value);
-            totalh += km_vueloh4
-          }
-          if (document.getElementsByName('km_vueloh5')[0]) {
-            let km_vueloh5 = Number(document.getElementsByName('km_vueloh5')[0].value);
-            totalh += km_vueloh5
-          }
-
-          let rate = document.getElementById('aircraft').value
-          let total = (km_vuelo1 + km_vuelo2 + km_vuelo3 + km_vuelo4 + km_vuelo5) * parseFloat(rate)
-          total = total + totalh
-          document.getElementById('subtotal').value = total
-          calculartotal()
-        }
-
-        function calculartotal() {
-          let addons = document.getElementById('addons')
-          let tax = document.getElementById('tax')
-          let subtotal = document.getElementById('subtotal')
-          let amount = document.getElementById('amount')
-
-          if (addons != undefined && tax != undefined && subtotal != undefined) {
-            console.log(subtotal.value)
-            console.log(tax.value)
-            console.log(addons.value)
-
-            amount.value = parseFloat(subtotal.value) + parseFloat(addons.value) + parseFloat(tax.value)
-          }
-
-        }
-        //TRYING TO GET A TOTAL CALCULATE VALUE
         function updateaddress(selectaddress) {
           let idbuyer = selectaddress.value
           let pos = idbuyer.indexOf('**')
           let addressbuyer = idbuyer.substring(pos + 2)
-          let divaddress = document.getElementById('divaddress')
-          divaddress.innerHTML = addressbuyer
           let address = document.getElementById('address')
           address.value = addressbuyer
+        }
+
+        function update_km_price(selectPlane) {
+          let idPlane = selectPlane.value
+          let pos = idPlane.indexOf('*')
+          kmPrice = idPlane.substring(pos + 2)
         }
       </script>
       <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -867,8 +829,8 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
       <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
       <script src="assets/js/app.js" type="text/javascript"></script>
       <script src="assets/lib/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-      <script src="assets/lib/select2/js/select2.min.js" type="text/javascript"></script>
-      <script src="assets/lib/select2/js/select2.full.min.js" type="text/javascript"></script>
+      <!-- <script src="assets/lib/select2/js/select2.min.js" type="text/javascript"></script>
+      <script src="assets/lib/select2/js/select2.full.min.js" type="text/javascript"></script> -->
       <script src="assets/lib/bootstrap-slider/bootstrap-slider.min.js" type="text/javascript"></script>
       <script src="assets/lib/datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
       <script src="assets/js/app-form-elements.js" type="text/javascript"></script>

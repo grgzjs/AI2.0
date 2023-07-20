@@ -126,10 +126,10 @@ include("conexion.php");
                   </li>
                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                   </li>
-                  <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
+                  <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
                     <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
                     </div>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
               <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
@@ -176,7 +176,7 @@ include("conexion.php");
       }
 
       // SECCION DE BORRAR Y EDITAR
-      $sqllist = "select i.*,c.* from invoices i, contact c where i.status = 2 and i.buyer_id=c.id";
+      $sqllist = "select i.*,c.* from invoices i, Contact c where i.status = 2 and i.buyer_id=c.id";
       $rows = mysqli_query($con, $sqllist);
 
       if (isset($_POST['username']) && ($_POST['aksi'] == 'delete' || $_POST['aksi'] == 'edit')) {
@@ -202,6 +202,19 @@ include("conexion.php");
           echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, Data cannot be deleted.</div>';
         }
       }
+
+      // if (isset($_POST['aksi']) && $_POST['aksi'] == 'anular') {
+      //   $nik = mysqli_real_escape_string($con, (strip_tags($_POST['nik'], ENT_QUOTES)));
+      //   $sql_anular = "UPDATE invoices SET STATUS = 1 WHERE quote=$nik";
+      //   $anular = mysqli_query($con, $sql_anular);
+      //   echo '<script>console.log("' . $sql_anular . '")</script>';
+      //   if ($anular) {
+      //     $rowedit = mysqli_fetch_assoc($anular);
+      //   } else {
+      //     echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error! Este vuelo no puede ser anulado.</div>';
+      //   }
+      // }
+
       /*if(isset($_POST['save'])){
       $first_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["first_name"],ENT_QUOTES)));//Escanpando caracteres
       $last_name	     = mysqli_real_escape_string($con,(strip_tags($_POST["last_name"],ENT_QUOTES)));//Escanpando caracteres
@@ -224,7 +237,7 @@ include("conexion.php");
               <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
             </div>
             <div class="card-body">
-              <div class="table-responsive noSwipe">
+              <div class="noSwipe">
                 <table class="table table-striped table-hover">
                   <thead>
                     <tr>
@@ -233,7 +246,7 @@ include("conexion.php");
                           <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
                         </label>
                       </th>
-                      <th style="width:10%;">Cotizacion </th>
+                      <th style="width:10%;">Cotizacion</th>
                       <th style="width:15%;">Fecha </th>
                       <th style="width:15%;">Aeronave</th>
                       <th style="width:20%;">Comprador</th>
@@ -275,7 +288,7 @@ include("conexion.php");
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">GENDEC</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href='javascript:borrar ("<?php echo $row['quote'] ?>")' title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['quote']; ?>')">Anular</a>
+                                <a class="dropdown-item" href='javascript:anular("<?php echo $row['quote'] ?>")' title="Eliminar">Anular</a>
 
                               </div>
                             </div>
@@ -301,6 +314,30 @@ include("conexion.php");
   </div>
   <script>
     //LOGIN PASSWORD OVERWRITE HELLO
+
+    function anular(quote) {
+      let form = document.createElement('form')
+
+      let aksi = document.createElement('input')
+      let nik = document.createElement('input')
+      aksi.name = 'aksi'
+      aksi.type = 'hidden'
+      aksi.value = 'anular'
+      nik.name = 'nik'
+      nik.type = 'hidden'
+      nik.value = quote
+
+      form.appendChild(aksi)
+      form.appendChild(nik)
+
+      console.log(aksi.value)
+      console.log(nik.value)
+
+      document.body.appendChild(form)
+      form.action = 'hellolist.php'
+      form.method = 'post'
+      form.submit()
+    }
 
     function loginuser() {
       let form = document.createElement('form')

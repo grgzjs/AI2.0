@@ -27,6 +27,8 @@ class MYPDF extends TCPDF
     }
 }
 
+echo '<script>console.log("here I am!")</script>';
+
 $date = date("Y-m-d h:i:s");
 $buyer = $_POST['buyer'];
 $posbuyer = strrpos($buyer, "**");
@@ -39,20 +41,26 @@ $buyer = $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name'];
 $address = $_POST['address'];
 $aircraft = $_POST['aircraft'];
 $pos = strpos($aircraft, "*");
-$preciokm = substr($aircraft, 0, $pos);
-$aircraft = substr($aircraft, $pos + 1);
+$aircraft = substr($aircraft, 0, $pos);
+$preciokm = substr($aircraft, $pos + 1);
 
 $fdate1 = $_POST['fdate1'];
 $forigen1 = $_POST['forigen1'];
 $fdestino1 = $_POST['fdestino1'];
 $fpax1 = $_POST['fpax1'];
 $km1 = $_POST['km_vuelo1'];
+echo '<script>console.log("fdate1: ' . $fdate1 . '")</script>';
 
 $fdate2 = $_POST['fdate2'];
 $forigen2 = $_POST['forigen2'];
 $fdestino2 = $_POST['fdestino2'];
 $fpax2 = $_POST['fpax2'];
 $km2 = $_POST['km_vuelo2'];
+echo '<script>console.log("fdate2: ' . $fdate2 . '")</script>';
+echo '<script>console.log("forigen2: ' . $forigen2 . '")</script>';
+echo '<script>console.log("fdestino2: ' . $fdestino2 . '")</script>';
+echo '<script>console.log("fpax2: ' . $fpax2 . '")</script>';
+echo '<script>console.log("km_vuelo2: ' . $km_vuelo2 . '")</script>';
 
 $fdate3 = $_POST['fdate3'];
 $forigen3 = $_POST['forigen3'];
@@ -112,45 +120,45 @@ if ($idpdf) {
     $fpax5 = $_POST['fpaxh5'];
     $km5 = $_POST['km_vueloh5'];
 } else {
+    $subtotal = $subtotal == "" ? 0 : $subtotal;
+    $addons = $addons == "" ? 0 : $addons;
+    $tax = $tax == "" ? 0 : $tax;
+    $amount = $amount == "" ? 0 : $amount;
 
-    $sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date','$idbuyer','$aircraft','$subtotal','$addons','$tax','$amount',1)";
-    $update = mysqli_query($con, $sql)
-        or die(mysqli_error());
+    $sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date',$idbuyer,'$aircraft',$subtotal,$addons,$tax,$amount,1)";
+    $update = mysqli_query($con, $sql);
+    echo '<script>console.log("' . $sql . '")</script>';
 
     $query = "select * from invoices order by date desc";
     $result = mysqli_query($con, $query);
 
+    // fix below, which adds legs to the details
     if ($row = mysqli_fetch_array($result)) {
 
         $aux = $row['quote'];
         $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$km1','$aux')";
-        $update = mysqli_query($con, $sql)
-            or die(mysqli_error());
+        $update = mysqli_query($con, $sql);
 
 
         if (!empty($fdate2)) {
             $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$km2','$aux')";
-            $update = mysqli_query($con, $sql)
-                or die(mysqli_error());
+            $update = mysqli_query($con, $sql);
         }
 
 
         if (!empty($fdate3)) {
             $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$km3','$aux')";
-            $update = mysqli_query($con, $sql)
-                or die(mysqli_error());
+            $update = mysqli_query($con, $sql);
         }
 
         if (!empty($fdate4)) {
             $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$km4','$aux')";
-            $update = mysqli_query($con, $sql)
-                or die(mysqli_error());
+            $update = mysqli_query($con, $sql);
         }
 
         if (!empty($fdate5)) {
             $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$km5','$aux')";
-            $update = mysqli_query($con, $sql)
-                or die(mysqli_error());
+            $update = mysqli_query($con, $sql);
         }
     }
 }
@@ -381,6 +389,7 @@ $pdf->writeHTML($html5, true, false, true, false, '');
 
 // output the PDF file to the browser
 $filename = 'Quote' . $aux . '.pdf';
-//$pdf->Output($filename, 'D');
+
+ob_end_clean();
 $pdf->Output($filename, 'D');
 header('Location: hellolist.php');

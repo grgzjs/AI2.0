@@ -123,10 +123,10 @@ include("conexion.php");
                   </li>
                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                   </li>
-                  <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
+                  <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
                     <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
                     </div>
-                  </li>
+                  </li> -->
 
                 </ul>
               </li>
@@ -134,7 +134,8 @@ include("conexion.php");
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-users"></span><span class="name">Lista de Vuelos</span></a>
                   </li>
-
+                  <li class="nav-item"><a class="nav-link" href="ops_calendar.php"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
@@ -168,19 +169,21 @@ include("conexion.php");
 
       if (isset($_GET['aksi']) == 'delete') {
         $nik = mysqli_real_escape_string($con, (strip_tags($_GET["nik"], ENT_QUOTES)));
-        $delete = mysqli_query($con, "DELETE from Aircraft WHERE matricula='$nik'");
+        $sql_delete = "DELETE from Aircraft WHERE matricula='".$nik."'";
+        echo '<script>console.log("' . $sql_delete . '")</script>';
+        $delete = mysqli_query($con, $sql_delete);
         if ($delete) {
           echo '<script type="text/javascript">',
           'window.location.href="aircraft_setup.php";',
           '</script>';
 
-          echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data successfully deleted.</div>';
+          // echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data successfully deleted.</div>';
         } else {
-          echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, Data cannot be deleted.</div>';
+          echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error! Esta aeronave tiene vuelos programados.</div>';
         }
       }
 
-
+      echo '<script>console.log("antes")</script>';
       if (isset($_POST['save'])) {
         $matricula       = mysqli_real_escape_string($con, (strip_tags($_POST["matricula"], ENT_QUOTES))); //Escanpando caracteres
         $aeronave       = mysqli_real_escape_string($con, (strip_tags($_POST["aeronave"], ENT_QUOTES))); //Escanpando caracteres
@@ -201,21 +204,30 @@ include("conexion.php");
         } else {
           $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
         }
-        $update = mysqli_query($con, $sql)
-          or die(mysqli_error());
-      ?>
 
+        echo '<script>console.log("' . $sql . '")</script>';
+        $update = mysqli_query($con, $sql);
+
+        echo '<script>console.log("update1: ' . $update . '")</script>';
+
+        if ($update == 1) {
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          $update = mysqli_query($con, $sql);
+
+          echo '<script>console.log("' . $sql . '")</script>';
+        }
+
+        echo '<script>console.log("update2: ' . $update . '")</script>';
+        
+        ?>
         <script>
           setTimeout(() => {
             window.location.href = "aircraft_setup.php";
           }, 100);
         </script>
-      <?php
-
+        <?php
       }
       ?>
-
-
 
 
       <?php
@@ -383,7 +395,7 @@ include("conexion.php");
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <a class="dropdown-item" href='javascript:editarmatricula ("<?php echo $row['matricula'] ?>")'>Edit</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="aircraft_setup.php?aksi=delete&nik=<?php echo $row['matricula']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['matricula']; ?>')">Delete</a>
+                                <a class="dropdown-item" href="aircraft_setup.php?aksi=delete&nik=<?php echo $row['matricula']; ?>" title="Eliminar" >Delete</a> <!-- onclick="return confirm('Are you sure? <?php //echo $row['matricula']; ?>')" -->
                               </div>
                             </div>
                           </td>

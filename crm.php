@@ -123,10 +123,10 @@ include("conexion.php");
                   </li>
                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                   </li>
-                  <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
+                  <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
                     <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="crmemail.php">Inbox</a><a class="dropdown-item" href="crmemail.php">Detail</a><a class="dropdown-item" href="crmemail.php">Compose</a>
                     </div>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
@@ -164,8 +164,7 @@ include("conexion.php");
       </div>
     </nav>
     <div class="main-content container">
-      <?php
-      echo '<script>console.log("antes")</script>';
+    <?php
       if (isset($_GET['aksi']) == 'delete') {
         echo '<script>console.log("delete")</script>';
         $nik = mysqli_real_escape_string($con, (strip_tags($_GET["nik"], ENT_QUOTES)));
@@ -181,8 +180,8 @@ include("conexion.php");
         }
       }
 
+      echo '<script>console.log("antes")</script>';
       if (isset($_POST['save'])) {
-
         $typeclient       = mysqli_real_escape_string($con, (strip_tags($_POST["typeclient"], ENT_QUOTES))); //Escanpando caracteres
         $first_name       = mysqli_real_escape_string($con, (strip_tags($_POST["first_name"], ENT_QUOTES))); //Escanpando caracteres
         $last_name       = mysqli_real_escape_string($con, (strip_tags($_POST["last_name"], ENT_QUOTES))); //Escanpando caracteres
@@ -201,20 +200,25 @@ include("conexion.php");
         if (!isset($funcion) || $funcion == "") $funcion = "funcion";
         if (!isset($dnipass) || $dnipass == "") $dnipass = "dni";
 
-        if (isset($id)) {
+        // echo '<script>console.log("id: '.$id.'")</script>';
+        // echo '<script>console.log("isset?: '.isset($id).'")</script>';
+        // echo '<script>console.log("empty?: '.empty($id).'")</script>';
+
+        if (!empty($id)) {
           $sql = "update Contact set typeclient='" . $typeclient . "',first_name='" . $first_name . "',last_name='" . $last_name . "',phone_number=" . $phone_number . ",address='" . $address . "',email='" . $email . "',notes='" . $notes . "',pais='" . $pais . "',funcion=" . $funcion . ",dnipass=" . $dnipass . ",licencia=" . $licencia . ",f_nacimiento='" . $f_nacimiento . "' where id=" . $id;
         } else {
           $sql = "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('" . $typeclient . "','" . $first_name . "','" . $last_name . "'," . $phone_number . ",'" . $address . "','" . $email . "','" . $notes . "','" . $pais . "'," . $funcion . "," . $dnipass . "," . $licencia . ",'" . $f_nacimiento . "')";
         }
 
+        echo '<script>console.log("'.$sql.'")</script>';
         $update = mysqli_query($con, $sql); //or die(mysqli_error());
-
-
+        echo '<script>console.log("antes de salir")</script>';
       }
+      echo '<script>console.log("despues")</script>';
 
-      $sqllist = "select * from contact";
+      $sqllist = "select * from Contact";
       $rows = mysqli_query($con, $sqllist);
-      ?>
+    ?>
 
       <div class="row">
         <div class="col-sm-12">

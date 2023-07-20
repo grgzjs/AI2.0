@@ -92,48 +92,58 @@ $html = '
 </table>
 <p>Aircraft: ' . $rowinvoice['aircraft'] . '</p><br><br>
 <div style="text-align:center;">
-    <img src="src/citationv.png" alt="Logo">
+    <img src="src/CitationV.png" alt="Logo" style="border-radius: 10%">
 </div>
 <br>
 
 <table>
     <tr>
-        <th>Fecha Vuelo</th>
-        <th>Origen</th>
-        <th>Destino</th>
-        <th>Pasajeros</th>
-        <th>Kms</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Fecha Vuelo</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Origen</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Destino</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Pasajeros</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Kms</th>
+    </tr>
+    <tr>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
     </tr>
 ';
 while ($rowdetail = mysqli_fetch_assoc($detail)) {
     $html = $html . '
     <tr>
-        <td>' . $rowdetail['fecha'] . '</td>
-        <td>' . $rowdetail['origen'] . '</td>
-        <td>' . $rowdetail['destino'] . '</td>
-        <td>' . $rowdetail['pax'] . '</td>
-        <td>' . $rowdetail['km_vuelo'] . '</td>
+        <td style="color: #878787">' . $rowdetail['fecha'] . '</td>
+        <td style="color: #878787">' . $rowdetail['origen'] . '</td>
+        <td style="color: #878787">' . $rowdetail['destino'] . '</td>
+        <td style="color: #878787">' . $rowdetail['Pax'] . '</td>
+        <td style="color: #878787">' . $rowdetail['km_vuelo'] . '</td>
     </tr>  ';
 }
 $html = $html . '</table>
-<br><br><br><br><br>
+<br><br><br>
+<hr style="background-color: #ccff99; border: 3px solid #ccff99; border-radius: 7px 7px 7px 7px;">
 <table style="width:30%"> 
     <tr>
-        <td>Subtotal:</td>
-        <td>$' . number_format($rowinvoice['subtotal'], 2) . '</td>
+        <td style="color: #878787">Subtotal:</td>
+        <td style="color: #878787">$' . number_format($rowinvoice['subtotal'], 2) . '</td>
     </tr>
     <tr>
-        <td>Addons:</td><td>$' . number_format($rowinvoice['addons'], 2) . '</td>
+        <td style="color: #878787">Addons:</td>
+        <td style="color: #878787">$' . number_format($rowinvoice['addons'], 2) . '</td>
     </tr>
     <tr>
-        <td>Tax:</td>
-        <td>$' . number_format($rowinvoice['tax'], 2) . '</td>
+        <td style="color: #878787">Tax:</td>
+        <td style="color: #878787">$' . number_format($rowinvoice['tax'], 2) . '</td>
     </tr>
-    <tr style="border-top: 1px solid #ccc;">
-        <td>Amount:</td>
-        <td>$' . number_format($rowinvoice['amount'], 2) . '</td>
+    <tr>
+        <td style="color: #878787">Amount:</td>
+        <td style="color: #878787">$' . number_format($rowinvoice['amount'], 2) . '</td>
     </tr>
 </table>
+<hr style="background-color: #ccff99; border: 3px solid #ccff99; border-radius: 7px 7px 7px 7px;">
 ';
 
 $html = $html . '

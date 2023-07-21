@@ -30,12 +30,17 @@ $quote = $_GET['id'];
 $sql = 'select * from invoices where quote=' . $quote;
 $invoice = mysqli_query($con, $sql);
 $rowinvoice = mysqli_fetch_assoc($invoice);
-$sqlbuyer = 'select * from contact where id=' . $rowinvoice['buyer_id'];
+$sqlbuyer = 'select * from Contact where id=' . $rowinvoice['buyer_id'];
 $buyer = mysqli_query($con, $sqlbuyer);
 $rowbuyer = mysqli_fetch_assoc($buyer);
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-$sqldetail = 'select * from invoice_detail where id_invoice=' . $quote;
-$detail = mysqli_query($con, $sqldetail);
+$sqldetail_tramo = 'select * from invoice_detail where id_invoice=' . $quote;
+$detail_tramo = mysqli_query($con, $sqldetail_tramo);
+
+$tramoids = [];
+while ($rowdetail_tramo = mysqli_fetch_assoc($detail_tramo)) {
+    array_push($tramoids, $rowdetail_tramo['id']);
+}   
 
 // set document information
 $pdf->SetCreator('Gustoso Marketing');
@@ -73,9 +78,11 @@ $pdf->SetFont('helvetica', 'b', 10);
 // write some text
 
 $html = '
+<br><br><br>
 <div style="text-align:center;">
-    <img src="src/youlogo1.png" alt="Logo">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
 </div>
+<br><br>
 <table> 
     <tr>
         <td>Quote # : ' . $quote . '</td>
@@ -96,6 +103,10 @@ $html = '
 </div>
 <br>
 
+<!--
+<th style="-webkit-column-count: 3; -moz-column-count: 3; column-count: 3;"><img src="assets/img/pdf/info.jpg" alt=""></th>
+-->
+
 <table>
     <tr>
         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Fecha Vuelo</th>
@@ -112,6 +123,8 @@ $html = '
         <td><br></td>
     </tr>
 ';
+$sqldetail = 'select * from invoice_detail where id_invoice=' . $quote;
+$detail = mysqli_query($con, $sqldetail);
 while ($rowdetail = mysqli_fetch_assoc($detail)) {
     $html = $html . '
     <tr>
@@ -120,11 +133,11 @@ while ($rowdetail = mysqli_fetch_assoc($detail)) {
         <td style="color: #878787">' . $rowdetail['destino'] . '</td>
         <td style="color: #878787">' . $rowdetail['Pax'] . '</td>
         <td style="color: #878787">' . $rowdetail['km_vuelo'] . '</td>
-    </tr>  ';
+    </tr>';
 }
 $html = $html . '</table>
 <br><br><br>
-<hr style="background-color: #ccff99; border: 3px solid #ccff99; border-radius: 7px 7px 7px 7px;">
+<img src="assets/img/pdf/hr.jpg" alt="hr not found :/" style="width: 1800px; height: 7px;"><br>
 <table style="width:30%"> 
     <tr>
         <td style="color: #878787">Subtotal:</td>
@@ -143,8 +156,10 @@ $html = $html . '</table>
         <td style="color: #878787">$' . number_format($rowinvoice['amount'], 2) . '</td>
     </tr>
 </table>
-<hr style="background-color: #ccff99; border: 3px solid #ccff99; border-radius: 7px 7px 7px 7px;">
+<img src="assets/img/pdf/hr.jpg" alt="hr not found :/" style="width: 1800px; height: 7px;"><br>
 ';
+
+// <hr style="background-color: #ccff99; border: 3px solid #ccff99; border-radius: 7px 7px 7px 7px;">
 
 $html = $html . '
 <br><br><br><br><br>
@@ -170,7 +185,7 @@ $pdf->SetFont('helvetica', 'b', 10);
 
 $html2 = '
 <div style="text-align:center;">
-    <img src="src/youlogo1.png" alt="Logo">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
 </div>
 <table> 
     <tr>
@@ -221,7 +236,7 @@ $pdf->SetFont('helvetica', 'b', 10);
 
 $html4 = '
 <div style="text-align:center;">
-    <img src="src/youlogo1.png" alt="Logo">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
 </div>
 <table> 
     <tr>
@@ -231,8 +246,60 @@ $html4 = '
         <td>Date: ' . $rowinvoice['date'] . '</td>
     </tr>
 </table>
+<br><br>
 <br><br><br><br>
-<img src = "src/pagina3.png">';
+';
+
+$html4 = '
+<br><br><br>
+<table> 
+    <tr>
+        <td>Quote # : ' . $quote . '</td>
+    </tr>
+    <tr>
+        <td>Date: ' . $rowinvoice['date'] . ' </td>
+    </tr>
+</table>
+<br>
+
+<table>
+    <tr>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Nombre y Apellido</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Nationalized</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">#Pasaporte</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Expiration</th>
+        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Fecha de Nacimiento</th>
+    </tr>
+    <tr>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+        <td><br></td>
+    </tr>
+';
+$sqlpaxlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
+for ($i = 0; $i < count($tramoids); $i++) {
+    $sqlpaxlist .= "o.tramo_id=" . $tramoids[$i];
+    if ($i < count($tramoids) - 1) {
+        $sqlpaxlist .= " or ";
+    }
+}
+$sqlpaxlist .= ")";
+$rowspax = mysqli_query($con, $sqlpaxlist);
+while ($rowpax = mysqli_fetch_assoc($rowspax)) {
+    $html4 = $html4 . '
+    <tr>
+        <td style="color: #878787">' . $rowpax['fecha'] . '</td>
+        <td style="color: #878787">' . $rowpax['origen'] . '</td>
+        <td style="color: #878787">' . $rowpax['destino'] . '</td>
+        <td style="color: #878787">' . $rowpax['Pax'] . '</td>
+        <td style="color: #878787">' . $rowpax['km_vuelo'] . '</td>
+    </tr>';
+}
+$html4 = $html4 . '</table>';
+
+// <img src = "src/pagina3.png">
 
 $pdf->writeHTML($html4, true, false, true, false, '');
 
@@ -242,7 +309,7 @@ $pdf->SetFont('helvetica', 'b', 10);
 
 $html5 = '
 <div style="text-align:center;">
-    <img src="src/youlogo1.png" alt="Logo">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
 </div>
 <table> 
     <tr>
@@ -254,6 +321,54 @@ $html5 = '
 </table>
 <br>
 <img src = "src/pagina4.png">';
+// $html5 = '
+// <br><br><br>
+// <table> 
+//     <tr>
+//         <td>Quote # : ' . $quote . '</td>
+//     </tr>
+//     <tr>
+//         <td>Date: ' . $rowinvoice['date'] . ' </td>
+//     </tr>
+// </table>
+// <br>
+
+// <table>
+//     <tr>
+//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Nombre y Apellido</th>
+//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Nationalized</th>
+//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">#Pasaporte</th>
+//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Expiration</th>
+//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Fecha de Nacimiento</th>
+//     </tr>
+//     <tr>
+//         <td><br></td>
+//         <td><br></td>
+//         <td><br></td>
+//         <td><br></td>
+//         <td><br></td>
+//     </tr>
+// ';
+// $sqlpaxlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
+// for ($i = 0; $i < count($tramoids); $i++) {
+//     $sqlpaxlist .= "o.tramo_id=" . $tramoids[$i];
+//     if ($i < count($tramoids) - 1) {
+//         $sqlpaxlist .= " or ";
+//     }
+// }
+// $sqlpaxlist .= ")";
+// $rowspax = mysqli_query($con, $sqlpaxlist);
+// while ($rowpax = mysqli_fetch_assoc($rowspax)) {
+//     $html5 = $html5 . '
+//     <tr>
+//         <td style="color: #878787">' . $rowpax['fecha'] . '</td>
+//         <td style="color: #878787">' . $rowpax['origen'] . '</td>
+//         <td style="color: #878787">' . $rowpax['destino'] . '</td>
+//         <td style="color: #878787">' . $rowpax['Pax'] . '</td>
+//         <td style="color: #878787">' . $rowpax['km_vuelo'] . '</td>
+//     </tr>';
+// }
+// $html5 = $html5 . '</table>';
 
 $pdf->writeHTML($html5, true, false, true, false, '');
 

@@ -86,82 +86,84 @@ $tax = $_POST['tax'];
 $amount = $_POST['amount'];
 $idpdf = $_POST['idpdf'];
 
-if ($idpdf) {
-    $query = 'select * from invoices where quote = ' . $idpdf;
-    $aux = $idpdf;
-    //h1 esta hecho para view y reveer el pdf
-    $fdate1 = $_POST['fdateh1'];
-    $forigen1 = $_POST['forigenh1'];
-    $fdestino1 = $_POST['fdestinoh1'];
-    $fpax1 = $_POST['fpaxh1'];
-    $km1 = $_POST['km_vueloh1'];
 
-    $fdate2 = $_POST['fdateh2'];
-    $forigen2 = $_POST['forigenh2'];
-    $fdestino2 = $_POST['fdestinoh2'];
-    $fpax2 = $_POST['fpaxh2'];
-    $km2 = $_POST['km_vueloh2'];
 
-    $fdate3 = $_POST['fdateh3'];
-    $forigen3 = $_POST['forigenh3'];
-    $fdestino3 = $_POST['fdestinoh3'];
-    $fpax3 = $_POST['fpaxh3'];
-    $km3 = $_POST['km_vueloh3'];
+// if ($idpdf) {
+//     $query = 'select * from invoices where quote = ' . $idpdf;
+//     $aux = $idpdf;
+//     //h1 esta hecho para view y reveer el pdf
+//     $fdate1 = $_POST['fdateh1'];
+//     $forigen1 = $_POST['forigenh1'];
+//     $fdestino1 = $_POST['fdestinoh1'];
+//     $fpax1 = $_POST['fpaxh1'];
+//     $km1 = $_POST['km_vueloh1'];
 
-    $fdate4 = $_POST['fdateh4'];
-    $forigen4 = $_POST['forigenh4'];
-    $fdestino4 = $_POST['fdestinoh4'];
-    $fpax4 = $_POST['fpaxh4'];
-    $km4 = $_POST['km_vueloh4'];
+//     $fdate2 = $_POST['fdateh2'];
+//     $forigen2 = $_POST['forigenh2'];
+//     $fdestino2 = $_POST['fdestinoh2'];
+//     $fpax2 = $_POST['fpaxh2'];
+//     $km2 = $_POST['km_vueloh2'];
 
-    $fdate5 = $_POST['fdateh5'];
-    $forigen5 = $_POST['forigenh5'];
-    $fdestino5 = $_POST['fdestinoh5'];
-    $fpax5 = $_POST['fpaxh5'];
-    $km5 = $_POST['km_vueloh5'];
-} else {
-    $subtotal = $subtotal == "" ? 0 : $subtotal;
-    $addons = $addons == "" ? 0 : $addons;
-    $tax = $tax == "" ? 0 : $tax;
-    $amount = $amount == "" ? 0 : $amount;
+//     $fdate3 = $_POST['fdateh3'];
+//     $forigen3 = $_POST['forigenh3'];
+//     $fdestino3 = $_POST['fdestinoh3'];
+//     $fpax3 = $_POST['fpaxh3'];
+//     $km3 = $_POST['km_vueloh3'];
 
-    $sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date',$idbuyer,'$aircraft',$subtotal,$addons,$tax,$amount,1)";
+//     $fdate4 = $_POST['fdateh4'];
+//     $forigen4 = $_POST['forigenh4'];
+//     $fdestino4 = $_POST['fdestinoh4'];
+//     $fpax4 = $_POST['fpaxh4'];
+//     $km4 = $_POST['km_vueloh4'];
+
+//     $fdate5 = $_POST['fdateh5'];
+//     $forigen5 = $_POST['forigenh5'];
+//     $fdestino5 = $_POST['fdestinoh5'];
+//     $fpax5 = $_POST['fpaxh5'];
+//     $km5 = $_POST['km_vueloh5'];
+// } else {
+$subtotal = $subtotal == "" ? 0 : $subtotal;
+$addons = $addons == "" ? 0 : $addons;
+$tax = $tax == "" ? 0 : $tax;
+$amount = $amount == "" ? 0 : $amount;
+
+$sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date',$idbuyer,'$aircraft',$subtotal,$addons,$tax,$amount,1)";
+$update = mysqli_query($con, $sql);
+echo '<script>console.log("' . $sql . '")</script>';
+
+$query = "select * from invoices order by date desc";
+$result = mysqli_query($con, $query);
+
+// fix below, which adds legs to the details
+if ($row = mysqli_fetch_array($result)) {
+
+    $aux = $row['quote'];
+    $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$km1','$aux')";
     $update = mysqli_query($con, $sql);
-    echo '<script>console.log("' . $sql . '")</script>';
 
-    $query = "select * from invoices order by date desc";
-    $result = mysqli_query($con, $query);
 
-    // fix below, which adds legs to the details
-    if ($row = mysqli_fetch_array($result)) {
-
-        $aux = $row['quote'];
-        $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$km1','$aux')";
+    if (!empty($fdate2)) {
+        $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$km2','$aux')";
         $update = mysqli_query($con, $sql);
+    }
 
 
-        if (!empty($fdate2)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$km2','$aux')";
-            $update = mysqli_query($con, $sql);
-        }
+    if (!empty($fdate3)) {
+        $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$km3','$aux')";
+        $update = mysqli_query($con, $sql);
+    }
 
+    if (!empty($fdate4)) {
+        $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$km4','$aux')";
+        $update = mysqli_query($con, $sql);
+    }
 
-        if (!empty($fdate3)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$km3','$aux')";
-            $update = mysqli_query($con, $sql);
-        }
-
-        if (!empty($fdate4)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$km4','$aux')";
-            $update = mysqli_query($con, $sql);
-        }
-
-        if (!empty($fdate5)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$km5','$aux')";
-            $update = mysqli_query($con, $sql);
-        }
+    if (!empty($fdate5)) {
+        $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$km5','$aux')";
+        $update = mysqli_query($con, $sql);
     }
 }
+// }
 
 
 // create new PDF document

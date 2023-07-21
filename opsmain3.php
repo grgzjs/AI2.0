@@ -109,7 +109,6 @@ include("conexion.php");
             </ul>
         </div>
     </nav>
-
     <!--COMIENZO BOTONERA PRINCIPAL-->
 
     <div class="mai-wrapper">
@@ -118,17 +117,58 @@ include("conexion.php");
                 <nav class="navbar navbar-expand-md">
                     <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
                     <div class="navbar-collapse collapse mai-nav-tabs" id="mai-navbar-collapse">
-                        <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
+                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
+                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
+                                    <li class="nav-item"><a class="nav-link" href="dashboard.php"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
 
+                                </ul>
+                            </li>
+                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
+                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
+                                <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
+                                      </li>
+                                      <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
+                                      </li>
+                                </ul>
+
+                            </li>
+                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
+                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
+                                    <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Lista de Contactos</span></a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
+                                    </li>
+                                    <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
+                                        <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
+                                        </div>
+                                    </li> -->
+                                </ul>
+                            </li>
                             <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
                                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                    <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Base de
-                                                vuelos</span></a>
+                                    <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Lista de Vuelos</span></a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="ops_calendar.php"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
+                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
+                                    <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Gral</span></a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Gral</span></a>
                                     </li>
 
                                 </ul>
                             </li>
-
+                            <!-- <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
+                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
+                                    <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
+                                    </li>
+                                </ul> -->
 
                         </ul>
                     </div>
@@ -284,7 +324,7 @@ include("conexion.php");
                                                         //if(!isset($tramoid)){
                                                         // $tramoid=$rowdetail['id'];
                                                         //} 
-                                                        array_push($tramoids, $rowdetail['id'])
+                                                        array_push($tramoids, $rowdetail['origen'] . ' - ' . $rowdetail['destino'])
 
                                                     ?>
                                                         <h5 class="wizard-title"> Tramo -
@@ -307,7 +347,7 @@ include("conexion.php");
                                                 <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
 
                                                 <div class="card-header">
-                                                    Tramo#<?php echo $tramoids[$i]; ?>
+                                                    Tramo <?php echo $tramoids[$i]; ?>
                                                     <span class="card-subtitle">Ingresa los detalles del Tramo</span>
                                                 </div>
 
@@ -316,26 +356,26 @@ include("conexion.php");
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo" id="fbo">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo<?php echo ($i+1) ?>" id="fbo<?php echo ($i+1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel" id="fuel">
+                                                        <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel<?php echo ($i+1) ?>" id="fuel<?php echo ($i+1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Catering</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering" id="catering">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering<?php echo ($i+1) ?>" id="catering<?php echo ($i+1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Notas
                                                         Especiales</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas" id="notas">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas<?php echo ($i+1) ?>" id="notas<?php echo ($i+1) ?>">
                                                     </div>
                                                 </div>
 

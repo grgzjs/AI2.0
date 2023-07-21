@@ -9,16 +9,16 @@
 </head>
 <?php
 // PHP PARA PASAR POR EL LOGIN
-session_start();
-if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $_GET['aksi'] == 'edit')) {
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-  if (($username == 'test1' && $password == 'test1') || $_SESSION['user']) {
-    $_SESSION['user'] = $username;
+// session_start();
+// if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $_GET['aksi'] == 'edit')) {
+//   $username = $_POST['username'];
+//   $password = $_POST['password'];
+//   if (($username == 'test1' && $password == 'test1') || $_SESSION['user']) {
+//     $_SESSION['user'] = $username;
 
 
 
-    include("conexion.php");
+include("conexion.php");
 ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,9 +125,9 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                   </li>
                   <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                      <li class="nav-item"><a class="nav-link" href="javascript:loginuser()"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
+                    <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
                       </li>
-                      <li class="nav-item"><a class="nav-link" href="javascript:loginuserhellolist()"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
+                      <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
                       </li>
 
                     </ul>
@@ -163,11 +163,11 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
                       <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Gral</span></a>
                       </li>
                     </ul>
-                  <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
+                  <!-- <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
                     <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                       <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
                       </li>
-                    </ul>
+                    </ul> -->
 
 
                 </ul>
@@ -183,6 +183,7 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
         <div class="main-content container">
 
           <?php
+          echo '<script>console.log("hello loaded")</script>';
           // SECCION DE BORRAR Y EDITAR
           $sqllist = "select * from invoices";
           $rows = mysqli_query($con, $sqllist);
@@ -846,6 +847,6 @@ if (isset($_POST['username']) || $_SESSION['user'] || (isset($_GET['aksi']) && $
 </html>
 <?php
 
-  }
-}
+//   }
+// }
 ?>

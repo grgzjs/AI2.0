@@ -116,9 +116,9 @@
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="javascript:loginuser()"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
+                  <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
                   </li>
-                  <li class="nav-item"><a class="nav-link" href="javascript:loginuser()"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
+                  <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
                   </li>
 
                 </ul>
@@ -158,11 +158,11 @@
                 </ul>
 
               </li>
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
+              <!-- <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
                   </li>
-                </ul>
+                </ul> -->
 
             </ul>
           </div>
@@ -328,20 +328,20 @@
 
             <?php
             // Connect to the database
-            $con = mysqli_connect("localhost", "root", "", "YAC");
+            // $con = mysqli_connect("localhost", "root", "", "YAC");
 
             // Check if the form was submitted
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-              // Get the task description from the form
-              $task = $_POST['task'];
+            // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //   // Get the task description from the form
+            //   $task = $_POST['task'];
 
-              // Insert the new task into the database
-              mysqli_query($con, "INSERT INTO tasks (status, task) VALUES ('pending', '$task')");
+            //   // Insert the new task into the database
+            //   mysqli_query($con, "INSERT INTO tasks (status, task) VALUES ('pending', '$task')");
 
-              // Redirect back to the same page to avoid resubmitting the form
-              header("Location: " . $_SERVER['PHP_SELF']);
-              exit;
-            }
+            //   // Redirect back to the same page to avoid resubmitting the form
+            //   header("Location: " . $_SERVER['PHP_SELF']);
+            //   exit;
+            // }
 
             // Execute the SQL query to get the pending tasks
             $result = mysqli_query($con, "SELECT * FROM tasks WHERE status = 'pending'");
@@ -508,40 +508,40 @@
         });
       </script>
       <script>
-        function loginuser() {
-          let form = document.createElement('form')
-          form.action = 'hello.php'
-          form.method = 'post'
-          let username = document.createElement('input')
-          let password = document.createElement('input')
-          let aksi = document.createElement('input')
-          let nik = document.createElement('input')
-          let edit = document.createElement('input')
-          let amount = document.createElement('input')
-          let date = document.createElement('input')
-          username.value = 'test1'
-          username.name = 'username'
-          password.value = 'test1'
-          password.name = 'password'
-          aksi.name = 'aksi'
-          aksi.value = 'login'
-          nik.name = 'nik'
-          edit.name = 'edit'
-          edit.value = 'yes'
-          amount.name = 'amount'
-          amount.value = '<?php echo $rowedit["amount"]; ?>'
-          date.name = 'date'
-          date.value = '<?php echo $rowedit["date"]; ?>'
-          form.appendChild(aksi)
-          form.appendChild(username)
-          form.appendChild(password)
-          form.appendChild(nik)
-          form.appendChild(edit)
-          form.appendChild(amount)
-          form.appendChild(date)
-          document.body.appendChild(form)
-          form.submit()
-        }
+        // function loginuser() {
+        //   let form = document.createElement('form')
+        //   form.action = 'hello.php'
+        //   form.method = 'post'
+        //   let username = document.createElement('input')
+        //   let password = document.createElement('input')
+        //   let aksi = document.createElement('input')
+        //   let nik = document.createElement('input')
+        //   let edit = document.createElement('input')
+        //   let amount = document.createElement('input')
+        //   let date = document.createElement('input')
+        //   username.value = 'test1'
+        //   username.name = 'username'
+        //   password.value = 'test1'
+        //   password.name = 'password'
+        //   aksi.name = 'aksi'
+        //   aksi.value = 'login'
+        //   nik.name = 'nik'
+        //   edit.name = 'edit'
+        //   edit.value = 'yes'
+        //   amount.name = 'amount'
+        //   amount.value = '<?php echo $rowedit["amount"]; ?>'
+        //   date.name = 'date'
+        //   date.value = '<?php echo $rowedit["date"]; ?>'
+        //   form.appendChild(aksi)
+        //   form.appendChild(username)
+        //   form.appendChild(password)
+        //   form.appendChild(nik)
+        //   form.appendChild(edit)
+        //   form.appendChild(amount)
+        //   form.appendChild(date)
+        //   document.body.appendChild(form)
+        //   form.submit()
+        // }
       </script>
 
 </body>

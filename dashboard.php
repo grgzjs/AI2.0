@@ -6,20 +6,28 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
 
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="assets/img/favicon.ico">
+
+  <title>AIS Home</title>
+
+  <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css" />
+  <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css" />
+  <link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap-slider/css/bootstrap-slider.min.css" />
+  <link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
+  <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
 </head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="shortcut icon" href="assets/img/favicon.ico">
-<title>AIS Home</title>
-<link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css" />
-<link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css" />
-<link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css" />
-<link rel="stylesheet" type="text/css" href="assets/lib/bootstrap-slider/css/bootstrap-slider.min.css" />
-<link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
-<link rel="stylesheet" href="assets/css/app.css" type="text/css" />
-</head>
+
+<script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="assets/js/app.js" type="text/javascript"></script>
+
+<script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body>
   <nav class="navbar navbar-expand navbar-dark mai-top-header">
@@ -163,7 +171,6 @@
                   <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
                   </li>
                 </ul> -->
-
             </ul>
           </div>
         </nav>

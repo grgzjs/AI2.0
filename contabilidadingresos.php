@@ -21,6 +21,13 @@ include("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/dropzone/dropzone.css" />
 </head>
 
+<script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="assets/js/app.js" type="text/javascript"></script>
+
+<script src="assets/js/login-check.js" type="text/javascript"></script>
+
 <?php
 if (isset($_POST['guardar_ingreso'])) {
   $tipo_ingreso = $_POST['tipo_ingreso'] ? $_POST['tipo_ingreso'] : 'null';
@@ -33,7 +40,7 @@ if (isset($_POST['guardar_ingreso'])) {
   $fecha_cambio = $_POST['fecha_cambio']; // unused
 
   // figure out where to save
-  $sql = "insert into ingresos_generales (`date`,tipoingreso,concepto,monto, moneda_cambio) values ('" . $fecha_gasto . "','" .$tipo_ingreso . "','" . $concepto . "'," . $monto . ",'".$cambio."')";
+  $sql = "insert into ingresos_generales (`date`,tipoingreso,concepto,monto, moneda_cambio) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "')";
 
   mysqli_query($con, $sql);
 }
@@ -131,7 +138,7 @@ if (isset($_POST['guardar_ingreso'])) {
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
+                  <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
                   </li>
                   <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
                   </li>
@@ -222,137 +229,139 @@ if (isset($_POST['guardar_ingreso'])) {
                 </div> -->
                 <div class="step-content">
                   <!-- <div class="step-pane active" data-step="1"> -->
-                    <!-- <div class="container pl-sm-5"> -->
-                      <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
-                        <div class="form-group row">
-                          <div class="offset-sm-3 col-sm-9">
-                            <h3 class="wizard-title">Ingresos Generales</h3>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
-                          <div class="col-12 col-sm-8 col-lg-6">
-                            <input id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Ingreso</label>
-                          <div class="col-12 col-sm-8 col-lg-6">
-                            <select id="tipo_ingreso" class="form-control custom-select" name="typeclient">
-                              <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
+                  <!-- <div class="container pl-sm-5"> -->
+                  <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
+                  <div class="form-group row">
+                    <div class="offset-sm-3 col-sm-9">
+                      <h3 class="wizard-title">Ingresos Generales</h3>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Ingreso</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <select id="tipo_ingreso" class="form-control custom-select" name="typeclient">
+                        <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
+                                                    echo 'selected';
+                                                  } ?>>Cotizaciones</option>
+                        <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
                                                           echo 'selected';
-                                                        } ?>>Cotizaciones</option>
-                              <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
-                                                                echo 'selected';
-                                                              } ?>>Administracion</option>
-                              <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
-                                                            echo 'selected';
-                                                          } ?>>Corporativo</option>
-                              <option value="Otros" <?php if ($row['typeclient'] == 'Empleados') {
+                                                        } ?>>Administracion</option>
+                        <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
                                                       echo 'selected';
-                                                    } ?>>Otros</option>
-                            </select>
-                          </div>
-                        </div>
-                        <!-- <div class="form-group row">
+                                                    } ?>>Corporativo</option>
+                        <option value="Otros" <?php if ($row['typeclient'] == 'Empleados') {
+                                                echo 'selected';
+                                              } ?>>Otros</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-sm-right">Nombre de la Empresa</label>
                           <div class="col-12 col-sm-8 col-lg-6">
                             <select id="empresa" class="form-control custom-select" name="typeclient">
-                              <?php 
+                              <?php
                               // get nombre_empresa, id from Contact
                               // $sql_empresas< = "select id, nombre_empresa from Contact where nombre_empresa != null";
                               // $empresas = mysqli_query($con, $sql_empresas);
                               // while ($rowp = mysqli_fetch_assoc($empresas)) {
                               ?>
-                              <option value='<?php //echo $rowp["id"] ?>'><?php //echo $rowp["nombre_empresa"] ?></option>
+                              <option value='<?php //echo $rowp["id"] 
+                                              ?>'><?php //echo $rowp["nombre_empresa"] 
+                                                                          ?></option>
                               <?php
                               // }
                               ?>
                             </select>
                           </div>
                         </div> -->
-                        <!-- <div class="form-group row">
+                  <!-- <div class="form-group row">
                           <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Referencia</label>
                           <div class="col-12 col-sm-8 col-lg-6">
                             <input class="form-control" type="Text" placeholder="Ingrese el numero de ">
                           </div>
                         </div> -->
-                        <div class="form-group row">
-                          <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
-                          <div class="col-12 col-sm-8 col-lg-6">
-                            <input id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
-                          <div class="col-12 col-sm-8 col-lg-6">
-                            <input id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
-                          </div>
-                        </div>
-                        <!-- <div class="form-group row pt-3">
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
+                    </div>
+                  </div>
+                  <!-- <div class="form-group row pt-3">
                           <div class="col-sm-12">
                             <button class="btn btn-secondary btn-space">Cancel</button>
                             <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
                           </div>
                         </div> -->
-                      <!-- </form> -->
-                    <!-- </div> -->
+                  <!-- </form> -->
+                  <!-- </div> -->
                   <!-- </div> -->
 
 
                   <!-- <div class="step-pane" data-step="2"> -->
-                    <!-- <form class="group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
-                      <div class="form-group row">
-                        <div class="col-sm-7">
-                          <h3 class="wizard-title">Tipo de Cambio</h3>
-                        </div>
-                      </div>
-                      <div class="form-group row align-items-center">
-                        <div class="col-sm-7">
-                          <label class="control-label">Tipo de Cambio oficial</label>
-                          <p>Aqui indicamos el cambio dolar actual</p>
-                        </div>
-                        <div class="col-sm-3 xs-pt-15">
-                          <input class="form-control" type="Text" placeholder="Ingrese el monto ">
-                        </div>
-                      </div>
-                      <div class="form-group row align-items-center">
-                        <div class="col-sm-7">
-                          <label class="control-label">Fecha de Cambio</label>
-                          <p>Aqui indicamos el la fecha en cual se efectuo la conversion</p>
-                        </div>
-                        <div class="col-sm-3 xs-pt-15">
-                          <input id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
-                        </div>
-                      </div>
-                      <div class="form-group row align-items-center">
-                        <div class="col-sm-7">
-                          <label class="control-label">Moneda Utilizada</label>
-                          <p>Aqui indicamos el gasto fue efectuado en que moneda</p>
-                        </div>
-                        <div class="col-sm-3 xs-pt-15">
-                          <select id="moneda_cambio" class="form-control custom-select" name="typeclient">
-                            <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') {
-                                                        echo 'selected';
-                                                      } ?>>Pesos Arg</option>
-                            <option value="Usdollar" <?php if ($row['typeclient'] == 'Broker') {
-                                                        echo 'selected';
-                                                      } ?>>Dolares</option>
-                          </select>
-                        </div>
-                      </div>
+                  <!-- <form class="group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
+                  <div class="form-group row">
+                    <div class="col-sm-7">
+                      <h3 class="wizard-title">Tipo de Cambio</h3>
+                    </div>
+                  </div>
+                  <div class="form-group row align-items-center">
+                    <div class="col-sm-7">
+                      <label class="control-label">Tipo de Cambio oficial</label>
+                      <p>Aqui indicamos el cambio dolar actual</p>
+                    </div>
+                    <div class="col-sm-3 xs-pt-15">
+                      <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                    </div>
+                  </div>
+                  <div class="form-group row align-items-center">
+                    <div class="col-sm-7">
+                      <label class="control-label">Fecha de Cambio</label>
+                      <p>Aqui indicamos el la fecha en cual se efectuo la conversion</p>
+                    </div>
+                    <div class="col-sm-3 xs-pt-15">
+                      <input id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
+                    </div>
+                  </div>
+                  <div class="form-group row align-items-center">
+                    <div class="col-sm-7">
+                      <label class="control-label">Moneda Utilizada</label>
+                      <p>Aqui indicamos el gasto fue efectuado en que moneda</p>
+                    </div>
+                    <div class="col-sm-3 xs-pt-15">
+                      <select id="moneda_cambio" class="form-control custom-select" name="typeclient">
+                        <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') {
+                                                    echo 'selected';
+                                                  } ?>>Pesos Arg</option>
+                        <option value="Usdollar" <?php if ($row['typeclient'] == 'Broker') {
+                                                    echo 'selected';
+                                                  } ?>>Dolares</option>
+                      </select>
+                    </div>
+                  </div>
 
-                      <!-- <div class="form-group row pt-3">
+                  <!-- <div class="form-group row pt-3">
                         <div class="col-sm-12">
                           <button class="btn btn-secondary btn-space wizard-previous" data-wizard="#wizard1">Previous</button>
                           <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
                         </div>
                       </div> -->
-                    <!-- </form> -->
+                  <!-- </form> -->
                   <!-- </div> -->
 
                   <!-- <div class="step-pane" data-step="3"> -->
-                    <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
+                  <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                   <div class="form-group row">
                     <div class="col-sm-7">
                       <h3 class="wizard-title">Sube el recibo al sistema</h3><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
@@ -372,17 +381,17 @@ if (isset($_POST['guardar_ingreso'])) {
                     </div>
                   </div>
 
-                      <div>
-                        <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Ingreso</button>
-                      </div>
+                  <div>
+                    <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Ingreso</button>
+                  </div>
 
-                      <!-- <div class="form-group row">
+                  <!-- <div class="form-group row">
                         <div class="col-sm-12">
                           <button class="btn btn-secondary btn-space wizard-previous" data-wizard="#wizard1">Previous</button>
                           <button class="btn btn-success btn-space wizard-next" data-wizard="#wizard1">Complete</button>
                         </div>
                       </div> -->
-                    <!-- </form> -->
+                  <!-- </form> -->
                   <!-- </div> -->
                 </div>
               </div>
@@ -475,7 +484,7 @@ if (isset($_POST['guardar_ingreso'])) {
           </div> -->
           <div class="card-body">
             <div class="noSwipe">
-            <table class="table table-striped table-hover ma-table-responsive" id="table1">
+              <table class="table table-striped table-hover ma-table-responsive" id="table1">
                 <thead>
                   <tr>
                     <th style="width:17%;">Fecha</th>
@@ -537,56 +546,56 @@ if (isset($_POST['guardar_ingreso'])) {
     });
 
     function save_all() {
-        let form = document.createElement('form')
+      let form = document.createElement('form')
 
-        // let tramo = document.createElement('input')
-        // tramo.value = document.getElementById('tramo_reserva').value
-        // tramo.name = 'tramo_reserva'
+      // let tramo = document.createElement('input')
+      // tramo.value = document.getElementById('tramo_reserva').value
+      // tramo.name = 'tramo_reserva'
 
-        let tipo_ingreso = document.createElement('input')
-        tipo_ingreso.value = document.getElementById('tipo_ingreso').value
-        tipo_ingreso.name = 'tipo_ingreso'
-        // let referencia = document.createElement('input')
-        // referencia.value = document.getElementById('referencia').value
-        // referencia.name="referencia"
-        let concepto = document.createElement('input')
-        concepto.value = document.getElementById('concepto').value
-        concepto.name = "concepto"
-        let monto = document.createElement('input')
-        monto.value = document.getElementById('monto').value
-        monto.name = "monto"
-        let fecha_gasto = document.createElement('input')
-        fecha_gasto.value = document.getElementById('fecha').value
-        fecha_gasto.name = "fecha_gasto"
+      let tipo_ingreso = document.createElement('input')
+      tipo_ingreso.value = document.getElementById('tipo_ingreso').value
+      tipo_ingreso.name = 'tipo_ingreso'
+      // let referencia = document.createElement('input')
+      // referencia.value = document.getElementById('referencia').value
+      // referencia.name="referencia"
+      let concepto = document.createElement('input')
+      concepto.value = document.getElementById('concepto').value
+      concepto.name = "concepto"
+      let monto = document.createElement('input')
+      monto.value = document.getElementById('monto').value
+      monto.name = "monto"
+      let fecha_gasto = document.createElement('input')
+      fecha_gasto.value = document.getElementById('fecha').value
+      fecha_gasto.name = "fecha_gasto"
 
-        let cambio = document.createElement('input')
-        cambio.value = document.getElementById('moneda_cambio').value
-        cambio.name = "cambio"
-        let fecha_cambio = document.createElement('input')
-        fecha_cambio.value = document.getElementById('fecha_cambio').value
-        fecha_cambio.name = "fecha_cambio"
+      let cambio = document.createElement('input')
+      cambio.value = document.getElementById('moneda_cambio').value
+      cambio.name = "cambio"
+      let fecha_cambio = document.createElement('input')
+      fecha_cambio.value = document.getElementById('fecha_cambio').value
+      fecha_cambio.name = "fecha_cambio"
 
-        let button1 = document.createElement('button')
-        button1.name = 'guardar_ingreso'
+      let button1 = document.createElement('button')
+      button1.name = 'guardar_ingreso'
 
-        // form.appendChild(tramo)
+      // form.appendChild(tramo)
 
-        form.appendChild(tipo_ingreso)
-        // form.appendChild(referencia)
-        form.appendChild(concepto)
-        form.appendChild(monto)
-        form.appendChild(fecha_gasto)
+      form.appendChild(tipo_ingreso)
+      // form.appendChild(referencia)
+      form.appendChild(concepto)
+      form.appendChild(monto)
+      form.appendChild(fecha_gasto)
 
-        form.appendChild(cambio)
-        form.appendChild(fecha_cambio)
+      form.appendChild(cambio)
+      form.appendChild(fecha_cambio)
 
-        form.appendChild(button1)   
+      form.appendChild(button1)
 
-        document.body.appendChild(form)
-        form.action = 'contabilidadingresos.php'
-        form.method = 'post'
-        // form.submit()
-        button1.click()
+      document.body.appendChild(form)
+      form.action = 'contabilidadingresos.php'
+      form.method = 'post'
+      // form.submit()
+      button1.click()
     }
 
     function loginuser() {

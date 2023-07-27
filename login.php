@@ -14,35 +14,49 @@ require("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css" />
   <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css" />
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+  <link rel="stylesheet" href="css/styles.css" type="text/css" />
 </head>
+
+<script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="assets/js/app.js" type="text/javascript"></script>
+
+<script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body class="mai-splash-screen">
   <div class="mai-wrapper mai-login">
     <div class="main-content container">
       <div class="splash-container row">
+        <div id="error-popup" class="modal">
+          <div class="modal-content">
+            <span id="pop-up-close" class="close">&times;</span>
+            <p id="popup-text" class="popup-text">Some text in the Modal..</p>
+          </div>
+        </div>
         <div class="col-md-6 user-message"><span class="splash-message text-right">Hola!<br> es bueno<br> verte de nuevo</span><span class="alternative-message text-right">No tienes cuenta? <a href="loginsignup.php">Creá tu cuenta</a></span></div>
         <div class="col-md-6 form-message"><img class="youlogo" src="src/youlogo.svg" alt="logo" width="338" height="56"><span class="splash-description text-center mt-5 mb-5">Ingresá a tu cuenta</span>
-          <form method='POST' id='form1' action='dashboard.php'>
+          <form method='POST' id='login-form' action='dashboard.php'>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend"><i class="icon s7-user"></i></div>
-                <input class="form-control" name="username" type="text" placeholder="Usuario" autocomplete="off">
+                <input id="input-user" class="form-control" name="username" type="text" placeholder="Usuario o Email" onchange="validateUser()">
               </div>
             </div>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend"><i class="icon s7-lock"></i></div>
-                <input class="form-control" name="password" type="password" placeholder="Contraseña">
+                <input id="input-pssw" class="form-control" name="password" type="password" placeholder="Contraseña" onchange="validatePssw()">
               </div>
             </div>
-            <div class="form-group login-submit"><a class="btn btn-lg btn-primary btn-block" onclick='document.getElementById("form1").submit()' value='login' data-dismiss="modal">Ingresar</a></div>
+            <div class="form-group login-submit"><a class="btn btn-lg btn-primary btn-block" onclick='validateLogin()' value='login' data-dismiss="modal">Ingresar</a></div>
             <div class="form-group row login-tools">
               <div class="col-sm-6 login-remember">
                 <label class="custom-control custom-checkbox mt-2">
-                  <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Recuerdame</span>
+                  <input class="custom-control-input" type="checkbox"><span id="remember-me-chckbox" class="custom-control-label">Recuerdame</span>
                 </label>
               </div>
-              <div class="col-sm-6 pt-2 text-sm-right login-forgot-password"><a href="loginforgot.php">Olvidaste tu cuenta?</a></div>
+              <!-- <div class="col-sm-6 pt-2 text-sm-right login-forgot-password"><a href="loginforgot.php">Olvidaste tu contraseña?</a></div> -->
             </div>
           </form>
           <div class="out-links"><a href="#">© 2023 Gustoso Soft</a></div>
@@ -50,15 +64,50 @@ require("conexion.php");
       </div>
     </div>
   </div>
-  <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-  <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
-  <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-  <script src="assets/js/app.js" type="text/javascript"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       //-initialize the javascript
       App.init();
     });
+  </script>
+  <script>
+    // TODO: an eye icon could be added to show the password onclick
+    // it should change the type of input from password to text and viceversa on toggle
+
+    function validateLogin() {
+      let popup = document.getElementById("error-popup");
+      let popup_text = document.getElementById("popup-text");
+
+      let user = document.getElementById("input-user").value;
+      let pssw = document.getElementById("input-pssw").value;
+
+      $.ajax({
+        url: "login_query.php?check_username=" + user + "&check_password=" + pssw, // your php file
+        type: "GET", // type of the HTTP request
+        success: function(data) {
+          user_exists = jQuery.parseJSON(data);
+          console.log("user_exists: " + user_exists);
+          if (user_exists == 1) {
+            document.getElementById("login-form").submit();
+          } else {
+            popup.style.display = "block";
+            popup_text.innerHTML = "El usuario o la contraseña ingresados son incorrectos.<br>Recuerda que si no estás registrado puedes hacerlo <a href='loginsignup.php'>aquí</a>.";
+          }
+        }
+      });
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      let popup = document.getElementById("error-popup");
+      if (event.target == popup) {
+        popup.style.display = "none";
+      }
+    }
+
+    document.getElementById("pop-up-close").onclick = function() {
+      document.getElementById("error-popup").style.display = "none";
+    }
   </script>
 </body>
 

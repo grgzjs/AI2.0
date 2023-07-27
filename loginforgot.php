@@ -13,6 +13,13 @@
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
 </head>
 
+<script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="assets/js/app.js" type="text/javascript"></script>
+
+<script src="assets/js/login-check.js" type="text/javascript"></script>
+
 <body class="mai-splash-screen">
   <div class="mai-wrapper mai-forgot-password">
     <div class="main-content container">

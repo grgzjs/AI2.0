@@ -21,6 +21,13 @@ include("conexion.php");
     <link rel="stylesheet" type="text/css" href="assets/lib/dropzone/dropzone.css" />
 </head>
 
+<script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="assets/js/app.js" type="text/javascript"></script>
+
+<script src="assets/js/login-check.js" type="text/javascript"></script>
+
 <body>
     <nav class="navbar navbar-expand navbar-dark mai-top-header">
         <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
@@ -117,7 +124,7 @@ include("conexion.php");
                 <nav class="navbar navbar-expand-md">
                     <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
                     <div class="navbar-collapse collapse mai-nav-tabs" id="mai-navbar-collapse">
-                    <ul class="nav navbar-nav">
+                        <ul class="nav navbar-nav">
                             <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
                                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                                     <li class="nav-item"><a class="nav-link" href="dashboard.php"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
@@ -126,10 +133,10 @@ include("conexion.php");
                             </li>
                             <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
                                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
-                                      </li>
-                                      <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
-                                      </li>
+                                    <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
+                                    </li>
                                 </ul>
 
                             </li>
@@ -356,26 +363,26 @@ include("conexion.php");
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo<?php echo ($i+1) ?>" id="fbo<?php echo ($i+1) ?>">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo<?php echo ($i + 1) ?>" id="fbo<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel<?php echo ($i+1) ?>" id="fuel<?php echo ($i+1) ?>">
+                                                        <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel<?php echo ($i + 1) ?>" id="fuel<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Catering</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering<?php echo ($i+1) ?>" id="catering<?php echo ($i+1) ?>">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering<?php echo ($i + 1) ?>" id="catering<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Notas
                                                         Especiales</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas<?php echo ($i+1) ?>" id="notas<?php echo ($i+1) ?>">
+                                                        <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas<?php echo ($i + 1) ?>" id="notas<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
 

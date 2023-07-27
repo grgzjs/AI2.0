@@ -21,24 +21,31 @@ include("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/dropzone/dropzone.css" />
 </head>
 
-  <?php
-  if (isset($_POST['guardar_gasto'])) {
-    $tipo_ingreso = $_POST['tipo_gasto'] ? $_POST['tipo_gasto'] : 'null';
-    $referencia = $_POST['referencia']; // unused
-    $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
-    $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
-    $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
+<script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="assets/js/app.js" type="text/javascript"></script>
 
-    $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
-    $fecha_cambio = $_POST['fecha_cambio']; // unused
+<script src="assets/js/login-check.js" type="text/javascript"></script>
 
-    // figure out where to save
-    $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, moneda_cambio) values ('" . $fecha_gasto . "','" .$tipo_ingreso . "','" . $concepto . "'," . $monto . ",'".$cambio."')";
+<?php
+if (isset($_POST['guardar_gasto'])) {
+  $tipo_ingreso = $_POST['tipo_gasto'] ? $_POST['tipo_gasto'] : 'null';
+  $referencia = $_POST['referencia']; // unused
+  $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
+  $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
+  $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
 
-    mysqli_query($con, $sql);
-    // clean post data
-  }
-  ?>
+  $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
+  $fecha_cambio = $_POST['fecha_cambio']; // unused
+
+  // figure out where to save
+  $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, moneda_cambio) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "')";
+
+  mysqli_query($con, $sql);
+  // clean post data
+}
+?>
 
 <body>
   <nav class="navbar navbar-expand navbar-dark mai-top-header">
@@ -118,7 +125,7 @@ include("conexion.php");
   <!--COMIENZO BOTONERA PRINCIPAL-->
 
   <div class="mai-wrapper">
-  <nav class="navbar navbar-expand-lg mai-sub-header">
+    <nav class="navbar navbar-expand-lg mai-sub-header">
       <div class="container">
         <nav class="navbar navbar-expand-md">
           <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
@@ -132,7 +139,7 @@ include("conexion.php");
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
+                  <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
                   </li>
                   <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
                   </li>
@@ -504,57 +511,57 @@ include("conexion.php");
     }
 
     function save_all() {
-    let form = document.createElement('form')
+      let form = document.createElement('form')
 
-    // let tramo = document.createElement('input')
-    // tramo.value = document.getElementById('tramo_reserva').value
-    // tramo.name = 'tramo_reserva'
+      // let tramo = document.createElement('input')
+      // tramo.value = document.getElementById('tramo_reserva').value
+      // tramo.name = 'tramo_reserva'
 
-    let tipo_ingreso = document.createElement('input')
-    tipo_ingreso.value = document.getElementById('tipo_gasto').value
-    tipo_ingreso.name = 'tipo_gasto'
-    // let referencia = document.createElement('input')
-    // referencia.value = document.getElementById('referencia').value
-    // referencia.name="referencia"
-    let concepto = document.createElement('input')
-    concepto.value = document.getElementById('concepto').value
-    concepto.name = "concepto"
-    let monto = document.createElement('input')
-    monto.value = document.getElementById('monto').value
-    monto.name = "monto"
-    let fecha_gasto = document.createElement('input')
-    fecha_gasto.value = document.getElementById('fecha').value
-    fecha_gasto.name = "fecha_gasto"
+      let tipo_ingreso = document.createElement('input')
+      tipo_ingreso.value = document.getElementById('tipo_gasto').value
+      tipo_ingreso.name = 'tipo_gasto'
+      // let referencia = document.createElement('input')
+      // referencia.value = document.getElementById('referencia').value
+      // referencia.name="referencia"
+      let concepto = document.createElement('input')
+      concepto.value = document.getElementById('concepto').value
+      concepto.name = "concepto"
+      let monto = document.createElement('input')
+      monto.value = document.getElementById('monto').value
+      monto.name = "monto"
+      let fecha_gasto = document.createElement('input')
+      fecha_gasto.value = document.getElementById('fecha').value
+      fecha_gasto.name = "fecha_gasto"
 
-    let cambio = document.createElement('input')
-    cambio.value = document.getElementById('cambio').value
-    cambio.name = "cambio"
-    let fecha_cambio = document.createElement('input')
-    fecha_cambio.value = document.getElementById('fecha_cambio').value
-    fecha_cambio.name = "fecha_cambio"
+      let cambio = document.createElement('input')
+      cambio.value = document.getElementById('cambio').value
+      cambio.name = "cambio"
+      let fecha_cambio = document.createElement('input')
+      fecha_cambio.value = document.getElementById('fecha_cambio').value
+      fecha_cambio.name = "fecha_cambio"
 
-    let button1 = document.createElement('button')
-    button1.name = 'guardar_gasto'
+      let button1 = document.createElement('button')
+      button1.name = 'guardar_gasto'
 
-    // form.appendChild(tramo)
+      // form.appendChild(tramo)
 
-    form.appendChild(tipo_ingreso)
-    // form.appendChild(referencia)
-    form.appendChild(concepto)
-    form.appendChild(monto)
-    form.appendChild(fecha_gasto)
+      form.appendChild(tipo_ingreso)
+      // form.appendChild(referencia)
+      form.appendChild(concepto)
+      form.appendChild(monto)
+      form.appendChild(fecha_gasto)
 
-    form.appendChild(cambio)
-    form.appendChild(fecha_cambio)
+      form.appendChild(cambio)
+      form.appendChild(fecha_cambio)
 
-    form.appendChild(button1)   
+      form.appendChild(button1)
 
-    document.body.appendChild(form)
-    form.action = 'contabilidadgastos.php'
-    form.method = 'post'
-    // form.submit()
-    button1.click()
-}
+      document.body.appendChild(form)
+      form.action = 'contabilidadgastos.php'
+      form.method = 'post'
+      // form.submit()
+      button1.click()
+    }
 
     function loginuserhellolist() {
       let form = document.createElement('form')

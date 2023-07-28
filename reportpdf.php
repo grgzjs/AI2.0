@@ -1,30 +1,30 @@
 <?php
 include("conexion.php");
-require_once('tcpdf/tcpdf.php');
-class MYPDF extends TCPDF
-{
+include("tcpdf/tcpdf.php");
+// class MYPDF extends TCPDF
+// {
 
-    //Page header
-    public function Header()
-    {
-        // Logo
-        $image_file = 'src/youlogo1.png';
-        $this->SetY(-15);
-        $this->SetFont('helvetica', 'I', 8);
-        // Page number
-        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-    }
-    // Page footer
-    public function Footer()
-    {
-        // Position at 15 mm from bottom
-        $this->SetY(-15);
-        // Set font
-        $this->SetFont('helvetica', 'I', 8);
-        // Page number
-        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-    }
-}
+//     //Page header
+//     public function Header()
+//     {
+//         // Logo
+//         $image_file = 'src/youlogo1.png';
+//         $this->SetY(-15);
+//         $this->SetFont('helvetica', 'I', 8);
+//         // Page number
+//         $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+//     }
+//     // Page footer
+//     public function Footer()
+//     {
+//         // Position at 15 mm from bottom
+//         $this->SetY(-15);
+//         // Set font
+//         $this->SetFont('helvetica', 'I', 8);
+//         // Page number
+//         $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+//     }
+// }
 
 $quote = $_GET['id'];
 $sql = 'select * from invoices where quote=' . $quote;
@@ -33,14 +33,14 @@ $rowinvoice = mysqli_fetch_assoc($invoice);
 $sqlbuyer = 'select * from Contact where id=' . $rowinvoice['buyer_id'];
 $buyer = mysqli_query($con, $sqlbuyer);
 $rowbuyer = mysqli_fetch_assoc($buyer);
-$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 $sqldetail_tramo = 'select * from invoice_detail where id_invoice=' . $quote;
 $detail_tramo = mysqli_query($con, $sqldetail_tramo);
 
-$tramoids = [];
+$tramoids = array();
 while ($rowdetail_tramo = mysqli_fetch_assoc($detail_tramo)) {
-    array_push($tramoids, $rowdetail_tramo['id']);
+    array_push($tramoids, $rowdetail_tramo['Id']);
 }   
+$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator('Gustoso Marketing');
@@ -50,6 +50,9 @@ $pdf->SetSubject('Your Subject');
 $pdf->SetKeywords('Keywords');
 
 //$pdf->SetHeaderData('src/youlogo.gif', 130,'Charter Quote', 'descripcion');
+
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
 
 // set header and footer fonts
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -271,108 +274,44 @@ $html4 = '
         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Fecha de Nacimiento</th>
     </tr>
     <tr>
-        <td><br></td>
-        <td><br></td>
-        <td><br></td>
-        <td><br></td>
-        <td><br></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
     </tr>
 ';
-$sqlpaxlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
+
+
+
+$sqlpaxlist = "select c.first_name, c.last_name, c.pais, c.dnipass, c.f_nacimiento from Contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
 for ($i = 0; $i < count($tramoids); $i++) {
     $sqlpaxlist .= "o.tramo_id=" . $tramoids[$i];
     if ($i < count($tramoids) - 1) {
         $sqlpaxlist .= " or ";
     }
 }
-$sqlpaxlist .= ")";
+$sqlpaxlist .= ") group by o.contact_id";
+// echo "<script>console.log('$sqlpaxlist')</script>";
 $rowspax = mysqli_query($con, $sqlpaxlist);
 while ($rowpax = mysqli_fetch_assoc($rowspax)) {
     $html4 = $html4 . '
     <tr>
-        <td style="color: #878787">' . $rowpax['fecha'] . '</td>
-        <td style="color: #878787">' . $rowpax['origen'] . '</td>
-        <td style="color: #878787">' . $rowpax['destino'] . '</td>
-        <td style="color: #878787">' . $rowpax['Pax'] . '</td>
-        <td style="color: #878787">' . $rowpax['km_vuelo'] . '</td>
+        <td style="color: #878787">' . $rowpax['first_name'] . ' ' . $rowpax['last_name'] . '</td>
+        <td style="color: #878787">' . $rowpax['pais'] . '</td>
+        <td style="color: #878787">' . $rowpax['dnipass'] . '</td>
+        <td style="color: #878787">' . ' ' . '</td>
+        <td style="color: #878787">' . $rowpax['f_nacimiento'] . '</td>
     </tr>';
 }
 $html4 = $html4 . '</table>';
+
 
 // <img src = "src/pagina3.png">
 
 $pdf->writeHTML($html4, true, false, true, false, '');
 
-$pdf->AddPage();
-
-$pdf->SetFont('helvetica', 'b', 10);
-
-$html5 = '
-<div style="text-align:center;">
-    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
-</div>
-<table> 
-    <tr>
-        <td>Quote # : ' . $quote . '</td>
-    </tr>
-    <tr>
-        <td>Date: ' . $rowinvoice['date'] . '</td>
-    </tr>
-</table>
-<br>
-<img src = "src/pagina4.png">';
-// $html5 = '
-// <br><br><br>
-// <table> 
-//     <tr>
-//         <td>Quote # : ' . $quote . '</td>
-//     </tr>
-//     <tr>
-//         <td>Date: ' . $rowinvoice['date'] . ' </td>
-//     </tr>
-// </table>
-// <br>
-
-// <table>
-//     <tr>
-//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Nombre y Apellido</th>
-//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Nationalized</th>
-//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">#Pasaporte</th>
-//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Expiration</th>
-//         <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Fecha de Nacimiento</th>
-//     </tr>
-//     <tr>
-//         <td><br></td>
-//         <td><br></td>
-//         <td><br></td>
-//         <td><br></td>
-//         <td><br></td>
-//     </tr>
-// ';
-// $sqlpaxlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
-// for ($i = 0; $i < count($tramoids); $i++) {
-//     $sqlpaxlist .= "o.tramo_id=" . $tramoids[$i];
-//     if ($i < count($tramoids) - 1) {
-//         $sqlpaxlist .= " or ";
-//     }
-// }
-// $sqlpaxlist .= ")";
-// $rowspax = mysqli_query($con, $sqlpaxlist);
-// while ($rowpax = mysqli_fetch_assoc($rowspax)) {
-//     $html5 = $html5 . '
-//     <tr>
-//         <td style="color: #878787">' . $rowpax['fecha'] . '</td>
-//         <td style="color: #878787">' . $rowpax['origen'] . '</td>
-//         <td style="color: #878787">' . $rowpax['destino'] . '</td>
-//         <td style="color: #878787">' . $rowpax['Pax'] . '</td>
-//         <td style="color: #878787">' . $rowpax['km_vuelo'] . '</td>
-//     </tr>';
-// }
-// $html5 = $html5 . '</table>';
-
-$pdf->writeHTML($html5, true, false, true, false, '');
-
 // output the PDF file to the browser
 $filename = 'Quote' . $quote . '.pdf';
+// $pdf->Output($filename, 'I');
 $pdf->Output($filename, 'D');
-//echo '<script>window.location.href = "hello.php";</script>';

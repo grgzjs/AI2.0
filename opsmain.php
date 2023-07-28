@@ -20,9 +20,6 @@ include("conexion.php");
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-<script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
-<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-<script src="assets/js/app.js" type="text/javascript"></script>
 
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
@@ -95,7 +92,12 @@ include("conexion.php");
       </ul>
       <ul class="nav navbar-nav float-lg-right mai-user-nav">
         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><img src="assets/img/avatar.jpg" alt="Avatar"><span class="user-name">Demo Account</span><span class="angle-down s7-angle-down"></span></a>
-          <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a>
+            <a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a>
+            <a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a>
+            <a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a>
+          </div>
         </li>
       </ul>
     </div>
@@ -289,12 +291,32 @@ include("conexion.php");
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programacion</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href='reserva.php?id=<?php echo $row['quote'] ?>' title="View">Costos</a>
+                                <!-- <a class="dropdown-item" href='reserva.php?id=<?php echo $row['quote'] ?>' title="View">Costos</a>
+                                <div class="dropdown-divider"></div> -->
+                                <!-- <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Tripsheet</a> -->
+                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Quote</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Tripsheet</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">GENDEC</a>
-                                <div class="dropdown-divider"></div>
+                                <?php
+                                $quote = $row["quote"];
+                                $sql_invoice_detail = "select Id, origen, destino from invoice_detail where id_invoice=$quote";
+                                echo "<script>console.log('$sql_invoice_detail')</script>";
+                                $invoice_detail = mysqli_query($con, $sql_invoice_detail);
+
+                                $legs = array();
+                                $leg_names = array();
+                                while (($row_leg = mysqli_fetch_assoc($invoice_detail))) {
+                                  array_push($legs, $row_leg["Id"]);
+                                  array_push($leg_names, "(".$row_leg["origen"] ."-". $row_leg["destino"].")");
+                                }
+                                
+                                for ($i=0; $i < count($legs); $i++) {
+                                  $next_leg = ($i + 1) < count($legs) ? $legs[$i + 1] : "none";
+                                ?>
+                                  <a class="dropdown-item" target='_blank' href='gendecpdf.php?quote=<?php echo $row["quote"] ?>&leg=<?php echo $legs[$i] ?>&next_leg=<?php echo $next_leg ?>' title="View">GENDEC <?php echo $leg_names[$i] ?></a>
+                                  <div class="dropdown-divider"></div>
+                                <?php
+                                }
+                                ?>
                                 <a class="dropdown-item" href='javascript:anular("<?php echo $row['quote'] ?>")' title="Eliminar">Anular</a>
 
                               </div>
@@ -313,11 +335,6 @@ include("conexion.php");
         </div>
       </div>
     </div>
-  </div>
-
-
-
-  </div>
   </div>
   <script>
     //LOGIN PASSWORD OVERWRITE HELLO
@@ -432,8 +449,6 @@ include("conexion.php");
       form.submit()
     }
 
-
-    //Status Funciton//
     function statusbooked(id_invoice) {
       let form = document.createElement('form')
       form.action = 'opsmain.php'
@@ -460,8 +475,6 @@ include("conexion.php");
       form.appendChild(nik)
       document.body.appendChild(form)
       form.submit()
-
-
     }
   </script>
   <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>

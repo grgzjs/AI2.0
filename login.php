@@ -18,10 +18,8 @@ require("conexion.php");
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-<!-- <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
-<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-<script src="assets/js/app.js" type="text/javascript"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body class="mai-splash-screen">
@@ -40,21 +38,21 @@ require("conexion.php");
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend"><i class="icon s7-user"></i></div>
-                <input id="input-user" class="form-control" name="username" type="text" placeholder="Usuario o Email" onchange="validateUser()">
+                <input id="input-user" class="form-control" name="username" type="text" placeholder="Usuario o Email"> <!-- onchange="validateUser()" -->
               </div>
             </div>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend"><i class="icon s7-lock"></i></div>
-                <input id="input-pssw" class="form-control" name="password" type="password" placeholder="Contraseña" onchange="validatePssw()">
+                <input id="input-pssw" class="form-control" name="password" type="password" placeholder="Contraseña"> <!-- onchange="validatePssw()" -->
               </div>
             </div>
             <div class="form-group login-submit"><a class="btn btn-lg btn-primary btn-block" onclick='validateLogin()' value='login' data-dismiss="modal">Ingresar</a></div>
             <div class="form-group row login-tools">
               <div class="col-sm-6 login-remember">
-                <label class="custom-control custom-checkbox mt-2">
+                <!-- <label class="custom-control custom-checkbox mt-2">
                   <input class="custom-control-input" type="checkbox"><span id="remember-me-chckbox" class="custom-control-label">Recuerdame</span>
-                </label>
+                </label> -->
               </div>
               <!-- <div class="col-sm-6 pt-2 text-sm-right login-forgot-password"><a href="loginforgot.php">Olvidaste tu contraseña?</a></div> -->
             </div>
@@ -64,6 +62,7 @@ require("conexion.php");
       </div>
     </div>
   </div>
+
   <script type="text/javascript">
     $(document).ready(function() {
       //-initialize the javascript
@@ -81,13 +80,32 @@ require("conexion.php");
       let user = document.getElementById("input-user").value;
       let pssw = document.getElementById("input-pssw").value;
 
+      const rand = () => {
+        return Math.random().toString(36).substring(2);
+      };
+
+      const token = () => {
+        let token = "";
+        for (let i = 0; i < 24; i++) {
+          token += rand();
+        }
+        return token;
+      };
+
+      let token_generated = token().toString().substring(0, 250);
+
       $.ajax({
         url: "login_query.php?check_username=" + user + "&check_password=" + pssw, // your php file
         type: "GET", // type of the HTTP request
         success: function(data) {
-          user_exists = jQuery.parseJSON(data);
-          console.log("user_exists: " + user_exists);
-          if (user_exists == 1) {
+          user_data = jQuery.parseJSON(data);
+
+          if (user_data[0] == 1) {
+            localStorage.setItem('token', token_generated);
+            localStorage.setItem('username', user_data[1]);
+            localStorage.setItem('email', user_data[2]);
+            localStorage.setItem('user_type', user_data[3]);
+
             document.getElementById("login-form").submit();
           } else {
             popup.style.display = "block";

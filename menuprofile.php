@@ -22,175 +22,91 @@
 <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="assets/js/app.js" type="text/javascript"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body>
-  <nav class="navbar navbar-expand navbar-dark mai-top-header">
-    <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
-      <ul class="nav navbar-nav mai-top-nav">
-        <!--<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Company</a></li>
-          <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Services<span class="angle-down s7-angle-down"></span></a>
-            <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#">Information</a><a class="dropdown-item" href="#">Company</a><a class="dropdown-item" href="#">Documentation</a><a class="dropdown-item" href="#">API Settings</a><a class="dropdown-item" href="#">Export Info</a></div>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">Support</a></li>-->
-      </ul>
-      <ul class="navbar-nav float-lg-right mai-icons-nav">
-        <li class="dropdown nav-item mai-messages"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><span class="icon s7-comment"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <div class="title">Messages</div>
-              <div class="mai-scroller-messages">
-                <div class="content">
-                  <ul>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img1.jpg" alt="avatar"></div>
-                        <div class="content"><span class="date">16 Sept</span><span class="name">Julio Sosa</span><span class="desc">message board en camino. </span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img2.jpg" alt="Avatar"></div>
-                        <div class="content"><span class="date">4 Sept</span><span class="name">Gustavo </span><span class="desc">dale play.</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img3.jpg" alt="Avatar"></div>
-                        <div class="content"><span class="date">13 Aug</span><span class="name">Lupi</span><span class="desc">Dale, yo sigo trabajando en contenido.</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img4.jpg" alt="Avatar"></div>
-                        <div class="content"><span class="date">13 Aug</span><span class="name">Julieta</span><span class="desc">Esta bueno esto.</span></div>
-                      </a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="footer"><a href="#">View all messages</a></div>
-            </li>
-          </ul>
-        </li>
-        <li class="dropdown nav-item mai-notifications"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><span class="icon s7-bell"></span><span class="indicator"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <div class="title">Notifications</div>
-              <div class="mai-scroller-notifications">
-                <div class="content">
-                  <ul>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-check"></span></div>
-                        <div class="content"><span class="desc">This is a new message for my dear friend <strong>Julio</strong>.</span><span class="date">10 minutes ago</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-add-user"></span></div>
-                        <div class="content"><span class="desc">You have a new fiend request pending from <strong>Julieta</strong>.</span><span class="date">2 days ago</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-graph1"></span></div>
-                        <div class="content"><span class="desc">Your site visits have increased <strong>15.5%</strong> more since the last week.</span><span class="date">2 hours ago</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-check"></span></div>
-                        <div class="content"><span class="desc">This is a new message for my dear friend <strong>Rob</strong>.</span><span class="date">10 minutes ago</span></div>
-                      </a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="footer"><a href="#">View all notifications</a></div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav float-lg-right mai-user-nav">
-        <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><img src="assets/img/avatar.jpg" alt="Avatar"><span class="user-name">Demo Account</span><span class="angle-down s7-angle-down"></span></a>
-          <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <?php require_once("nav_header.html") ?>
   <div class="mai-wrapper">
-    <nav class="navbar navbar-expand-lg mai-sub-header">
-      <div class="container">
-        <nav class="navbar navbar-expand-md">
-          <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
-          <div class="navbar-collapse collapse mai-nav-tabs" id="mai-navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="dashboard.php"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
+    <?php require_once("nav_header2.html") ?>
 
-                </ul>
-              </li>
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
-                  </li>
+    <style>
+      .transparent-button {
+        background-color: transparent;
+        background-repeat: no-repeat;
 
-                </ul>
-              </li>
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Lista de Contactos </span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
-                  </li>
-                  <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
-                    <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
-                    </div>
-                  </li> -->
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        outline: none;
+      }
 
-                </ul>
-              </li>
+      .transparent-button:focus {
+        border: none;
+        outline: none;
+      }
 
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Lista de Vuelos</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="ops_calendar.php"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
-                  </li>
+      .user-image {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
 
-                </ul>
-              </li>
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Gral</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Gral</span></a>
-                  </li>
-                </ul>
-              <!-- <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
-                  </li>
-                </ul> -->
+      .transparent-button:hover .image-overlay {
+        opacity: .8;
+      }
 
+      .image-overlay {
+        position: absolute;
+        top: 0;
+        /*  bottom: 0; */
+        /* left: 0; */
+        /* right: 0; */
 
-            </ul>
+        width: 180px;
+        height: 180px;
+        margin-bottom: 0.769231rem;
 
-            </ul>
-          </div>
-        </nav>
-        <!--<div class="search">
-            <input type="text" placeholder="Search..." name="q"><span class="s7-search"></span>
-          </div>-->
-      </div>
-    </nav>
+        opacity: 0;
+        transition: .5s ease;
+        background-color: black;
+      }
+
+      .overlay-text {
+        color: white;
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+    </style>
+
     <div class="main-content container">
       <div class="user-profile">
         <div class="row">
           <div class="col-md-12">
             <div class="user-display">
               <div class="user-display-cover"><img src="assets/img/cover.jpg" alt="cover"></div>
-              <div class="user-display-bottom">
-                <div class="user-display-id"><img class="user-display-avatar" src="assets/img/avatars/img3.jpg" alt="avatar">
-                  <div class="user-display-name">Justin Adams</div>
+              <div class="user-display-bottom" style="padding-bottom: 10%">
+                <div class="user-display-id">
+                  <button class="transparent-button" onclick="change_user_image()">
+                    <img class="user-display-avatar" src="assets/img/avatars/no_user.jpg" alt="avatar" id="user-image">
+                    <div class="user-display-avatar image-overlay">
+                      <div class="overlay-text">Cambiar</div>
+                    </div>
+                  </button>
+                  <div class="user-display-name" style="text-align: center"><?php echo "Username" ?></div>
                 </div>
-                <div class="user-display-stats">
+                <!-- <div class="user-display-stats">
                   <div class="user-display-stat"><span class="user-display-stat-counter">26</span><span class="user-display-stat-title">Issues</span></div>
                   <div class="user-display-stat"><span class="user-display-stat-counter">165</span><span class="user-display-stat-title">Commits</span></div>
                   <div class="user-display-stat"><span class="user-display-stat-counter">43</span><span class="user-display-stat-title">Followers</span></div>
                   <div class="user-display-stat"><span class="user-display-stat-counter">157</span><span class="user-display-stat-title">Following</span></div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -198,11 +114,20 @@
         <div class="row">
           <div class="col-md-4">
             <div class="user-info-list card card-default">
-              <div class="card-header card-header-divider">About Me</div>
+              <div class="card-header card-header-divider">Datos de Usuario</div>
               <div class="card-body">
                 <table class="no-border no-strip skills">
                   <tbody class="no-border-x no-border-y">
                     <tr>
+                      <td class="item" style="text-align: left">Usuario</td>
+                      <td style="text-align: right"><input class="form-control" type="text" placeholder="Ingrese nuevo Usuario" disabled></td>
+                      <!-- <td><a class="btn btn-success btn-lg" style="text-align: right"><span class="glyphicon glyphicon-pencil"></span></a></td> -->
+                    </tr>
+                    <tr>
+                      <td class="item" style="text-align: left">Email</td>
+                      <td style="text-align: right"><input class="form-control" type="text" placeholder="Ingrese nuevo Email" disabled></td>
+                    </tr>
+                    <!-- <tr>
                       <td class="icon"><span class="icon s7-portfolio"></span></td>
                       <td class="item">Ocupation</td>
                       <td><input type="text" name="occupation" placeholder="Enter your occupation"></td>
@@ -226,12 +151,80 @@
                       <td class="icon"><span class="icon s7-map-marker"></span></td>
                       <td class="item">Location</td>
                       <td><textarea name="location" placeholder="Enter your location"></textarea></td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
 
               </div>
-              <div class="card-header card-header-divider">Elsewhere</div>
+              <div class="card-header card-header-divider">Redes Sociales</div>
+              <div class="card-body">
+                <table class="no-border no-strip social">
+                  <tbody class="no-border-x no-border-y">
+                    <tr>
+                      <td class="icon"><a class="fa fa-facebook" href="#" style="background-color: white; margin-left: -8px; padding: 5px;"></a></td>
+                      <td><input class="form-control" style="margin-left: -10px; width: 103%;" type="text" placeholder="Nuevo link de Facebook" disabled></td>
+                    </tr>
+                    <tr>
+                      <td class="icon"><a class="fa fa-twitter" href="#" style="background-color: white; margin-left: -8px; padding: 5px;"></a></td>
+                      <td><input class="form-control" style="margin-left: -10px; width: 103%;" type="text" placeholder="Nuevo link de Twitter" disabled></td>
+                    </tr>
+                    <tr>
+                      <td class="icon"><a class="fa fa-dribbble" href="#" style="background-color: white; margin-left: -8px; padding: 5px;"></a></td>
+                      <td><input class="form-control" style="margin-left: -10px; width: 103%;" type="text" placeholder="Nuevo link de Dribble" disabled></td>
+                    </tr>
+                    <tr>
+                      <td class="icon"><a class="fa fa-github" href="#" style="background-color: white; margin-left: -8px; padding: 5px;"></a></td>
+                      <td><input class="form-control" style="margin-left: -10px; width: 103%;" type="text" placeholder="Nuevo link de Github" disabled></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="user-info-list card card-default">
+              <div class="card-header card-header-divider">Configuración de Operador</div>
+              <div class="card-body">
+                <table class="no-border no-strip skills">
+                  <tbody class="no-border-x no-border-y">
+                    <tr>
+                      <td class="item" style="text-align: center">Tipo de Operador</td>
+                      <td style="text-align: center">
+                        <select class="form-control custom-select" name="tipo-admin" id="tipo-admin" onchange="change_admin_type(this)">
+                          <option value="None">...</option>
+                          <option value="Administrador">Administrador</option>
+                          <option value="Ventas">Ventas</option>
+                          <option value="Despachador">Despachador</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="item" style="text-align: center">Moneda Local</td>
+                      <td style="text-align: center">
+                        <select class="form-control custom-select" name="moneda-local" id="moneda-local" onchange="change_currency(this)">
+                          <option value="None">...</option>
+                          <option value="USD">USD</option>
+                          <option value="ARS">ARS</option>
+                          <option value="MXN">MXN</option>
+                          <option value="EUR">EUR</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="item" style="text-align: center">Tipo de Cotizacion</td>
+                      <td style="text-align: center">
+                        <select class="form-control custom-select" name="tipo-cotizacion" id="tipo-cotizacion" onchange="change_quotation_type(this)">
+                          <option value="None">...</option>
+                          <option value="Hora">Cotización por Hora</option>
+                          <option value="KM">Cotización por KM</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- <div class="card-header card-header-divider">Elsewhere</div>
               <div class="card-body">
                 <table class="no-border no-strip social">
                   <tbody class="no-border-x no-border-y">
@@ -253,11 +246,10 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
             </div>
-
           </div>
-          <div class="col-md-8">
+          <!-- <div class="col-md-8">
             <div class="widget widget-fullwidth user-develop-chart">
               <div class="widget-head">
                 <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-refresh-2"></span></div><span class="title">Development Activity</span>
@@ -305,10 +297,9 @@
                 </div>
               </div>
             </div>
-
-          </div>
+          </div> -->
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-md-5">
             <div class="widget widget-calendar">
               <div class="cal-container">
@@ -387,7 +378,7 @@
               <li class="timeline-item timeline-loadmore"><a class="btn btn-sm btn-secondary load-more-btn" href="#">Load more</a></li>
             </ul>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -411,6 +402,59 @@
         App.init();
         App.profile();
       });
+    </script>
+    <script>
+      function change_user_image() {
+        console.log("Ask for image and validate");
+      }
+
+      function change_admin_type(element) {
+        let new_user_type = "";
+        switch (element.value) {
+          case "Administrador":
+            new_user_type = "admin";
+            break;
+          case "Ventas":
+            new_user_type = "sales";
+            break;
+          case "Despachador":
+            new_user_type = "dispatch";
+            break;
+          default:
+            return
+            break;
+        }
+
+        // do nothing if new type is same as current
+        if (localStorage.getItem("user_type") == new_user_type) return;
+
+        let credential = localStorage.getItem("email");
+        
+        console.log("profile_query.php?key=change_user_type&new_user_type=" + new_user_type + "&credential=" + credential)
+
+        $.ajax({
+          url: "profile_query.php?key=change_user_type&new_user_type=" + new_user_type + "&credential=" + credential, // your php file
+          type: "GET", // type of the HTTP request
+          success: function(data) {
+            data = jQuery.parseJSON(data);
+
+            // console.log(data);
+
+            console.log("Admin type changed to " + element.value);
+            localStorage.setItem("user_type", new_user_type)
+
+            check_tabs(true);
+          }
+        });
+      }
+
+      function change_currency(element) {
+        console.log("Currency changed to " + element.value);
+      }
+
+      function change_quotation_type(element) {
+        console.log("Quotation type changed to " + element.value);
+      }
     </script>
 </body>
 

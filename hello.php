@@ -24,160 +24,18 @@
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-<!-- <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
-<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-<script src="assets/js/app.js" type="text/javascript"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 <script src="assets/js/login-check.js" type="text/javascript"></script>
+<script src="assets/js/user-validation.js" type="text/javascript"></script>
 
 <body>
-  <nav class="navbar navbar-expand navbar-dark mai-top-header">
-    <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
-      <ul class="nav navbar-nav mai-top-nav">
-      </ul>
-      <ul class="navbar-nav float-lg-right mai-icons-nav">
-        <li class="dropdown nav-item mai-messages"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><span class="icon s7-comment"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <div class="title">Messages</div>
-              <div class="mai-scroller-messages">
-                <div class="content">
-                  <ul>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img1.jpg" alt="avatar"></div>
-                        <div class="content"><span class="date">16 Sept</span><span class="name">Julio Sosa</span><span class="desc">message board en camino. </span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img2.jpg" alt="Avatar"></div>
-                        <div class="content"><span class="date">4 Sept</span><span class="name">Gustavo </span><span class="desc">dale play.</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img3.jpg" alt="Avatar"></div>
-                        <div class="content"><span class="date">13 Aug</span><span class="name">Lupi</span><span class="desc">Dale, yo sigo trabajando en contenido.</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="img"><img src="assets/img/avatars/img4.jpg" alt="Avatar"></div>
-                        <div class="content"><span class="date">13 Aug</span><span class="name">Julieta</span><span class="desc">Esta bueno esto.</span></div>
-                      </a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="footer"><a href="#">View all messages</a></div>
-            </li>
-          </ul>
-        </li>
-        <li class="dropdown nav-item mai-notifications"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><span class="icon s7-bell"></span><span class="indicator"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <div class="title">Notifications</div>
-              <div class="mai-scroller-notifications">
-                <div class="content">
-                  <ul>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-check"></span></div>
-                        <div class="content"><span class="desc">This is a new message for my dear friend <strong>Julio</strong>.</span><span class="date">10 minutes ago</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-add-user"></span></div>
-                        <div class="content"><span class="desc">You have a new fiend request pending from <strong>Julieta</strong>.</span><span class="date">2 days ago</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-graph1"></span></div>
-                        <div class="content"><span class="desc">Your site visits have increased <strong>15.5%</strong> more since the last week.</span><span class="date">2 hours ago</span></div>
-                      </a></li>
-                    <li><a href="#">
-                        <div class="icon"><span class="s7-check"></span></div>
-                        <div class="content"><span class="desc">This is a new message for my dear friend <strong>Rob</strong>.</span><span class="date">10 minutes ago</span></div>
-                      </a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="footer"><a href="#">View all notifications</a></div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav float-lg-right mai-user-nav">
-        <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><img src="assets/img/avatar.jpg" alt="Avatar"><span class="user-name">Demo Account</span><span class="angle-down s7-angle-down"></span></a>
-          <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <?php require_once("nav_header.html") ?>
   <div class="mai-wrapper">
-    <nav class="navbar navbar-expand-lg mai-sub-header">
-      <div class="container">
-        <nav class="navbar navbar-expand-md">
-          <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
-          <div class="navbar-collapse collapse mai-nav-tabs" id="mai-navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="dashboard.php"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
-
-                </ul>
-              </li>
-              <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
-                  </li>
-
-                </ul>
-              </li>
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Lista de Contactos </span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
-                  </li>
-                  <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="crmemail.php" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
-                        <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="crmemail.php">Inbox</a><a class="dropdown-item" href="crmemail.php">Detail</a><a class="dropdown-item" href="crmemail.php">Compose</a>
-                        </div>
-                      </li> -->
-
-                </ul>
-              </li>
-
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Lista de Vuelos</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="ops_calendar.php"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
-                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Gral</span></a>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Gral</span></a>
-                  </li>
-                </ul>
-                <!-- <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
-                    <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                      <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
-                      </li>
-                    </ul> -->
-
-
-            </ul>
-
-            </ul>
-          </div>
-        </nav>
-        <!--<div class="search">
-            <input type="text" placeholder="Search..." name="q"><span class="s7-search"></span>
-          </div>-->
-      </div>
-    </nav>
+    <?php require_once("nav_header2.html"); ?>
     <div class="main-content container">
 
       <?php
-      echo '<script>console.log("hello loaded")</script>';
       // SECCION DE BORRAR Y EDITAR
       $sqllist = "select * from invoices";
       $rows = mysqli_query($con, $sqllist);
@@ -248,7 +106,7 @@
                   <?php
                   } else {
                   ?>
-                    <select id="name-select" name="buyer" class="form-control custom-select" onblur="updateaddress(this)">
+                    <select id="name-select" name="buyer" class="form-control custom-select" onchange="updateaddress(this)">
                       <?php
                       while ($rowbuyer = mysqli_fetch_assoc($buyers)) {
                       ?>
@@ -306,11 +164,11 @@
 
 
                   ?>
-                  <select name='aircraft' class="form-control custom-select" id="aircraft" onblur="update_km_price(this)">
+                  <select name='aircraft' class="form-control custom-select" id="aircraft" onchange="update_km_price(this)">
                     <?php
                     while ($rowaircraft = mysqli_fetch_assoc($aircraft)) {
                     ?>
-                      <option value="<?php echo $rowaircraft['matricula'] . '*' . $rowaircraft['preciokm'] ?>">
+                      <option value="<?php echo $rowaircraft['matricula'] . '*' . $rowaircraft['preciokm'] . '*' . $rowaircraft['cruisespeed'] ?>">
                         <?php echo $rowaircraft['matricula']; ?>
                       <?php
                     }
@@ -377,22 +235,48 @@
                 //if(!$edit)
                 ?>
 
+                <?php
+                $query_airports = mysqli_query($con, "SELECT airport_code, airport_name FROM airports");
+                ?>
+                <script>
+                  var airports = [];
+                </script>
+                <?php
+                while ($row_airport = mysqli_fetch_assoc($query_airports)) { ?>
+                  <script>
+                    airports.push(['<?php echo $row_airport["airport_code"] ?>', '<?php echo $row_airport["airport_name"] ?>']);
+                  </script>
+                <?php
+                }
+                ?>
+
                 <div class="form-group row" id="tramo-1">
                   <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                   <div class="col-12 col-sm-8 col-lg-2">
                     <input class="form-control" type="date" placeholder="fecha" name="fdate1" id="fdate1">
                   </div>
                   <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="origen" name="forigen1" id="forigen1">
+                    <input class="form-control" type="text" data-toggle="dropdown" placeholder="origen" name="forigen1" id="forigen1" onkeyup="get_airports(this)" onchange="origen_changed(this)">
+                    <!-- <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button> -->
+                    <div class="dropdown-menu dropdown-menu-left" role="menu" id="origen-dropdown1" style="max-height:19em; overflow: auto;">
+                    </div>
+                    <!-- <select class="form-control custom-select" name="forigen1" id="forigen1" onchange="origen_changed(this)">
+                      <option value="none">...</option>
+                    </select> -->
                   </div>
                   <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" placeholder="destino" name="fdestino1" id="fdestino1">
+                    <input class="form-control" type="text" data-toggle="dropdown" placeholder="destino" name="fdestino1" id="fdestino1" onkeyup="get_airports(this)" onchange="destino_changed(this)">
+                    <div class="dropdown-menu dropdown-menu-left" role="menu" id="destino-dropdown1" style="max-height:19em; overflow: auto;">
+                    </div>
+                    <!-- <select class="form-control custom-select" name="fdestino1" id="fdestino1" onchange="destino_changed(this)">
+                      <option value="none">...</option>
+                    </select> -->
                   </div>
                   <div class="col-12 col-sm-8 col-lg-1">
                     <input class="form-control" type="text" placeholder="pax" name="fpax1">
                   </div>
                   <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1" onchange="editSubtotal(this.value)">
+                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1" onchange="editSubtotal(this.value)" readonly>
                   </div>
                   <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
                     <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
@@ -401,6 +285,27 @@
                     <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
                   </button>
                 </div>
+
+                <script>
+                  // console.log(airports);
+                  function populate_selects(origen_select_name, destino_select_name) {
+                    let origen_select = document.getElementById(origen_select_name);
+                    let destino_select = document.getElementById(destino_select_name);
+
+                    airports.forEach(airport => {
+                      let origen_option = document.createElement("option");
+                      origen_option.value = airport[0];
+                      origen_option.innerHTML = airport[1];
+
+                      let destino_option = origen_option.cloneNode(true);
+
+                      origen_select.appendChild(origen_option);
+                      destino_select.appendChild(destino_option);
+                    });
+                  }
+
+                  populate_selects("forigen1", "fdestino1");
+                </script>
 
               </div>
 
@@ -416,13 +321,13 @@
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Adicionales:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" type="text" value="<?php echo $rowedit['addons']; ?>" placeholder="addons" name="addons" id="addons" onchange="editTotal(this.value)">
+                  <input class="form-control" type="number" value="" placeholder="addons" name="addons" id="addons" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" type="text" value="<?php echo $rowedit['tax']; ?>" placeholder="tax" name="tax" id="tax" onchange="editTotal(this.value)">
+                  <input class="form-control" type="number" value="" placeholder="tax" name="tax" id="tax" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
@@ -470,11 +375,8 @@
     function add_tramo() {
       tramo++;
 
-      // let form_container = document.getElementById('quote-form');
-
-      // can be limited using 'tramo'
+      // can be limited
       let master_container = document.getElementById('form-container')
-      // form_container.appendChild(master_container)
 
       let new_container = document.createElement('div')
       master_container.appendChild(new_container)
@@ -502,15 +404,22 @@
       let origen_div = document.createElement('div')
       new_container.appendChild(origen_div)
       let origen_input = document.createElement('input')
-      origen_div.appendChild(origen_input)
+      origen_div.appendChild(origen_select)
 
       origen_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
-      origen_input.classList.add('form-control')
-      origen_input.type = 'text'
-      origen_input.placeholder = 'origen'
+      origen_input.classList.add('form-control', 'custom-select')
       origen_input.name = 'forigen' + tramo
       origen_input.id = 'forigen' + tramo
       origen_input.value = document.getElementById('fdestino' + (tramo - 1)).value
+      // origen_select.onchange = origen_changed(this)
+      origen_input.addEventListener('change', function() {
+        origen_changed(this)
+      }, false);
+
+      let origen_none_option = document.createElement("option");
+      origen_none_option.value = "none";
+      origen_none_option.innerHTML = "...";
+      origen_input.appendChild(origen_none_option);
 
       let destino_div = document.createElement('div')
       new_container.appendChild(destino_div)
@@ -518,12 +427,18 @@
       destino_div.appendChild(destino_input)
 
       destino_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
-      destino_input.classList.add('form-control')
-      destino_input.type = 'text'
-      destino_input.placeholder = 'destino'
+      destino_input.classList.add('form-control', 'custom-select')
       destino_input.name = 'fdestino' + tramo
       destino_input.id = 'fdestino' + tramo
-      // destino_input.value = document.getElementById('forigen' + (tramo - 1)).value
+      destino_input.addEventListener('change', function() {
+        destino_changed(this)
+      }, false);
+
+      let destino_none_option = origen_none_option.cloneNode(true);
+      destino_input.appendChild(destino_none_option);
+
+      populate_selects(origen_select.name, destino_input.name);
+      origen_select.value = document.getElementById('fdestino' + (tramo - 1)).value
 
       let pax_div = document.createElement('div')
       new_container.appendChild(pax_div)
@@ -547,6 +462,8 @@
       km_input.placeholder = 'kms'
       km_input.name = 'km_vuelo' + tramo
       km_input.id = 'km_vuelo' + tramo
+      km_input.readOnly = 'readonly'
+
       // km_input.onchange = editSubtotal(this.value)
       km_input.addEventListener('change', function() {
         editSubtotal(this.value);
@@ -583,17 +500,24 @@
     }
 
     kmPrice = 0
+    cruise_speed = 0
 
     function editSubtotal(newPrice) {
-      newPrice *= kmPrice
-      document.getElementById('subtotal').setAttribute('value', parseFloat(document.getElementById('subtotal').value) + parseFloat(newPrice));
-      document.getElementById('subtotal').value = parseFloat(document.getElementById('subtotal').value) + parseFloat(newPrice);
-      editTotal(newPrice); // also add to total
+      document.getElementById('subtotal').setAttribute('value', parseFloat(newPrice));
+      document.getElementById('subtotal').value = parseFloat(newPrice);
+      editTotal(); // also add to total
     }
 
-    function editTotal(newValue) {
-      document.getElementById('amount').setAttribute('value', parseFloat(document.getElementById('amount').value) + parseFloat(newValue));
-      document.getElementById('amount').value = parseFloat(document.getElementById('amount').value) + parseFloat(newValue);
+    function editTotal() {
+      let subtotal_value = parseFloat(document.getElementById('subtotal').value);
+      let addons_value = document.getElementById('addons').value == "" ? 0 : parseFloat(document.getElementById('addons').value);
+      let tax_value = document.getElementById('tax').value == "" ? 0 : parseFloat(document.getElementById('tax').value);
+
+      let new_value = subtotal_value + addons_value + tax_value;
+      new_value = Math.round((new_value + Number.EPSILON) * 100) / 100;
+
+      document.getElementById('amount').setAttribute('value', parseFloat(new_value));
+      document.getElementById('amount').value = parseFloat(new_value);
     }
 
     function borrar(id_invoice) {
@@ -623,6 +547,112 @@
       form.appendChild(nik)
       document.body.appendChild(form)
       form.submit()
+    }
+
+    function fecha_changed(fecha) {}
+
+    function get_airports(input) {
+      let input_text = input.value;
+
+      // let input_tramo = parseInt(input.id.split("forigen")[1])
+      let input_tramo = 0;
+      let dropdown = "";
+      if (input.id.includes("forigen")) {
+        input_tramo = parseInt(input.id.split("forigen")[1]);
+        dropdown = document.getElementById("origen-dropdown" + input_tramo);
+      } else {
+        input_tramo = parseInt(input.id.split("fdestino")[1]);
+        dropdown = document.getElementById("destino-dropdown" + input_tramo);
+      }
+
+      dropdown.innerHTML = "";
+      airports.forEach(airport => {
+        let icao = airport[0];
+        let name = airport[1];
+
+        if (!icao.toLowerCase().includes(input_text.toLowerCase()) && !name.toLowerCase().includes(input_text.toLowerCase())) return; // like a continue
+
+        let button_item = document.createElement("button");
+        button_item.type = "button";
+        button_item.classList.add("dropdown-item");
+        button_item.addEventListener('click', function() {
+          set_airport(this, input, input_tramo, event);
+        }, false);
+        button_item.innerHTML = name;
+        button_item.setAttribute('value', icao)
+        dropdown.appendChild(button_item);
+      });
+    }
+
+    function set_airport(button, input, tramo_destino, event) {
+      event.preventDefault();
+      input.value = button.value;
+
+      calculate_distance(tramo_destino);
+    }
+
+    function origen_changed(input) {
+      let tramo_destino = parseInt(input.id.split("forigen")[1]);
+
+      calculate_distance(tramo_destino);
+    }
+
+    function destino_changed(input) {
+      let tramo_destino = parseInt(input.id.split("fdestino")[1]);
+      let siguiente_origen = document.getElementById("forigen" + (tramo_destino + 1));
+
+      calculate_distance(tramo_destino);
+
+      if (siguiente_origen == null) return;
+
+      siguiente_origen.value = input.value;
+
+      calculate_distance(tramo_destino + 1);
+    }
+
+    function calculate_distance(tramo) {
+      // first check if origen and destino are set to this leg
+      let elemento_origen = document.getElementById("forigen" + tramo);
+      let elemento_destino = document.getElementById("fdestino" + tramo);
+
+      if (elemento_origen == null || elemento_destino == null) return;
+      if (elemento_origen.value == "" || elemento_destino.value == "") return
+
+      let ori = elemento_origen.value;
+      let des = elemento_destino.value;
+
+      let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + cruise_speed
+      const distance_settings = {
+        async: true,
+        crossDomain: true,
+        url: built_url,
+        method: 'GET',
+        headers: {
+          'content-type': 'text/html;charset=UTF-8',
+          vary: 'Accept-Encoding',
+          'X-RapidAPI-Key': '7ca5fcbf98mshc6c382d596c1447p14f6d8jsnb1ee6e285853',
+          'X-RapidAPI-Host': 'greatcirclemapper.p.rapidapi.com'
+        }
+      };
+
+      $.ajax(distance_settings).done(function(response) {
+        let json_data = JSON.parse(response)
+        let new_price = 0;
+
+        let distance_km = json_data["totals"]["distance_km"];
+        document.getElementById("km_vuelo" + tramo).value = distance_km;
+
+        let flight_time_min = json_data["totals"]["flight_time_min"];
+
+        if (true) {
+          new_price = distance_km * kmPrice;
+        } else {
+          new_price = flight_time_min;
+        }
+
+        new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;
+        editSubtotal(new_price);
+      });
     }
 
     //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
@@ -801,8 +831,6 @@
       setTimeout(() => {
         window.location.href = "hello.php";
       }, 100);
-
-
     }
 
     function updateaddress(selectaddress) {
@@ -813,10 +841,15 @@
       address.value = addressbuyer
     }
 
-    function update_km_price(selectPlane) {
-      let idPlane = selectPlane.value
-      let pos = idPlane.indexOf('*')
-      kmPrice = idPlane.substring(pos + 2)
+    function update_km_price(select_plane) {
+      let plane_data = select_plane.value.split("*");
+      let plate = plane_data[0];
+      kmPrice = plane_data[1];
+      cruise_speed = plane_data[2];
+
+      for (let tramo_count = 1; tramo_count <= tramo; tramo_count++) {
+        calculate_distance(tramo_count);
+      }
     }
   </script>
   <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>

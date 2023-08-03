@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 
+<?php
+include("conexion.php");
+?>
+
 <head>
   <link rel="shortcut icon" href="assets/img/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" />
@@ -23,14 +27,13 @@
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
-<!-- <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
-<script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-<script src="assets/js/app.js" type="text/javascript"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body>
-  <nav class="navbar navbar-expand navbar-dark mai-top-header">
+  <?php require_once("nav_header.html") ?>
+  <!-- <nav class="navbar navbar-expand navbar-dark mai-top-header">
     <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
       <ul class="nav navbar-nav mai-top-nav">
       </ul>
@@ -100,17 +103,18 @@
       </ul>
       <ul class="nav navbar-nav float-lg-right mai-user-nav">
         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><img src="assets/img/avatar.jpg" alt="Avatar"><span class="user-name">Demo Account</span><span class="angle-down s7-angle-down"></span></a>
-          <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
+          <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span><span id="account-name"></span></a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
         </li>
       </ul>
     </div>
-  </nav>
+  </nav> -->
 
 
   <!--COMIENZO BOTONERA PRINCIPAL-->
 
   <div class="mai-wrapper">
-    <nav class="navbar navbar-expand-lg mai-sub-header">
+    <?php require_once("nav_header2.html"); ?>
+    <!-- <nav class="navbar navbar-expand-lg mai-sub-header">
       <div class="container">
         <nav class="navbar navbar-expand-md">
           <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
@@ -139,10 +143,10 @@
                   </li>
                   <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
                   </li>
-                  <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
+                  <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
                     <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
                     </div>
-                  </li> -->
+                  </li>
 
                 </ul>
               </li>
@@ -166,16 +170,16 @@
                 </ul>
 
               </li>
-              <!-- <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
+              <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                   <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
                   </li>
-                </ul> -->
+                </ul>
             </ul>
           </div>
         </nav>
       </div>
-    </nav>
+    </nav> -->
 
 
     <!--COMIENZO DASHBOARD-->
@@ -183,7 +187,7 @@
     <!-- PHP SUM QUOTES PER MONTH-->
     <?php
     // Connect to the database
-    $con = mysqli_connect("localhost", "root", "", "YAC");
+    // $con = mysqli_connect("localhost", "root", "", "YAC");
 
     // Get the current month and year
     $month = date('m');
@@ -203,7 +207,7 @@
 
     <?php
     // Connect to the database
-    $con = mysqli_connect("localhost", "root", "", "YAC");
+    // $con = mysqli_connect("localhost", "root", "", "YAC");
 
     // Get the current month and year
     $month = date('m');
@@ -227,7 +231,7 @@
     <!-- PHP SUM TRIPS PER MONTH-->
     <?php
     // Connect to the database
-    $con = mysqli_connect("localhost", "root", "", "YAC");
+    // $con = mysqli_connect("localhost", "root", "", "YAC");
 
     // Get the current month and year
     $month = date('m');
@@ -252,7 +256,7 @@
 
     <?php
     // Connect to the database
-    $con = mysqli_connect("localhost", "root", "", "YAC");
+    // $con = mysqli_connect("localhost", "root", "", "YAC");
 
     // Get the current month and year
     $month = date('m');
@@ -270,7 +274,6 @@
 
     // Add the $ sign to the total amount
     //$totalamountthismonth_with_sign = '$' . number_format($totalamountthismonth, 2);
-
     ?>
 
 
@@ -356,32 +359,32 @@
             // Check if there are any pending tasks
             if (mysqli_num_rows($result) > 0) {
               echo '
-          
-            <div class="widget-head"><span class="title">Lista de Pendientes</span></div>
-            <div class="todo-list-container">
-              <ul class="todo-tasks">';
+              <div class="widget-head"><span class="title">Lista de Pendientes</span></div>
+                <div class="todo-list-container">
+                  <ul class="todo-tasks">';
 
               // Loop through the results and create a list item for each task
               while ($row = mysqli_fetch_assoc($result)) {
-                echo '<li class="todo-task">
-            <label class="custom-control custom-checkbox">
-              <input class="custom-control-input" type="checkbox"><span class="custom-control-label">' . $row['task'] . '</span>
-            </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-          </li>';
+                echo '
+                <li class="todo-task">
+                  <label class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label">' . $row['task'] . '</span>
+                  </label><a class="close" href="#"><span class="icon s7-close"></span></a>
+                </li>';
               }
-
-              echo '</ul>
-      </div>
-      <form method="POST">
-        <div class="todo-new-task">
-          <div class="input-group">
-            <input class="form-control" type="text" name="task" placeholder="Add a new task...">
-            <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="icon s7-plus"></i></button></div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>';
+              echo '
+                  </ul>
+                  </div>
+              <form method="POST">
+                <div class="todo-new-task">
+                  <div class="input-group">
+                    <input class="form-control" type="text" name="task" placeholder="Add a new task...">
+                    <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="icon s7-plus"></i></button></div>
+                  </div>
+                </div>
+              </form>
+              </div>
+            </div>';
             } else {
               echo '
           

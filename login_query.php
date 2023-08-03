@@ -30,7 +30,24 @@ if (isset($username_to_check) && isset($pssw_to_check)) {
     // echo json_encode(password_verify($pssw_to_check, $row["password"]) ? 1 : 0);
     $password_checked = password_verify($pssw_to_check, $row["password"]) ? 1 : 0;
 
-    echo json_encode(($username_checked == 1 && $password_checked == 1) ? 1 : 0);
+    $data_for_validation = array();
+
+    array_push($data_for_validation, ($username_checked == 1 && $password_checked == 1) ? 1 : 0);
+
+    if ($data_for_validation[0] == 1) {
+        $user_data = mysqli_query($con, "SELECT username, email, user_type FROM users WHERE username = '$username_to_check' OR email = '$username_to_check'");
+        $row = mysqli_fetch_assoc($user_data);
+
+        array_push($data_for_validation, $row["username"]);
+        array_push($data_for_validation, $row["email"]);
+        array_push($data_for_validation, $row["user_type"]);
+
+        // $data_for_validation[1] = $row["username"];
+        // $data_for_validation[2] = $row["email"];
+        // $data_for_validation[3] = $row["user_type"];
+    }
+
+    echo json_encode($data_for_validation);
 }
 
 $token_to_check = $_GET["check_token"];

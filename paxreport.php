@@ -1,49 +1,28 @@
 <?php
 include("conexion.php");
-require_once('TCPDF/tcpdf.php');
-class MYPDF extends TCPDF
-{
-    //Page header
-    public function Header()
-    {
-        // Logo
-        $image_file = 'src/youlogo1.png';
-        $this->SetY(-15);
-        $this->SetFont('helvetica', 'I', 8);
-        // Page number
-        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-    }
-
-    // Page footer
-    public function Footer()
-    {
-        // Position at 15 mm from bottom
-        $this->SetY(-15);
-        // Set font
-        $this->SetFont('helvetica', 'I', 8);
-        // Page number
-        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-    }
-}
+include("tcpdf/tcpdf.php");
 
 $quote = $_GET['id'];
 $sql = 'select * from invoices where quote=' . $quote;
 $invoice = mysqli_query($con, $sql);
 $rowinvoice = mysqli_fetch_assoc($invoice);
-$sqlbuyer = 'select * from contact where id=' . $rowinvoice['buyer_id'];
+
+$sqlbuyer = 'select * from Contact where id=' . $rowinvoice['buyer_id'];
 $buyer = mysqli_query($con, $sqlbuyer);
 $rowbuyer = mysqli_fetch_assoc($buyer);
-$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-$sqldetail = 'select * from invoice_detail where id_invoice=' . $quote;
+
+$sqldetail = 'select Id from invoice_detail where id_invoice=' . $quote;
 $detail = mysqli_query($con, $sqldetail);
+
+// echo "sqldetail: " . $sqldetail . PHP_EOL;
 
 $tramoids = [];
 while ($rowdetail = mysqli_fetch_assoc($detail)) {
-    array_push($tramoids, $rowdetail['id']);
+    array_push($tramoids, $rowdetail['Id']);
 }
 
 // pilot list query
-$sqlpilotlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion <>'null' and (";
+$sqlpilotlist = "select * from Contact c, opstramo o where o.contact_id=c.id and o.funcion <>'null' and (";
 for ($i = 0; $i < count($tramoids); $i++) {
     $sqlpilotlist .= "o.tramo_id=" . $tramoids[$i];
     if ($i < count($tramoids) - 1) {
@@ -51,9 +30,10 @@ for ($i = 0; $i < count($tramoids); $i++) {
     }
 }
 $sqlpilotlist .= ")";
+// echo "sqlpilotlist: " . $sqlpilotlist . PHP_EOL;
 
 // pax list query
-$sqlpaxlist = "select * from contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
+$sqlpaxlist = "select * from Contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
 for ($i = 0; $i < count($tramoids); $i++) {
     $sqlpaxlist .= "o.tramo_id=" . $tramoids[$i];
     if ($i < count($tramoids) - 1) {
@@ -61,14 +41,19 @@ for ($i = 0; $i < count($tramoids); $i++) {
     }
 }
 $sqlpaxlist .= ")";
+// echo "sqlpaxlist: " . $sqlpaxlist . PHP_EOL;
 
-$sqldetail = "select * from opstramo_detail where ";
+$sqldetail = "select * from opstramo_detail where (";
 for ($i = 0; $i < count($tramoids); $i++) {
     $sqldetail .= "tramo_id=" . $tramoids[$i];
     if ($i < count($tramoids) - 1) {
         $sqldetail .= " or ";
     }
 }
+$sqldetail .= ")";
+// echo "sqldetail: " . $sqldetail . PHP_EOL;
+
+$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator('Gustoso Marketing');
@@ -78,6 +63,9 @@ $pdf->SetSubject('Your Subject');
 $pdf->SetKeywords('Keywords');
 
 //$pdf->SetHeaderData('src/youlogo.gif', 130,'Charter Quote', 'descripcion');
+
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
 
 // set header and footer fonts
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -131,7 +119,7 @@ $html = '
 
 $html = $html . '
 <div style="text-align:center;">
-    <img src="src/youlogo1.png" alt="Logo">
+    <img src="assets/img/pdf/header.jpg" alt="Logo">
 </div>
 
 <table> 
@@ -225,7 +213,7 @@ $html2 = '
 
 $html2 = $html2 . '
 <div style="text-align:center;">
-    <img src="src/youlogo1.png" alt="Logo">
+    <img src="assets/img/pdf/header.jpg" alt="Logo">
 </div>
 
 <table> 
@@ -311,7 +299,7 @@ $html3 = '
 
 $html3 = $html3 . '
 <div style="text-align:center;">
-    <img src="src/youlogo1.png" alt="Logo">
+    <img src="assets/img/pdf/header.jpg" alt="Logo">
 </div>
 
 <table> 
@@ -367,6 +355,5 @@ $html3 = $html3 . '
 $pdf->writeHTML($html3, true, false, true, false, '');
 
 $filename = 'Quote' . $quote . '.pdf';
-ob_end_clean();
 $pdf->Output($filename, 'D');
-header('Location: opsmain.php');
+// $pdf->Output($filename, 'I');

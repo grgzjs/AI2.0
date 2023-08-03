@@ -26,165 +26,14 @@ include("conexion.php");
 <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="assets/js/app.js" type="text/javascript"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body>
-    <nav class="navbar navbar-expand navbar-dark mai-top-header">
-        <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
-            <ul class="nav navbar-nav mai-top-nav">
-            </ul>
-            <ul class="navbar-nav float-lg-right mai-icons-nav">
-                <li class="dropdown nav-item mai-messages"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><span class="icon s7-comment"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <div class="title">Messages</div>
-                            <div class="mai-scroller-messages">
-                                <div class="content">
-                                    <ul>
-                                        <li><a href="#">
-                                                <div class="img"><img src="assets/img/avatars/img1.jpg" alt="avatar">
-                                                </div>
-                                                <div class="content"><span class="date">16 Sept</span><span class="name">Julio Sosa</span><span class="desc">message board
-                                                        en camino. </span></div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="img"><img src="assets/img/avatars/img2.jpg" alt="Avatar">
-                                                </div>
-                                                <div class="content"><span class="date">4 Sept</span><span class="name">Gustavo </span><span class="desc">dale play.</span>
-                                                </div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="img"><img src="assets/img/avatars/img3.jpg" alt="Avatar">
-                                                </div>
-                                                <div class="content"><span class="date">13 Aug</span><span class="name">Lupi</span><span class="desc">Dale, yo sigo
-                                                        trabajando en contenido.</span></div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="img"><img src="assets/img/avatars/img4.jpg" alt="Avatar">
-                                                </div>
-                                                <div class="content"><span class="date">13 Aug</span><span class="name">Julieta</span><span class="desc">Esta bueno
-                                                        esto.</span></div>
-                                            </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="footer"><a href="#">View all messages</a></div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown nav-item mai-notifications"><a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><span class="icon s7-bell"></span><span class="indicator"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <div class="title">Notifications</div>
-                            <div class="mai-scroller-notifications">
-                                <div class="content">
-                                    <ul>
-                                        <li><a href="#">
-                                                <div class="icon"><span class="s7-check"></span></div>
-                                                <div class="content"><span class="desc">This is a new message for my
-                                                        dear friend <strong>Julio</strong>.</span><span class="date">10
-                                                        minutes ago</span></div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="icon"><span class="s7-add-user"></span></div>
-                                                <div class="content"><span class="desc">You have a new fiend request
-                                                        pending from <strong>Julieta</strong>.</span><span class="date">2 days ago</span></div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="icon"><span class="s7-graph1"></span></div>
-                                                <div class="content"><span class="desc">Your site visits have increased
-                                                        <strong>15.5%</strong> more since the last week.</span><span class="date">2 hours ago</span></div>
-                                            </a></li>
-                                        <li><a href="#">
-                                                <div class="icon"><span class="s7-check"></span></div>
-                                                <div class="content"><span class="desc">This is a new message for my
-                                                        dear friend <strong>Rob</strong>.</span><span class="date">10
-                                                        minutes ago</span></div>
-                                            </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="footer"><a href="#">View all notifications</a></div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav float-lg-right mai-user-nav">
-                <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><img src="assets/img/avatar.jpg" alt="Avatar"><span class="user-name">Demo Account</span><span class="angle-down s7-angle-down"></span></a>
-                    <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!--COMIENZO BOTONERA PRINCIPAL-->
+    <?php require_once("nav_header.html") ?>
 
     <div class="mai-wrapper">
-        <nav class="navbar navbar-expand-lg mai-sub-header">
-            <div class="container">
-                <nav class="navbar navbar-expand-md">
-                    <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse" data-target="#mai-navbar-collapse" aria-controls="mai-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar"><span></span><span></span><span></span></span></button>
-                    <div class="navbar-collapse collapse mai-nav-tabs" id="mai-navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-home"></span><span>Home</span></a>
-                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                    <li class="nav-item"><a class="nav-link" href="dashboard.php"><span class="icon s7-monitor"></span><span class="name">Dashboard</span></a>
-
-                                </ul>
-                            </li>
-                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-paper-plane"></span><span>Quote</span></a>
-                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                    <li class="nav-item"><a class="nav-link" href="hello.php"><span class="icon s7-science"></span><span class="name">Cotizador</span></a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="hellolist.php"><span class="icon s7-albums"></span><span class="name">Lista de Cotizaciones</span></a>
-                                    </li>
-                                </ul>
-
-                            </li>
-                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
-                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                    <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Lista de Contactos</span></a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="aircraft_setup.php"><span class="icon s7-plane"></span><span class="name">Config. Aeronaves</span></a>
-                                    </li>
-                                    <!-- <li class="nav-item dropdown parent"><a class="nav-link" href="mail.html" data-toggle="dropdown"><span class="icon s7-mail"></span><span class="name">Mail</span></a>
-                                        <div class="dropdown-menu mai-sub-nav" role="menu"><a class="dropdown-item active" href="email-inbox.html">Inbox</a><a class="dropdown-item" href="email-detail.html">Detail</a><a class="dropdown-item" href="email-compose.html">Compose</a>
-                                        </div>
-                                    </li> -->
-                                </ul>
-                            </li>
-                            <li class="nav-item parent open"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-portfolio"></span><span>Operaciones</span></a>
-                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                    <li class="nav-item"><a class="nav-link" href="opsmain.php"><span class="icon s7-diamond"></span><span class="name">Lista de Vuelos</span></a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="ops_calendar.php"><span class="icon s7-diamond"></span><span class="name">Calendario</span></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-piggy"></span><span>Contabilidad</span></a>
-                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                    <li class="nav-item"><a class="nav-link" href="contabilidadgastos.php"><span class="icon s7-box2"></span><span class="name">Gastos Gral</span></a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="contabilidadingresos.php"><span class="icon s7-cash"></span><span class="name">Gastos Gral</span></a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <!-- <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-display1"></span><span>Admin</span></a>
-                                <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                                    <li class="nav-item"><a class="nav-link" href="charts-flot.html"><span class="icon s7-box2"></span><span class="name">Reporte General</span></a>
-                                    </li>
-                                </ul> -->
-
-                        </ul>
-                    </div>
-                </nav>
-                <!--<div class="search">
-            <input type="text" placeholder="Search..." name="q"><span class="s7-search"></span>
-          </div>-->
-            </div>
-        </nav>
+        <?php require_once("nav_header2.html") ?>
 
         <!--COMIENZO REGISTRACION PRINCIPAL-->
 
@@ -242,14 +91,31 @@ include("conexion.php");
                 }
             }
 
-            if (($_POST['aksi']) == 'guardardetalle') {
-                $fbo = mysqli_real_escape_string($con, (strip_tags($_POST["fbo"], ENT_QUOTES)));
-                $fuel = mysqli_real_escape_string($con, (strip_tags($_POST["fuel"], ENT_QUOTES)));
-                $catering = mysqli_real_escape_string($con, (strip_tags($_POST["catering"], ENT_QUOTES)));
-                $notas = mysqli_real_escape_string($con, (strip_tags($_POST["notas"], ENT_QUOTES)));
-                $tramo_id = mysqli_real_escape_string($con, (strip_tags($_POST["nik"], ENT_QUOTES)));
-                $sql = "INSERT into opstramo_detail (tramo_id,fbo,fuel,catering,notas) values (" . $tramo_id . ",'" . $fbo . "','" . $fuel . "','" . $catering . "','" . $notas . "')";
-                $addtramo = mysqli_query($con, $sql);
+            if ($_POST['aksi'] == 'guardardetalle') {
+                $sql_tramos = 'select Id from invoice_detail where id_invoice=' . $quote;
+                $id_tramos = mysqli_query($con, $sql_tramos);
+                $tramos_id = array();
+                while ($row_tramo_id = mysqli_fetch_assoc($id_tramos)) {
+                    array_push($tramos_id, $row_tramo_id["Id"]);
+                }
+
+                // echo "<script>console.log('guardar detalle')</script>";
+                for ($i = 1; $i <= 6; $i++) {
+                    if (!isset($_POST["fbo" . $i])) {
+                        break;
+                    }
+                    $fbo = $_POST["fbo" . $i];
+                    $fuel = $_POST["fuel" . $i];
+                    $catering = $_POST["catering" . $i];
+                    $notas = $_POST["notas" . $i];
+                    $tramo = $id_tramos[$i - 1];
+
+                    $sql_add_tramo_detail = "INSERT into opstramo_detail (tramo_id,fbo,fuel,catering,notas) values (" . $tramo . ",'" . $fbo . "','" . $fuel . "','" . $catering . "','" . $notas . "')";
+                    $add_tramo_detail = mysqli_query($con, $sql_add_tramo_detail);
+                }
+                // echo "<script>console.log('inserted details')</script>";
+                // header("Location: http://grupogustoso.com/opsmain.php");
+                echo "<script>window.location.href='opsmain.php';</script>";
             }
 
             ?>
@@ -392,22 +258,18 @@ include("conexion.php");
 
                                             <div class="form-group row pt-3" style="display:flex;justify-content:center">
                                                 <div>
-                                                    <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1" value="save" onclick="javascript:guardardetalle(event)">Save</button>
+                                                    <button class="btn btn-primary btn-space wizard-next" value="save" onclick="javascript:guardardetalle(event)">Guardar Detalles</button>
+                                                    <!-- <button class="btn btn-primary btn-space wizard-next" value="save" onclick="javascript:seepdf(event)">Ver Detalles</button> -->
                                                 </div>
                                             </div>
 
                                         </form>
 
                                     </div>
-
-
-
-
                                     <?php
                                     // $i++;
                                     // }
                                     ?>
-
                                 </div>
                             </div>
                         </div>
@@ -433,6 +295,48 @@ include("conexion.php");
             App.wizard();
         });
 
+        function guardardetalle(e) {
+            e.preventDefault();
+
+            let form = document.createElement('form');
+            form.action = 'opsmain3.php?id=<?php echo $quote ?>';
+            form.method = 'post';
+
+            let aksi = document.createElement('input')
+            aksi.name = 'aksi';
+            aksi.value = 'guardardetalle';
+
+            let tramo_amount = <?php echo count($tramoids) ?>;
+
+            for (let i = 0; i < tramo_amount; i++) {
+                let fbo_element = document.createElement("input");
+                fbo_element.value = document.getElementById("fbo" + (i + 1)).value;
+                fbo_element.name = "fbo" + (i + 1);
+                // fbo_list.push(fbo_element);
+                form.appendChild(fbo_element)
+
+                let fuel_element = document.createElement("input");
+                fuel_element.value = document.getElementById("fuel" + (i + 1)).value;
+                fuel_element.name = "fuel" + (i + 1);
+                // fuel_list.push(fuel_element);
+                form.appendChild(fuel_element)
+
+                let catering_element = document.createElement("input");
+                catering_element.value = document.getElementById("catering" + (i + 1)).value
+                catering_element.name = "catering" + (i + 1);
+                // catering_list.push(catering_element);
+                form.appendChild(catering_element)
+
+                let notas_element = document.createElement("input");
+                notas_element.value = document.getElementById("notas" + (i + 1)).value;
+                notas_element.name = "notas" + (i + 1);
+                // notas_list.push(notas_element);
+                form.appendChild(notas_element)
+            }
+            form.appendChild(aksi)
+            document.body.appendChild(form)
+            form.submit()
+        }
 
         function loginuser() {
             let form = document.createElement('form')
@@ -716,38 +620,6 @@ include("conexion.php");
 
         }
 
-        function guardardetalle(event) {
-            event.preventDefault()
-            let form = document.createElement('form')
-            form.action = 'paxreport.php?id=<?php echo $quote ?>'
-            form.method = 'post'
-            let username = document.createElement('input')
-            let password = document.createElement('input')
-            let aksi = document.createElement('input')
-            let nik = document.createElement('input')
-            let quoteid = document.createElement('input')
-            let inputtramo = document.getElementsByName('tramoid')[numtramo - 1]
-
-            username.value = 'test1'
-            username.name = 'username'
-            password.value = 'test1'
-            password.name = 'password'
-            aksi.name = 'aksi'
-            aksi.value = 'guardardetalle'
-            nik.name = 'nik'
-            nik.value = inputtramo.value
-            quoteid.name = 'quote'
-            quoteid.value = '<?php echo $quote ?>'
-            form.appendChild(aksi)
-            form.appendChild(username)
-            form.appendChild(password)
-            form.appendChild(nik)
-            document.body.appendChild(form)
-
-            form.submit()
-
-            // TODO: fix leg details not loading into db
-        }
         let numtramo = 1
 
         function tramosig(event) {

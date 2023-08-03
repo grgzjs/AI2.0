@@ -1,30 +1,6 @@
 <?php
 include("conexion.php");
 include("tcpdf/tcpdf.php");
-// class MYPDF extends TCPDF
-// {
-
-//     //Page header
-//     public function Header()
-//     {
-//         // Logo
-//         $image_file = 'src/youlogo1.png';
-//         $this->SetY(-15);
-//         $this->SetFont('helvetica', 'I', 8);
-//         // Page number
-//         $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-//     }
-//     // Page footer
-//     public function Footer()
-//     {
-//         // Position at 15 mm from bottom
-//         $this->SetY(-15);
-//         // Set font
-//         $this->SetFont('helvetica', 'I', 8);
-//         // Page number
-//         $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-//     }
-// }
 
 $quote = $_GET['id'];
 $sql = 'select * from invoices where quote=' . $quote;
@@ -39,7 +15,7 @@ $detail_tramo = mysqli_query($con, $sqldetail_tramo);
 $tramoids = array();
 while ($rowdetail_tramo = mysqli_fetch_assoc($detail_tramo)) {
     array_push($tramoids, $rowdetail_tramo['Id']);
-}   
+}
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
 // set document information
@@ -83,7 +59,7 @@ $pdf->SetFont('helvetica', 'b', 10);
 $html = '
 <br><br><br>
 <div style="text-align:center;">
-    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2250px; height: 200px">
 </div>
 <br><br>
 <table> 
@@ -109,14 +85,13 @@ $html = '
 <!--
 <th style="-webkit-column-count: 3; -moz-column-count: 3; column-count: 3;"><img src="assets/img/pdf/info.jpg" alt=""></th>
 -->
-
 <table>
     <tr>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Fecha Vuelo</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Origen</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Destino</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Pasajeros</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Kms</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Fecha Vuelo</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Origen</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Destino</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Pasajeros</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Kms</th>
     </tr>
     <tr>
         <td><br></td>
@@ -131,11 +106,11 @@ $detail = mysqli_query($con, $sqldetail);
 while ($rowdetail = mysqli_fetch_assoc($detail)) {
     $html = $html . '
     <tr>
-        <td style="color: #878787">' . $rowdetail['fecha'] . '</td>
-        <td style="color: #878787">' . $rowdetail['origen'] . '</td>
-        <td style="color: #878787">' . $rowdetail['destino'] . '</td>
-        <td style="color: #878787">' . $rowdetail['Pax'] . '</td>
-        <td style="color: #878787">' . $rowdetail['km_vuelo'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowdetail['fecha'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowdetail['origen'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowdetail['destino'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowdetail['Pax'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowdetail['km_vuelo'] . '</td>
     </tr>';
 }
 $html = $html . '</table>
@@ -187,9 +162,11 @@ $pdf->AddPage();
 $pdf->SetFont('helvetica', 'b', 10);
 
 $html2 = '
+<br><br><br>
 <div style="text-align:center;">
-    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2250px; height: 200px">
 </div>
+<br><br>
 <table> 
     <tr>
         <td>Quote # : ' . $quote . '</td>
@@ -204,7 +181,6 @@ $pdf->writeHTML($html2, true, false, true, false, '');
 $pdf->SetFont('dejavusans', '', 7);
 
 $html3 = '
-
 <br><br><p>DEFINICIONES Partes – Las dos partes que están entrando en este acuerdo son "Arrendador" y "Arrendataria". Arrendador - El individuo o entidad solicitando el servicio de charter.Arrendataria – La compañía que provee el servicio, conocido como "You Air SRL"
 <br><br>GENERALIDADES. Esta cotización es para aviones específicos; Si fuera necesario cambiar de avión, el costo puede variar en consecuencia. El Arrendador será́ informado de cualquier cambio antes del vuelo y la cantidad de costo adicional, si hubiere alguna. La cotización se basa en la disponibilidad de aviones y tripulación y tiene una validez de 7 días. Tras la aceptación de los términos y condiciones que figuran en este documento, este documento se convierte en un contrato legal y vinculante entre las dos partes. 
 <br><br>PRECIOS, PAGOS, CANCELACION Y VENTANA DE PRESENTACION: Todos los precios indicados en este documento son exactos en la fecha citada, están sujetas a cambios sin previo aviso y son válidos por 7 días. El pago completo es obligado antes de la salida.Se requiere aviso de cancelación por lo menos 24 horas para evitar un cargo por cancelación.Por cancelación dentro de 12 horas del vuelo se cobrará el equivalente a una hora de vuelo. 
@@ -238,9 +214,11 @@ $pdf->AddPage();
 $pdf->SetFont('helvetica', 'b', 10);
 
 $html4 = '
+<br><br><br>
 <div style="text-align:center;">
-    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2000px height: 50px">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2250px; height: 200px">
 </div>
+<br><br>
 <table> 
     <tr>
         <td>Quote # : ' . $quote . '</td>
@@ -253,25 +231,14 @@ $html4 = '
 <br><br><br><br>
 ';
 
-$html4 = '
-<br><br><br>
-<table> 
-    <tr>
-        <td>Quote # : ' . $quote . '</td>
-    </tr>
-    <tr>
-        <td>Date: ' . $rowinvoice['date'] . ' </td>
-    </tr>
-</table>
-<br>
-
+$html4 = $html4 . '
 <table>
     <tr>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Nombre y Apellido</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Nationalized</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">#Pasaporte</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Expiration</th>
-        <th style="background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Fecha de Nacimiento</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 50px 0px 0px 50px;">Nombre y Apellido</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Nationalized</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">#Pasaporte</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99;">Expiration</th>
+        <th style="text-align:center; background-color: #3b1942; border: 1.2em solid #3b1942; color: #ccff99; border-radius: 0px 50px 50px 0px;">Fecha de Nacimiento</th>
     </tr>
     <tr>
         <td></td>
@@ -281,8 +248,6 @@ $html4 = '
         <td></td>
     </tr>
 ';
-
-
 
 $sqlpaxlist = "select c.first_name, c.last_name, c.pais, c.dnipass, c.f_nacimiento from Contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
 for ($i = 0; $i < count($tramoids); $i++) {
@@ -297,19 +262,63 @@ $rowspax = mysqli_query($con, $sqlpaxlist);
 while ($rowpax = mysqli_fetch_assoc($rowspax)) {
     $html4 = $html4 . '
     <tr>
-        <td style="color: #878787">' . $rowpax['first_name'] . ' ' . $rowpax['last_name'] . '</td>
-        <td style="color: #878787">' . $rowpax['pais'] . '</td>
-        <td style="color: #878787">' . $rowpax['dnipass'] . '</td>
-        <td style="color: #878787">' . ' ' . '</td>
-        <td style="color: #878787">' . $rowpax['f_nacimiento'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowpax['first_name'] . ' ' . $rowpax['last_name'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowpax['pais'] . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowpax['dnipass'] . '</td>
+        <td style="color: #878787; text-align:center;">' . ' ' . '</td>
+        <td style="color: #878787; text-align:center;">' . $rowpax['f_nacimiento'] . '</td>
     </tr>';
 }
 $html4 = $html4 . '</table>';
 
-
-// <img src = "src/pagina3.png">
-
 $pdf->writeHTML($html4, true, false, true, false, '');
+
+$pdf->AddPage();
+
+$pdf->SetFont('helvetica', 'b', 10);
+
+$html3 = '
+<br><br><br>
+<div style="text-align:center;">
+    <img src="assets/img/pdf/header.jpg" alt="Logo" style="width: 2250px; height: 200px">
+</div>
+<table> 
+    <tr>
+        <td>Quote # : ' . $quote . '</td>
+    </tr>
+    <tr>
+        <td>Date: ' . $rowinvoice['date'] . ' </td>
+    </tr>
+</table>
+<br>
+<img src="assets/img/pdf/quote_last_page.png" alt="Logo" style="width: 2250px; height: 1100px">
+<p>
+El emisor de la tajeta identificado en este acuerdo esta autorizado a pagar a You Air SRL. una tarifa de tarjeta de credito del 4% adicional a la cotizacion en nombre de la empresa
+del titular de la tarjeta. El emisor de esta tarjeta identificado en este acuerdo tambien esta autorizado a pagar a You Air SRL. la cotizacion y el pago de la tarifa de la
+tarjeta adeudada, cualquier tarifa interna pendiente y creditos. El titular de la tarjeta que suscribe se compromete a pagar su totalidad dicho pago al emisor de la tarjeta
+sujeto y de conformidad con el acuerdo que rige el uso de dicha tarjeta.
+</p>
+<br>
+<h2>Información de Transferencia</h2>
+<br>
+<p>
+Company - You Air SRL. <br>
+Account - XXXXXX <br>
+ABA Routing - XXXXXX <br>
+Swift - XXXXXX <br>
+Bank Name - XXXXXX <br>
+Bank Address - XXXXXX
+</p>
+<br>
+<p>Le adjunto la cotizacion y nuestra informacion bancaria. Podemos cobrar tarjetas de credito a un 4% adicional. Quedo a su dispocicion por cualquier consulta.</p>
+<p>Atentamente</p>
+<p>Departamento de Ventas - operaciones@youaircharter.com</p>
+<br><br>
+<strong>Cardholder Signature:___________________</strong><br><br>
+<strong>Date:___________________</strong><br>';
+
+
+$pdf->writeHTML($html3, true, false, true, false, '');
 
 // output the PDF file to the browser
 $filename = 'Quote' . $quote . '.pdf';

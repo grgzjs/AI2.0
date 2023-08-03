@@ -19,6 +19,7 @@
 <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="assets/js/app.js" type="text/javascript"></script> -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body class="mai-splash-screen">
@@ -120,11 +121,14 @@
         let token_generated = token().toString().substring(0, 250);
 
         $.ajax({
-          url: "login_query.php?new_username=" + username + "&new_password=" + password + "&new_email=" + email + "&new_token=" + token_generated + "&user_type=admin",
+          url: "login_query.php?new_username=" + username + "&new_password=" + password + "&new_email=" + email + "&new_token=" + token_generated + "&user_type=unset",
           type: "GET",
           success: function(data) {
             localStorage.setItem('token', token_generated);
-            // localStorage.setItem('user_type', 'admin');
+            localStorage.setItem('username', username);
+            localStorage.setItem('email', email);
+            localStorage.setItem('user_type', 'unset');
+
             document.getElementById("login-form").submit();
           }
         });
@@ -261,7 +265,7 @@
         return;
       }
 
-      if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
         popup.style.display = "block";
         popup_text.innerHTML = "El email ingresado no cumple con el formato email (mail_de_ejemplo@ejemplo.com).";
         return;

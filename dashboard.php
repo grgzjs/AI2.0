@@ -24,6 +24,7 @@ include("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap-slider/css/bootstrap-slider.min.css" />
   <link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="css/styles.css" type="text/css" /> -->
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -31,7 +32,66 @@ include("conexion.php");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
+<style>
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #f54c4c;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #c23636;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .popup-text {
+    padding-top: 15px;
+    padding-left: 20px;
+    font-size: 1.35em;
+  }
+</style>
+
 <body>
+  <div id="error-popup" class="modal">
+    <div class="modal-content">
+      <span id="pop-up-close" class="close">&times;</span>
+      <p id="popup-text" class="popup-text">Some text in the Modal..</p>
+    </div>
+  </div>
   <?php require_once("nav_header.html") ?>
   <!-- <nav class="navbar navbar-expand navbar-dark mai-top-header">
     <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
@@ -552,6 +612,36 @@ include("conexion.php");
         //   document.body.appendChild(form)
         //   form.submit()
         // }
+      </script>
+
+      <script>
+        // TODO: an eye icon could be added to show the password onclick
+        // it should change the type of input from password to text and viceversa on toggle
+
+        function userUnset() {
+          if (localStorage.getItem("user_type") != "unset") return;
+
+          let popup = document.getElementById("error-popup");
+          let popup_text = document.getElementById("popup-text");
+
+          popup.style.display = "block";
+          popup_text.innerHTML = "Bienvenido! Todavía no tiene asignado un rol. Aguarde a que un administrador atienda la sitaución.";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          let popup = document.getElementById("error-popup");
+          if (event.target == popup) {
+            popup.style.display = "none";
+          }
+        }
+
+        document.getElementById("pop-up-close").onclick = function() {
+          document.getElementById("error-popup").style.display = "none";
+        }
+
+        // checks if user is unset
+        userUnset();
       </script>
 
 </body>

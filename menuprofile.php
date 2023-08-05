@@ -182,8 +182,8 @@
             </div>
           </div>
 
-          <div class="col-md-8">
-            <div class="user-info-list card card-default">
+          <!--<div class="col-md-8">
+             <div class="user-info-list card card-default">
               <div class="card-header card-header-divider">Configuración de Operador</div>
               <div class="card-body">
                 <table class="no-border no-strip skills">
@@ -223,8 +223,8 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
-              <!-- <div class="card-header card-header-divider">Elsewhere</div>
+              </div> -->
+          <!-- <div class="card-header card-header-divider">Elsewhere</div>
               <div class="card-body">
                 <table class="no-border no-strip social">
                   <tbody class="no-border-x no-border-y">
@@ -246,9 +246,9 @@
                     </tr>
                   </tbody>
                 </table>
-              </div> -->
+              </div> 
             </div>
-          </div>
+          </div>-->
           <!-- <div class="col-md-8">
             <div class="widget widget-fullwidth user-develop-chart">
               <div class="widget-head">
@@ -429,7 +429,7 @@
         if (localStorage.getItem("user_type") == new_user_type) return;
 
         let credential = localStorage.getItem("email");
-        
+
         console.log("profile_query.php?key=change_user_type&new_user_type=" + new_user_type + "&credential=" + credential)
 
         $.ajax({

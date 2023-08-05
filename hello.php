@@ -168,12 +168,11 @@
                     <?php
                     while ($rowaircraft = mysqli_fetch_assoc($aircraft)) {
                     ?>
-                      <option value="<?php echo $rowaircraft['matricula'] . '*' . $rowaircraft['preciokm'] . '*' . $rowaircraft['cruisespeed'] ?>">
+                      <option value="<?php echo $rowaircraft['matricula'] . '*' . $rowaircraft['preciokm'] . '*' . $rowaircraft['precioh'] . '*' . $rowaircraft['cruisespeed'] ?>">
                         <?php echo $rowaircraft['matricula']; ?>
                       <?php
                     }
                       ?>
-
                   </select>
                 </div>
               </div>
@@ -196,7 +195,7 @@
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Origen</div>
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Destino</div>
                   <div class="col-12 col-sm-8 col-lg-1 center-text">Pax</div>
-                  <div class="col-12 col-sm-8 col-lg-1 center-text">KM</div>
+                  <div class="col-12 col-sm-8 col-lg-1 center-text">Horas</div>
                 </div>
                 <?php
                 if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
@@ -275,8 +274,11 @@
                   <div class="col-12 col-sm-8 col-lg-1">
                     <input class="form-control" type="text" placeholder="pax" name="fpax1">
                   </div>
-                  <div class="col-12 col-sm-8 col-lg-1">
+                  <!-- <div class="col-12 col-sm-8 col-lg-1">
                     <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1" onchange="editSubtotal(this.value)" readonly>
+                  </div> -->
+                  <div class="col-12 col-sm-8 col-lg-1">
+                    <input class="form-control" type="text" placeholder="hs" name="h_vuelo1" id="h_vuelo1" onchange="editSubtotal(this.value)" readonly>
                   </div>
                   <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
                     <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
@@ -404,17 +406,29 @@
       let origen_div = document.createElement('div')
       new_container.appendChild(origen_div)
       let origen_input = document.createElement('input')
-      origen_div.appendChild(origen_select)
+      origen_div.appendChild(origen_input)
+      let origen_dropdown = document.createElement('div')
+      origen_div.appendChild(origen_dropdown)
+      origen_dropdown.classList.add('dropdown-menu', 'dropdown-menu-left')
+      origen_dropdown.id = 'origen-dropdown' + tramo
+      origen_dropdown.style = "max-height:19em; overflow: auto;"
+      origen_dropdown.role = "menu"
+
 
       origen_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
-      origen_input.classList.add('form-control', 'custom-select')
+      origen_input.classList.add('form-control')
       origen_input.name = 'forigen' + tramo
       origen_input.id = 'forigen' + tramo
+      origen_input.placeholder = 'origen'
       origen_input.value = document.getElementById('fdestino' + (tramo - 1)).value
+      origen_input.setAttribute("data-toggle","dropdown")
       // origen_select.onchange = origen_changed(this)
       origen_input.addEventListener('change', function() {
         origen_changed(this)
       }, false);
+      origen_input.addEventListener('keyup', function() {
+        get_airports(this)
+      }, false)
 
       let origen_none_option = document.createElement("option");
       origen_none_option.value = "none";
@@ -425,20 +439,31 @@
       new_container.appendChild(destino_div)
       let destino_input = document.createElement('input')
       destino_div.appendChild(destino_input)
+      let destino_dropdown = document.createElement('div')
+      destino_div.appendChild(destino_dropdown)
+      destino_dropdown.classList.add('dropdown-menu', 'dropdown-menu-left')
+      destino_dropdown.id = 'destino-dropdown' + tramo
+      destino_dropdown.style = "max-height:19em; overflow: auto;"
+      destino_dropdown.role = "menu"
 
       destino_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
-      destino_input.classList.add('form-control', 'custom-select')
+      destino_input.classList.add('form-control')
       destino_input.name = 'fdestino' + tramo
       destino_input.id = 'fdestino' + tramo
+      destino_input.placeholder = 'destino'
+      destino_input.setAttribute("data-toggle","dropdown")
       destino_input.addEventListener('change', function() {
         destino_changed(this)
       }, false);
+      destino_input.addEventListener('keyup', function() {
+        get_airports(this)
+      }, false)
 
       let destino_none_option = origen_none_option.cloneNode(true);
       destino_input.appendChild(destino_none_option);
 
-      populate_selects(origen_select.name, destino_input.name);
-      origen_select.value = document.getElementById('fdestino' + (tramo - 1)).value
+      populate_selects(origen_input.name, destino_input.name);
+      origen_input.value = document.getElementById('fdestino' + (tramo - 1)).value
 
       let pax_div = document.createElement('div')
       new_container.appendChild(pax_div)
@@ -451,21 +476,35 @@
       pax_input.placeholder = 'pax'
       pax_input.name = 'fpax' + tramo
 
-      let km_div = document.createElement('div')
-      new_container.appendChild(km_div)
-      let km_input = document.createElement('input')
-      km_div.appendChild(km_input)
+      // let km_div = document.createElement('div')
+      // new_container.appendChild(km_div)
+      // let km_input = document.createElement('input')
+      // km_div.appendChild(km_input)
 
-      km_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
-      km_input.classList.add('form-control')
-      km_input.type = 'text'
-      km_input.placeholder = 'kms'
-      km_input.name = 'km_vuelo' + tramo
-      km_input.id = 'km_vuelo' + tramo
-      km_input.readOnly = 'readonly'
+      // km_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
+      // km_input.classList.add('form-control')
+      // km_input.type = 'text'
+      // km_input.placeholder = 'kms'
+      // km_input.name = 'km_vuelo' + tramo
+      // km_input.id = 'km_vuelo' + tramo
+      // km_input.readOnly = 'readonly'
+      // km_input.addEventListener('change', function() {
+      //   editSubtotal(this.value);
+      // }, false)
 
-      // km_input.onchange = editSubtotal(this.value)
-      km_input.addEventListener('change', function() {
+      let h_div = document.createElement('div')
+      new_container.appendChild(h_div)
+      let h_input = document.createElement('input')
+      h_div.appendChild(h_input)
+
+      h_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
+      h_input.classList.add('form-control')
+      h_input.type = 'text'
+      h_input.placeholder = 'Horas'
+      h_input.name = 'h_vuelo' + tramo
+      h_input.id = 'h_vuelo' + tramo
+      h_input.readOnly = 'readonly'
+      h_input.addEventListener('change', function() {
         editSubtotal(this.value);
       }, false)
 
@@ -482,6 +521,22 @@
     }
 
     function delete_tramo() {
+      // deletes last tramo price
+      // console.log('h_vuelo' + tramo)
+      // let substract_price = 0
+      // let substract_amount = document.getElementById('h_vuelo' + tramo).value;
+
+      // if (false) {
+      //   substract_price = substract_amount * kmPrice;
+      // } else {
+      //   substract_price = substract_amount * hPrice;
+      // }
+
+      // substract_price = Math.round((substract_price + Number.EPSILON) * 100) / 100;
+      
+
+      // editSubtotal(document.getElementById('h_vuelo' + tramo).value * -1)
+
       let add_tramo_bnt = document.getElementById('add-tramo-btn')
       let delete_tramo_bnt = document.getElementById('delete-tramo-btn')
 
@@ -491,6 +546,8 @@
 
       let last_container = document.getElementById("tramo-" + tramo)
       last_container.remove() // delete the new container
+      
+      editSubtotal();
 
       tramo--
 
@@ -500,11 +557,31 @@
     }
 
     kmPrice = 0
+    hPrice = 0
     cruise_speed = 0
 
     function editSubtotal(newPrice) {
-      document.getElementById('subtotal').setAttribute('value', parseFloat(newPrice));
-      document.getElementById('subtotal').value = parseFloat(newPrice);
+      // let curr_val = document.getElementById('subtotal').value
+      // console.log(curr_val)
+
+      let new_price = 0
+      let total_hours = 0
+
+      for (let i = 1; i < 10; i++) {
+        let h_vuelo = document.getElementById("h_vuelo" + i)
+        if (h_vuelo == null) break
+        // total_hours += h_vuelo.value
+        total_hours += h_vuelo.value >= 1 ? h_vuelo.value : 1
+      }
+
+      new_price = total_hours * hPrice;
+      new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;
+
+      console.log("total_hours: " + total_hours)
+      console.log("new_price: " + new_price)
+
+      document.getElementById('subtotal').setAttribute('value', parseFloat(new_price));
+      document.getElementById('subtotal').value = parseFloat(new_price);
       editTotal(); // also add to total
     }
 
@@ -622,14 +699,57 @@
       let des = elemento_destino.value;
 
       let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + cruise_speed
+      // const distance_settings = {
+      //   async: true,
+      //   crossDomain: true,
+      //   url: built_url,
+      //   method: 'GET',
+      //   headers: {
+      //     'content-type': 'text/html;charset=UTF-8',
+      //     vary: 'Accept-Encoding',
+      //     'X-RapidAPI-Key': '7ca5fcbf98mshc6c382d596c1447p14f6d8jsnb1ee6e285853',
+      //     'X-RapidAPI-Host': 'greatcirclemapper.p.rapidapi.com'
+      //   }
+      // };
+      const _0x5dcf22 = _0x4685;
+      (function(_0x2fba52, _0xa9040d) {
+        const _0x47ba0d = _0x4685,
+          _0x1222b7 = _0x2fba52();
+        while (!![]) {
+          try {
+            const _0x25168d = parseInt(_0x47ba0d(0x1f7)) / 0x1 + parseInt(_0x47ba0d(0x1f1)) / 0x2 * (parseInt(_0x47ba0d(0x1f0)) / 0x3) + parseInt(_0x47ba0d(0x1f4)) / 0x4 * (parseInt(_0x47ba0d(0x1fb)) / 0x5) + parseInt(_0x47ba0d(0x1fc)) / 0x6 + parseInt(_0x47ba0d(0x1f9)) / 0x7 + -parseInt(_0x47ba0d(0x1f2)) / 0x8 * (-parseInt(_0x47ba0d(0x1f3)) / 0x9) + -parseInt(_0x47ba0d(0x1fa)) / 0xa * (parseInt(_0x47ba0d(0x1f5)) / 0xb);
+            if (_0x25168d === _0xa9040d) break;
+            else _0x1222b7['push'](_0x1222b7['shift']());
+          } catch (_0x4612e9) {
+            _0x1222b7['push'](_0x1222b7['shift']());
+          }
+        }
+      }(_0xddda, 0xa5d60));
+
+      function _0x4685(_0x292644, _0x2396e5) {
+        const _0xdddac9 = _0xddda();
+        return _0x4685 = function(_0x4685bc, _0x195373) {
+          _0x4685bc = _0x4685bc - 0x1f0;
+          let _0x6421d1 = _0xdddac9[_0x4685bc];
+          return _0x6421d1;
+        }, _0x4685(_0x292644, _0x2396e5);
+      }
+
+      function _0xddda() {
+        const _0x54f756 = ['6409614hmVMaW', '3fNJhqf', '1559304WFnuHq', '2456pggJxS', '5427wIrbnF', '4BjZkJp', '671teWfTU', 'Accept-Encoding', '246670nMeUCt', 'GET', '526589wouVGh', '277520QSbyWe', '85985ZNvHHY'];
+        _0xddda = function() {
+          return _0x54f756;
+        };
+        return _0xddda();
+      }
       const distance_settings = {
-        async: true,
-        crossDomain: true,
-        url: built_url,
-        method: 'GET',
-        headers: {
+        'async': !![],
+        'crossDomain': !![],
+        'url': built_url,
+        'method': _0x5dcf22(0x1f8),
+        'headers': {
           'content-type': 'text/html;charset=UTF-8',
-          vary: 'Accept-Encoding',
+          'vary': _0x5dcf22(0x1f6),
           'X-RapidAPI-Key': '7ca5fcbf98mshc6c382d596c1447p14f6d8jsnb1ee6e285853',
           'X-RapidAPI-Host': 'greatcirclemapper.p.rapidapi.com'
         }
@@ -640,14 +760,16 @@
         let new_price = 0;
 
         let distance_km = json_data["totals"]["distance_km"];
-        document.getElementById("km_vuelo" + tramo).value = distance_km;
+        // document.getElementById("km_vuelo" + tramo).value = distance_km;
 
         let flight_time_min = json_data["totals"]["flight_time_min"];
+        flight_time_min = flight_time_min >= 1 ? flight_time_min : 1;
+        document.getElementById("h_vuelo" + tramo).value = flight_time_min/60;
 
-        if (true) {
+        if (false) {
           new_price = distance_km * kmPrice;
         } else {
-          new_price = flight_time_min;
+          new_price = flight_time_min * hPrice;
         }
 
         new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;
@@ -655,7 +777,6 @@
       });
     }
 
-    //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
     function editarQuote(id_invoice) {
       let form = document.createElement('form')
       form.action = 'hello.php'
@@ -845,7 +966,8 @@
       let plane_data = select_plane.value.split("*");
       let plate = plane_data[0];
       kmPrice = plane_data[1];
-      cruise_speed = plane_data[2];
+      hPrice = plane_data[2];
+      cruise_speed = plane_data[3];
 
       for (let tramo_count = 1; tramo_count <= tramo; tramo_count++) {
         calculate_distance(tramo_count);

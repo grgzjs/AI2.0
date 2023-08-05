@@ -21,7 +21,7 @@
   <link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
   <link rel="stylesheet" type="text/css" href="assets/lib/datatables/datatables.net-bs4/css/dataTables.bootstrap4.css" />
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
-  <link rel="stylesheet" href="css/styles.css" type="text/css" />
+  <!-- <link rel="stylesheet" href="css/styles.css" type="text/css" /> -->
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>

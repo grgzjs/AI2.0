@@ -31,7 +31,7 @@ include("conexion.php");
 <body>
   <?php require_once("nav_header.html") ?>
   <div class="mai-wrapper">
-  <?php require_once("nav_header2.html"); ?>
+    <?php require_once("nav_header2.html"); ?>
 
     <!--FINAL DE BOTONERA-->
 
@@ -161,9 +161,11 @@ include("conexion.php");
                         <input class="form-control" type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Velocidad Crucero" name="cruisespeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Precio KM
+                      <!-- <div class="col-12 col-sm-8 col-lg-2">Precio KM
                         <input class="form-control" type="text" value="<?php echo $rowaircraft['preciokm']; ?>" placeholder="Precio KM" name="<?php echo 'preciokm' . $i; ?>">
-                        <!--ESTO ES PARA SUBIR EL COSTO A HELLO>PHP DE KM -->
+                      </div> -->
+                      <div class="col-12 col-sm-8 col-lg-2">Precio Hora
+                        <input class="form-control" type="text" value="" placeholder="Precio Hora" name="<?php echo 'precioh' . $i; ?>">
                       </div>
                     </div>
                     <div class="form-group row" style="justify-content: center;">
@@ -229,15 +231,16 @@ include("conexion.php");
                 <table class="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th style="width:5%;">
+                      <!-- <th style="width:5%;">
                         <label class="custom-control custom-control-sm custom-checkbox">
                           <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
                         </label>
-                      </th>
-                      <th style="width:20%;">Matricula </th>
-                      <th style="width:17%;">tipo de AC </th>
-                      <th style="width:15%;">Fabricacion #</th>
-                      <th style="width:10%;">Precio Km</th>
+                      </th> -->
+                      <th style="width:20%;">Matrícula </th>
+                      <th style="width:17%;">Tipo de AC </th>
+                      <th style="width:15%;">Año de Fabricacion</th>
+                      <!-- <th style="width:10%;">Precio Km</th> -->
+                      <th style="width:10%;">Precio Hora</th>
                       <th style="width:10%;"></th>
                     </tr>
                   </thead>
@@ -248,22 +251,26 @@ include("conexion.php");
                       while ($row = mysqli_fetch_assoc($rows)) {
                     ?>
                         <tr>
-                          <td>
+                          <!-- <td>
                             <label class="custom-control custom-control-sm custom-checkbox">
                               <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
                             </label>
+                          </td> -->
+                          <td class="cell-detail">
+                            <!-- <img src="assets/img/avatar.jpg" alt="Avatar"> -->
+                            <span><?php echo $row['matricula']; ?></span>
                           </td>
-                          <td class="user-avatar cell-detail user-info"><img src="assets/img/avatar.jpg" alt="Avatar"><span><?php echo $row['matricula']; ?>
-                            </span>
+                          <td class="cell-detail">
+                            <span><?php echo $row['aeronave']; ?></span>
                           </td>
-                          <td class="cell-detail"> <span><?php echo $row['aeronave']; ?>
-                            </span>
+                          <td class="cell-detail">
+                            <span><?php echo $row['fabricacion']; ?></span>
                           </td>
-                          <td class="cell-detail"><span><?php echo $row['fabricacion']; ?>
-                            </span>
-                          </td>
-                          <td class="cell-detail"><span><?php echo $row['preciokm']; ?>
-                            </span>
+                          <!-- <td class="cell-detail">
+                            <span><?php echo $row['preciokm']; ?></span>
+                          </td> -->
+                          <td class="cell-detail">
+                            <span><?php echo $row['precioh']; ?></span>
                           </td>
                           <td class="text-right">
                             <div class="btn-group btn-hspace">

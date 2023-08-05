@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg mai-sub-header">
+<nav class="navbar navbar-expand-lg mai-sub-header" style="z-index: 0">
     <div class="container">
         <nav class="navbar navbar-expand-md">
             <button class="navbar-toggler hidden-md-up collapsed" type="button" data-toggle="collapse"
@@ -62,12 +62,6 @@
                                     <span class="name">Lista de Contactos </span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="aircraft_setup.php" id="crm-3">
-                                    <span class="icon s7-plane"></span>
-                                    <span class="name">Config. Aeronaves</span>
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     <li class="nav-item parent" id="ops-tab">
@@ -111,20 +105,26 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- <li class="nav-item parent" id="admin-tab">
+                    <li class="nav-item parent" id="admin-tab">
                         <a class="nav-link" href="#" role="button" aria-expanded="false">
                             <span class="icon s7-display1"></span>
                             <span>Panel de Control</span>
                         </a>
                         <ul class="mai-nav-tabs-sub mai-sub-nav nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="charts-flot.html">
+                                <a class="nav-link" href="admin_panel.php" id="admin-1">
                                     <span class="icon s7-box2"></span>
-                                    <span class="name">Reporte General</span>
+                                    <span class="name">Panel de Administración</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="aircraft_setup.php" id="admin-2">
+                                    <span class="icon s7-plane"></span>
+                                    <span class="name">Config. Aeronaves</span>
                                 </a>
                             </li>
                         </ul>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -134,25 +134,29 @@
 <script>
     var hide_for_seller = [
         "ops-1",
-        "crm-3",
+        // "crm-3",
+        "admin-tab",
         "accounting-tab"
     ];
     var hide_for_dispatcher = [
         "ops-2",
-        "crm-3",
+        // "crm-3",
+        "admin-tab",
         "accounting-tab"
     ];
     var hide_for_unset = [
         "quote-tab",
         "crm-tab",
         "ops-tab",
+        "admin-tab",
         "accounting-tab",
     ];
     var hide_for_owner = [
         "quote-tab",
-        // "crm-tab",
-        "crm-1",
-        "crm-2",
+        "crm-tab",
+        // "crm-1",
+        // "crm-2",
+        "admin-1",
         "ops-tab",
         "accounting-tab",
     ];
@@ -204,10 +208,10 @@
 
         home = ["dashboard.php"];
         quote = ["hello.php", "hellolist.php"];
-        crm = ["crmregistro.php", "crm.php", "aircraft_setup.php"];
+        crm = ["crmregistro.php", "crm.php"];
         ops = ["opsmain.php", "opsmain2.php", "opsmain3.php", "ops_calendar.php"];
         accounting = ["contabilidadgastos.php", "contabilidadingresos.php", "contabilidadinvoicec.php"]
-        admin = [];
+        admin = ["admin_panel.php", "aircraft_setup.php"];
 
         if (document.getElementsByClassName("open")[0])
             document.getElementsByClassName("open")[0].classList.remove("open");

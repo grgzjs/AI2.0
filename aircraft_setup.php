@@ -168,7 +168,7 @@ include("conexion.php");
                         <input class="form-control" type="text" value="<?php echo $rowaircraft['preciokm']; ?>" placeholder="Precio KM" name="<?php echo 'preciokm' . $i; ?>">
                       </div> -->
                       <div class="col-12 col-sm-8 col-lg-2">Precio Hora
-                        <input class="form-control" type="text" value="" placeholder="Precio Hora" name="<?php echo 'precioh' . $i; ?>">
+                        <input class="form-control" type="text" value="<?php echo $rowaircraft['precioh']; ?>" placeholder="Precio Hora" name="<?php echo 'precioh' . $i; ?>">
                       </div>
                     </div>
                     <div class="form-group row" style="justify-content: center;">

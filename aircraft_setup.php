@@ -66,7 +66,8 @@ include("conexion.php");
         $fabricacion       = mysqli_real_escape_string($con, (strip_tags($_POST["fabricacion"], ENT_QUOTES))); //Escanpando caracteres
         $capacidad       = mysqli_real_escape_string($con, (strip_tags($_POST["capacidad"], ENT_QUOTES))); //Escanpando caracteres  
         $cruisespeed       = mysqli_real_escape_string($con, (strip_tags($_POST["cruisespeed"], ENT_QUOTES))); //Escanpando caracteres
-        $preciokm         = mysqli_real_escape_string($con, (strip_tags($_POST["preciokm"], ENT_QUOTES))); //Escanpando caracteres
+        // $preciokm         = mysqli_real_escape_string($con, (strip_tags($_POST["preciokm"], ENT_QUOTES))); //Escanpando caracteres
+        $precioh = mysqli_real_escape_string($con, (strip_tags($_POST["precioh"], ENT_QUOTES)));
         $pesomaximo       = mysqli_real_escape_string($con, (strip_tags($_POST["pesomaximo"], ENT_QUOTES))); //Escanpando caracteres
         $ascentspeed     = mysqli_real_escape_string($con, (strip_tags($_POST["ascentspeed"], ENT_QUOTES))); //Escanpando caracteres
         $fuelstop     = mysqli_real_escape_string($con, (strip_tags($_POST["fuelstop"], ENT_QUOTES))); //Escanpando caracteres
@@ -74,11 +75,12 @@ include("conexion.php");
         $pernocta    = mysqli_real_escape_string($con, (strip_tags($_POST["pernocta"], ENT_QUOTES))); //Escanpando caracteres
         $descentspeed    = mysqli_real_escape_string($con, (strip_tags($_POST["descentspeed"], ENT_QUOTES))); //Escanpando caracteres
 
-
         if ($matricula) {
-          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',preciokm='$preciokm',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
+          // $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',preciokm='$preciokm',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
+          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',precioh='$precioh',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
         } else {
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          // $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
         }
 
         echo '<script>console.log("' . $sql . '")</script>';
@@ -87,7 +89,8 @@ include("conexion.php");
         echo '<script>console.log("update1: ' . $update . '")</script>';
 
         if ($update == 1) {
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          // $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
           $update = mysqli_query($con, $sql);
 
           echo '<script>console.log("' . $sql . '")</script>';

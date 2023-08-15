@@ -1,2 +1,132 @@
-// sorry :/
-function _0x536f(_0x371f07,_0x59e320){const _0x2acf41=_0x2acf();return _0x536f=function(_0x536fd2,_0x426b8b){_0x536fd2=_0x536fd2-0x104;let _0x417977=_0x2acf41[_0x536fd2];return _0x417977;},_0x536f(_0x371f07,_0x59e320);}const _0x3f20c8=_0x536f;function _0x2acf(){const _0x536a73=['opsmain.php','2352735sIPeoz','Do\x20not\x20touch!','5738430bkkOEg','63OAjrrq','substring','setAttribute','U2FsdGVkX1+bPE4EiavYngPyBBU0d0cxPgl/hOwFaFjSeJiFyLszDNVbHpGgyG8dcRJGSSxwrUL7dntLCcW4nYcsGT+re/P+0PnFn1ldgnQ=','user_type','href','/dashboard.php','includes','pathname','3NvAZUo','ops_calendar.php','hidden','prepend','17800mUdGYC','Utf8','token','959572izZPdy','enc','AES','36904HhCnuB','crmregistro.php','createElement','hello.php','dispatch','28338ymAPzh','dashboard.php','sales','8ToHNgh','onload','log','hellolist.php','792230msMFlv','admin_panel.php','11fUizsk','crm.php','opsmain3.php','getItem','/loginsignup.php','body','menuprofile.php','location','innerHTML','aircraft_setup.php','/loginforgot.php','/login.php'];_0x2acf=function(){return _0x536a73;};return _0x2acf();}(function(_0x11c74b,_0x2ae717){const _0x231de9=_0x536f,_0x4961ba=_0x11c74b();while(!![]){try{const _0x6ed303=parseInt(_0x231de9(0x10e))/0x1+-parseInt(_0x231de9(0x108))/0x2+parseInt(_0x231de9(0x104))/0x3*(-parseInt(_0x231de9(0x10b))/0x4)+parseInt(_0x231de9(0x11a))/0x5+parseInt(_0x231de9(0x113))/0x6*(-parseInt(_0x231de9(0x12c))/0x7)+parseInt(_0x231de9(0x116))/0x8*(-parseInt(_0x231de9(0x129))/0x9)+parseInt(_0x231de9(0x12b))/0xa*(parseInt(_0x231de9(0x11c))/0xb);if(_0x6ed303===_0x2ae717)break;else _0x4961ba['push'](_0x4961ba['shift']());}catch(_0x10537d){_0x4961ba['push'](_0x4961ba['shift']());}}}(_0x2acf,0x34d9e),window[_0x3f20c8(0x117)]=()=>{const _0x2096b4=_0x3f20c8;var _0x7215d8=['dashboard.php',_0x2096b4(0x122),'hello.php',_0x2096b4(0x119),_0x2096b4(0x10f),'crm.php',_0x2096b4(0x125),_0x2096b4(0x11b),_0x2096b4(0x128),'opsmain2.php',_0x2096b4(0x11e),_0x2096b4(0x105)],_0xa27349=['dashboard.php',_0x2096b4(0x122),_0x2096b4(0x111),_0x2096b4(0x119),_0x2096b4(0x10f),_0x2096b4(0x11d),_0x2096b4(0x105)],_0x49e829=['dashboard.php',_0x2096b4(0x122),_0x2096b4(0x111),_0x2096b4(0x119),_0x2096b4(0x10f),_0x2096b4(0x11d),'opsmain.php','opsmain2.php',_0x2096b4(0x11e)],_0x2981ed=[_0x2096b4(0x114),_0x2096b4(0x122),_0x2096b4(0x125)];async function _0x1e610a(){const _0x4d720e=_0x2096b4;let _0x3a7e91=localStorage[_0x4d720e(0x11f)](_0x4d720e(0x10a)),_0x4a0556=_0x3a7e91!=null?!![]:![];!_0x4a0556&&location[_0x4d720e(0x134)]!==_0x4d720e(0x127)&&(location[_0x4d720e(0x134)]!==_0x4d720e(0x120)&&location[_0x4d720e(0x134)]!==_0x4d720e(0x126)&&(window[_0x4d720e(0x123)]['href']=_0x4d720e(0x127))),_0x4a0556&&(location[_0x4d720e(0x134)]===_0x4d720e(0x127)||location[_0x4d720e(0x134)]===_0x4d720e(0x120)||location['pathname']===_0x4d720e(0x126))&&(window[_0x4d720e(0x123)]['href']=_0x4d720e(0x132));}async function _0x492703(){const _0x267c9a=_0x2096b4;let _0x5e8724=localStorage[_0x267c9a(0x11f)](_0x267c9a(0x130)),_0x57066e=[];switch(_0x5e8724){case'admin':_0x57066e=_0x7215d8;break;case _0x267c9a(0x115):_0x57066e=_0xa27349;break;case _0x267c9a(0x112):_0x57066e=_0x49e829;break;case'owner':_0x57066e=_0x2981ed;break;default:_0x57066e=[_0x267c9a(0x114),_0x267c9a(0x122)];break;}let _0x27c5ea=![];for(let _0x8ba24e=0x0;_0x8ba24e<_0x57066e['length'];_0x8ba24e++){let _0x3a5f78=_0x57066e[_0x8ba24e];if(_0x3a5f78[_0x267c9a(0x133)](location[_0x267c9a(0x134)][_0x267c9a(0x12d)](0x1))){_0x27c5ea=!![];break;}}!_0x27c5ea&&location[_0x267c9a(0x134)]!=_0x267c9a(0x132)&&(window[_0x267c9a(0x123)][_0x267c9a(0x131)]='/dashboard.php');}let _0x2aff0c=_0x2096b4(0x12a),_0x537f95=CryptoJS[_0x2096b4(0x10d)]['decrypt'](_0x2096b4(0x12f),_0x2aff0c),_0xafaf53=_0x537f95['toString'](CryptoJS[_0x2096b4(0x10c)][_0x2096b4(0x109)]);console[_0x2096b4(0x118)](_0xafaf53);let _0x82bb22=document[_0x2096b4(0x110)]('span');_0x82bb22[_0x2096b4(0x12e)](_0x2096b4(0x106),_0x2096b4(0x106)),_0x82bb22[_0x2096b4(0x124)]=_0xafaf53,document[_0x2096b4(0x121)][_0x2096b4(0x107)](_0x82bb22),_0x1e610a();if(localStorage[_0x2096b4(0x11f)]('token')==null)return;_0x492703();});
+window.onload = () => {
+    var valid_for_admin = [
+        "dashboard.php",
+        "menuprofile.php",
+        "hello.php",
+        "hellolist.php",
+        "crmregistro.php",
+        "crm.php",
+        "aircraft_setup.php",
+        "admin_panel.php",
+        "opsmain.php",
+        "opsmain2.php",
+        "opsmain3.php",
+        "ops_calendar.php",
+    ];
+    var valid_for_seller = [
+        "dashboard.php",
+        "menuprofile.php",
+        "hello.php",
+        "hellolist.php",
+        "crmregistro.php",
+        "crm.php",
+        // "aircraft_setup.php",
+        "ops_calendar.php",
+    ];
+    var valid_for_dispatcher = [
+        "dashboard.php",
+        "menuprofile.php",
+        "hello.php",
+        "hellolist.php",
+        "crmregistro.php",
+        "crm.php",
+        // "aircraft_setup.php",
+        "opsmain.php",
+        "opsmain2.php",
+        "opsmain3.php",
+    ];
+    var valid_for_owner = [
+        "dashboard.php",
+        "menuprofile.php",
+        "aircraft_setup.php",
+    ];
+
+    async function auto_redirect() {
+        let token_in_storage = localStorage.getItem("token");
+        let validLogIn = token_in_storage != null ? true : false;
+
+        // console.log("token_in_storage: " + token_in_storage);
+        // console.log("validLogIn: " + validLogIn);
+
+        if (!validLogIn && location.pathname !== "/login.php") {
+            if (
+                location.pathname !== "/loginsignup.php" &&
+                location.pathname !== "/loginforgot.php"
+            ) {
+                window.location.href = "/login.php";
+            }
+        }
+
+        if (
+            validLogIn &&
+            (location.pathname === "/login.php" ||
+                location.pathname === "/loginsignup.php" ||
+                location.pathname === "/loginforgot.php")
+        ) {
+            window.location.href = "/dashboard.php";
+        }
+    }
+
+    async function check_user_validity() {
+        let usertype_in_storage = localStorage.getItem("user_type");
+
+        let valid_list = [];
+
+        switch (usertype_in_storage) {
+            case "admin":
+                valid_list = valid_for_admin;
+                break;
+            case "sales":
+                valid_list = valid_for_seller;
+                break;
+            case "dispatch":
+                valid_list = valid_for_dispatcher;
+                break;
+            case "owner":
+                valid_list = valid_for_owner;
+                break;
+            default:
+                valid_list = ["dashboard.php", "menuprofile.php"];
+                break;
+        }
+
+        let valid_user = false;
+        for (let i = 0; i < valid_list.length; i++) {
+            let valid_location = valid_list[i];
+            if (valid_location.includes(location.pathname.substring(1))) {
+                valid_user = true;
+                break;
+            }
+        }
+
+        // send to dashboard if web is forbidden
+        if (!valid_user && location.pathname != "/dashboard.php") {
+            window.location.href = "/dashboard.php";
+        }
+    }
+
+    // let k = "Do not touch!";
+    // let encrypted = CryptoJS.AES.encrypt(signature, key);
+    // console.log(encrypted.toString());
+
+    // let d = CryptoJS.AES.decrypt(
+    //     "U2FsdGVkX1+bPE4EiavYngPyBBU0d0cxPgl/hOwFaFjSeJiFyLszDNVbHpGgyG8dcRJGSSxwrUL7dntLCcW4nYcsGT+re/P+0PnFn1ldgnQ=",
+    //     k
+    // );
+    // let t = d.toString(CryptoJS.enc.Utf8);
+    // console.log(t);
+
+    // let h = document.createElement("span");
+    // h.setAttribute("hidden", "hidden");
+    // h.innerHTML = t;
+    // // document.body.appendChild(h);
+    // document.body.prepend(h);
+
+    // insert into
+    auto_redirect();
+
+    if (localStorage.getItem("token") == null) return;
+
+    // redirects if user_type cannot see location
+    check_user_validity();
+};

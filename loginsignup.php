@@ -110,9 +110,9 @@
           url: "login_query.php?new_username_to_check=" + username + "&new_email_to_check=" + email,
           type: "GET",
           success: function(response) {
-            popup.style.display = "block";
-            popup_text.innerHTML = response;
-            if(response == 0){
+            // console.log(response);
+            // return;
+            if (response == 0) {
               const rand = () => {
                 return Math.random().toString(36).substring(2);
               };
@@ -139,22 +139,19 @@
                   document.getElementById("login-form").submit();
                 }
               });
-            }else if(response == 1){
+            } else if (response == 1) {
               popup.style.display = "block";
-              popup_text.innerHTML = "El mail ingresado ya se encuentra registrado. <a href='/login.php'>Click aqui</a> para iniciar sesion.";
-            }else if(response == 2){
+              popup_text.innerHTML = "El mail ingresado ya se encuentra registrado. <a href='/login.php'>Click aquí</a> para iniciar sesión.";
+            } else if (response == 2) {
               popup.style.display = "block";
-              popup_text.innerHTML = "El usuario ingresado ya se encuentra registrado. <a href='/login.php'>Click aqui</a> para iniciar sesion.";
-            }else if(response == 3){
+              popup_text.innerHTML = "El usuario ingresado ya se encuentra registrado. <a href='/login.php'>Click aquí</a> para iniciar sesión.";
+            } else if (response == 3) {
               popup.style.display = "block";
-              popup_text.innerHTML = "El mail y el usuario ingresado ya se encuentran registrados. <a href='/login.php'>Click aqui</a> para iniciar sesion.";
+              popup_text.innerHTML = "El mail y el usuario ingresado ya se encuentran registrados. <a href='/login.php'>Click aquí</a> para iniciar sesión.";
             }
           }
         });
       } else {
-        console.log(validUser);
-        console.log(validMail);
-        console.log(validPssw);
         popup.style.display = "block";
         popup_text.innerHTML = "El usuario, mail o contraseña ingresados no tienen formatos válidos.";
         return;

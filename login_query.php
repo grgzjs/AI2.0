@@ -25,10 +25,6 @@ if (isset($_GET["check_username"]) && isset($_GET["check_password"])) {
         array_push($data_for_validation, $row["username"]);
         array_push($data_for_validation, $row["email"]);
         array_push($data_for_validation, $row["user_type"]);
-
-        // $data_for_validation[1] = $row["username"];
-        // $data_for_validation[2] = $row["email"];
-        // $data_for_validation[3] = $row["user_type"];
     }
 
     echo json_encode($data_for_validation);
@@ -71,23 +67,20 @@ if (isset($_GET["new_username_to_check"]) && isset($_GET["new_email_to_check"]))
     $new_username_to_check = $_GET["new_username_to_check"];
     $new_email_to_check = $_GET["new_email_to_check"];
 
-    $user_check = mysqli_query($con,"SELECT id FROM `users` WHERE username='$new_username_to_check';");
+    $user_check = mysqli_query($con, "SELECT id FROM `users` WHERE username='$new_username_to_check';");
     $user_row = mysqli_fetch_assoc($user_check);
-    $email_check = mysqli_query($con,"SELECT id FROM `users` WHERE email='$new_email_to_check';");
+    $email_check = mysqli_query($con, "SELECT id FROM `users` WHERE email='$new_email_to_check';");
     $email_row = mysqli_fetch_assoc($email_check);
 
-    if ($user_row == '' && $email_row == ''){
-        echo 0; //usuario y email no existen
-        return;
-    }else if($user_row == '' && $email_row != ''){
-        echo 1; //email existe
-        return;
-    }else if($user_row != '' && $email_row == ''){
-        echo 2; //usuario existe
-        return;
-    }else{
-        echo 3; //usuario y mail existen
-        return;
+    if ($user_row == '' && $email_row == '') {
+        echo json_encode(0); //usuario y email no existen
+    } else if ($user_row == '' && $email_row != '') {
+        echo json_encode(1); //email existe
+    } else if ($user_row != '' && $email_row == '') {
+        echo json_encode(2); //usuario existe
+    } else {
+        echo json_encode(3); //usuario y mail existen
     }
-    
+
+    return;
 }

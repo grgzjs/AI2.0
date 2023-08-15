@@ -12,6 +12,9 @@ window.onload = () => {
         "opsmain2.php",
         "opsmain3.php",
         "ops_calendar.php",
+        "contabilidadgastos.php", 
+        "contabilidadingresos.php", 
+        "contabilidadinvoicec.php"
     ];
     var valid_for_seller = [
         "dashboard.php",

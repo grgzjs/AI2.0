@@ -195,7 +195,7 @@
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Origen</div>
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Destino</div>
                   <div class="col-12 col-sm-8 col-lg-1 center-text">Pax</div>
-                  <div class="col-12 col-sm-8 col-lg-1 center-text">Horas</div>
+                  <div class="col-12 col-sm-8 col-lg-1 center-text">Minutos</div>
                 </div>
                 <?php
                 if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {

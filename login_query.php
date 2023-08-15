@@ -1,25 +1,9 @@
 <?php
 include("conexion.php");
 
-// $username_to_check = $_GET["check_username"];
-// if (isset($username_to_check)) {
-//     $username_exists = mysqli_query($con, "SELECT EXISTS(SELECT 1 FROM users WHERE username = '$username_to_check' or email = '$username_to_check');");
-
-//     $row = mysqli_fetch_assoc($username_exists);
-//     echo json_encode($row);
-// }
-
-// $pssw_to_check = $_GET["check_password"];
-// if (isset($pssw_to_check)) {
-//     $pssw_exists = mysqli_query($con, "SELECT `password` FROM users WHERE username = '$username_to_check' or email = '$username_to_check');");
-
-//     $row = mysqli_fetch_assoc($pssw_exists);
-//     echo json_encode(password_verify($pssw_to_check, $row["password"]) ? 1 : 0);
-// }
-
-$username_to_check = $_GET["check_username"];
-$pssw_to_check = $_GET["check_password"];
-if (isset($username_to_check) && isset($pssw_to_check)) {
+if (isset($_GET["check_username"]) && isset($_GET["check_password"])) {
+    $username_to_check = $_GET["check_username"];
+    $pssw_to_check = $_GET["check_password"];
     $username_exists = mysqli_query($con, "SELECT EXISTS(SELECT 1 FROM users WHERE username = '$username_to_check' OR email = '$username_to_check') AS username;");
     $row = mysqli_fetch_assoc($username_exists);
     // echo json_encode($row);
@@ -48,33 +32,62 @@ if (isset($username_to_check) && isset($pssw_to_check)) {
     }
 
     echo json_encode($data_for_validation);
+    return;
 }
 
-$token_to_check = $_GET["check_token"];
-if (isset($token_to_check)) {
+if (isset($_GET["check_token"])) {
+    $token_to_check = $_GET["check_token"];
     $token_exists = mysqli_query($con, "SELECT EXISTS(SELECT 1 FROM users WHERE token = '$token_to_check');");
 
     $row = mysqli_fetch_assoc($token_exists);
     echo json_encode($row);
+    return;
 }
 
-$generate_token = $_GET["generate_token"];
-if (isset($generate_token)) {
+if (isset($_GET["generate_token"])) {
+    $generate_token = $_GET["generate_token"];
     $token_generated = mysqli_query($con, "INSERT INTO users (token) VALUES('$generate_token')");
 
     $row = mysqli_fetch_assoc($token_generated);
     echo json_encode($row);
+    return;
 }
 
-$new_username = $_GET["new_username"];
-$new_password = $_GET["new_password"];
-$new_email = $_GET["new_email"];
-$new_token = $_GET["new_token"];
-$user_type = $_GET["user_type"];
-if (isset($new_username) && isset($new_password) && isset($new_email) && isset($new_token) && isset($user_type)) {
+if (isset($_GET["new_username"]) && isset($_GET["new_password"]) && isset($_GET["new_email"]) && isset($_GET["new_token"]) && isset($_GET["user_type"])) {
+    $new_username = $_GET["new_username"];
+    $new_password = $_GET["new_password"];
+    $new_email = $_GET["new_email"];
+    $new_token = $_GET["new_token"];
+    $user_type = $_GET["user_type"];
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
     $signup_succesful = mysqli_query($con, "INSERT INTO users (username, email, `password`, token, user_type) VALUES('$new_username', '$new_email', '$hashed_password', '$new_token', '$user_type')");
 
     $row = mysqli_fetch_assoc($signup_succesful);
     echo json_encode($row);
+    return;
+}
+
+if (isset($_GET["new_username_to_check"]) && isset($_GET["new_email_to_check"])) {
+    $new_username_to_check = $_GET["new_username_to_check"];
+    $new_email_to_check = $_GET["new_email_to_check"];
+
+    $user_check = mysqli_query($con,"SELECT id FROM `users` WHERE username='$new_username_to_check';");
+    $user_row = mysqli_fetch_assoc($user_check);
+    $email_check = mysqli_query($con,"SELECT id FROM `users` WHERE email='$new_email_to_check';");
+    $email_row = mysqli_fetch_assoc($email_check);
+
+    if ($user_row == '' && $email_row == ''){
+        echo 0; //usuario y email no existen
+        return;
+    }else if($user_row == '' && $email_row != ''){
+        echo 1; //email existe
+        return;
+    }else if($user_row != '' && $email_row == ''){
+        echo 2; //usuario existe
+        return;
+    }else{
+        echo 3; //usuario y mail existen
+        return;
+    }
+    
 }

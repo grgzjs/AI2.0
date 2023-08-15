@@ -106,30 +106,49 @@
 
       // don't allow if inputs are not valid
       if (validUser && validMail && validPssw) {
-        const rand = () => {
-          return Math.random().toString(36).substring(2);
-        };
-
-        const token = () => {
-          let token = "";
-          for (let i = 0; i < 24; i++) {
-            token += rand();
-          }
-          return token;
-        };
-
-        let token_generated = token().toString().substring(0, 250);
-
         $.ajax({
-          url: "login_query.php?new_username=" + username + "&new_password=" + password + "&new_email=" + email + "&new_token=" + token_generated + "&user_type=unset",
+          url: "login_query.php?new_username_to_check=" + username + "&new_email_to_check=" + email,
           type: "GET",
-          success: function(data) {
-            localStorage.setItem('token', token_generated);
-            localStorage.setItem('username', username);
-            localStorage.setItem('email', email);
-            localStorage.setItem('user_type', 'unset');
+          success: function(response) {
+            popup.style.display = "block";
+            popup_text.innerHTML = response;
+            if(response == 0){
+              const rand = () => {
+                return Math.random().toString(36).substring(2);
+              };
 
-            document.getElementById("login-form").submit();
+              const token = () => {
+                let token = "";
+                for (let i = 0; i < 24; i++) {
+                  token += rand();
+                }
+                return token;
+              };
+
+              let token_generated = token().toString().substring(0, 250);
+
+              $.ajax({
+                url: "login_query.php?new_username=" + username + "&new_password=" + password + "&new_email=" + email + "&new_token=" + token_generated + "&user_type=unset",
+                type: "GET",
+                success: function(data) {
+                  localStorage.setItem('token', token_generated);
+                  localStorage.setItem('username', username);
+                  localStorage.setItem('email', email);
+                  localStorage.setItem('user_type', 'unset');
+
+                  document.getElementById("login-form").submit();
+                }
+              });
+            }else if(response == 1){
+              popup.style.display = "block";
+              popup_text.innerHTML = "El mail ingresado ya se encuentra registrado. <a href='/login.php'>Click aqui</a> para iniciar sesion.";
+            }else if(response == 2){
+              popup.style.display = "block";
+              popup_text.innerHTML = "El usuario ingresado ya se encuentra registrado. <a href='/login.php'>Click aqui</a> para iniciar sesion.";
+            }else if(response == 3){
+              popup.style.display = "block";
+              popup_text.innerHTML = "El mail y el usuario ingresado ya se encuentran registrados. <a href='/login.php'>Click aqui</a> para iniciar sesion.";
+            }
           }
         });
       } else {

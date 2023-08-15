@@ -599,9 +599,9 @@ include("conexion.php");
         //   edit.name = 'edit'
         //   edit.value = 'yes'
         //   amount.name = 'amount'
-        //   amount.value = '<?php echo $rowedit["amount"]; ?>'
+        //   amount.value = '<?php //echo $rowedit["amount"]; ?>'
         //   date.name = 'date'
-        //   date.value = '<?php echo $rowedit["date"]; ?>'
+        //   date.value = '<?php //echo $rowedit["date"]; ?>'
         //   form.appendChild(aksi)
         //   form.appendChild(username)
         //   form.appendChild(password)

@@ -99,7 +99,7 @@ require("conexion.php");
         type: "GET", // type of the HTTP request
         success: function(data) {
           user_data = jQuery.parseJSON(data);
-
+        
           if (user_data[0] == 1) {
             localStorage.setItem('token', token_generated);
             localStorage.setItem('username', user_data[1]);

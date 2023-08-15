@@ -699,18 +699,6 @@
       let des = elemento_destino.value;
 
       let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + cruise_speed
-      // const distance_settings = {
-      //   async: true,
-      //   crossDomain: true,
-      //   url: built_url,
-      //   method: 'GET',
-      //   headers: {
-      //     'content-type': 'text/html;charset=UTF-8',
-      //     vary: 'Accept-Encoding',
-      //     'X-RapidAPI-Key': '7ca5fcbf98mshc6c382d596c1447p14f6d8jsnb1ee6e285853',
-      //     'X-RapidAPI-Host': 'greatcirclemapper.p.rapidapi.com'
-      //   }
-      // };
       const _0x5dcf22 = _0x4685;
       (function(_0x2fba52, _0xa9040d) {
         const _0x47ba0d = _0x4685,
@@ -763,13 +751,13 @@
         // document.getElementById("km_vuelo" + tramo).value = distance_km;
 
         let flight_time_min = json_data["totals"]["flight_time_min"];
-        flight_time_min = flight_time_min >= 1 ? flight_time_min : 1;
         document.getElementById("h_vuelo" + tramo).value = Math.round(flight_time_min);
+        flight_time_min = flight_time_min > 60 ? flight_time_min : 60;
 
         if (false) {
           new_price = distance_km * kmPrice;
         } else {
-          new_price = flight_time_min * hPrice;
+          new_price = (flight_time_min) + 15 * hPrice;
         }
 
         new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;

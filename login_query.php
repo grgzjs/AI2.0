@@ -65,7 +65,7 @@ if (isset($_GET["new_username"]) && isset($_GET["new_password"]) && isset($_GET[
 
 if (isset($_GET["new_username_to_check"]) && isset($_GET["new_email_to_check"])) {
     $new_username_to_check = $_GET["new_username_to_check"];
-    $new_email_to_check = $_GET["new_email_to_check"];
+    $new_email_to_check = strtolower($_GET["new_email_to_check"]);
 
     $user_check = mysqli_query($con, "SELECT id FROM `users` WHERE username='$new_username_to_check';");
     $user_row = mysqli_fetch_assoc($user_check);

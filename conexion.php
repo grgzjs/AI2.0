@@ -2,7 +2,7 @@
 /*Datos de conexion a la base de datos remoto*/
 $db_host = "208.109.21.16"; // p3plzcpnl452763.prod.phx3.secureserver.net
 $db_user = "w3ezyugzcrtk";
-$db_pass = "Charter1221!";
+$db_pass = "Support1221!";
 $db_name = "YouAirCharter";
 
 $con = mysqli_connect($db_host, $db_user, $db_pass, $db_name);

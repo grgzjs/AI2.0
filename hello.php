@@ -764,7 +764,7 @@
 
         let flight_time_min = json_data["totals"]["flight_time_min"];
         flight_time_min = flight_time_min >= 1 ? flight_time_min : 1;
-        document.getElementById("h_vuelo" + tramo).value = flight_time_min/60;
+        document.getElementById("h_vuelo" + tramo).value = Math.round(flight_time_min);
 
         if (false) {
           new_price = distance_km * kmPrice;

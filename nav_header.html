@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand navbar-dark mai-top-header">
+    <div class="container"><a class="paddingright-20" href="#">AI Soft V1.0</a>
+        <ul class="nav navbar-nav mai-top-nav"></ul>
+        <ul class="nav navbar-nav float-lg-right mai-user-nav">
+            <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"
+                    role="button" aria-expanded="false">
+                    <img src="assets/img/avatars/no_user.jpg" alt="Avatar" style="border-radius: 50%;">
+                    <span class="user-name" id="account-name"></span>
+                    <span class="angle-down s7-angle-down"></span>
+                </a>
+                <div class="dropdown-menu" role="menu">
+                    <!-- <a class="dropdown-item" href="#">
+                        <span class="icon s7-home"></span>
+                        <span></span>
+                    </a> -->
+                    <a class="dropdown-item" href="menuprofile.php">
+                        <span class="icon s7-user"></span>Perfil
+                    </a>
+                    <!-- <a class="dropdown-item" href="menuprofile.php">
+                        <span class="icon s7-tools"></span>Settings
+                    </a> -->
+                    <a class="dropdown-item" href="javascript:logout();">
+                        <span class="icon s7-power"></span>Log Out
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    var username_in_storage = localStorage.getItem("username");
+
+    document.getElementById("account-name").innerHTML = username_in_storage;
+
+    function logout() {
+        console.log("logging out...");
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("email");
+        localStorage.removeItem("user_type");
+
+        window.location.href = "/skysalespro/login.php";
+    }
+</script>

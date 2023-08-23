@@ -79,31 +79,8 @@ include("conexion.php");
         <div class="col-md-12">
           <div class="card card-default">
             <div class="card-header card-header-divider">Informacion de Contactos<span class="card-subtitle">Ingresa los detalles de Contacto</span></div>
-            <div class="card-body pl-sm-5">
-              <form action="crm.php" method="post">
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Contacto</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <select required class="form-control custom-select" name="typeclient" onchange="showHideFields(this.value)">
-                      <option value="Cliente Final" <?php if ($row['typeclient'] == 'Cliente Final') {
-                                                      echo 'selected';
-                                                    } ?>>Cliente Final</option>
-                      <option value="Broker" <?php if ($row['typeclient'] == 'Broker') {
-                                                echo 'selected';
-                                              } ?>>Broker</option>
-                      <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
-                                                    echo 'selected';
-                                                  } ?>>Corporativo</option>
-                      <option value="Proveedor" <?php if ($row['typeclient'] == 'Proveedor') {
-                                                  echo 'selected';
-                                                } ?>>Proveedor</option>
-                      <option value="Empleados" <?php if ($row['typeclient'] == 'tripulacion') {
-                                                  echo 'selected';
-                                                } ?>>Tripulacion</option>
-                    </select>
-
-                  </div>
-                </div>
+              <div class="card-body pl-sm-5">
+                <form action="crm.php" method="post">
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Nombre</label>
                   <div class="col-12 col-sm-8 col-lg-6">
@@ -115,18 +92,6 @@ include("conexion.php");
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Apellido</label>
                   <div class="col-12 col-sm-8 col-lg-6">
                     <input required class="form-control" type="text" value="<?php echo $row['last_name']; ?>" placeholder="Apellido" name="last_name">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Fecha de Nacimiento</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input required class="form-control" type="date" value="<?php echo $row['f_nacimiento']; ?>" placeholder="F.de Nacimiento" name="f_nacimiento">
-                  </div>
-                </div>
-                <div class="form-group row" id="dnipass_div">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">DNI/Pasaporte</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input required class="form-control" type="text" value="<?php echo $row['dnipass']; ?>" placeholder="DNI/Pasaporte" name="dnipass">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -147,6 +112,44 @@ include("conexion.php");
                     <input required class="form-control" type="text" value="<?php echo $row['address']; ?>" placeholder="Direccion" name="address">
                   </div>
                 </div>
+                <div class="form-group row">
+                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Contacto</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <select required class="form-control custom-select" name="typeclient" onchange="showHideFields(this.value)">
+                      <option value="Cliente Final" <?php if ($row['typeclient'] == 'Cliente Final') {
+                                                      echo 'selected';
+                                                    } ?>>Cliente Final</option>
+                      <option value="Broker" <?php if ($row['typeclient'] == 'Broker') {
+                                                echo 'selected';
+                                              } ?>>Broker</option>
+                      <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {                                                    echo 'selected';
+                                                } ?>>Corporativo</option>
+                      <option value="Proveedor" <?php if ($row['typeclient'] == 'Proveedor') {
+                                                    echo 'selected';
+                                                  } ?>>Proveedor</option>
+                      <option value="Empleados" <?php if ($row['typeclient'] == 'tripulacion') {
+                                                    echo 'selected';
+                                                  } ?>>Tripulacion</option>
+                    </select>
+                  </div>
+                </div>
+                
+                
+                <div class="form-group row">
+                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Fecha de Nacimiento</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <input required class="form-control" type="date" value="<?php echo $row['f_nacimiento']; ?>" placeholder="F.de Nacimiento" name="f_nacimiento">
+                  </div>
+                </div>
+                <div class="form-group row" id="dnipass_div">
+                  <label class="col-12 col-sm-3 col-form-label text-sm-right">DNI/Pasaporte</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <input required class="form-control" type="text" value="<?php echo $row['dnipass']; ?>" placeholder="DNI/Pasaporte" name="dnipass">
+                  </div>
+                </div>
+                
+                
+                
                 <div class="form-group row" id="pais_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Pais</label>
                   <div class="col-12 col-sm-8 col-lg-6">

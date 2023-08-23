@@ -324,13 +324,13 @@
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Adicionales:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" type="number" value="" placeholder="addons" name="addons" id="addons" onchange="editTotal()">
+                  <input required class="form-control" value="" placeholder="Adicionales" name="addons" id="addons" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" type="number" value="" placeholder="tax" name="tax" id="tax" onchange="editTotal()">
+                  <input required class="form-control" value="" placeholder="Impuesto(%)" name="tax" id="tax" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
@@ -591,7 +591,9 @@
       let addons_value = document.getElementById('addons').value == "" ? 0 : parseFloat(document.getElementById('addons').value);
       let tax_value = document.getElementById('tax').value == "" ? 0 : parseFloat(document.getElementById('tax').value);
 
-      let new_value = subtotal_value + addons_value + tax_value;
+      let total_without_tax = subtotal_value + addons_value;
+
+      let new_value = total_without_tax + (total_without_tax * (tax_value/100));
       new_value = Math.round((new_value + Number.EPSILON) * 100) / 100;
 
       document.getElementById('amount').setAttribute('value', parseFloat(new_value));

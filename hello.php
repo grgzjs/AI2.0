@@ -85,7 +85,7 @@
           <div class="card card-default">
             <div class="card-header card-header-divider">Info de Cotizacion<span class="card-subtitle">Ingresa detalles del comprador</span></div>
             <!-- <div class="card-body pl-sm-5"> -->
-            <form id="quote-form"> <!-- action="report.php" method="post" > -->
+            <form id="quote-form" action="pdfgen.php" method="post" >
               <!-- </div> -->
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Comprador:</label>
@@ -107,7 +107,7 @@
                   <?php
                   } else {
                   ?>
-                    <select id="name-select" name="buyer" class="form-control custom-select" onchange="updateaddress(this)">
+                    <select required id="name-select" name="buyer" class="form-control custom-select" onchange="updateaddress(this)">
                       <?php
                       while ($rowbuyer = mysqli_fetch_assoc($buyers)) {
                       ?>
@@ -138,7 +138,7 @@
                   <?php
                   } else {
                   ?>
-                    <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address" disabled>
+                    <input required class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address" disabled>
                   <?php
                   }
                   ?>
@@ -165,7 +165,7 @@
 
 
                   ?>
-                  <select name='aircraft' class="form-control custom-select" id="aircraft" onchange="update_km_price(this)">
+                  <select required name='aircraft' class="form-control custom-select" id="aircraft" onchange="update_km_price(this)">
                     <?php
                     while ($rowaircraft = mysqli_fetch_assoc($aircraft)) {
                     ?>
@@ -212,20 +212,20 @@
                       <div class="form-group row">
                         <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                         <div class="col-12 col-sm-8 col-lg-2">
-                          <input class="form-control" type="date" value="<?php echo $rowdetail['fecha']; ?>" placeholder="Fecha" name="<?php echo 'fdateh' . $i; ?>">
+                          <input required class="form-control" type="date" value="<?php echo $rowdetail['fecha']; ?>" placeholder="Fecha" name="<?php echo 'fdateh' . $i; ?>">
                         </div>
 
                         <div class="col-12 col-sm-8 col-lg-2">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['origen']; ?>" placeholder="origen" name="<?php echo 'forigenh' . $i; ?>">
+                          <input required class="form-control" type="text" value="<?php echo $rowdetail['origen']; ?>" placeholder="origen" name="<?php echo 'forigenh' . $i; ?>">
                         </div>
                         <div class="col-12 col-sm-8 col-lg-2">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['destino']; ?>" placeholder="destino" name="<?php echo 'fdestinoh' . $i; ?>">
+                          <input required class="form-control" type="text" value="<?php echo $rowdetail['destino']; ?>" placeholder="destino" name="<?php echo 'fdestinoh' . $i; ?>">
                         </div>
                         <div class="col-12 col-sm-8 col-lg-1">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
+                          <input required class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
                         </div>
                         <div class="col-12 col-sm-8 col-lg-1">
-                          <input class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
+                          <input required class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
                         </div>
                       </div>
                 <?php
@@ -253,10 +253,10 @@
                 <div class="form-group row" id="tramo-1">
                   <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                   <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="date" placeholder="fecha" name="fdate1" id="fdate1">
+                    <input required class="form-control" type="date" placeholder="fecha" name="fdate1" id="fdate1">
                   </div>
                   <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" data-toggle="dropdown" placeholder="origen" name="forigen1" id="forigen1" onkeyup="get_airports(this)" onchange="origen_changed(this)">
+                    <input required class="form-control" type="text" data-toggle="dropdown" placeholder="origen" name="forigen1" id="forigen1" onkeyup="get_airports(this)" onchange="origen_changed(this)">
                     <!-- <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button> -->
                     <div class="dropdown-menu dropdown-menu-left" role="menu" id="origen-dropdown1" style="max-height:19em; overflow: auto;">
                     </div>
@@ -265,7 +265,7 @@
                     </select> -->
                   </div>
                   <div class="col-12 col-sm-8 col-lg-2">
-                    <input class="form-control" type="text" data-toggle="dropdown" placeholder="destino" name="fdestino1" id="fdestino1" onkeyup="get_airports(this)" onchange="destino_changed(this)">
+                    <input required class="form-control" type="text" data-toggle="dropdown" placeholder="destino" name="fdestino1" id="fdestino1" onkeyup="get_airports(this)" onchange="destino_changed(this)">
                     <div class="dropdown-menu dropdown-menu-left" role="menu" id="destino-dropdown1" style="max-height:19em; overflow: auto;">
                     </div>
                     <!-- <select class="form-control custom-select" name="fdestino1" id="fdestino1" onchange="destino_changed(this)">
@@ -273,13 +273,13 @@
                     </select> -->
                   </div>
                   <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="pax" name="fpax1">
+                    <input required class="form-control" type="text" placeholder="pax" name="fpax1">
                   </div>
                   <!-- <div class="col-12 col-sm-8 col-lg-1">
                     <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1" onchange="editSubtotal(this.value)" readonly>
                   </div> -->
                   <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="hs" name="h_vuelo1" id="h_vuelo1" onchange="editSubtotal(this.value)" readonly>
+                    <input required class="form-control" type="text" placeholder="hs" name="h_vuelo1" id="h_vuelo1" onchange="editSubtotal(this.value)" readonly>
                   </div>
                   <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
                     <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
@@ -318,25 +318,25 @@
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Subtotal:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" type="text" value="0" placeholder="subtotal" name="subtotal" id="subtotal" readonly>
+                  <input required class="form-control" type="text" value="0" placeholder="subtotal" name="subtotal" id="subtotal" readonly>
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Adicionales:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" type="number" value="" placeholder="addons" name="addons" id="addons" onchange="editTotal()">
+                  <input required class="form-control" type="number" value="" placeholder="addons" name="addons" id="addons" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" type="number" value="" placeholder="tax" name="tax" id="tax" onchange="editTotal()">
+                  <input required class="form-control" type="number" value="" placeholder="tax" name="tax" id="tax" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Total:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" type="text" value="0" placeholder="amount" name="amount" id="amount" readonly>
+                  <input required class="form-control" type="text" value="0" placeholder="amount" name="amount" id="amount" readonly>
                 </div>
               </div>
               <div class="form-group row">
@@ -368,12 +368,12 @@
   <script>
     var tramo = 1;
 
-    $('#quote-form').on('submit', function(e) {
-      e.preventDefault();
+    //$('#quote-form').on('submit', function(e) {
+      //e.preventDefault();
       // alert($(this).serialize());
-      $.post('report.php', $(this).serialize());
-      location.reload();
-    });
+      //$.post('pdfgen.php', $(this).serialize());
+      //location.reload();
+    //});
 
     function add_tramo() {
       tramo++;

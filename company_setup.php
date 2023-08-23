@@ -143,13 +143,13 @@ include("conexion.php");
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Nombre</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="" placeholder="Nombre" name="nombre">
+                    <input class="form-control" required type="text" value="" placeholder="Nombre" name="nombre">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Email</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="" placeholder="Email" name="email">
+                    <input class="form-control" required type="text" value="" placeholder="Email" name="email">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -157,7 +157,7 @@ include("conexion.php");
                   <div class="col-12 col-sm-8 col-lg-6">
                     <!--<input type="file" class="" value="" name="imagen">-->
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" value="<?php //echo $rowaircraft['imagen']; 
+                      <input type="file" required class="custom-file-input" value="<?php //echo $rowaircraft['imagen']; 
                                                                           ?>" name="imagen[]" id="imagen">
                       <label class="custom-file-label" for="imagen">Seleccionar Archivo</label>
                     </div>

@@ -99,13 +99,13 @@ if (isset($_POST['guardar_ingreso'])) {
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
+                      <input required id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Ingreso</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <select id="tipo_ingreso" class="form-control custom-select" name="typeclient">
+                      <select required id="tipo_ingreso" class="form-control custom-select" name="typeclient">
                         <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                     echo 'selected';
                                                   } ?>>Cotizaciones</option>
@@ -149,13 +149,13 @@ if (isset($_POST['guardar_ingreso'])) {
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
+                      <input required id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
                   </div>
                   <!-- <div class="form-group row pt-3">
@@ -182,7 +182,7 @@ if (isset($_POST['guardar_ingreso'])) {
                       <p>Aqui indicamos el cambio dolar actual</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input required class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
                   </div>
                   <div class="form-group row align-items-center">
@@ -191,7 +191,7 @@ if (isset($_POST['guardar_ingreso'])) {
                       <p>Aqui indicamos el la fecha en cual se efectuo la conversion</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <input id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
+                      <input required id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
                     </div>
                   </div>
                   <div class="form-group row align-items-center">
@@ -200,7 +200,7 @@ if (isset($_POST['guardar_ingreso'])) {
                       <p>Aqui indicamos el gasto fue efectuado en que moneda</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <select id="moneda_cambio" class="form-control custom-select" name="typeclient">
+                      <select required id="moneda_cambio" class="form-control custom-select" name="typeclient">
                         <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                     echo 'selected';
                                                   } ?>>Pesos Arg</option>

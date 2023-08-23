@@ -1,0 +1,55 @@
+.container-bg {
+    background: #3b1942;
+}
+
+.text-color {
+    color: #ccff8c;
+}
+
+.title-color {
+    color: #3b1942;
+}
+
+.hr-style {
+    border: 5px solid #ccff8c;
+    border-radius: 4px;
+}
+
+.img-border{
+    border-radius: 8px;
+}
+
+.border-text{
+    border: 2px solid #3b1942;
+    border-radius: 15px;
+}
+
+.req-table{
+    border: 1px solid #3b1942;
+    background: lightgray;
+    font-family: 'Jost', sans-serif;
+    font-size: larger;
+    color: #3b1942;
+}
+
+.rounded-top-left{
+    border-top-left-radius: 12px
+}
+.rounded-top-right{
+    border-top-right-radius: 12px
+}
+.rounded-bottom-left{
+    border-bottom-left-radius: 12px
+}
+.rounded-bottom-right{
+    border-bottom-right-radius: 12px
+}
+
+
+.text-bg{
+    background: lightgray;
+}
+
+.page-num-bg{
+    background: #ccff8c;
+}

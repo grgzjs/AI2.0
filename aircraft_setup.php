@@ -192,19 +192,19 @@ include("conexion.php");
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Matricula </label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowaircraft['matricula']; ?>" placeholder="Matricula" name="matricula">
+                    <input class="form-control" required type="text" value="<?php echo $rowaircraft['matricula']; ?>" placeholder="Matricula" name="matricula">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Tipo de Aeronave</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowaircraft['aeronave']; ?>" placeholder="Tipo de Aeronave" name="aeronave">
+                    <input class="form-control" required type="text" value="<?php echo $rowaircraft['aeronave']; ?>" placeholder="Tipo de Aeronave" name="aeronave">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Año de Fabricacion</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowaircraft['fabricacion']; ?>" placeholder="Año de Fabricacion" name="fabricacion">
+                    <input class="form-control" required type="text" value="<?php echo $rowaircraft['fabricacion']; ?>" placeholder="Año de Fabricacion" name="fabricacion">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -233,46 +233,46 @@ include("conexion.php");
                     <div class="form-group row " style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Capacidad Maxima
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['capacidad']; ?>" placeholder="Capacidad Maxima" name="capacidad">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['capacidad']; ?>" placeholder="Capacidad Maxima" name="capacidad">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Crucero
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Velocidad Crucero" name="cruisespeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Velocidad Crucero" name="cruisespeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <!-- <div class="col-12 col-sm-8 col-lg-2">Precio KM
                         <input class="form-control" type="text" value="<?php //echo $rowaircraft['preciokm']; ?>" placeholder="Precio KM" name="<?php echo 'preciokm' . $i; ?>">
                       </div> -->
                       <div class="col-12 col-sm-8 col-lg-2">Precio Hora
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['precioh']; ?>" placeholder="Precio Hora" name="precioh<?php //echo 'precioh' . $i; ?>">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['precioh']; ?>" placeholder="Precio Hora" name="precioh<?php //echo 'precioh' . $i; ?>">
                       </div>
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Distancia Maxima
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder="Distancia Maxima" name="distancia">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder="Distancia Maxima" name="distancia">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Decenso
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="Velocidad Decenso" name="descentspeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="Velocidad Decenso" name="descentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Precio Pernocta
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['pernocta']; ?>" placeholder="Pernocta " name="pernocta">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['pernocta']; ?>" placeholder="Pernocta " name="pernocta">
                       </div>
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Peso Maximo
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso Maximo" name="pesomaximo">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso Maximo" name="pesomaximo">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Ascenso
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="Velocidad Acenso" name="ascentspeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="Velocidad Acenso" name="ascentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Precio Fuel Stop
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['fuelstop']; ?>" placeholder="Parada Tecnica" name="fuelstop">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['fuelstop']; ?>" placeholder="Parada Tecnica" name="fuelstop">
                       </div>
                     </div>
                   </div>

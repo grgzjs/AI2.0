@@ -153,7 +153,7 @@
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <a class="dropdown-item" href='javascript:editarQuote ("<?php echo $row['quote'] ?>")' title="Cambiar">Editar</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Ver</a>
+                                <a class="dropdown-item" href='pdfgen.php?id=<?php echo $row['quote'] ?>' title="View">Ver</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href='javascript:borrar ("<?php echo $row['quote'] ?>")' title="Eliminar">Borrar</a>
                                 <div class="dropdown-divider"></div>

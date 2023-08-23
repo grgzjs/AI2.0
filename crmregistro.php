@@ -84,7 +84,7 @@ include("conexion.php");
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Contacto</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <select class="form-control custom-select" name="typeclient" onchange="showHideFields(this.value)">
+                    <select required class="form-control custom-select" name="typeclient" onchange="showHideFields(this.value)">
                       <option value="Cliente Final" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                       echo 'selected';
                                                     } ?>>Cliente Final</option>
@@ -107,50 +107,50 @@ include("conexion.php");
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Nombre</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['first_name']; ?>" placeholder="Nombre" name="first_name">
+                    <input required class="form-control" type="text" value="<?php echo $row['first_name']; ?>" placeholder="Nombre" name="first_name">
                     <input type="hidden" value="<?php echo $row['id']; ?>" name="id">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Apellido</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['last_name']; ?>" placeholder="Apellido" name="last_name">
+                    <input required class="form-control" type="text" value="<?php echo $row['last_name']; ?>" placeholder="Apellido" name="last_name">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Fecha de Nacimiento</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="date" value="<?php echo $row['f_nacimiento']; ?>" placeholder="F.de Nacimiento" name="f_nacimiento">
+                    <input required class="form-control" type="date" value="<?php echo $row['f_nacimiento']; ?>" placeholder="F.de Nacimiento" name="f_nacimiento">
                   </div>
                 </div>
                 <div class="form-group row" id="dnipass_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">DNI/Pasaporte</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['dnipass']; ?>" placeholder="DNI/Pasaporte" name="dnipass">
+                    <input required class="form-control" type="text" value="<?php echo $row['dnipass']; ?>" placeholder="DNI/Pasaporte" name="dnipass">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Telefono</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['phone_number']; ?>" placeholder="Telefono" name="phone_number">
+                    <input required class="form-control" type="text" value="<?php echo $row['phone_number']; ?>" placeholder="Telefono" name="phone_number">
                   </div>
                 </div>
                 <div class="form-group row" id="email_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Email</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['email']; ?>" placeholder="Email" name="email">
+                    <input required class="form-control" type="text" value="<?php echo $row['email']; ?>" placeholder="Email" name="email">
                   </div>
                 </div>
                 <div class="form-group row" id="address_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Direccion</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['address']; ?>" placeholder="Direccion" name="address">
+                    <input required class="form-control" type="text" value="<?php echo $row['address']; ?>" placeholder="Direccion" name="address">
                   </div>
                 </div>
                 <div class="form-group row" id="pais_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Pais</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['pais']; ?>" placeholder="Pais" name="pais">
+                    <input required class="form-control" type="text" value="<?php echo $row['pais']; ?>" placeholder="Pais" name="pais">
                   </div>
                 </div>
                 <div class="form-group row" id="notes_div">

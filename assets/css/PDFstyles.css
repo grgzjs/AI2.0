@@ -1,17 +1,17 @@
 .container-bg {
-    background: #3b1942;
+    background: #22223a;
 }
 
 .text-color {
-    color: #ccff8c;
+    color: #FFFFFF;
 }
 
 .title-color {
-    color: #3b1942;
+    color: #22223a;
 }
 
 .hr-style {
-    border: 5px solid #ccff8c;
+    border: 5px solid #22223a;
     border-radius: 4px;
 }
 
@@ -20,16 +20,16 @@
 }
 
 .border-text{
-    border: 2px solid #3b1942;
+    border: 2px solid #22223a;
     border-radius: 15px;
 }
 
 .req-table{
-    border: 1px solid #3b1942;
+    border: 1px solid #22223a;
     background: lightgray;
     font-family: 'Jost', sans-serif;
     font-size: larger;
-    color: #3b1942;
+    color: #22223a;
 }
 
 .rounded-top-left{
@@ -51,5 +51,6 @@
 }
 
 .page-num-bg{
-    background: #ccff8c;
+    background: #22223a;
+    color: #FFFFFF;
 }

@@ -189,7 +189,7 @@
             <br><br><br><br><br><br><br><br><br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 1/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 1/4 </span>
             </div>
             <br><br> 
         </div>
@@ -238,7 +238,7 @@
             <br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 2/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 2/4 </span>
             </div>
 
             <br><br> 
@@ -359,7 +359,7 @@
             <br><br><br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 3/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 3/4 </span>
             </div>
 
             <br><br><br>   
@@ -447,7 +447,7 @@
             <br><br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 4/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 4/4 </span>
             </div>
             <br><br>
         </div>

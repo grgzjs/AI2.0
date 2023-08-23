@@ -188,7 +188,7 @@ include("conexion.php");
           <div class="card card-default">
             <div class="card-header card-header-divider">Registro de Aeronave<span class="card-subtitle">Ingresa la informacion de la Aeronave</span></div>
             <div class="card-body pl-sm-5">
-              <form action="aircraft_setup.php" method="post" enctype="multipart/form-data">
+              <form action="aircraft_setup.php" method="post" enctype="multipart/form-data" id="aircraft-form">
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Matricula </label>
                   <div class="col-12 col-sm-8 col-lg-6">
@@ -233,42 +233,43 @@ include("conexion.php");
                     <div class="form-group row " style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Capacidad Maxima
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['capacidad']; ?>" placeholder="Capacidad Maxima" name="capacidad">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['capacidad']; ?>" placeholder="Max Pax" name="capacidad">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Crucero
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Velocidad Crucero" name="cruisespeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Millas Nauticas x hr" name="cruisespeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <!-- <div class="col-12 col-sm-8 col-lg-2">Precio KM
                         <input class="form-control" type="text" value="<?php //echo $rowaircraft['preciokm']; ?>" placeholder="Precio KM" name="<?php echo 'preciokm' . $i; ?>">
                       </div> -->
                       <div class="col-12 col-sm-8 col-lg-2">Precio Hora
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['precioh']; ?>" placeholder="Precio Hora" name="precioh<?php //echo 'precioh' . $i; ?>">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['precioh']; ?>" placeholder="Precio x Hora" name="precioh<?php //echo 'precioh' . $i; ?>">
                       </div>
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Distancia Maxima
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder="Distancia Maxima" name="distancia">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder=" Millas Nauticas" name="distancia">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Decenso
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="Velocidad Decenso" name="descentspeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="MN x Hr." name="descentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Precio Pernocta
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['pernocta']; ?>" placeholder="Pernocta " name="pernocta">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['pernocta']; ?>" placeholder="Pernocta" name="pernocta">
                       </div>
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Peso Maximo
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso Maximo" name="pesomaximo">
+                      <div class="col-12 col-sm-8 col-lg-2">Peso Maximo (lbs)
+                        <input class="form-control" id="pesomaximo" required type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso en Lbs" onblur="javascript:updateInputValue()" name="pesomaximo">
+
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Ascenso
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="Velocidad Acenso" name="ascentspeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="MN x Hr." name="ascentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Precio Fuel Stop
@@ -317,9 +318,10 @@ include("conexion.php");
                       </th> -->
                       <th style="width:20%;">Matrícula </th>
                       <th style="width:17%;">Tipo de AC </th>
-                      <th style="width:15%;">Año de Fabricacion</th>
+                      <th style="width:15%;">Fabricacion</th>
                       <!-- <th style="width:10%;">Precio Km</th> -->
-                      <th style="width:10%;">Precio Hora</th>
+                      <th style="width:10%;">Precio x Hora</th>
+                      <th style="width:10%;">Capacidad</th>
                       <th style="width:10%;"></th>
                     </tr>
                   </thead>
@@ -350,6 +352,9 @@ include("conexion.php");
                           </td> -->
                           <td class="cell-detail">
                             <span><?php echo $row['precioh']; ?></span>
+                          </td>
+                          <td class="cell-detail">
+                            <span><?php echo $row['capacidad']; ?></span>
                           </td>
                           <td class="text-right">
                             <div class="btn-group btn-hspace">
@@ -397,6 +402,25 @@ include("conexion.php");
     });
   </script>
   <script>
+    function updateInputValue() {
+  const numeroInput = document.getElementById("pesomaximo");
+  
+  if (numeroInput.value !== "") {
+    const numero = parseFloat(numeroInput.value);
+    numeroInput.value = numero + " lbs";
+  }
+}
+let form=document.getElementById("aircraft-form");
+document.getElementById("aircraft-form").addEventListener("submit", function(event) {
+  const numeroInput = document.getElementById("pesomaximo");
+  
+  if (numeroInput.value.endsWith(" lbs")) {
+    const valorNumerico = parseFloat(numeroInput.value);
+    numeroInput.value = valorNumerico; // Establecer solo el valor numérico antes de enviar
+    form.submit();
+  }
+
+});
     //function para poder editar y borrar las quotes DESPUES DE PONERLE LOGIN
     function borrar(id) {
       //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
@@ -591,6 +615,14 @@ include("conexion.php");
       document.body.appendChild(form)
       form.submit()
 
+    }
+    
+  </script>
+  <script>
+    toLibras(){
+      let peso_maximo = document.getElementById("pesomaximo").value;
+
+      document.getElementById("pesomaximo").value =  parseFloat(peso_maximo) + "lbs";
     }
   </script>
 </body>

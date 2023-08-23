@@ -196,7 +196,7 @@
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Origen</div>
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Destino</div>
                   <div class="col-12 col-sm-8 col-lg-1 center-text">Pax</div>
-                  <div class="col-12 col-sm-8 col-lg-1 center-text">Minutos</div>
+                  <div class="col-12 col-sm-8 col-lg-2 center-text">Tiempo de vuelo</div>
                 </div>
                 <?php
                 if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
@@ -224,7 +224,7 @@
                         <div class="col-12 col-sm-8 col-lg-1">
                           <input required class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
                         </div>
-                        <div class="col-12 col-sm-8 col-lg-1">
+                        <div class="col-12 col-sm-8 col-lg-2">
                           <input required class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
                         </div>
                       </div>

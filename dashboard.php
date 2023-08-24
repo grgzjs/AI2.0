@@ -424,14 +424,19 @@ include("conexion.php");
                   <ul class="todo-tasks">';
 
               // Loop through the results and create a list item for each task
-              while ($row = mysqli_fetch_assoc($result)) {
-                echo '
-                <li class="todo-task">
-                  <label class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label">' . $row['task'] . '</span>
-                  </label><a class="close" href="javascript:deleteTask(' . $row['id'] . ')"><span class="icon s7-close"></span></a>
-                </li>';
-              }
+              ?>
+              <div id="elementosContainer" name="elementosContainer">
+              <!-- Los elementos se mostrarán aquí -->
+          </div>
+              <!-- // while ($row = mysqli_fetch_assoc($result)) {
+              //   echo '
+              //   <li class="todo-task">
+              //     <label class="custom-control custom-checkbox">
+              //       <input class="custom-control-input" type="checkbox"><span class="custom-control-label">' . $row['task'] . '</span>
+              //     </label><a class="close" href="javascript:deleteTask(' . $row['id'] . ')"><span class="icon s7-close"></span></a>
+              //   </li>';
+              // } -->
+              <?php
               echo '
                   </ul>
                   </div>
@@ -576,33 +581,43 @@ include("conexion.php");
         });
       </script>
       <script>
+        cargarDatosTabla();
         function addTask() {
           let task_name = document.getElementById("task-text").value;
-
           // execute query to load taks
           $.ajax({
-            url: "task_query.php?task_to_add=" + task_name, // your php file
+            url: "task_query.php?task_to_add=" + task_name + "&task_to_delete=" + 0, // your php file
             type: "GET", // type of the HTTP request
             success: function(data) {
-              user_data = jQuery.parseJSON(data);
-
-              //location.reload();
+              cargarDatosTabla();
             }
           });
         }
 
         function deleteTask(task_id) {
-          console.log("Delete task");
-
           // execute query to delete taks
           $.ajax({
-            url: "task_query.php?task_to_delete=" + task_id, // your php file
+            url: "task_query.php?task_to_delete=" + task_id + "&task_to_add=" + 0, // your php file
             type: "GET", // type of the HTTP request
             success: function(data) {
-              user_data = jQuery.parseJSON(data);
-
-              //location.reload();
+              cargarDatosTabla();
             }
+          });
+          
+        }
+
+
+
+        function cargarDatosTabla(){
+          $.ajax({
+              url: "task_query.php?task_to_delete=" +0 + "&task_to_add=" + 0,
+              method: "GET",
+              success: function(data) {
+                $("#elementosContainer").html(data);
+              },
+              error: function(error) {
+                console.error("Error al cargar la tabla:", error);
+              }
           });
         }
       </script>

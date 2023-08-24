@@ -225,7 +225,7 @@
                           <input required class="form-control" type="text" value="<?php echo $rowdetail['pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>">
                         </div>
                         <div class="col-12 col-sm-8 col-lg-2">
-                          <input required class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="kms" name="<?php echo 'km_vueloh' . $i; ?>" id="<?php echo 'km_vueloh' . $i; ?>">
+                          <input required class="form-control" type="text" value="<?php echo $rowdetail['nm_vuelo']; ?>" placeholder="kms" name="<?php echo 'nm_vueloh' . $i; ?>" id="<?php echo 'nm_vueloh' . $i; ?>">
                         </div>
                       </div>
                 <?php
@@ -275,11 +275,11 @@
                   <div class="col-12 col-sm-8 col-lg-1">
                     <input required class="form-control" type="text" placeholder="pax" name="fpax1">
                   </div>
-                  <!-- <div class="col-12 col-sm-8 col-lg-1">
-                    <input class="form-control" type="text" placeholder="kms" name="km_vuelo1" id="km_vuelo1" onchange="editSubtotal(this.value)" readonly>
-                  </div> -->
+                  <!-- <div class="col-12 col-sm-8 col-lg-1"> -->
+                    <input class="form-control" type="hidden" placeholder="" name="nm_vuelo1" id="nm_vuelo1" onchange="//editSubtotal(this.value)" readonly>
+                  <!-- </div> -->
                   <div class="col-12 col-sm-8 col-lg-1">
-                    <input required class="form-control" type="text" placeholder="hs" name="h_vuelo1" id="h_vuelo1" onchange="editSubtotal(this.value)" readonly>
+                    <input required class="form-control" type="text" placeholder="Hs" name="h_vuelo1" id="h_vuelo1" onchange="editSubtotal(this.value)" readonly> 
                   </div>
                   <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
                     <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
@@ -398,6 +398,7 @@
 
       date_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
       date_input.classList.add('form-control')
+      date_input.setAttribute('required','')
       date_input.type = 'date'
       date_input.placeholder = 'fecha'
       date_input.name = 'fdate' + tramo
@@ -418,6 +419,7 @@
 
       origen_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
       origen_input.classList.add('form-control')
+      origen_input.setAttribute('required','')
       origen_input.name = 'forigen' + tramo
       origen_input.id = 'forigen' + tramo
       origen_input.placeholder = 'origen'
@@ -449,6 +451,7 @@
 
       destino_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
       destino_input.classList.add('form-control')
+      destino_input.setAttribute('required','')
       destino_input.name = 'fdestino' + tramo
       destino_input.id = 'fdestino' + tramo
       destino_input.placeholder = 'destino'
@@ -473,6 +476,7 @@
 
       pax_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
       pax_input.classList.add('form-control')
+      pax_input.setAttribute('required','')
       pax_input.type = 'text'
       pax_input.placeholder = 'pax'
       pax_input.name = 'fpax' + tramo
@@ -493,6 +497,19 @@
       //   editSubtotal(this.value);
       // }, false)
 
+      let nm_div = document.createElement('div')
+      new_container.appendChild(nm_div)
+      let nm_input = document.createElement('input')
+      nm_div.appendChild(nm_input)
+
+      //nm_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
+      //km_input.classList.add('form-control')
+      nm_input.type = 'hidden'
+      nm_input.placeholder = 'nm'
+      nm_input.name = 'nm_vuelo' + tramo
+      nm_input.id = 'nm_vuelo' + tramo
+      nm_input.readOnly = 'readonly'
+
       let h_div = document.createElement('div')
       new_container.appendChild(h_div)
       let h_input = document.createElement('input')
@@ -500,8 +517,9 @@
 
       h_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
       h_input.classList.add('form-control')
+      h_input.setAttribute('required','')
       h_input.type = 'text'
-      h_input.placeholder = 'Horas'
+      h_input.placeholder = 'Hs'
       h_input.name = 'h_vuelo' + tramo
       h_input.id = 'h_vuelo' + tramo
       h_input.readOnly = 'readonly'
@@ -572,7 +590,8 @@
         let h_vuelo = document.getElementById("h_vuelo" + i)
         if (h_vuelo == null) break
         // total_hours += h_vuelo.value
-        total_hours += h_vuelo.value >= 1 ? h_vuelo.value : 1
+        total_hours += parseFloat(h_vuelo.value) >= 1 ? parseFloat(h_vuelo.value) : 1
+        //total_hours += taxi_time
       }
 
       new_price = total_hours * hPrice;
@@ -753,8 +772,11 @@
         let distance_km = json_data["totals"]["distance_km"];
         // document.getElementById("km_vuelo" + tramo).value = distance_km;
 
+        let distance_nm = json_data["totals"]["distance_nm"];
+        document.getElementById("nm_vuelo" + tramo).value = distance_nm;
+
         let flight_time_min = json_data["totals"]["flight_time_min"];
-        document.getElementById("h_vuelo" + tramo).value = Math.round(flight_time_min);
+        document.getElementById("h_vuelo" + tramo).value = Math.round(((flight_time_min/60) + Number.EPSILON) * 100) / 100;
         flight_time_min = flight_time_min > 60 ? flight_time_min : 60;
 
         if (false) {

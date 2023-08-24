@@ -19,6 +19,60 @@ include("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/datepicker/css/bootstrap-datepicker3.min.css" />
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
 </head>
+
+<style>
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #f54c4c;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #c23636;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .popup-text {
+    padding-top: 15px;
+    padding-left: 20px;
+    font-size: 1.35em;
+  }
+</style>
+
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 <!-- <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
     <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
@@ -29,6 +83,12 @@ include("conexion.php");
 <script src="assets/js/user-validation.js" type="text/javascript"></script>
 
 <body>
+  <div id="error-popup" class="modal">
+    <div class="modal-content">
+      <span id="pop-up-close" class="close">&times;</span>
+      <p id="popup-text" class="popup-text">Some text in the Modal..</p>
+    </div>
+  </div>
   <?php require_once("nav_header.html") ?>
   <div class="mai-wrapper">
     <?php require_once("nav_header2.html"); ?>
@@ -126,9 +186,16 @@ include("conexion.php");
               echo "<script>console.log('Sorry, there was an error uploading your file.')</script>";
             }
           }
-
+          
           // return;
         }
+      ?>
+      <script>
+        setTimeout(() => {
+          window.location.href = "company_setup.php?success";
+        }, 100);
+      </script>  
+      <?php
       }
       ?>
 
@@ -240,6 +307,35 @@ include("conexion.php");
       App.formElements();
     });
   </script>
+  
+  <script> //POPUP SCRIPT
+    
+    function success(){
+      let popup = document.getElementById("error-popup");
+      let popup_text = document.getElementById("popup-text");
+
+      popup.style.display = "block";
+      popup_text.innerHTML = "Datos de la compañia actualizados correctamente.";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      let popup = document.getElementById("error-popup");
+      if (event.target == popup) {
+        popup.style.display = "none";
+      }
+    }
+
+    document.getElementById("pop-up-close").onclick = function() {
+      document.getElementById("error-popup").style.display = "none";
+    }
+  </script>
+  <?php
+  if (isset($_GET['success'])) {
+    echo "<script>console.log('get success')</script>";
+    echo '<script> success(); </script>';
+  }
+  ?>
 </body>
 
 </html>

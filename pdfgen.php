@@ -19,31 +19,31 @@
         $forigen1 = $_POST['forigen1'];
         $fdestino1 = $_POST['fdestino1'];
         $fpax1 = $_POST['fpax1'];
-        $km1 = $_POST['km_vuelo1'];
+        $nm1 = $_POST['nm_vuelo1'];
 
         $fdate2 = $_POST['fdate2'];
         $forigen2 = $_POST['forigen2'];
         $fdestino2 = $_POST['fdestino2'];
         $fpax2 = $_POST['fpax2'];
-        $km2 = $_POST['km_vuelo2'];
+        $nm2 = $_POST['nm_vuelo2'];
 
         $fdate3 = $_POST['fdate3'];
         $forigen3 = $_POST['forigen3'];
         $fdestino3 = $_POST['fdestino3'];
         $fpax3 = $_POST['fpax3'];
-        $km3 = $_POST['km_vuelo3'];
+        $nm3 = $_POST['nm_vuelo3'];
 
         $fdate4 = $_POST['fdate4'];
         $forigen4 = $_POST['forigen4'];
         $fdestino4 = $_POST['fdestino4'];
         $fpax4 = $_POST['fpax4'];
-        $km4 = $_POST['km_vuelo4'];
+        $nm4 = $_POST['nm_vuelo4'];
 
         $fdate5 = $_POST['fdate5'];
         $forigen5 = $_POST['forigen5'];
         $fdestino5 = $_POST['fdestino5'];
         $fpax5 = $_POST['fpax5'];
-        $km5 = $_POST['km_vuelo5'];
+        $nm5 = $_POST['nm_vuelo5'];
 
         $subtotal = $subtotal == "" ? 0 : $subtotal;
         $addons = $addons == "" ? 0 : $addons;
@@ -57,22 +57,22 @@
         $row = mysqli_fetch_array($result);
         $quote = $row['quote'];
 
-        $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$km1','$quote')";
+        $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$nm1','$quote')";
         $update = mysqli_query($con, $sql);
         if (!empty($fdate2)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$km2','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$nm2','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate3)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$km3','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$nm3','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate4)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$km4','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$nm4','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate5)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,km_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$km5','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$nm5','$quote')";
             $update = mysqli_query($con, $sql);
         }
     }else{
@@ -117,7 +117,7 @@
             <div class="container container-bg rounded-pill py-3 my-3 text-white">
                 <div class="row">
                     <div class="col-7">
-                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded pl-3">
+                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded-circle ml-3">
                     </div> 
                     <div class="col text-right mr-4 my-auto" style="font-family: 'Archivo', sans-serif; font-size: larger;">
                         C H A R T E R &nbsp;&nbsp;&nbsp;Q U O T E
@@ -146,7 +146,7 @@
                     <div class="col">Origen</div>
                     <div class="col">Destino</div>
                     <div class="col">Pasajeros</div>
-                    <div class="col">Kms</div>
+                    <div class="col">Millas Nauticas</div>
                 </div>
             </div>
             <?php while ($rowdetail_tramo = mysqli_fetch_assoc($detail_tramo)){?>
@@ -155,7 +155,7 @@
                     <div class="col"><?php echo $rowdetail_tramo['origen']?></div>
                     <div class="col"><?php echo $rowdetail_tramo['destino']?></div>
                     <div class="col"><?php echo $rowdetail_tramo['Pax']?></div>
-                    <div class="col"><?php echo $rowdetail_tramo['km_vuelo']?></div>
+                    <div class="col"><?php echo $rowdetail_tramo['nm_vuelo']?></div>
                 </div>
             <?php } ?>
 
@@ -171,7 +171,7 @@
                 </div>
                 <div class="row">
                     <div class="col-2">Tax:</div>
-                    <div class="col">$<?php echo $rowinvoice['tax'] ?></div>
+                    <div class="col"><?php echo $rowinvoice['tax'] ?>%</div>
                 </div>
                 <div class="row">
                     <div class="col-2">Amount:</div>
@@ -189,7 +189,7 @@
             <br><br><br><br><br><br><br><br><br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 1/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 1/4 </span>
             </div>
             <br><br> 
         </div>
@@ -197,7 +197,7 @@
             <div class="container container-bg rounded-pill py-3 my-3 text-white">
                 <div class="row">
                     <div class="col-7">
-                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded pl-3">
+                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded-circle ml-3">
                     </div> 
                     <div class="col text-right mr-4 my-auto" style="font-family: 'Archivo', sans-serif; font-size: larger;">
                         C H A R T E R &nbsp;&nbsp;&nbsp;Q U O T E
@@ -238,7 +238,7 @@
             <br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 2/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 2/4 </span>
             </div>
 
             <br><br> 
@@ -247,7 +247,7 @@
             <div class="container container-bg rounded-pill py-3 my-3 text-white">
                 <div class="row">
                     <div class="col-7">
-                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded pl-3">
+                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded-circle ml-3">
                     </div> 
                     <div class="col text-right mr-4 my-auto" style="font-family: 'Archivo', sans-serif; font-size: larger;">
                         C H A R T E R &nbsp;&nbsp;&nbsp;Q U O T E
@@ -359,7 +359,7 @@
             <br><br><br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 3/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 3/4 </span>
             </div>
 
             <br><br><br>   
@@ -368,7 +368,7 @@
             <div class="container container-bg rounded-pill py-3 my-3 text-white">
                 <div class="row">
                     <div class="col-7">
-                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded pl-3">
+                        <img src="<?php echo $rowcompany['logo_dir']?>" height="50px" class="rounded-circle ml-3">
                     </div> 
                     <div class="col text-right mr-4 my-auto" style="font-family: 'Archivo', sans-serif; font-size: larger;">
                         C H A R T E R &nbsp;&nbsp;&nbsp;Q U O T E
@@ -423,7 +423,7 @@
             </div>
             <br><br>
             <p style="font-size: smaller; font-family: 'Roboto', sans-serif;;">
-                El emisor de la tarjeta identificado en este acuerdo está autorizado a pagar a <?php echo $rowcompany['name']?>. una tarifa de tarjeta de crédito del 4% adicional a la cotización en nombre de la empresa del titular de la tarjeta. El emisor de esta tarjeta identificado en este acuerdo también está autorizado a pagar 2 <?php echo $rowcompany['name']?>. la cotización y el pago de la tarifa de la tarjeta adeudada, cualquier tarifa interna pendiente y créditos. El titular de la tarjeta que suscribe se compromete a pagar en su totalidad dicho pago al emisor de la tarjeta sujeto y de conformidad con el acuerdo que rige el uso de dicha tarjeta.
+                El emisor de la tarjeta identificado en este acuerdo está autorizado a pagar a <?php echo $rowcompany['name']?>. una tarifa de tarjeta de crédito del 4% adicional a la cotización en nombre de la empresa del titular de la tarjeta. El emisor de esta tarjeta identificado en este acuerdo también está autorizado a pagar a <?php echo $rowcompany['name']?>. la cotización y el pago de la tarifa de la tarjeta adeudada, cualquier tarifa interna pendiente y créditos. El titular de la tarjeta que suscribe se compromete a pagar en su totalidad dicho pago al emisor de la tarjeta sujeto y de conformidad con el acuerdo que rige el uso de dicha tarjeta.
             </p>
             <br>
             <p class="font-weight-bold" style="font-size: large;">Información de Transferencia</p>
@@ -447,7 +447,7 @@
             <br><br><br><br><br>
             <hr style="border: 1px solid;">
             <div class="d-flex flex-row-reverse">
-                <span class="page-num-bg rounded-pill px-3 font-weight-bold text-black"> 4/4 </span>
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 4/4 </span>
             </div>
             <br><br>
         </div>

@@ -20,59 +20,105 @@
         $fdestino1 = $_POST['fdestino1'];
         $fpax1 = $_POST['fpax1'];
         $nm1 = $_POST['nm_vuelo1'];
+        $h_vuelo1 = $_POST['h_vuelo1'];
 
         $fdate2 = $_POST['fdate2'];
         $forigen2 = $_POST['forigen2'];
         $fdestino2 = $_POST['fdestino2'];
         $fpax2 = $_POST['fpax2'];
         $nm2 = $_POST['nm_vuelo2'];
+        $h_vuelo2 = $_POST['h_vuelo2'];
 
         $fdate3 = $_POST['fdate3'];
         $forigen3 = $_POST['forigen3'];
         $fdestino3 = $_POST['fdestino3'];
         $fpax3 = $_POST['fpax3'];
         $nm3 = $_POST['nm_vuelo3'];
+        $h_vuelo3 = $_POST['h_vuelo3'];
 
         $fdate4 = $_POST['fdate4'];
         $forigen4 = $_POST['forigen4'];
         $fdestino4 = $_POST['fdestino4'];
         $fpax4 = $_POST['fpax4'];
         $nm4 = $_POST['nm_vuelo4'];
+        $h_vuelo4 = $_POST['h_vuelo4'];
 
         $fdate5 = $_POST['fdate5'];
         $forigen5 = $_POST['forigen5'];
         $fdestino5 = $_POST['fdestino5'];
         $fpax5 = $_POST['fpax5'];
         $nm5 = $_POST['nm_vuelo5'];
+        $h_vuelo5 = $_POST['h_vuelo5'];
 
         $subtotal = $subtotal == "" ? 0 : $subtotal;
         $addons = $addons == "" ? 0 : $addons;
         $tax = $tax == "" ? 0 : $tax;
         $amount = $amount == "" ? 0 : $amount;
-
-        $sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date',$idbuyer,'$aircraft',$subtotal,$addons,$tax,$amount,1)";
+        if(isset($_POST['idpdf'])){
+            $idquote = $_POST['idpdf'];
+            //echo "<script>console.log('ENTRE A IDPDF')</script>";
+            $sql = "UPDATE `invoices` SET `date` = '$date', `aircraft` = '$aircraft', `subtotal` = '$subtotal', `tax` = '$tax', `amount` = '$amount', `addons` = '$addons', `buyer_id` = '$idbuyer', `status` = '1' WHERE `invoices`.`quote` = '$idquote'";
+        }else{
+            $sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,tax,amount,status) Values ('$date',$idbuyer,'$aircraft',$subtotal,$addons,$tax,$amount,1)";
+        }
         $update = mysqli_query($con, $sql);
         $query = "select * from invoices order by date desc";
         $result = mysqli_query($con, $query);
         $row = mysqli_fetch_array($result);
         $quote = $row['quote'];
 
-        $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$nm1','$quote')";
-        $update = mysqli_query($con, $sql);
+        if(isset($_POST['idpdf'])){
+            $fdatehr = 'fdateh1';
+            $i = 0;
+            while(!empty($_POST[$fdatehr])){
+                //echo $i.'<br>';
+                $i++;
+                $fdatehr = 'fdateh'.$i+1;
+                $fdateh = $_POST['fdateh'.$i];
+                $forigenh = $_POST['forigenh'.$i];
+                $fdestinoh = $_POST['fdestinoh'.$i];
+                $fpaxh = $_POST['fpaxh'.$i];
+                $fnm_vueloh = $_POST['fnm_vueloh'.$i];
+                $fh_vueloh = $_POST['fh_vueloh'.$i];
+                $fidh = $_POST['fidh'.$i];
+                $sql = "UPDATE `invoice_detail` SET `fecha` = '$fdateh', `origen` = '$forigenh', `destino` = '$fdestinoh', `Pax` = '$fpaxh', `nm_vuelo` = '$fnm_vueloh', `tiempo_vuelo` = '$fh_vueloh', `id_invoice` = '$idquote' WHERE `invoice_detail`.`Id` = '$fidh'";
+                $update = mysqli_query($con, $sql);
+            }
+            $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice= $quote");
+            $numrowstramo = mysqli_num_rows($editdetail);
+            echo "<script>console.log('rows: $numrowstramo i: $i<-ACA!')</script>";
+            if($i<$numrowstramo){
+                //$x=$numrowstramo-$i;
+                $cont=1;
+                while ($rowdetail = mysqli_fetch_assoc($editdetail)) {
+                    echo "<script>console.log('$x $cont <-ACA')</script>";
+                    if($cont>$i){
+                        $id_invoice_detail = $rowdetail['Id'];
+                        mysqli_query($con, "DELETE FROM invoice_detail WHERE `invoice_detail`.`Id` = $id_invoice_detail");
+                    }
+                    $cont++;
+                }
+            }
+        }
+
+        if (!empty($fdate1)) {
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$nm1','$h_vuelo1','$quote')";
+            $update = mysqli_query($con, $sql);
+        }
         if (!empty($fdate2)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$nm2','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$nm2','$h_vuelo2','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate3)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$nm3','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$nm3','$h_vuelo3','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate4)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$nm4','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$nm4','$h_vuelo4','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate5)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$nm5','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$nm5','$h_vuelo5','$quote')";
             $update = mysqli_query($con, $sql);
         }
     }else{

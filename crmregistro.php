@@ -128,13 +128,12 @@ include("conexion.php");
 
       ?>
       <script>
-        setTimeout(() => {
-          window.location.href = "crmregistro.php?success";
-        }, 100);
+        //setTimeout(() => {
+        //  window.location.href = "crmregistro.php?success";
+        //}, 100);
       </script>
       <?php
       }
-      ?>
 
       if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
         $sql = 'select * from Contact where id =' . $_POST['nik'];

@@ -803,13 +803,15 @@
         document.getElementById("nm_vuelo" + tramo).value = distance_nm;
 
         let flight_time_min = json_data["totals"]["flight_time_min"];
-        document.getElementById("h_vuelo" + tramo).value = Math.round(((flight_time_min/60) + Number.EPSILON) * 100) / 100;
+        let hora = Math.round(((flight_time_min/60) + Number.EPSILON) * 100) / 100;
+        let hora_minutos =  Math.round(hora) + ((hora - Math.round(hora))*0.6);
+        document.getElementById("h_vuelo" + tramo).value = Math.round((hora_minutos + Number.EPSILON) * 100) / 100;
         flight_time_min = flight_time_min > 60 ? flight_time_min : 60;
 
         if (false) {
           new_price = distance_km * kmPrice;
         } else {
-          new_price = ((flight_time_min) + 15)/60 * hPrice;
+          new_price = ((flight_time_min) + 15)/60 * hPrice; //15 = taxi time
         }
 
         new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;

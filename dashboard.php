@@ -440,9 +440,9 @@ include("conexion.php");
               echo '
                   </ul>
                   </div>
-                  <div class="todo-new-task">
+                  <div class="todo-new-task" id="todo-new-task">
                   <div class="input-group">
-                    <input id="task-text" class="form-control" type="text" name="task" placeholder="Add a new task...">
+                    <input id="task-text" class="form-control" type="text" name="task" placeholder="Agregar una nota...">
                     <div class="input-group-append"><button class="btn btn-primary" onclick="addTask()"><i class="icon s7-plus"></i></button></div>
                   </div>
                 </div>
@@ -456,7 +456,7 @@ include("conexion.php");
               <p>No hay tareas pendientes.</p>
             </div>
             <form method="POST">
-              <div class="todo-new-task">
+              <div class="todo-new-task" id="todo-new-task">
                 <div class="input-group">
                   <input class="form-control" type="text" name="task" placeholder="Add a new task...">
                   <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="icon s7-plus"></i></button></div>
@@ -609,14 +609,25 @@ include("conexion.php");
 
 
         function cargarDatosTabla(){
+          let user_type = localStorage.getItem("user_type") == "unset"? 0:1;
           $.ajax({
-              url: "task_query.php?task_to_delete=" +0 + "&task_to_add=" + 0,
+              url: "task_query.php?task_to_delete=" +0 + "&task_to_add=" + 0 + "&user_unset=" + user_type,
               method: "GET",
               success: function(data) {
                 $("#elementosContainer").html(data);
               },
               error: function(error) {
                 console.error("Error al cargar la tabla:", error);
+              }
+          });
+        }
+        function doneTask(id){
+          $.ajax({
+              url: "task_query.php?done_task=" + id,
+              method: "GET",
+              success: function(data) {
+                console.log(data)
+                console.log("actualizado con exito");
               }
           });
         }
@@ -628,6 +639,8 @@ include("conexion.php");
 
         function userUnset() {
           if (localStorage.getItem("user_type") != "unset") return;
+
+          document.getElementById("todo-new-task").style.display = "none";
 
           let popup = document.getElementById("error-popup");
           let popup_text = document.getElementById("popup-text");

@@ -39,9 +39,9 @@ if (isset($_POST['guardar_gasto'])) {
 
   $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
   $fecha_cambio = $_POST['fecha_cambio']; // unused
-
+  $file = $_POST['file']; 
   // figure out where to save
-  $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, moneda_cambio) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "')";
+  $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, moneda_cambio,`file`) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "','". $file ."')";
 
   mysqli_query($con, $sql);
   // clean post data
@@ -204,18 +204,21 @@ if (isset($_POST['guardar_gasto'])) {
                   <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                   <div class="form-group row">
                     <div class="col-sm-7">
-                      <h3 class="wizard-title">Sube el recibo al sistema</h3><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                      <h3 class="wizard-title">Sube el recibo al sistema</h3>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <div class="col-sm-3 xs-pt-15">
+                    <div class="col-12 xs-pt-15">
                       <div class="main-content container">
-                        <form class="dropzone" id="my-awesome-dropzone" action="assets/lib/dropzone/upload.php">
+                      <input type="file" id="gastos" name="gastos" style="display:none" accept="image/*">
+                        <form class="dropzone" id="my-awesome-dropzone" style="cursor:pointer;justify-content:center;text-align:center">
+                        <label for="gastos" style="cursor:pointer;">
                           <div class="dz-message">
                             <div class="icon"><span class="s7-cloud-upload"></span></div>
-                            <h2>Drag and Drop files here</h2><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                            <div class="dropzone-mobile-trigger needsclick"></div>
+                            <h2>Search and select files here</h2>
+                            <div id="needsclick" class="dropzone-mobile-trigger needsclick"></div>
                           </div>
+                        </label>
                         </form>
                       </div>
                     </div>
@@ -256,6 +259,7 @@ if (isset($_POST['guardar_gasto'])) {
                   <th style="width:10%;">Tipo de Gasto</th>
                   <th style="width:13%;">Moneda de Cambio</th>
                   <th style="width:13%;">Monto</th>
+                  <th style="width:10%;">Archivo</th>
                 </tr>
               </thead>
               <tbody>
@@ -281,6 +285,7 @@ if (isset($_POST['guardar_gasto'])) {
                     <td class="cell-detail">
                       <span>$<?php echo $rowp["monto"] ?></span>
                     </td>
+                    
                   </tr>
                 <?php
                 }
@@ -288,6 +293,7 @@ if (isset($_POST['guardar_gasto'])) {
                 $sql_gastos_generales = 'select * from gastos_generales';
                 $gastos_generales = mysqli_query($con, $sql_gastos_generales);
                 while ($rowp = mysqli_fetch_assoc($gastos_generales)) {
+                  $file_exists = $rowp["file"];
                 ?>
                   <tr>
                     <td class="cell-detail">
@@ -304,6 +310,16 @@ if (isset($_POST['guardar_gasto'])) {
                     </td>
                     <td class="cell-detail">
                       <span>$<?php echo $rowp["amount"] ?></span>
+                    </td>
+                    <td class="cell-detail">
+                      <?php
+                      if($file_exists !=""){
+                        echo '<a style="font-size:1.5rem" href="gastos/'.$rowp["file"].'" download="'.$rowp["file"].'">
+                        <span class="icon s7-file"></span>
+                      </a>';
+                      }
+                      ?>
+                      
                     </td>
                   </tr>
                 <?php
@@ -334,7 +350,8 @@ if (isset($_POST['guardar_gasto'])) {
       App.wizard();
     });
 
-
+   
+ 
     function loginuser() {
       let form = document.createElement('form')
       form.action = 'hello.php'
@@ -377,57 +394,74 @@ if (isset($_POST['guardar_gasto'])) {
       form.submit()
     }
 
+
+
     function save_all() {
+      let end_point = "reception_area_query.php";
+      let form_data = new FormData();
+      let input_file = document.getElementById("gastos");
+      form_data.append("gastos_file", input_file.files[0]);
+      fetch(end_point, {
+        method: "POST",
+        body: form_data
+      }).then(()=>{
+        
       let form = document.createElement('form')
 
-      // let tramo = document.createElement('input')
-      // tramo.value = document.getElementById('tramo_reserva').value
-      // tramo.name = 'tramo_reserva'
+// let tramo = document.createElement('input')
+// tramo.value = document.getElementById('tramo_reserva').value
+// tramo.name = 'tramo_reserva'
 
-      let tipo_ingreso = document.createElement('input')
-      tipo_ingreso.value = document.getElementById('tipo_gasto').value
-      tipo_ingreso.name = 'tipo_gasto'
-      // let referencia = document.createElement('input')
-      // referencia.value = document.getElementById('referencia').value
-      // referencia.name="referencia"
-      let concepto = document.createElement('input')
-      concepto.value = document.getElementById('concepto').value
-      concepto.name = "concepto"
-      let monto = document.createElement('input')
-      monto.value = document.getElementById('monto').value
-      monto.name = "monto"
-      let fecha_gasto = document.createElement('input')
-      fecha_gasto.value = document.getElementById('fecha').value
-      fecha_gasto.name = "fecha_gasto"
+let tipo_ingreso = document.createElement('input')
+tipo_ingreso.value = document.getElementById('tipo_gasto').value
+tipo_ingreso.name = 'tipo_gasto'
+// let referencia = document.createElement('input')
+// referencia.value = document.getElementById('referencia').value
+// referencia.name="referencia"
+let concepto = document.createElement('input')
+concepto.value = document.getElementById('concepto').value
+concepto.name = "concepto"
+let monto = document.createElement('input')
+monto.value = document.getElementById('monto').value
+monto.name = "monto"
+let fecha_gasto = document.createElement('input')
+fecha_gasto.value = document.getElementById('fecha').value
+fecha_gasto.name = "fecha_gasto"
 
-      let cambio = document.createElement('input')
-      cambio.value = document.getElementById('cambio').value
-      cambio.name = "cambio"
-      let fecha_cambio = document.createElement('input')
-      fecha_cambio.value = document.getElementById('fecha_cambio').value
-      fecha_cambio.name = "fecha_cambio"
+let cambio = document.createElement('input')
+cambio.value = document.getElementById('cambio').value
+cambio.name = "cambio"
+let fecha_cambio = document.createElement('input')
+fecha_cambio.value = document.getElementById('fecha_cambio').value
+fecha_cambio.name = "fecha_cambio"
+let file = document.createElement('input')
+file.value = input_file.files[0].name
+file.name = "file"
+console.log("cree el archivo con: "+input_file.files[0].name)
+let button1 = document.createElement('button')
+button1.name = 'guardar_gasto'
 
-      let button1 = document.createElement('button')
-      button1.name = 'guardar_gasto'
+// form.appendChild(tramo)
 
-      // form.appendChild(tramo)
+form.appendChild(tipo_ingreso)
+// form.appendChild(referencia)
+form.appendChild(concepto)
+form.appendChild(monto)
+form.appendChild(fecha_gasto)
 
-      form.appendChild(tipo_ingreso)
-      // form.appendChild(referencia)
-      form.appendChild(concepto)
-      form.appendChild(monto)
-      form.appendChild(fecha_gasto)
+form.appendChild(cambio)
+form.appendChild(fecha_cambio)
+form.appendChild(file)
+form.appendChild(button1)
 
-      form.appendChild(cambio)
-      form.appendChild(fecha_cambio)
+document.body.appendChild(form)
+form.action = 'contabilidadgastos.php'
+form.method = 'post'
+// form.submit()
+button1.click()
+      }).catch(console.error);
 
-      form.appendChild(button1)
 
-      document.body.appendChild(form)
-      form.action = 'contabilidadgastos.php'
-      form.method = 'post'
-      // form.submit()
-      button1.click()
     }
 
     function loginuserhellolist() {

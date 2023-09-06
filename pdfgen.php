@@ -52,7 +52,7 @@
 
         $subtotal = $subtotal == "" ? 0 : $subtotal;
         $addons = $addons == "" ? 0 : $addons;
-        $tax = $tax == "" ? 0 : $tax;
+        $tax = $tax == "" ? 0 : explode("%", $tax)[0];
         $amount = $amount == "" ? 0 : $amount;
         if(isset($_POST['idpdf'])){
             $idquote = $_POST['idpdf'];

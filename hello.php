@@ -338,13 +338,13 @@
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Adicionales:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" value="<?php echo isset($edit)? $rowedit['addons']:"" ?>" placeholder="Adicionales" name="addons" id="addons" onchange="editTotal()">
+                  <input class="form-control" value="<?php echo isset($edit)? $rowedit['addons']:"" ?>" placeholder="Adicionales" name="addons" id="addons" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" value="<?php echo isset($edit)? $rowedit['tax']:"" ?>" placeholder="Impuesto(%)" name="tax" id="tax" onchange="editTotal()">
+                  <input required class="form-control" value="<?php echo isset($edit)? $rowedit['tax']:"" ?>" placeholder="Impuesto (%)" name="tax" id="tax" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
@@ -637,6 +637,8 @@
       let addons_value = document.getElementById('addons').value == "" ? 0 : parseFloat(document.getElementById('addons').value);
       let tax_value = document.getElementById('tax').value == "" ? 0 : parseFloat(document.getElementById('tax').value);
 
+      document.getElementById('tax').value = document.getElementById('tax').value == "" ? 0 + "%" : parseFloat(document.getElementById('tax').value) + "%";
+
       let total_without_tax = subtotal_value + addons_value;
 
       let new_value = total_without_tax + (total_without_tax * (tax_value/100));
@@ -747,7 +749,7 @@
       let ori = elemento_origen.value;
       let des = elemento_destino.value;
 
-      let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + cruise_speed
+      let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + (cruise_speed*0.539956803)
       const _0x5dcf22 = _0x4685;
       (function(_0x2fba52, _0xa9040d) {
         const _0x47ba0d = _0x4685,
@@ -804,8 +806,9 @@
 
         let flight_time_min = json_data["totals"]["flight_time_min"];
         let hora = Math.round(((flight_time_min/60) + Number.EPSILON) * 100) / 100;
-        let hora_minutos =  Math.round(hora) + ((hora - Math.round(hora))*0.6);
+        let hora_minutos =  Math.round(hora) + ((hora - parseInt(hora))*0.6);
         document.getElementById("h_vuelo" + tramo).value = Math.round((hora_minutos + Number.EPSILON) * 100) / 100;
+        //document.getElementById("h_vuelo" + tramo).setAttribute("value", Math.round((hora_minutos + Number.EPSILON) * 100) / 100);
         flight_time_min = flight_time_min > 60 ? flight_time_min : 60;
 
         if (false) {

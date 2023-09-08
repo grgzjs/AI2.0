@@ -100,6 +100,7 @@ include("conexion.php");
       <?php //Funcionalidades
       $target_dir = "assets/img/company_uploads/";
       if (isset($_POST['save'])) {
+        $something_was_uploaded = false;
         $nombre       = mysqli_real_escape_string($con, (strip_tags($_POST["nombre"], ENT_QUOTES)));
         $email        = mysqli_real_escape_string($con, (strip_tags($_POST["email"], ENT_QUOTES)));
 
@@ -114,27 +115,35 @@ include("conexion.php");
         // return;
         if ($rows == 0) {
           mysqli_query($con, "INSERT INTO `company` (`company_id`, `name`, `email`, `account`, `aba`, `swift`, `bank_name`, `bank_address`) VALUES ('1', '$nombre', '$email', '$account', '$aba', '$swift', '$bank_name', '$bank_address');");
+          $something_was_uploaded = true;
         } else {
           if ($nombre) {
             mysqli_query($con, "UPDATE `company` SET `name` = '$nombre' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
           }
           if ($email) {
             mysqli_query($con, "UPDATE `company` SET `email` = '$email' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
           }
           if ($account) {
             mysqli_query($con, "UPDATE `company` SET `account` = '$account' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
           }
           if ($aba) {
             mysqli_query($con, "UPDATE `company` SET `aba` = '$aba' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
           }
           if ($swift) {
             mysqli_query($con, "UPDATE `company` SET `swift` = '$swift' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
           }
           if ($bank_name) {
             mysqli_query($con, "UPDATE `company` SET `bank_name` = '$bank_name' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
           }
           if ($bank_address) {
             mysqli_query($con, "UPDATE `company` SET `bank_address` = '$bank_address' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
           }
         }
 
@@ -179,6 +188,7 @@ include("conexion.php");
           } else {
             if (move_uploaded_file($_FILES["imagen"]["tmp_name"][0], $target_file)) {
               mysqli_query($con, "UPDATE `company` SET `logo_dir` = '$target_file' WHERE `company`.`company_id` = 1;");
+              $something_was_uploaded = true;
               // echo "The file ". htmlspecialchars( basename( $_FILES["imagen"]["name"])). " has been uploaded.";
               echo "<script>console.log('The file " . htmlspecialchars(basename($_FILES["imagen"]["name"])) . " has been uploaded.')</script>";
             } else {
@@ -186,20 +196,21 @@ include("conexion.php");
               echo "<script>console.log('Sorry, there was an error uploading your file.')</script>";
             }
           }
-          
+
           // return;
         }
+        if ($something_was_uploaded) {
       ?>
-      <script>
-        setTimeout(() => {
-          window.location.href = "company_setup.php?success";
-        }, 100);
-      </script>  
+          <script>
+            setTimeout(() => {
+              window.location.href = "company_setup.php?success";
+            }, 100);
+          </script>
       <?php
+        }
       }
       ?>
-
-
+      
       <!-- <div class="main-content container"> -->
       <div class="row">
         <div class="col-md-12">
@@ -210,13 +221,13 @@ include("conexion.php");
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Nombre</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" required type="text" value="" placeholder="Nombre" name="nombre">
+                    <input class="form-control" type="text" value="" placeholder="Nombre" name="nombre">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Email</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" required type="text" value="" placeholder="Email" name="email">
+                    <input class="form-control" type="text" value="" placeholder="Email" name="email">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -224,8 +235,7 @@ include("conexion.php");
                   <div class="col-12 col-sm-8 col-lg-6">
                     <!--<input type="file" class="" value="" name="imagen">-->
                     <div class="custom-file">
-                      <input type="file" required class="custom-file-input" value="<?php //echo $rowaircraft['imagen']; 
-                                                                          ?>" name="imagen[]" id="imagen">
+                      <input type="file" class="custom-file-input" value="" name="imagen[]" id="imagen">
                       <label class="custom-file-label" for="imagen">Seleccionar Archivo</label>
                     </div>
                   </div>
@@ -279,7 +289,7 @@ include("conexion.php");
             <div class="col-lg-12">
               <p class="text-right">
                 <button class="btn btn-space btn-primary" name="save" type="submit">Procesar</button>
-                <button class="btn btn-space btn-secondary">Cancelar</button>
+                <!-- <button class="btn btn-space btn-secondary">Cancelar</button> -->
               </p>
             </div>
           </div>
@@ -307,10 +317,11 @@ include("conexion.php");
       App.formElements();
     });
   </script>
-  
-  <script> //POPUP SCRIPT
-    
-    function success(){
+
+  <script>
+    //POPUP SCRIPT
+
+    function success() {
       let popup = document.getElementById("error-popup");
       let popup_text = document.getElementById("popup-text");
 

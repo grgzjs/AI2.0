@@ -16,6 +16,7 @@ window.onload = () => {
 		"contabilidadingresos.php",
 		"contabilidadinvoicec.php",
 		"company_setup.php",
+		"airport_setup.php",
 	];
 	var valid_for_seller = [
 		"dashboard.php",
@@ -43,6 +44,7 @@ window.onload = () => {
 		"dashboard.php",
 		"menuprofile.php",
 		"aircraft_setup.php",
+		
 	];
 
 	async function auto_redirect() {

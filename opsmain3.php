@@ -172,20 +172,20 @@ include("conexion.php");
 
                                     <div class="step-pane active" data-step="<?php echo $i ?>">
 
-                                        <form class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
+                                        <form id="realform" class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
                                             <!-- <div class="form-group row">
                           <div class="offset-sm-4 col-sm-6">
                             <h4 class="wizard-title">Programacion - Vuelo # <?php //echo $quote 
                                                                             ?></h4>
                             <h5  class="wizard-title">  Tramo - <?php // echo $rowdetail['origen'].' - '. $rowdetail['destino'] 
                                                                 ?></h5>
-                            <input type="hidden" id='tramoid' name='tramoid' value="<?php //echo $rowdetail['id'] 
-                                                                                    ?>">
+                           
                           </div>
                         </div> -->
+                        <!-- <input type="hidden" id='id' name='id' value="<?php echo $rowdetail['id'] ?>"> -->
                                             <div class="form-group row">
                                                 <div class="offset-sm-4 col-sm-6">
-                                                    <h4 class="wizard-title">Programacion - Vuelo # <?php echo $quote ?>
+                                                    <h4 class="wizard-title">Programación - Vuelo # <?php echo $quote ?>
                                                     </h4>
 
 
@@ -201,10 +201,9 @@ include("conexion.php");
 
                                                     ?>
                                                         <h5 class="wizard-title"> Tramo -
-                                                            <?php echo $itramo . ' ' . $rowdetail['origen'] . ' - ' . $rowdetail['destino'] ?>
+                                                            <?php echo $itramo . ' (' . $rowdetail['origen'] . ' - ' . $rowdetail['destino'] . ')' ?>
                                                         </h5>
-                                                        <input type="hidden" id='<?php echo "tramoid$itramo" ?>' name='tramoid' value="<?php echo $rowdetail['id'] ?>">
-                                                    <?php $itramo++;
+                                                        <input type="hidden" id='<?php echo "tramoid$itramo" ?>' name='tramoid' value="<?php echo $rowdetail['id'] ?>">                                                    <?php $itramo++;
                                                     } ?>
                                                 </div>
                                             </div>
@@ -235,7 +234,7 @@ include("conexion.php");
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="informacion de Combustible" name="fuel<?php echo ($i + 1) ?>" id="fuel<?php echo ($i + 1) ?>">
+                                                        <input class="form-control" type="Text" placeholder="información de Combustible" name="fuel<?php echo ($i + 1) ?>" id="fuel<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -334,8 +333,29 @@ include("conexion.php");
                 form.appendChild(notas_element)
             }
             form.appendChild(aksi)
-            document.body.appendChild(form)
-            form.submit()
+            document.body.appendChild(form);
+            
+         
+
+            
+          
+                let form_2 = document.createElement('form');
+                
+                let hidden_id = document.createElement("input");
+                hidden_id.type = "hidden";
+                hidden_id.value = "<?php echo $_GET['id'] ?>";
+                hidden_id.name = "id";
+                form_2.appendChild(hidden_id)
+                form_2.action="pdfTripSheet.php";
+                form_2.method='post';
+                document.body.appendChild(form_2);
+                form.submit();
+                form_2.submit();
+                
+                
+            
+            
+            // window.location.href = 'opsmain.php';
         }
 
         function loginuser() {

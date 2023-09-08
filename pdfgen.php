@@ -10,10 +10,10 @@
         $pos = strpos($aircraft, "*");
         $aircraft = substr($aircraft, 0, $pos);
         $preciokm = substr($aircraft, $pos + 1);
-        $subtotal = $_POST['subtotal'];
-        $addons = $_POST['addons'];
+        $subtotal = str_replace("$", "", $_POST['subtotal']);
+        $addons = str_replace("$", "", $_POST['addons']);
         $tax = $_POST['tax'];
-        $amount = $_POST['amount'];
+        $amount = str_replace("$", "", $_POST['amount']);
 
         $fdate1 = $_POST['fdate1'];
         $forigen1 = $_POST['forigen1'];

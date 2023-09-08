@@ -89,6 +89,8 @@
           <div class="card card-default">
             <div class="card-header card-header-divider">Info de Cotizacion<span class="card-subtitle">Ingresa detalles del comprador</span></div>
             <!-- <div class="card-body pl-sm-5"> -->
+              <br />
+              <br />
             <form id="quote-form" action="pdfgen.php" method="post" >
               <!-- </div> -->
               <div class="form-group row">
@@ -270,7 +272,7 @@
                       <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="date" placeholder="fecha" name="fdate1" id="fdate<?php echo $i;?>">
                     </div>
                     <div class="col-12 col-sm-8 col-lg-2">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="origen" name="forigen1" id="forigen<?php echo $i;?>" onkeyup="get_airports(this)" onchange="origen_changed(this)">
+                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="Origen" name="forigen1" id="forigen<?php echo $i;?>" onkeyup="get_airports(this)" onchange="origen_changed(this)">
                       <!-- <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button> -->
                       <div class="dropdown-menu dropdown-menu-left" role="menu" id="origen-dropdown1" style="max-height:19em; overflow: auto;">
                       </div>
@@ -279,7 +281,7 @@
                       </select> -->
                     </div>
                     <div class="col-12 col-sm-8 col-lg-2">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="destino" name="fdestino1" id="fdestino<?php echo $i;?>" onkeyup="get_airports(this)" onchange="destino_changed(this)">
+                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="Destino" name="fdestino1" id="fdestino<?php echo $i;?>" onkeyup="get_airports(this)" onchange="destino_changed(this)">
                       <div class="dropdown-menu dropdown-menu-left" role="menu" id="destino-dropdown1" style="max-height:19em; overflow: auto;">
                       </div>
                       <!-- <select class="form-control custom-select" name="fdestino1" id="fdestino1" onchange="destino_changed(this)">
@@ -287,7 +289,7 @@
                       </select> -->
                     </div>
                     <div class="col-12 col-sm-8 col-lg-1">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" placeholder="pax" name="fpax1" id="fpax<?php echo $i;?>">
+                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" placeholder="Pax" name="fpax1" id="fpax<?php echo $i;?>">
                     </div>
                     <!-- <div class="col-12 col-sm-8 col-lg-1"> -->
                       <input class="form-control" type="hidden" placeholder="" name="nm_vuelo1" id="nm_vuelo<?php echo $i;?>" onchange="//editSubtotal(this.value)" readonly>
@@ -344,7 +346,7 @@
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" value="<?php echo isset($edit)? $rowedit['tax']:"" ?>" placeholder="Impuesto (%)" name="tax" id="tax" onchange="editTotal()">
+                  <input required class="form-control" type="text" value="<?php echo isset($edit)? $rowedit['tax']:"" ?>" placeholder="Impuesto (%)" name="tax" id="tax" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
@@ -442,7 +444,7 @@
       origen_input.setAttribute('required','')
       origen_input.name = 'forigen' + tramo
       origen_input.id = 'forigen' + tramo
-      origen_input.placeholder = 'origen'
+      origen_input.placeholder = 'Origen'
       origen_input.value = document.getElementById('fdestino' + (tramo - 1)).value
       origen_input.setAttribute("data-toggle","dropdown")
       // origen_select.onchange = origen_changed(this)
@@ -474,7 +476,7 @@
       destino_input.setAttribute('required','')
       destino_input.name = 'fdestino' + tramo
       destino_input.id = 'fdestino' + tramo
-      destino_input.placeholder = 'destino'
+      destino_input.placeholder = 'Destino'
       destino_input.setAttribute("data-toggle","dropdown")
       destino_input.addEventListener('change', function() {
         destino_changed(this)
@@ -498,7 +500,7 @@
       pax_input.classList.add('form-control')
       pax_input.setAttribute('required','')
       pax_input.type = 'text'
-      pax_input.placeholder = 'pax'
+      pax_input.placeholder = 'Pax'
       pax_input.name = 'fpax' + tramo
 
       // let km_div = document.createElement('div')
@@ -633,19 +635,32 @@
     }
 
     function editTotal() {
+      //////////////////////////////////////////////////////////////////////////////
       let subtotal_value = parseFloat(document.getElementById('subtotal').value);
       let addons_value = document.getElementById('addons').value == "" ? 0 : parseFloat(document.getElementById('addons').value);
       let tax_value = document.getElementById('tax').value == "" ? 0 : parseFloat(document.getElementById('tax').value);
 
       document.getElementById('tax').value = document.getElementById('tax').value == "" ? 0 + "%" : parseFloat(document.getElementById('tax').value) + "%";
+      document.getElementById('addons').value = document.getElementById('addons').value == "" ?0 + "$" : parseFloat(document.getElementById('addons').value) + "$";
+      document.getElementById('subtotal').value = document.getElementById('subtotal').value == "" ?0 + "$" : parseFloat(document.getElementById('subtotal').value) + "$";
+
+
+      console.log("el valor de addon: " + document.getElementById('addons').value)
+      console.log("el valor modificado de addon: " + addons_value)
+
+      console.log("el valor de addon: " + document.getElementById('subtotal').value)
+      console.log("el valor modificado de addon: " + subtotal_value)
+
+      ///////////////////////////////////////////////////////////////////////////////////////
 
       let total_without_tax = subtotal_value + addons_value;
+
 
       let new_value = total_without_tax + (total_without_tax * (tax_value/100));
       new_value = Math.round((new_value + Number.EPSILON) * 100) / 100;
 
-      document.getElementById('amount').setAttribute('value', parseFloat(new_value));
-      document.getElementById('amount').value = parseFloat(new_value);
+      document.getElementById('amount').setAttribute('value',new_value);
+      document.getElementById('amount').value =  new_value + "$";
     }
 
     function borrar(id_invoice) {

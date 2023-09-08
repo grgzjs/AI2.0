@@ -590,6 +590,7 @@ include("conexion.php");
             type: "GET", // type of the HTTP request
             success: function(data) {
               cargarDatosTabla();
+              document.getElementById("task-text").value="";
             }
           });
         }
@@ -627,7 +628,7 @@ include("conexion.php");
               method: "GET",
               success: function(data) {
                 console.log(data)
-                console.log("actualizado con exito");
+                deleteTask(id);
               }
           });
         }

@@ -47,6 +47,26 @@
         }
         $invoice_detail_table = mysqli_query($con,"SELECT * FROM `invoice_detail` WHERE `invoice_detail`.`id_invoice`='$invoice_id'");
     }
+
+    if(isset($_GET['id'])){
+        $invoice_id = $_GET['id'];
+        $invoice_table = mysqli_query($con,"SELECT * FROM `invoices` WHERE `invoices`.`quote`=$invoice_id");
+        $invoice_row = mysqli_fetch_assoc($invoice_table);
+        $company_table = mysqli_query($con,"SELECT * FROM `company`");
+        $company_row = mysqli_fetch_assoc($company_table);
+        $contact_id = $invoice_row['buyer_id'];
+        $contact_table = mysqli_query($con,"SELECT * FROM `Contact` WHERE `Contact`.`id`= $contact_id");
+        $contact_row = mysqli_fetch_assoc($contact_table);
+        $aircraft_matricula = $invoice_row['aircraft'];
+        $aircraft_table = mysqli_query($con,"SELECT * FROM `Aircraft` WHERE `Aircraft`.`matricula`='$aircraft_matricula'");
+        $aircraft_row = mysqli_fetch_assoc($aircraft_table);
+        $aircraft_img_table = mysqli_query($con,"SELECT * FROM `aircraft_img` WHERE `aircraft_img`.`matricula`='$aircraft_matricula'"); 
+        $aircraft_img_dir = array();
+        while ($aircraft_img_row = mysqli_fetch_assoc($aircraft_img_table)) {
+            array_push($aircraft_img_dir, $aircraft_img_row['img_dir']);
+        }
+        $invoice_detail_table = mysqli_query($con,"SELECT * FROM `invoice_detail` WHERE `invoice_detail`.`id_invoice`='$invoice_id'");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -415,7 +435,7 @@
             }).then(function () {
                 pdf.save("TripSheet.pdf");
                 //setTimeout(() => {console.log("SAVE");}, 1000);
-                //location.href = "hellolist.php";
+                location.href = "opsmain.php";
             });
         });
     }

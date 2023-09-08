@@ -150,14 +150,16 @@ include("conexion.php");
                             <div class="btn-group btn-hspace">
                               <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button>
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programacion</a>
+                                <a class="dropdown-item" href='pdfTripSheet.php?id=<?php echo $row['quote'] ?>' title="Trip Sheet">Trip Sheet</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programación</a>
                                 <div hidden class="dropdown-divider"></div>
                                 <!-- <a class="dropdown-item" href='reserva.php?id=<?php //echo $row['quote'] ?>' title="View">Costos</a>
                                 <div class="dropdown-divider"></div> -->
                                 <a hidden class="dropdown-item" href='paxreport.php?id=<?php echo $row['quote'] ?>' title="View">Detalles</a>
                                 <div class="dropdown-divider"></div>
                                 <!-- <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Tripsheet</a> -->
-                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Quote</a>
+                                <a class="dropdown-item" target='_blank' href='pdfgen.php?id=<?php echo $row['quote'] ?>' title="View">Cotización</a>
                                 <div class="dropdown-divider"></div>
                                 <?php
                                 $quote = $row["quote"];

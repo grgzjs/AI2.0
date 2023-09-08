@@ -1,3 +1,17 @@
+.roboto-small{
+    font-family: 'Roboto', sans-serif !important;
+    font-size: small !important;
+}
+
+.jostFont{
+    font-family: 'Jost', sans-serif;
+}
+
+.archivo-larger{
+    font-family: 'Archivo', sans-serif; 
+    font-size: larger;
+}
+
 .container-bg {
     background: #22223a;
 }

@@ -298,8 +298,16 @@ include("conexion.php");
             e.preventDefault();
 
             let form = document.createElement('form');
-            form.action = 'opsmain3.php?id=<?php echo $quote ?>';
+            form.action = 'pdfTripSheet.php?id=<?php echo $_GET['id'] ?>';
             form.method = 'post';
+
+            /////////////////////////////////////////////////////
+            let hidden_id = document.createElement("input");
+            hidden_id.type = "hidden";
+            hidden_id.value = "<?php echo $_GET['id'] ?>";
+            hidden_id.name = "id";
+            form.appendChild(hidden_id)
+            /////////////////////////////////////////////////////
 
             let aksi = document.createElement('input')
             aksi.name = 'aksi';
@@ -334,27 +342,7 @@ include("conexion.php");
             }
             form.appendChild(aksi)
             document.body.appendChild(form);
-            
-         
-
-            
-          
-                let form_2 = document.createElement('form');
-                
-                let hidden_id = document.createElement("input");
-                hidden_id.type = "hidden";
-                hidden_id.value = "<?php echo $_GET['id'] ?>";
-                hidden_id.name = "id";
-                form_2.appendChild(hidden_id)
-                form_2.action="pdfTripSheet.php";
-                form_2.method='post';
-                document.body.appendChild(form_2);
-                form.submit();
-                form_2.submit();
-                
-                
-            
-            
+            form.submit();
             // window.location.href = 'opsmain.php';
         }
 

@@ -375,7 +375,7 @@
                                                                 foreach ($tramoids as $tramo) {
                                                                     if (in_array($tramo, $pilot_tramos)) {
                                                                 ?>
-                                                                <td class="table-1"><button class="form-control btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                <td class="table-1"><button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
                                                                             <!-- <span class="s7-trash"></span> -->
                                                                             <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon">
                                                                         </button></td>
@@ -384,7 +384,7 @@
                                                                     <?php
                                                                     } else {
                                                                     ?>
-                                                                    <td class="table-1"><button class="form-control btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <td class="table-1"><button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
                                                                             <!-- <span class="s7-trash"></span> -->
                                                                             <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon ai-hide-checkmark">
                                                                         </button></td>

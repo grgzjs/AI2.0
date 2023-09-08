@@ -37,7 +37,7 @@ include("conexion.php");
 
         <!--COMIENZO REGISTRACION PRINCIPAL-->
 
-        <head>
+        <!-- <head>
 
             <link rel="stylesheet" type="text/css" href="assets/lib/stroke-7/style.css" />
             <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css" />
@@ -45,7 +45,7 @@ include("conexion.php");
             <link rel="stylesheet" type="text/css" href="assets/lib/select2/css/select2.min.css" />
             <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap-slider/css/bootstrap-slider.min.css" />
             <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
-        </head>
+        </head> -->
 
         <body>
 
@@ -172,24 +172,10 @@ include("conexion.php");
 
                                     <div class="step-pane active" data-step="<?php echo $i ?>">
 
-                                        <form id="realform" class="form-horizontal group-border-dashed" action="opsmain2.php" method="post" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="">
-                                            <!-- <div class="form-group row">
-                          <div class="offset-sm-4 col-sm-6">
-                            <h4 class="wizard-title">Programacion - Vuelo # <?php //echo $quote 
-                                                                            ?></h4>
-                            <h5  class="wizard-title">  Tramo - <?php // echo $rowdetail['origen'].' - '. $rowdetail['destino'] 
-                                                                ?></h5>
-                           
-                          </div>
-                        </div> -->
-                        <!-- <input type="hidden" id='id' name='id' value="<?php echo $rowdetail['id'] ?>"> -->
+                                        <form action="pdfTripSheet.php" method="post" class="form-horizontal group-border-dashed"> <!-- data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate="" -->
                                             <div class="form-group row">
                                                 <div class="offset-sm-4 col-sm-6">
-                                                    <h4 class="wizard-title">Programación - Vuelo # <?php echo $quote ?>
-                                                    </h4>
-
-
-
+                                                    <h4 class="wizard-title">Programación - Vuelo # <?php echo $quote ?></h4>
                                                     <?php
                                                     $itramo = 1;
                                                     $tramoids = [];
@@ -203,8 +189,8 @@ include("conexion.php");
                                                         <h5 class="wizard-title"> Tramo -
                                                             <?php echo $itramo . ' (' . $rowdetail['origen'] . ' - ' . $rowdetail['destino'] . ')' ?>
                                                         </h5>
-                                                        <input type="hidden" id='<?php echo "tramoid$itramo" ?>' name='tramoid' value="<?php echo $rowdetail['id'] ?>">                                                    <?php $itramo++;
-                                                    } ?>
+                                                        <input type="hidden" id='<?php echo "tramoid$itramo" ?>' name='tramoid' value="<?php echo $rowdetail['id'] ?>"> <?php $itramo++;
+                                                                                                                                                                    } ?>
                                                 </div>
                                             </div>
 
@@ -228,26 +214,26 @@ include("conexion.php");
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">FBO</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo<?php echo ($i + 1) ?>" id="fbo<?php echo ($i + 1) ?>">
+                                                        <input required class="form-control" type="Text" placeholder="Ingrese el FBO" name="fbo<?php echo ($i + 1) ?>" id="fbo<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fuel</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="información de Combustible" name="fuel<?php echo ($i + 1) ?>" id="fuel<?php echo ($i + 1) ?>">
+                                                        <input required class="form-control" type="Text" placeholder="información de Combustible" name="fuel<?php echo ($i + 1) ?>" id="fuel<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Catering</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering<?php echo ($i + 1) ?>" id="catering<?php echo ($i + 1) ?>">
+                                                        <input required class="form-control" type="Text" placeholder="Ingrese el Comisariato " name="catering<?php echo ($i + 1) ?>" id="catering<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Notas
                                                         Especiales</label>
                                                     <div class="col-12 col-sm-8 col-lg-6">
-                                                        <input class="form-control" type="Text" placeholder="Ingrese Notas " name="notas<?php echo ($i + 1) ?>" id="notas<?php echo ($i + 1) ?>">
+                                                        <input required class="form-control" type="Text" placeholder="Ingrese Notas " name="notas<?php echo ($i + 1) ?>" id="notas<?php echo ($i + 1) ?>">
                                                     </div>
                                                 </div>
 
@@ -257,7 +243,9 @@ include("conexion.php");
 
                                             <div class="form-group row pt-3" style="display:flex;justify-content:center">
                                                 <div>
+                                                    <!-- <input type="hidden" value="<?php //echo $quote; ?>" name="id"> -->
                                                     <button class="btn btn-primary btn-space wizard-next" value="save" onclick="javascript:guardardetalle(event)">Guardar Detalles</button>
+                                                    <!-- <input class="btn btn-primary btn-space wizard-next" name="aksi" value="Guardar Detalles" type="submit"></input> -->
                                                     <!-- <button class="btn btn-primary btn-space wizard-next" value="save" onclick="javascript:seepdf(event)">Ver Detalles</button> -->
                                                 </div>
                                             </div>
@@ -298,20 +286,18 @@ include("conexion.php");
             e.preventDefault();
 
             let form = document.createElement('form');
-            form.action = 'pdfTripSheet.php?id=<?php echo $_GET['id'] ?>';
+            form.action = 'pdfTripSheet.php';
             form.method = 'post';
-
-            /////////////////////////////////////////////////////
-            let hidden_id = document.createElement("input");
-            hidden_id.type = "hidden";
-            hidden_id.value = "<?php echo $_GET['id'] ?>";
-            hidden_id.name = "id";
-            form.appendChild(hidden_id)
-            /////////////////////////////////////////////////////
 
             let aksi = document.createElement('input')
             aksi.name = 'aksi';
             aksi.value = 'guardardetalle';
+            form.appendChild(aksi)
+
+            let hidden_id = document.createElement("input");
+            hidden_id.value = "<?php echo $quote ?>";
+            hidden_id.name = "id";
+            form.appendChild(hidden_id);
 
             let tramo_amount = <?php echo count($tramoids) ?>;
 
@@ -340,307 +326,307 @@ include("conexion.php");
                 // notas_list.push(notas_element);
                 form.appendChild(notas_element)
             }
-            form.appendChild(aksi)
+
             document.body.appendChild(form);
             form.submit();
             // window.location.href = 'opsmain.php';
         }
 
-        function loginuser() {
-            let form = document.createElement('form')
-            form.action = 'hello.php'
-            form.method = 'post'
-            let username = document.createElement('input')
-            let password = document.createElement('input')
-            let aksi = document.createElement('input')
-            let nik = document.createElement('input')
-            let edit = document.createElement('input')
-            let amount = document.createElement('input')
-            let date = document.createElement('input')
-            username.value = 'test1'
-            username.type = 'hidden'
-            username.name = 'username'
-            password.value = 'test1'
-            password.type = 'hidden'
-            password.name = 'password'
-            aksi.name = 'aksi'
-            aksi.type = 'hidden'
-            aksi.value = 'login'
-            nik.name = 'nik'
-            nik.type = 'hidden'
-            edit.name = 'edit'
-            edit.type = 'hidden'
-            edit.value = 'yes'
-            amount.name = 'amount'
-            amount.type = 'hidden'
-            amount.value = '<?php echo $rowedit["amount"]; ?>'
-            date.name = 'date'
-            date.type = 'hidden'
-            date.value = '<?php echo $rowedit["date"]; ?>'
-            form.appendChild(aksi)
-            form.appendChild(username)
-            form.appendChild(password)
-            form.appendChild(nik)
-            form.appendChild(edit)
-            form.appendChild(amount)
-            form.appendChild(date)
-            document.body.appendChild(form)
-            form.submit()
-        }
+        // function loginuser() {
+        //     let form = document.createElement('form')
+        //     form.action = 'hello.php'
+        //     form.method = 'post'
+        //     let username = document.createElement('input')
+        //     let password = document.createElement('input')
+        //     let aksi = document.createElement('input')
+        //     let nik = document.createElement('input')
+        //     let edit = document.createElement('input')
+        //     let amount = document.createElement('input')
+        //     let date = document.createElement('input')
+        //     username.value = 'test1'
+        //     username.type = 'hidden'
+        //     username.name = 'username'
+        //     password.value = 'test1'
+        //     password.type = 'hidden'
+        //     password.name = 'password'
+        //     aksi.name = 'aksi'
+        //     aksi.type = 'hidden'
+        //     aksi.value = 'login'
+        //     nik.name = 'nik'
+        //     nik.type = 'hidden'
+        //     edit.name = 'edit'
+        //     edit.type = 'hidden'
+        //     edit.value = 'yes'
+        //     amount.name = 'amount'
+        //     amount.type = 'hidden'
+        //     amount.value = '<?php echo $rowedit["amount"]; ?>'
+        //     date.name = 'date'
+        //     date.type = 'hidden'
+        //     date.value = '<?php echo $rowedit["date"]; ?>'
+        //     form.appendChild(aksi)
+        //     form.appendChild(username)
+        //     form.appendChild(password)
+        //     form.appendChild(nik)
+        //     form.appendChild(edit)
+        //     form.appendChild(amount)
+        //     form.appendChild(date)
+        //     document.body.appendChild(form)
+        //     form.submit()
+        // }
 
-        function loginuserhellolist() {
-            let form = document.createElement('form')
-            form.action = 'hellolist.php'
-            form.method = 'post'
-            let username = document.createElement('input')
-            let password = document.createElement('input')
-            let aksi = document.createElement('input')
-            let nik = document.createElement('input')
-            let edit = document.createElement('input')
-            let amount = document.createElement('input')
-            let date = document.createElement('input')
-            username.value = 'test1'
-            username.type = 'hidden'
-            username.name = 'username'
-            password.value = 'test1'
-            password.type = 'hidden'
-            password.name = 'password'
-            aksi.name = 'aksi'
-            aksi.value = 'login'
-            aksi.type = 'hidden'
-            nik.name = 'nik'
-            nik.type = 'hidden'
-            edit.name = 'edit'
-            edit.type = 'hidden'
-            edit.value = 'yes'
-            amount.name = 'amount'
-            amount.type = 'hidden'
-            amount.value = '<?php echo $rowedit["amount"]; ?>'
-            date.name = 'date'
-            date.type = 'hidden'
-            date.value = '<?php echo $rowedit["date"]; ?>'
-            form.appendChild(aksi)
-            form.appendChild(username)
-            form.appendChild(password)
-            form.appendChild(nik)
-            form.appendChild(edit)
-            form.appendChild(amount)
-            form.appendChild(date)
-            document.body.appendChild(form)
-            form.submit()
-        }
-
-
-        function updatepilot() {
-            debugger
-            let pax = document.getElementById('tripulacion').value
-            let array = pax.split('*')
-            document.getElementsByName('idpilot')[numtramo - 1].value = array[0]
-            document.getElementsByName('paispilot')[numtramo - 1].value = array[1]
-            document.getElementsByName('paispilot')[numtramo - 1].classList.add('form-control')
-            document.getElementsByName('f_nacimientopilot')[numtramo - 1].value = array[2]
-            document.getElementsByName('f_nacimientopilot')[numtramo - 1].classList.add('form-control')
-            document.getElementsByName('dnipasspilot')[numtramo - 1].value = array[3]
-            document.getElementsByName('dnipasspilot')[numtramo - 1].classList.add('form-control')
-            document.getElementsByName('licenciapilot')[numtramo - 1].value = array[4]
-            document.getElementsByName('licenciapilot')[numtramo - 1].classList.add('form-control')
-
-        }
+        // function loginuserhellolist() {
+        //     let form = document.createElement('form')
+        //     form.action = 'hellolist.php'
+        //     form.method = 'post'
+        //     let username = document.createElement('input')
+        //     let password = document.createElement('input')
+        //     let aksi = document.createElement('input')
+        //     let nik = document.createElement('input')
+        //     let edit = document.createElement('input')
+        //     let amount = document.createElement('input')
+        //     let date = document.createElement('input')
+        //     username.value = 'test1'
+        //     username.type = 'hidden'
+        //     username.name = 'username'
+        //     password.value = 'test1'
+        //     password.type = 'hidden'
+        //     password.name = 'password'
+        //     aksi.name = 'aksi'
+        //     aksi.value = 'login'
+        //     aksi.type = 'hidden'
+        //     nik.name = 'nik'
+        //     nik.type = 'hidden'
+        //     edit.name = 'edit'
+        //     edit.type = 'hidden'
+        //     edit.value = 'yes'
+        //     amount.name = 'amount'
+        //     amount.type = 'hidden'
+        //     amount.value = '<?php //echo $rowedit["amount"]; ?>'
+        //     date.name = 'date'
+        //     date.type = 'hidden'
+        //     date.value = '<?php //echo $rowedit["date"]; ?>'
+        //     form.appendChild(aksi)
+        //     form.appendChild(username)
+        //     form.appendChild(password)
+        //     form.appendChild(nik)
+        //     form.appendChild(edit)
+        //     form.appendChild(amount)
+        //     form.appendChild(date)
+        //     document.body.appendChild(form)
+        //     form.submit()
+        // }
 
 
-        function addbutton2() {
-            debugger
-            let input0 = document.createElement('input')
-            input0.type = 'hidden'
-            input0.name = 'idpilot'
-            input0.value = document.getElementById('idpilot').value
-            let input1 = document.createElement('input')
-            input1.value = document.getElementById('tripulacion').value
-            input1.readOnly = 'readonly'
-            let input2 = document.createElement('input')
-            input2.value = document.getElementById('paispilot').value
-            input2.readOnly = 'readonly'
-            let input3 = document.createElement('input')
-            input3.value = document.getElementById('f_nacimientopilot').value
-            input3.readOnly = 'readonly'
-            let input4 = document.createElement('input')
-            input4.value = document.getElementById('dnipasspilot').value
-            input4.readOnly = 'readonly'
-            let input5 = docuxment.createElement('input')
-            input5.value = document.getElementById('licenciapilot').value
-            input5.readOnly = 'readonly'
-            let input6 = document.createElement('input')
-            input6.value = document.getElementById('funcion').value
-            input6.readOnly = 'readonly'
-            input6.name = 'funcionpilot'
-            let input7 = document.createElement('input')
-            input7.value = document.getElementById('tramoid').value
-            input7.name = 'tramoid'
-            input1.classList.add('form-control', 'col-3')
-            document.getElementById('divpilot').appendChild(input1)
-            input2.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input2)
-            input3.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input3)
-            input4.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input4)
-            input5.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input5)
-            input6.classList.add('form-control', 'col-1')
-            document.getElementById('divpilot').appendChild(input6)
-            document.getElementById('divpilot').appendChild(input0)
-            let e = document.getElementById('tripulacion')
-            let nombre = e.options[e.selectedIndex].text;
-            input1.value = nombre
-            document.getElementById('paispilot').value = ''
-            document.getElementById('dnipasspilot').value = ''
-            document.getElementById('licenciapilot').value = ''
-            document.getElementById('f_nacimientopilot').value = ''
+        // function updatepilot() {
+        //     debugger
+        //     let pax = document.getElementById('tripulacion').value
+        //     let array = pax.split('*')
+        //     document.getElementsByName('idpilot')[numtramo - 1].value = array[0]
+        //     document.getElementsByName('paispilot')[numtramo - 1].value = array[1]
+        //     document.getElementsByName('paispilot')[numtramo - 1].classList.add('form-control')
+        //     document.getElementsByName('f_nacimientopilot')[numtramo - 1].value = array[2]
+        //     document.getElementsByName('f_nacimientopilot')[numtramo - 1].classList.add('form-control')
+        //     document.getElementsByName('dnipasspilot')[numtramo - 1].value = array[3]
+        //     document.getElementsByName('dnipasspilot')[numtramo - 1].classList.add('form-control')
+        //     document.getElementsByName('licenciapilot')[numtramo - 1].value = array[4]
+        //     document.getElementsByName('licenciapilot')[numtramo - 1].classList.add('form-control')
+
+        // }
 
 
-            let inputtramo = document.getElementsByName('tramoid')[numtramo - 1]
-            let tramo = document.createElement('input')
-            tramo.type = "hidden"
-            tramo.name = "tramoid"
-            tramo.id = "tramoid"
-            tramo.value = inputtramo.value
+        // function addbutton2() {
+        //     debugger
+        //     let input0 = document.createElement('input')
+        //     input0.type = 'hidden'
+        //     input0.name = 'idpilot'
+        //     input0.value = document.getElementById('idpilot').value
+        //     let input1 = document.createElement('input')
+        //     input1.value = document.getElementById('tripulacion').value
+        //     input1.readOnly = 'readonly'
+        //     let input2 = document.createElement('input')
+        //     input2.value = document.getElementById('paispilot').value
+        //     input2.readOnly = 'readonly'
+        //     let input3 = document.createElement('input')
+        //     input3.value = document.getElementById('f_nacimientopilot').value
+        //     input3.readOnly = 'readonly'
+        //     let input4 = document.createElement('input')
+        //     input4.value = document.getElementById('dnipasspilot').value
+        //     input4.readOnly = 'readonly'
+        //     let input5 = docuxment.createElement('input')
+        //     input5.value = document.getElementById('licenciapilot').value
+        //     input5.readOnly = 'readonly'
+        //     let input6 = document.createElement('input')
+        //     input6.value = document.getElementById('funcion').value
+        //     input6.readOnly = 'readonly'
+        //     input6.name = 'funcionpilot'
+        //     let input7 = document.createElement('input')
+        //     input7.value = document.getElementById('tramoid').value
+        //     input7.name = 'tramoid'
+        //     input1.classList.add('form-control', 'col-3')
+        //     document.getElementById('divpilot').appendChild(input1)
+        //     input2.classList.add('form-control', 'col-2')
+        //     document.getElementById('divpilot').appendChild(input2)
+        //     input3.classList.add('form-control', 'col-2')
+        //     document.getElementById('divpilot').appendChild(input3)
+        //     input4.classList.add('form-control', 'col-2')
+        //     document.getElementById('divpilot').appendChild(input4)
+        //     input5.classList.add('form-control', 'col-2')
+        //     document.getElementById('divpilot').appendChild(input5)
+        //     input6.classList.add('form-control', 'col-1')
+        //     document.getElementById('divpilot').appendChild(input6)
+        //     document.getElementById('divpilot').appendChild(input0)
+        //     let e = document.getElementById('tripulacion')
+        //     let nombre = e.options[e.selectedIndex].text;
+        //     input1.value = nombre
+        //     document.getElementById('paispilot').value = ''
+        //     document.getElementById('dnipasspilot').value = ''
+        //     document.getElementById('licenciapilot').value = ''
+        //     document.getElementById('f_nacimientopilot').value = ''
 
-            let form = document.createElement('form')
-            form.appendChild(input0)
-            form.appendChild(input1)
-            form.appendChild(input2)
-            form.appendChild(input3)
-            form.appendChild(input4)
-            form.appendChild(input5)
-            form.appendChild(input6)
-            form.appendChild(input7)
-            form.appendChild(tramo)
-            let button1 = document.createElement('button')
-            form.appendChild(button1)
-            button1.name = 'guardar'
-            form.action = 'opsmain2.php?id=<?php echo $quote ?>'
-            form.method = 'post'
-            document.body.appendChild(form)
-            //form.submit()
-            button1.click()
-        }
 
+        //     let inputtramo = document.getElementsByName('tramoid')[numtramo - 1]
+        //     let tramo = document.createElement('input')
+        //     tramo.type = "hidden"
+        //     tramo.name = "tramoid"
+        //     tramo.id = "tramoid"
+        //     tramo.value = inputtramo.value
 
-
-
-        function updatepax() {
-            let pax = document.getElementById('cliente').value
-            let array = pax.split('*')
-            document.getElementById('pais').value = array[1]
-            document.getElementById('f_nacimiento').value = array[2]
-            document.getElementById('dnipass').value = array[3]
-            document.getElementById('idpax').value = array[0]
-
-
-        }
+        //     let form = document.createElement('form')
+        //     form.appendChild(input0)
+        //     form.appendChild(input1)
+        //     form.appendChild(input2)
+        //     form.appendChild(input3)
+        //     form.appendChild(input4)
+        //     form.appendChild(input5)
+        //     form.appendChild(input6)
+        //     form.appendChild(input7)
+        //     form.appendChild(tramo)
+        //     let button1 = document.createElement('button')
+        //     form.appendChild(button1)
+        //     button1.name = 'guardar'
+        //     form.action = 'opsmain2.php?id=<?php echo $quote ?>'
+        //     form.method = 'post'
+        //     document.body.appendChild(form)
+        //     //form.submit()
+        //     button1.click()
+        // }
 
 
 
-        function addbutton() {
-            let input0 = document.createElement('input')
-            input0.type = 'hidden'
-            input0.name = 'idpax'
-            input0.value = document.getElementById('idpax').value
 
-            let input1 = document.createElement('input')
-            input1.value = document.getElementById('cliente').value
-            input1.readOnly = 'readonly'
-            let input2 = document.createElement('input')
-            input2.value = document.getElementById('pais').value
-            input2.readOnly = 'readonly'
-            let input3 = document.createElement('input')
-            input3.value = document.getElementById('f_nacimiento').value
-            input3.readOnly = 'readonly'
-            let input4 = document.createElement('input')
-            input4.value = document.getElementById('dnipass').value
-            input4.readOnly = 'readonly'
-            input1.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input1)
-            input2.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input2)
-            input3.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input3)
-            input4.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input4)
-
-            let input7 = document.createElement('input')
-            input7.value = document.getElementById('tramoid').value
-            input7.name = 'tramoid'
+        // function updatepax() {
+        //     let pax = document.getElementById('cliente').value
+        //     let array = pax.split('*')
+        //     document.getElementById('pais').value = array[1]
+        //     document.getElementById('f_nacimiento').value = array[2]
+        //     document.getElementById('dnipass').value = array[3]
+        //     document.getElementById('idpax').value = array[0]
 
 
-            let e = document.getElementById('cliente')
-            let nombre = e.options[e.selectedIndex].text;
-            input1.value = nombre
-            document.getElementById('pais').value = ''
-            document.getElementById('f_nacimiento').value = ''
-            document.getElementById('dnipass').value = ''
-            let form = document.createElement('form')
-            form.appendChild(input0)
-            form.appendChild(input1)
-            form.appendChild(input2)
-            form.appendChild(input3)
-            form.appendChild(input4)
-            form.appendChild(input7)
-            let button1 = document.createElement('button')
-            form.appendChild(button1)
-            button1.name = 'guardarpax'
-            form.action = 'opsmain2.php?id=<?php echo $quote ?>'
-            form.method = 'post'
-            document.body.appendChild(form)
-            //form.submit()
-            button1.click()
+        // }
 
 
-        }
+
+        // function addbutton() {
+        //     let input0 = document.createElement('input')
+        //     input0.type = 'hidden'
+        //     input0.name = 'idpax'
+        //     input0.value = document.getElementById('idpax').value
+
+        //     let input1 = document.createElement('input')
+        //     input1.value = document.getElementById('cliente').value
+        //     input1.readOnly = 'readonly'
+        //     let input2 = document.createElement('input')
+        //     input2.value = document.getElementById('pais').value
+        //     input2.readOnly = 'readonly'
+        //     let input3 = document.createElement('input')
+        //     input3.value = document.getElementById('f_nacimiento').value
+        //     input3.readOnly = 'readonly'
+        //     let input4 = document.createElement('input')
+        //     input4.value = document.getElementById('dnipass').value
+        //     input4.readOnly = 'readonly'
+        //     input1.classList.add('form-control', 'col-3')
+        //     document.getElementById('divpax').appendChild(input1)
+        //     input2.classList.add('form-control', 'col-3')
+        //     document.getElementById('divpax').appendChild(input2)
+        //     input3.classList.add('form-control', 'col-3')
+        //     document.getElementById('divpax').appendChild(input3)
+        //     input4.classList.add('form-control', 'col-3')
+        //     document.getElementById('divpax').appendChild(input4)
+
+        //     let input7 = document.createElement('input')
+        //     input7.value = document.getElementById('tramoid').value
+        //     input7.name = 'tramoid'
 
 
-        function deletepax2(id, quote, event) {
-            event.preventDefault()
-            let form = document.createElement('form')
-            form.action = 'opsmain2.php?id=' + quote
-            form.method = 'POST'
-            let username = document.createElement('input')
-            let password = document.createElement('input')
-            let aksi = document.createElement('input')
-            let nik = document.createElement('input')
-            let quoteid = document.createElement('input')
-            username.value = 'test1'
-            username.name = 'username'
-            password.value = 'test1'
-            password.name = 'password'
-            aksi.name = 'aksi'
-            aksi.value = 'delete'
-            nik.name = 'nik'
-            nik.value = id
-            quoteid.name = 'quote'
-            quoteid.value = '<?php echo $quote ?>'
-            form.appendChild(aksi)
-            form.appendChild(username)
-            form.appendChild(password)
-            form.appendChild(nik)
-            document.body.appendChild(form)
-            form.submit()
+        //     let e = document.getElementById('cliente')
+        //     let nombre = e.options[e.selectedIndex].text;
+        //     input1.value = nombre
+        //     document.getElementById('pais').value = ''
+        //     document.getElementById('f_nacimiento').value = ''
+        //     document.getElementById('dnipass').value = ''
+        //     let form = document.createElement('form')
+        //     form.appendChild(input0)
+        //     form.appendChild(input1)
+        //     form.appendChild(input2)
+        //     form.appendChild(input3)
+        //     form.appendChild(input4)
+        //     form.appendChild(input7)
+        //     let button1 = document.createElement('button')
+        //     form.appendChild(button1)
+        //     button1.name = 'guardarpax'
+        //     form.action = 'opsmain2.php?id=<?php echo $quote ?>'
+        //     form.method = 'post'
+        //     document.body.appendChild(form)
+        //     //form.submit()
+        //     button1.click()
 
-        }
 
-        let numtramo = 1
+        // }
 
-        function tramosig(event) {
 
-            numtramo++
+        // function deletepax2(id, quote, event) {
+        //     event.preventDefault()
+        //     let form = document.createElement('form')
+        //     form.action = 'opsmain2.php?id=' + quote
+        //     form.method = 'POST'
+        //     let username = document.createElement('input')
+        //     let password = document.createElement('input')
+        //     let aksi = document.createElement('input')
+        //     let nik = document.createElement('input')
+        //     let quoteid = document.createElement('input')
+        //     username.value = 'test1'
+        //     username.name = 'username'
+        //     password.value = 'test1'
+        //     password.name = 'password'
+        //     aksi.name = 'aksi'
+        //     aksi.value = 'delete'
+        //     nik.name = 'nik'
+        //     nik.value = id
+        //     quoteid.name = 'quote'
+        //     quoteid.value = '<?php echo $quote ?>'
+        //     form.appendChild(aksi)
+        //     form.appendChild(username)
+        //     form.appendChild(password)
+        //     form.appendChild(nik)
+        //     document.body.appendChild(form)
+        //     form.submit()
 
-        }
+        // }
 
-        function tramoant(event) {
+        // let numtramo = 1
 
-            numtramo--
-            console.log('numtramo ' + numtramo);
-        }
+        // function tramosig(event) {
+
+        //     numtramo++
+
+        // }
+
+        // function tramoant(event) {
+
+        //     numtramo--
+        //     console.log('numtramo ' + numtramo);
+        // }
     </script>
 </body>
 

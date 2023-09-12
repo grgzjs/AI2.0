@@ -19,6 +19,59 @@ include("conexion.php");
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
 </head>
 
+<style>
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #f54c4c;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #c23636;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .popup-text {
+    padding-top: 15px;
+    padding-left: 20px;
+    font-size: 1.35em;
+  }
+</style>
+
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 <!-- <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
 <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
@@ -28,6 +81,12 @@ include("conexion.php");
 <script src="assets/js/login-check.js" type="text/javascript"></script>
 
 <body>
+  <div id="error-popup" class="modal">
+    <div class="modal-content">
+      <span id="pop-up-close" class="close">&times;</span>
+      <p id="popup-text" class="popup-text">Some text in the Modal..</p>
+    </div>
+  </div>
   <?php require_once("nav_header.html") ?>
   <div class="mai-wrapper">
     <?php require_once("nav_header2.html") ?>
@@ -67,6 +126,13 @@ include("conexion.php");
         $update = mysqli_query($con, $sql); //or die(mysqli_error());
 
 
+      ?>
+      <script>
+        //setTimeout(() => {
+        //  window.location.href = "crmregistro.php?success";
+        //}, 100);
+      </script>
+      <?php
       }
 
       if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
@@ -79,78 +145,81 @@ include("conexion.php");
         <div class="col-md-12">
           <div class="card card-default">
             <div class="card-header card-header-divider">Informacion de Contactos<span class="card-subtitle">Ingresa los detalles de Contacto</span></div>
-            <div class="card-body pl-sm-5">
-              <form action="crm.php" method="post">
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Contacto</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <select class="form-control custom-select" name="typeclient" onchange="showHideFields(this.value)">
-                      <option value="Cliente Final" <?php if ($row['typeclient'] == 'Cliente Final') {
-                                                      echo 'selected';
-                                                    } ?>>Cliente Final</option>
-                      <option value="Broker" <?php if ($row['typeclient'] == 'Broker') {
-                                                echo 'selected';
-                                              } ?>>Broker</option>
-                      <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
-                                                    echo 'selected';
-                                                  } ?>>Corporativo</option>
-                      <option value="Proveedor" <?php if ($row['typeclient'] == 'Proveedor') {
-                                                  echo 'selected';
-                                                } ?>>Proveedor</option>
-                      <option value="Empleados" <?php if ($row['typeclient'] == 'tripulacion') {
-                                                  echo 'selected';
-                                                } ?>>Tripulacion</option>
-                    </select>
-
-                  </div>
-                </div>
+              <div class="card-body pl-sm-5">
+                <form action="crm.php" method="post">
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Nombre</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['first_name']; ?>" placeholder="Nombre" name="first_name">
+                    <input required class="form-control" type="text" value="<?php echo $row['first_name']; ?>" placeholder="Nombre" name="first_name">
                     <input type="hidden" value="<?php echo $row['id']; ?>" name="id">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Apellido</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['last_name']; ?>" placeholder="Apellido" name="last_name">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Fecha de Nacimiento</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="date" value="<?php echo $row['f_nacimiento']; ?>" placeholder="F.de Nacimiento" name="f_nacimiento">
-                  </div>
-                </div>
-                <div class="form-group row" id="dnipass_div">
-                  <label class="col-12 col-sm-3 col-form-label text-sm-right">DNI/Pasaporte</label>
-                  <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['dnipass']; ?>" placeholder="DNI/Pasaporte" name="dnipass">
+                    <input required class="form-control" type="text" value="<?php echo $row['last_name']; ?>" placeholder="Apellido" name="last_name">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Telefono</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['phone_number']; ?>" placeholder="Telefono" name="phone_number">
+                    <input required class="form-control" type="text" value="<?php echo $row['phone_number']; ?>" placeholder="Telefono" name="phone_number">
                   </div>
                 </div>
                 <div class="form-group row" id="email_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Email</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['email']; ?>" placeholder="Email" name="email">
+                    <input required class="form-control" type="text" value="<?php echo $row['email']; ?>" placeholder="Email" name="email">
                   </div>
                 </div>
                 <div class="form-group row" id="address_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Direccion</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['address']; ?>" placeholder="Direccion" name="address">
+                    <input required class="form-control" type="text" value="<?php echo $row['address']; ?>" placeholder="Direccion" name="address">
                   </div>
                 </div>
+                <div class="form-group row">
+                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Contacto</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <select required class="form-control custom-select" name="typeclient" onchange="showHideFields(this.value)">
+                      <option value="Cliente Final" <?php if ($row['typeclient'] == 'Cliente Final') {
+                                                      echo 'selected';
+                                                    } ?>>Cliente Final</option>
+                      <option value="Broker" <?php if ($row['typeclient'] == 'Broker') {
+                                                echo 'selected';
+                                              } ?>>Broker</option>
+                      <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {                                                    echo 'selected';
+                                                } ?>>Corporativo</option>
+                      <option value="Proveedor" <?php if ($row['typeclient'] == 'Proveedor') {
+                                                    echo 'selected';
+                                                  } ?>>Proveedor</option>
+                      <option value="Empleados" <?php if ($row['typeclient'] == 'tripulacion') {
+                                                    echo 'selected';
+                                                  } ?>>Tripulacion</option>
+                    </select>
+                  </div>
+                </div>
+                
+                
+                <div class="form-group row">
+                  <label class="col-12 col-sm-3 col-form-label text-sm-right">Fecha de Nacimiento</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <input required class="form-control" type="date" value="<?php echo $row['f_nacimiento']; ?>" placeholder="F.de Nacimiento" name="f_nacimiento">
+                  </div>
+                </div>
+                <div class="form-group row" id="dnipass_div">
+                  <label class="col-12 col-sm-3 col-form-label text-sm-right">DNI/Pasaporte</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <input required class="form-control" type="text" value="<?php echo $row['dnipass']; ?>" placeholder="DNI/Pasaporte" name="dnipass">
+                  </div>
+                </div>
+                
+                
+                
                 <div class="form-group row" id="pais_div">
                   <label class="col-12 col-sm-3 col-form-label text-sm-right">Pais</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $row['pais']; ?>" placeholder="Pais" name="pais">
+                    <input required class="form-control" type="text" value="<?php echo $row['pais']; ?>" placeholder="Pais" name="pais">
                   </div>
                 </div>
                 <div class="form-group row" id="notes_div">
@@ -382,6 +451,36 @@ include("conexion.php");
       form.submit()
     }
   </script>
+  
+  <script> //POPUP SCRIPT
+    
+    function success(){
+      let popup = document.getElementById("error-popup");
+      let popup_text = document.getElementById("popup-text");
+
+      popup.style.display = "block";
+      popup_text.innerHTML = "Se registro la informacion de contacto correctamente.";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      let popup = document.getElementById("error-popup");
+      if (event.target == popup) {
+        popup.style.display = "none";
+      }
+    }
+
+    document.getElementById("pop-up-close").onclick = function() {
+      document.getElementById("error-popup").style.display = "none";
+    }
+  </script>
+  <?php
+  if (isset($_GET['success'])) {
+    echo "<script>console.log('get success')</script>";
+    echo '<script> success(); </script>';
+  }
+  ?>
+
 </body>
 
 </html>

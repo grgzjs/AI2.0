@@ -19,6 +19,59 @@ include("conexion.php");
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
 </head>
 
+<style>
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #f54c4c;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #c23636;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .popup-text {
+    padding-top: 15px;
+    padding-left: 20px;
+    font-size: 1.35em;
+  }
+</style>
+
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
 <!-- <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
 <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
@@ -29,6 +82,12 @@ include("conexion.php");
 <script src="assets/js/user-validation.js" type="text/javascript"></script>
 
 <body>
+  <div id="error-popup" class="modal">
+    <div class="modal-content">
+      <span id="pop-up-close" class="close">&times;</span>
+      <p id="popup-text" class="popup-text">Some text in the Modal..</p>
+    </div>
+  </div>
   <?php require_once("nav_header.html") ?>
   <div class="mai-wrapper">
     <?php require_once("nav_header2.html"); ?>
@@ -41,7 +100,7 @@ include("conexion.php");
       <?php
       $sqllist = "select * from Aircraft";
       $rows = mysqli_query($con, $sqllist);
-
+      $target_dir = "assets/img/aircraft_uploads/";
 
       if (isset($_GET['aksi']) == 'delete') {
         $nik = mysqli_real_escape_string($con, (strip_tags($_GET["nik"], ENT_QUOTES)));
@@ -67,7 +126,7 @@ include("conexion.php");
         $capacidad       = mysqli_real_escape_string($con, (strip_tags($_POST["capacidad"], ENT_QUOTES))); //Escanpando caracteres  
         $cruisespeed       = mysqli_real_escape_string($con, (strip_tags($_POST["cruisespeed"], ENT_QUOTES))); //Escanpando caracteres
         // $preciokm         = mysqli_real_escape_string($con, (strip_tags($_POST["preciokm"], ENT_QUOTES))); //Escanpando caracteres
-        $precioh = mysqli_real_escape_string($con, (strip_tags($_POST["precioh"], ENT_QUOTES)));
+        $preciokm = mysqli_real_escape_string($con, (strip_tags($_POST["preciokm"], ENT_QUOTES)));
         $pesomaximo       = mysqli_real_escape_string($con, (strip_tags($_POST["pesomaximo"], ENT_QUOTES))); //Escanpando caracteres
         $ascentspeed     = mysqli_real_escape_string($con, (strip_tags($_POST["ascentspeed"], ENT_QUOTES))); //Escanpando caracteres
         $fuelstop     = mysqli_real_escape_string($con, (strip_tags($_POST["fuelstop"], ENT_QUOTES))); //Escanpando caracteres
@@ -75,12 +134,57 @@ include("conexion.php");
         $pernocta    = mysqli_real_escape_string($con, (strip_tags($_POST["pernocta"], ENT_QUOTES))); //Escanpando caracteres
         $descentspeed    = mysqli_real_escape_string($con, (strip_tags($_POST["descentspeed"], ENT_QUOTES))); //Escanpando caracteres
 
+        if($matricula){
+          $total = count(array_filter($_FILES['imagen']['name']));
+          //echo "<script>console.log('Total: $total')</script>";
+          for($i=0;$i < $total;$i++) {
+            //echo $_FILES["imagen"]["name"][$i];
+            $target_file = $target_dir . basename($_FILES["imagen"]["name"][$i]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            $check = getimagesize($_FILES["imagen"]["tmp_name"][$i]);
+            if($check !== false) {
+              //echo "File is an image - " . $check["mime"] . ".";
+              $uploadOk = 1;
+            } else {
+              //echo "File is not an image.";
+              $uploadOk = 0;
+            }
+
+            if (file_exists($target_file)) {
+              //echo "Sorry, file already exists.";
+              $uploadOk = 0;
+            }
+
+            if ($_FILES["imagen"]["size"][$i] > 50000000) {
+              //echo "Sorry, your file is too large.";
+              $uploadOk = 0;
+            }
+
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
+              //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+              $uploadOk = 0;
+            }
+
+            if ($uploadOk == 0) {
+              echo "Sorry, your file was not uploaded.";
+            } else {
+              if (move_uploaded_file($_FILES["imagen"]["tmp_name"][$i], $target_file)) {
+                mysqli_query($con,"INSERT INTO `aircraft_img` (`matricula`, `img_dir`) VALUES ('$matricula', '$target_file');");
+                //echo "The file ". htmlspecialchars( basename( $_FILES["imagen"]["name"])). " has been uploaded.";
+              } else {
+                //echo "Sorry, there was an error uploading your file.";
+              }
+            }
+          }
+        }
+        
         if ($matricula) {
           // $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',preciokm='$preciokm',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
-          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',precioh='$precioh',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
+          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',preciokm='$preciokm',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
         } else {
           // $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
         }
 
         echo '<script>console.log("' . $sql . '")</script>';
@@ -90,7 +194,7 @@ include("conexion.php");
 
         if ($update == 1) {
           // $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
           $update = mysqli_query($con, $sql);
 
           echo '<script>console.log("' . $sql . '")</script>';
@@ -101,7 +205,7 @@ include("conexion.php");
       ?>
         <script>
           setTimeout(() => {
-            window.location.href = "aircraft_setup.php";
+            window.location.href = "aircraft_setup.php?success";
           }, 100);
         </script>
       <?php
@@ -114,6 +218,21 @@ include("conexion.php");
         $nik = mysqli_real_escape_string($con, (strip_tags($_POST["nik"], ENT_QUOTES)));
         $edit = mysqli_query($con, "select * from Aircraft WHERE matricula='$nik'");
         $rowaircraft = mysqli_fetch_assoc($edit);
+      }else{
+        $rowaircraft = array(
+        "matricula" => "",
+        "aeronave" => "",
+        "fabricacion" => "",
+        "capacidad" => "",
+        "cruisespeed" => "",
+        "preciokm" => "",
+        "pesomaximo" => "",
+        "ascentspeed" => "",
+        "fuelstop" => "",
+        "distancia" => "",
+        "pernocta" => "",
+        "descentspeed" => "",
+        );
       }
       ?>
 
@@ -128,25 +247,41 @@ include("conexion.php");
           <div class="card card-default">
             <div class="card-header card-header-divider">Registro de Aeronave<span class="card-subtitle">Ingresa la informacion de la Aeronave</span></div>
             <div class="card-body pl-sm-5">
-              <form action="aircraft_setup.php" method="post" method="post">
+              <form action="aircraft_setup.php" method="post" enctype="multipart/form-data" id="aircraft-form">
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Matricula </label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowaircraft['matricula']; ?>" placeholder="Matricula" name="matricula">
+                    <input class="form-control" required type="text" value="<?php echo $rowaircraft['matricula']; ?>" placeholder="Matricula" name="matricula">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Tipo de Aeronave</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowaircraft['aeronave']; ?>" placeholder="Tipo de Aeronave" name="aeronave">
+                    <input class="form-control" required type="text" value="<?php echo $rowaircraft['aeronave']; ?>" placeholder="Tipo de Aeronave" name="aeronave">
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Año de Fabricacion</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="<?php echo $rowaircraft['fabricacion']; ?>" placeholder="Año de Fabricacion" name="fabricacion">
+                    <input class="form-control" required type="text" value="<?php echo $rowaircraft['fabricacion']; ?>" placeholder="Año de Fabricacion" name="fabricacion">
                   </div>
                 </div>
+                <div class="form-group row">
+                  <label class="col-12 col-sm-4 col-form-label text-sm-right">Imagenes de la Aeronave</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                  <!--<input type="file" class="" value="" name="imagen">-->
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" multiple value="<?php //echo $rowaircraft['imagen']; ?>" name="imagen[]" id="imagen">
+                      <label class="custom-file-label" for="imagen">Seleccionar Archivos</label>
+                    </div>
+                  </div>
+                </div>
+                <script>
+                $(".custom-file-input").on("change", function() {
+                  var fileName = $(this).val().split("\\").pop();
+                  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
+                </script>
             </div>
             <div class="row">
               <div class="col-md-12">
@@ -157,46 +292,47 @@ include("conexion.php");
                     <div class="form-group row " style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Capacidad Maxima
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['capacidad']; ?>" placeholder="Capacidad Maxima" name="capacidad">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['capacidad']; ?>" placeholder="Max Pax" name="capacidad">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Crucero
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Velocidad Crucero" name="cruisespeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Km x Hr" name="cruisespeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <!-- <div class="col-12 col-sm-8 col-lg-2">Precio KM
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['preciokm']; ?>" placeholder="Precio KM" name="<?php echo 'preciokm' . $i; ?>">
-                      </div> -->
-                      <div class="col-12 col-sm-8 col-lg-2">Precio Hora
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['precioh']; ?>" placeholder="Precio Hora" name="<?php echo 'precioh' . $i; ?>">
+                      <div class="col-12 col-sm-8 col-lg-2">Precio KM
+                        <input class="form-control" type="text" value="<?php //echo $rowaircraft['preciokm']; ?>" placeholder="Precio x Km" name="<?php echo 'preciokm' . $i; ?>">
                       </div>
+                      <!-- <div class="col-12 col-sm-8 col-lg-2">Precio Hora
+                        <input class="form-control" required type="text" value="<?php ///echo $rowaircraft['precioh']; ?>" placeholder="Precio x Hora" name="precioh<?php //echo 'precioh' . $i; ?>">
+                      </div> -->
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Distancia Maxima
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder="Distancia Maxima" name="distancia">
+                      <div class="col-12 col-sm-8 col-lg-2">Distancia Máxima
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder="Kilómetros" name="distancia">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Velocidad Decenso
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="Velocidad Decenso" name="descentspeed">
+                      <div class="col-12 col-sm-8 col-lg-2">Velocidad Descenso
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="Km x Hr." name="descentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Precio Pernocta
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['pernocta']; ?>" placeholder="Pernocta " name="pernocta">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['pernocta']; ?>" placeholder="PerNocta" name="pernocta">
                       </div>
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Peso Maximo
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso Maximo" name="pesomaximo">
+                      <div class="col-12 col-sm-8 col-lg-2">Peso Maximo (Kg)
+                        <input class="form-control" id="pesomaximo" required type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso en Kilos" onblur="javascript:updateInputValue()" name="pesomaximo">
+
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Ascenso
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="Velocidad Acenso" name="ascentspeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="Km x Hr." name="ascentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Precio Fuel Stop
-                        <input class="form-control" type="text" value="<?php echo $rowaircraft['fuelstop']; ?>" placeholder="Parada Tecnica" name="fuelstop">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['fuelstop']; ?>" placeholder="Parada Tecnica" name="fuelstop">
                       </div>
                     </div>
                   </div>
@@ -241,9 +377,10 @@ include("conexion.php");
                       </th> -->
                       <th style="width:20%;">Matrícula </th>
                       <th style="width:17%;">Tipo de AC </th>
-                      <th style="width:15%;">Año de Fabricacion</th>
+                      <th style="width:15%;">Fabricacion</th>
                       <!-- <th style="width:10%;">Precio Km</th> -->
-                      <th style="width:10%;">Precio Hora</th>
+                      <th style="width:10%;">Precio x Km</th>
+                      <th style="width:10%;">Capacidad</th>
                       <th style="width:10%;"></th>
                     </tr>
                   </thead>
@@ -273,7 +410,10 @@ include("conexion.php");
                             <span><?php echo $row['preciokm']; ?></span>
                           </td> -->
                           <td class="cell-detail">
-                            <span><?php echo $row['precioh']; ?></span>
+                            <span><?php echo $row['preciokm']; ?></span>
+                          </td>
+                          <td class="cell-detail">
+                            <span><?php echo $row['capacidad']; ?></span>
                           </td>
                           <td class="text-right">
                             <div class="btn-group btn-hspace">
@@ -321,6 +461,25 @@ include("conexion.php");
     });
   </script>
   <script>
+    function updateInputValue() {
+  const numeroInput = document.getElementById("pesomaximo");
+  
+  if (numeroInput.value !== "") {
+    const numero = parseFloat(numeroInput.value);
+    numeroInput.value = numero + " kgs";
+  }
+}
+let form=document.getElementById("aircraft-form");
+document.getElementById("aircraft-form").addEventListener("submit", function(event) {
+  const numeroInput = document.getElementById("pesomaximo");
+  
+  if (numeroInput.value.endsWith(" kgs")) {
+    const valorNumerico = parseFloat(numeroInput.value);
+    numeroInput.value = valorNumerico; // Establecer solo el valor numérico antes de enviar
+    form.submit();
+  }
+
+});
     //function para poder editar y borrar las quotes DESPUES DE PONERLE LOGIN
     function borrar(id) {
       //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
@@ -516,7 +675,45 @@ include("conexion.php");
       form.submit()
 
     }
+    
   </script>
+  <script>
+    function toLibras(){
+      let peso_maximo = document.getElementById("pesomaximo").value;
+
+      document.getElementById("pesomaximo").value =  parseFloat(peso_maximo) + "kgs";
+    }
+  </script>
+
+  <script> //POPUP SCRIPT
+    
+    function success(){
+      let popup = document.getElementById("error-popup");
+      let popup_text = document.getElementById("popup-text");
+
+      popup.style.display = "block";
+      popup_text.innerHTML = "La aeronave se registro correctamente.";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      let popup = document.getElementById("error-popup");
+      if (event.target == popup) {
+        popup.style.display = "none";
+      }
+    }
+
+    document.getElementById("pop-up-close").onclick = function() {
+      document.getElementById("error-popup").style.display = "none";
+    }
+  </script>
+  <?php
+  if (isset($_GET['success'])) {
+    echo "<script>console.log('get success')</script>";
+    echo '<script> success(); </script>';
+  }
+  ?>
+
 </body>
 
 </html>

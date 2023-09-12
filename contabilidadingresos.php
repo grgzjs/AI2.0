@@ -40,9 +40,10 @@ if (isset($_POST['guardar_ingreso'])) {
 
   $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
   $fecha_cambio = $_POST['fecha_cambio']; // unused
+  $file = $_POST['file']; 
 
   // figure out where to save
-  $sql = "insert into ingresos_generales (`date`,tipoingreso,concepto,monto, moneda_cambio) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "')";
+  $sql = "insert into ingresos_generales (`date`,tipoingreso,concepto,monto, moneda_cambio,`file`) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "','". $file ."')";
 
   mysqli_query($con, $sql);
 }
@@ -99,13 +100,13 @@ if (isset($_POST['guardar_ingreso'])) {
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Fecha</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
+                      <input required id="fecha" class="form-control" type="Date" placeholder="Seleccione Fecha">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Ingreso</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <select id="tipo_ingreso" class="form-control custom-select" name="typeclient">
+                      <select required id="tipo_ingreso" class="form-control custom-select" name="typeclient">
                         <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                     echo 'selected';
                                                   } ?>>Cotizaciones</option>
@@ -149,13 +150,13 @@ if (isset($_POST['guardar_ingreso'])) {
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
+                      <input required id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
                   </div>
                   <!-- <div class="form-group row pt-3">
@@ -182,7 +183,7 @@ if (isset($_POST['guardar_ingreso'])) {
                       <p>Aqui indicamos el cambio dolar actual</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <input class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input required class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
                   </div>
                   <div class="form-group row align-items-center">
@@ -191,7 +192,7 @@ if (isset($_POST['guardar_ingreso'])) {
                       <p>Aqui indicamos el la fecha en cual se efectuo la conversion</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <input id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
+                      <input required id="fecha_cambio" class="form-control" type="Date" placeholder="Seleccione la fecha ">
                     </div>
                   </div>
                   <div class="form-group row align-items-center">
@@ -200,7 +201,7 @@ if (isset($_POST['guardar_ingreso'])) {
                       <p>Aqui indicamos el gasto fue efectuado en que moneda</p>
                     </div>
                     <div class="col-sm-3 xs-pt-15">
-                      <select id="moneda_cambio" class="form-control custom-select" name="typeclient">
+                      <select required id="moneda_cambio" class="form-control custom-select" name="typeclient">
                         <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') {
                                                     echo 'selected';
                                                   } ?>>Pesos Arg</option>
@@ -224,18 +225,21 @@ if (isset($_POST['guardar_ingreso'])) {
                   <!-- <form class="form-horizontal group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                   <div class="form-group row">
                     <div class="col-sm-7">
-                      <h3 class="wizard-title">Sube el recibo al sistema</h3><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                      <h3 class="wizard-title">Sube el recibo al sistema</h3>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <div class="col-sm-3 xs-pt-15">
+                    <div class="col-12 xs-pt-15">
                       <div class="main-content container">
-                        <form class="dropzone" id="my-awesome-dropzone" action="assets/lib/dropzone/upload.php">
+                      <input type="file" id="ingreso" name="ingreso" style="display:none" accept="image/*">
+                        <form class="dropzone" id="my-awesome-dropzone" style="cursor:pointer;justify-content:center;text-align:center">
+                        <label for="ingreso" style="cursor:pointer;">
                           <div class="dz-message">
                             <div class="icon"><span class="s7-cloud-upload"></span></div>
-                            <h2>Drag and Drop files here</h2><span class="note">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
-                            <div class="dropzone-mobile-trigger needsclick"></div>
+                            <h2>Search and select files here</h2>
+                            <div id="needsclick" class="dropzone-mobile-trigger needsclick"></div>
                           </div>
+                        </label>
                         </form>
                       </div>
                     </div>
@@ -352,6 +356,7 @@ if (isset($_POST['guardar_ingreso'])) {
                     <th style="width:10%;">Tipo de Ingreso</th>
                     <th style="width:13%;">Moneda de Cambio</th>
                     <th style="width:13%;">Monto</th>
+                    <th style="width:10%;">Archivo</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -359,6 +364,7 @@ if (isset($_POST['guardar_ingreso'])) {
                   $sql_ingresos = 'select * from ingresos_generales';
                   $ingresos = mysqli_query($con, $sql_ingresos);
                   while ($rowp = mysqli_fetch_assoc($ingresos)) {
+                    $file_exists = $rowp["file"];
                   ?>
                     <tr>
                       <td class="cell-detail">
@@ -376,6 +382,16 @@ if (isset($_POST['guardar_ingreso'])) {
                       <td class="cell-detail">
                         <span>$<?php echo $rowp["monto"] ?></span>
                       </td>
+                      <td class="cell-detail">
+                      <?php
+                      if($file_exists !=""){
+                        echo '<a style="font-size:1.5rem" href="ingresos/'.$rowp["file"].'" download="'.$rowp["file"].'">
+                        <span class="icon s7-file"></span>
+                      </a>';
+                      }
+                      ?>
+                      
+                    </td>
                     </tr>
                   <?php
                   }
@@ -406,57 +422,72 @@ if (isset($_POST['guardar_ingreso'])) {
     });
 
     function save_all() {
-      let form = document.createElement('form')
+      let end_point = "reception_area_query.php";
+      let form_data = new FormData();
+      let input_file = document.getElementById("ingreso");
+      form_data.append("ingreso_file", input_file.files[0]);
+      fetch(end_point, {
+        method: "POST",
+        body: form_data
+      }).then(()=>{
+        let form = document.createElement('form')
 
-      // let tramo = document.createElement('input')
-      // tramo.value = document.getElementById('tramo_reserva').value
-      // tramo.name = 'tramo_reserva'
+// let tramo = document.createElement('input')
+// tramo.value = document.getElementById('tramo_reserva').value
+// tramo.name = 'tramo_reserva'
 
-      let tipo_ingreso = document.createElement('input')
-      tipo_ingreso.value = document.getElementById('tipo_ingreso').value
-      tipo_ingreso.name = 'tipo_ingreso'
-      // let referencia = document.createElement('input')
-      // referencia.value = document.getElementById('referencia').value
-      // referencia.name="referencia"
-      let concepto = document.createElement('input')
-      concepto.value = document.getElementById('concepto').value
-      concepto.name = "concepto"
-      let monto = document.createElement('input')
-      monto.value = document.getElementById('monto').value
-      monto.name = "monto"
-      let fecha_gasto = document.createElement('input')
-      fecha_gasto.value = document.getElementById('fecha').value
-      fecha_gasto.name = "fecha_gasto"
+let tipo_ingreso = document.createElement('input')
+tipo_ingreso.value = document.getElementById('tipo_ingreso').value
+tipo_ingreso.name = 'tipo_ingreso'
+// let referencia = document.createElement('input')
+// referencia.value = document.getElementById('referencia').value
+// referencia.name="referencia"
+let concepto = document.createElement('input')
+concepto.value = document.getElementById('concepto').value
+concepto.name = "concepto"
+let monto = document.createElement('input')
+monto.value = document.getElementById('monto').value
+monto.name = "monto"
+let fecha_gasto = document.createElement('input')
+fecha_gasto.value = document.getElementById('fecha').value
+fecha_gasto.name = "fecha_gasto"
 
-      let cambio = document.createElement('input')
-      cambio.value = document.getElementById('moneda_cambio').value
-      cambio.name = "cambio"
-      let fecha_cambio = document.createElement('input')
-      fecha_cambio.value = document.getElementById('fecha_cambio').value
-      fecha_cambio.name = "fecha_cambio"
+let cambio = document.createElement('input')
+cambio.value = document.getElementById('moneda_cambio').value
+cambio.name = "cambio"
+let fecha_cambio = document.createElement('input')
+fecha_cambio.value = document.getElementById('fecha_cambio').value
+fecha_cambio.name = "fecha_cambio"
+let file = document.createElement('input')
+file.value = input_file.files[0].name
+file.name = "file"
+let button1 = document.createElement('button')
+button1.name = 'guardar_ingreso'
 
-      let button1 = document.createElement('button')
-      button1.name = 'guardar_ingreso'
+// form.appendChild(tramo)
 
-      // form.appendChild(tramo)
+form.appendChild(tipo_ingreso)
+// form.appendChild(referencia)
+form.appendChild(concepto)
+form.appendChild(monto)
+form.appendChild(fecha_gasto)
 
-      form.appendChild(tipo_ingreso)
-      // form.appendChild(referencia)
-      form.appendChild(concepto)
-      form.appendChild(monto)
-      form.appendChild(fecha_gasto)
+form.appendChild(cambio)
+form.appendChild(fecha_cambio)
+form.appendChild(file)
+form.appendChild(button1)
 
-      form.appendChild(cambio)
-      form.appendChild(fecha_cambio)
+document.body.appendChild(form)
+form.action = 'contabilidadingresos.php'
+form.method = 'post'
+// form.submit()
+button1.click()
+      }).catch(console.error);
 
-      form.appendChild(button1)
 
-      document.body.appendChild(form)
-      form.action = 'contabilidadingresos.php'
-      form.method = 'post'
-      // form.submit()
-      button1.click()
     }
+
+   
 
     function loginuser() {
       let form = document.createElement('form')

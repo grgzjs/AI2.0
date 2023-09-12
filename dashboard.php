@@ -197,7 +197,7 @@ include("conexion.php");
               </li>
               <li class="nav-item parent"><a class="nav-link" href="#" role="button" aria-expanded="false"><span class="icon s7-users"></span><span>CRM</span></a>
                 <ul class="mai-nav-tabs-sub mai-sub-nav nav">
-                  <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Regristro</span></a>
+                  <li class="nav-item"><a class="nav-link" href="crmregistro.php"><span class="icon s7-user"></span><span class="name">Registro</span></a>
                   </li>
                   <li class="nav-item"><a class="nav-link" href="crm.php"><span class="icon s7-id"></span><span class="name">Lista de Contactos </span></a>
                   </li>
@@ -419,32 +419,35 @@ include("conexion.php");
             // Check if there are any pending tasks
             if (mysqli_num_rows($result) > 0) {
               echo '
-              <div class="widget-head"><span class="title">Lista de Pendientes</span></div>
+              <div class="widget-head"><span class="title">Notas</span></div>
                 <div class="todo-list-container">
                   <ul class="todo-tasks">';
 
               // Loop through the results and create a list item for each task
-              while ($row = mysqli_fetch_assoc($result)) {
-                echo '
-                <li class="todo-task">
-                  <label class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox"><span class="custom-control-label">' . $row['task'] . '</span>
-                  </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-                </li>';
-              }
+            ?>
+              <div id="elementosContainer" name="elementosContainer">
+                <!-- Los elementos se mostrarán aquí -->
+              </div>
+              <!-- // while ($row = mysqli_fetch_assoc($result)) {
+              //   echo '
+              //   <li class="todo-task">
+              //     <label class="custom-control custom-checkbox">
+              //       <input class="custom-control-input" type="checkbox"><span class="custom-control-label">' . $row['task'] . '</span>
+              //     </label><a class="close" href="javascript:deleteTask(' . $row['id'] . ')"><span class="icon s7-close"></span></a>
+              //   </li>';
+              // } -->
+            <?php
               echo '
                   </ul>
                   </div>
-              <form method="POST">
-                <div class="todo-new-task">
-                  <div class="input-group">
-                    <input class="form-control" type="text" name="task" placeholder="Add a new task...">
-                    <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="icon s7-plus"></i></button></div>
+                  <div class="todo-new-task" id="todo-new-task">
+                    <div class="input-group">
+                      <input id="task-text" class="form-control" type="text" name="task" placeholder="Agregar una nota...">
+                      <div class="input-group-append"><button class="btn btn-primary" onclick="addTask()"><i class="icon s7-plus"></i></button></div>
+                    </div>
                   </div>
                 </div>
-              </form>
-              </div>
-            </div>';
+              </div>';
             } else {
               echo '
           
@@ -452,14 +455,12 @@ include("conexion.php");
             <div class="todo-list-container">
               <p>No hay tareas pendientes.</p>
             </div>
-            <form method="POST">
-              <div class="todo-new-task">
-                <div class="input-group">
-                  <input class="form-control" type="text" name="task" placeholder="Add a new task...">
-                  <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="icon s7-plus"></i></button></div>
-                </div>
+            <div class="todo-new-task" id="todo-new-task">
+              <div class="input-group">
+              <input id="task-text" class="form-control" type="text" name="task" placeholder="Agregar una nota...">
+                <div class="input-group-append"><button class="btn btn-primary" onclick="addTask()"><i class="icon s7-plus"></i></button></div>
               </div>
-            </form>
+            </div>
           </div>
         </div>';
             }
@@ -578,40 +579,59 @@ include("conexion.php");
         });
       </script>
       <script>
-        // function loginuser() {
-        //   let form = document.createElement('form')
-        //   form.action = 'hello.php'
-        //   form.method = 'post'
-        //   let username = document.createElement('input')
-        //   let password = document.createElement('input')
-        //   let aksi = document.createElement('input')
-        //   let nik = document.createElement('input')
-        //   let edit = document.createElement('input')
-        //   let amount = document.createElement('input')
-        //   let date = document.createElement('input')
-        //   username.value = 'test1'
-        //   username.name = 'username'
-        //   password.value = 'test1'
-        //   password.name = 'password'
-        //   aksi.name = 'aksi'
-        //   aksi.value = 'login'
-        //   nik.name = 'nik'
-        //   edit.name = 'edit'
-        //   edit.value = 'yes'
-        //   amount.name = 'amount'
-        //   amount.value = '<?php //echo $rowedit["amount"]; ?>'
-        //   date.name = 'date'
-        //   date.value = '<?php //echo $rowedit["date"]; ?>'
-        //   form.appendChild(aksi)
-        //   form.appendChild(username)
-        //   form.appendChild(password)
-        //   form.appendChild(nik)
-        //   form.appendChild(edit)
-        //   form.appendChild(amount)
-        //   form.appendChild(date)
-        //   document.body.appendChild(form)
-        //   form.submit()
-        // }
+        cargarDatosTabla();
+
+        function addTask() {
+          let task_name = document.getElementById("task-text").value;
+          // execute query to load taks
+          $.ajax({
+            url: "task_query.php?task_to_add=" + task_name + "&task_to_delete=" + 0, // your php file
+            type: "GET", // type of the HTTP request
+            success: function(data) {
+              console.log("task added")
+              cargarDatosTabla();
+              document.getElementById("task-text").value = "";
+            }
+          });
+        }
+
+        function deleteTask(task_id) {
+          // execute query to delete taks
+          $.ajax({
+            url: "task_query.php?task_to_delete=" + task_id + "&task_to_add=" + 0, // your php file
+            type: "GET", // type of the HTTP request
+            success: function(data) {
+              cargarDatosTabla();
+            }
+          });
+        }
+
+
+
+        function cargarDatosTabla() {
+          let user_type = localStorage.getItem("user_type") == "unset" ? 0 : 1;
+          $.ajax({
+            url: "task_query.php?task_to_delete=" + 0 + "&task_to_add=" + 0 + "&user_unset=" + user_type,
+            method: "GET",
+            success: function(data) {
+              $("#elementosContainer").html(data);
+            },
+            error: function(error) {
+              console.error("Error al cargar la tabla:", error);
+            }
+          });
+        }
+
+        function doneTask(id) {
+          $.ajax({
+            url: "task_query.php?done_task=" + id,
+            method: "GET",
+            success: function(data) {
+              console.log(data)
+              deleteTask(id);
+            }
+          });
+        }
       </script>
 
       <script>
@@ -620,6 +640,8 @@ include("conexion.php");
 
         function userUnset() {
           if (localStorage.getItem("user_type") != "unset") return;
+
+          document.getElementById("todo-new-task").style.display = "none";
 
           let popup = document.getElementById("error-popup");
           let popup_text = document.getElementById("popup-text");

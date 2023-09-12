@@ -72,7 +72,7 @@
         background-color: black;
       }
 
-      .overlay-text {
+      /* .overlay-text {
         color: white;
         font-size: 20px;
         position: absolute;
@@ -82,9 +82,41 @@
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
         text-align: center;
+      } */
+
+      .change-txt {
+        color: white;
+        font-size: 2em;
+        text-align: center;
+      }
+
+      #file-input {
+        display: none;
+      }
+
+      #file-input-label {
+        font-size: 1.3em;
+        padding: 60px 50px;
+        /* border: 1px solid red; */
+        border-radius: 4%;
+        cursor: pointer;
+      }
+
+      .center-sm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
     </style>
 
+    <?php
+    include("conexion.php");
+    $get_user_data = "SELECT * FROM `users`;";
+    $user_data = mysqli_query($con, $get_user_data);
+    $rows = mysqli_fetch_assoc($user_data);
+    ?>
+    
     <div class="main-content container">
       <div class="user-profile">
         <div class="row">
@@ -94,12 +126,14 @@
               <div class="user-display-bottom" style="padding-bottom: 10%">
                 <div class="user-display-id">
                   <button class="transparent-button" onclick="change_user_image()">
-                    <img class="user-display-avatar" src="assets/img/avatars/no_user.jpg" alt="avatar" id="user-image">
-                    <div class="user-display-avatar image-overlay">
-                      <div class="overlay-text">Cambiar</div>
+                    <img class="user-display-avatar" src=<?php echo $rows["user_img"]; ?> alt="avatar" id="user-image">
+                    <div class="user-display-avatar image-overlay center-sm">
+                      <!-- <div class="overlay-text">Cambiar</div> -->
+                      <input id="file-input" type="file" value="" name="imagen[]" id="imagen">
+                      <label id="file-input-label" class="change-txt" for="file-input">Cambiar</label>
                     </div>
                   </button>
-                  <div class="user-display-name" style="text-align: center"><?php echo "Username" ?></div>
+                  <div class="user-display-name" style="text-align: center"><?php echo $rows["username"]; ?></div>
                 </div>
                 <!-- <div class="user-display-stats">
                   <div class="user-display-stat"><span class="user-display-stat-counter">26</span><span class="user-display-stat-title">Issues</span></div>
@@ -111,6 +145,7 @@
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-4">
             <div class="user-info-list card card-default">

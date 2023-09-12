@@ -1,5 +1,7 @@
 <?php
 require("conexion.php");
+$company = mysqli_query($con, 'select * from company');
+$rowcompany = mysqli_fetch_assoc($company);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +17,12 @@ require("conexion.php");
   <link rel="stylesheet" type="text/css" href="assets/lib/perfect-scrollbar/css/perfect-scrollbar.css" />
   <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
   <link rel="stylesheet" href="css/styles.css" type="text/css" />
+  <style>
+    ::placeholder{
+      color:while;
+      opacity: 1;
+    }
+  </style>
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -33,18 +41,18 @@ require("conexion.php");
           </div>
         </div>
         <div class="col-md-6 user-message"><span class="splash-message text-right">Hola!<br> es bueno<br> verte de nuevo</span><span class="alternative-message text-right">No tienes cuenta? <a href="loginsignup.php">Creá tu cuenta</a></span></div>
-        <div class="col-md-6 form-message"><img class="youlogo" src="src/youlogo.svg" alt="logo" width="338" height="56"><span class="splash-description text-center mt-5 mb-5">Ingresá a tu cuenta</span>
+        <div class="col-md-6 form-message"><img class="logo-img mb-4 rounded-circle" src="<?php echo $rowcompany['logo_dir']?>" alt="logo" height="60"><span class="splash-description text-center mt-5 mb-5">Ingresá a tu cuenta</span>
           <form method='POST' id='login-form' action='dashboard.php'>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend"><i class="icon s7-user"></i></div>
-                <input id="input-user" class="form-control" name="username" type="text" placeholder="Usuario o Email"> <!-- onchange="validateUser()" -->
+                <input id="input-user" class="form-control" style="color:white" name="username" type="text" placeholder="Usuario o Email"> <!-- onchange="validateUser()" -->
               </div>
             </div>
             <div class="form-group">
               <div class="input-group">
                 <div class="input-group-prepend"><i class="icon s7-lock"></i></div>
-                <input id="input-pssw" class="form-control" name="password" type="password" placeholder="Contraseña"> <!-- onchange="validatePssw()" -->
+                <input id="input-pssw" class="form-control" style="color:white" name="password" type="password" placeholder="Contraseña"> <!-- onchange="validatePssw()" -->
               </div>
             </div>
             <div class="form-group login-submit"><a class="btn btn-lg btn-primary btn-block" onclick='validateLogin()' value='login' data-dismiss="modal">Ingresar</a></div>
@@ -57,7 +65,7 @@ require("conexion.php");
               <!-- <div class="col-sm-6 pt-2 text-sm-right login-forgot-password"><a href="loginforgot.php">Olvidaste tu contraseña?</a></div> -->
             </div>
           </form>
-          <div class="out-links"><a href="#">© 2023 Gustoso Soft</a></div>
+          <div class="out-links"><a href="#" style="color:white">© 2023 Gustoso Soft</a></div>
         </div>
       </div>
     </div>

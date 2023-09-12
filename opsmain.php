@@ -46,7 +46,7 @@ include("conexion.php");
       }
 
       // SECCION DE BORRAR Y EDITAR
-      $sqllist = "select i.*,c.* from invoices i, Contact c where i.status = 2 and i.buyer_id=c.id";
+      $sqllist = "select i.*,c.* from invoices i, Contact c where i.status = 2 and i.buyer_id=c.id ORDER BY i.date DESC";
       $rows = mysqli_query($con, $sqllist);
 
       if (isset($_POST['username']) && ($_POST['aksi'] == 'delete' || $_POST['aksi'] == 'edit')) {
@@ -104,7 +104,7 @@ include("conexion.php");
         <div class="col-sm-12">
           <div class="card card-default card-table">
             <div class="card-header">Lista de Vuelos Confirmados
-              <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
+              <div class="tools"><span hidden class="icon s7-cloud-download"></span><span hidden class="icon s7-edit"></span></div>
             </div>
             <div class="card-body">
               <div class="noSwipe">
@@ -112,8 +112,8 @@ include("conexion.php");
                   <thead>
                     <tr>
                       <th style="width:5%;">
-                        <label class="custom-control custom-control-sm custom-checkbox">
-                          <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                        <label hidden class="custom-control custom-control-sm custom-checkbox">
+                          <input hidden class="custom-control-input" type="checkbox"><span hidden class="custom-control-label"></span>
                         </label>
                       </th>
                       <th style="width:10%;">Cotizacion</th>
@@ -130,8 +130,8 @@ include("conexion.php");
                     ?>
                         <tr>
                           <td>
-                            <label class="custom-control custom-control-sm custom-checkbox">
-                              <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
+                            <label hidden class="custom-control custom-control-sm custom-checkbox">
+                              <input hidden class="custom-control-input" type="checkbox"><span hidden class="custom-control-label"></span>
                             </label>
                           </td>
                           <td class="cell-detail"><span><b><?php echo $row['quote']; ?></b>
@@ -150,19 +150,20 @@ include("conexion.php");
                             <div class="btn-group btn-hspace">
                               <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button>
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programacion</a>
+                                <a class="dropdown-item" href='pdfTripSheet.php?id=<?php echo $row['quote'] ?>' title="Trip Sheet">Trip Sheet</a>
                                 <div class="dropdown-divider"></div>
-                                <!-- <a class="dropdown-item" href='reserva.php?id=<?php echo $row['quote'] ?>' title="View">Costos</a>
+                                <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programación</a>
+                                <div hidden class="dropdown-divider"></div>
+                                <!-- <a class="dropdown-item" href='reserva.php?id=<?php //echo $row['quote'] ?>' title="View">Costos</a>
                                 <div class="dropdown-divider"></div> -->
-                                <a class="dropdown-item" href='paxreport.php?id=<?php echo $row['quote'] ?>' title="View">Detalles</a>
+                                <a hidden class="dropdown-item" href='paxreport.php?id=<?php echo $row['quote'] ?>' title="View">Detalles</a>
                                 <div class="dropdown-divider"></div>
                                 <!-- <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Tripsheet</a> -->
-                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Quote</a>
+                                <a class="dropdown-item" target='_blank' href='pdfgen.php?id=<?php echo $row['quote'] ?>' title="View">Cotización</a>
                                 <div class="dropdown-divider"></div>
                                 <?php
                                 $quote = $row["quote"];
                                 $sql_invoice_detail = "select Id, origen, destino from invoice_detail where id_invoice=$quote";
-                                echo "<script>console.log('$sql_invoice_detail')</script>";
                                 $invoice_detail = mysqli_query($con, $sql_invoice_detail);
 
                                 $legs = array();
@@ -171,6 +172,7 @@ include("conexion.php");
                                   array_push($legs, $row_leg["Id"]);
                                   array_push($leg_names, "(".$row_leg["origen"] ."-". $row_leg["destino"].")");
                                 }
+                                //echo "<script>console.log('$legs')</script>";
                                 
                                 for ($i=0; $i < count($legs); $i++) {
                                   $next_leg = ($i + 1) < count($legs) ? $legs[$i + 1] : "none";

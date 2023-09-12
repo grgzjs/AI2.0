@@ -92,19 +92,15 @@ include("conexion.php");
         <div class="col-sm-12">
           <div class="card card-default card-table">
             <div class="card-header">Lista de Contactos
-              <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
+              <div class="tools"></div>
             </div>
             <div class="card-body">
               <div class="table-responsive noSwipe">
                 <table class="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th style="width:5%;">
-                        <label class="custom-control custom-control-sm custom-checkbox">
-                          <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                        </label>
-                      </th>
-                      <th style="width:14%;">Nombre Completo </th>
+
+                      <th style="width:19%;">Nombre Completo </th>
                       <th style="width:8%;">Telefono</th>
                       <th style="width:14%;">Direccion</th>
                       <th style="width:10%;">Email</th>
@@ -122,11 +118,6 @@ include("conexion.php");
                       while ($row = mysqli_fetch_assoc($rows)) {
                     ?>
                         <tr>
-                          <td>
-                            <label class="custom-control custom-control-sm custom-checkbox">
-                              <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                            </label>
-                          </td>
                           <td class="cell-detail"><span><?php echo $row['first_name']; ?><?php echo ' ' . $row['last_name']; ?></span></td>
                           </span>
                           </td>

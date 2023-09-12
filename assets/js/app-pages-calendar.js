@@ -59,28 +59,36 @@ var App = (function () {
       '#1B998B'
     ];
     let amount_of_colors = event_colors.length;
-
+    
     let calendar_data = undefined;
     $.ajax({
       url: "calendar_query.php", // your php file
       type: "GET", // type of the HTTP request
       success: function (data) {
         calendar_data = jQuery.parseJSON(data);
-
+        console.log(calendar_data)
         calendar_events = []
-        let i = 0;
+        let i = -1;
+        let prev_quote = -1;
         calendar_data.forEach(element => {
+          if (prev_quote != element[2]) {
+            i++;
+          }
+          console.log(prev_quote + " " + element[2])
+          
+          if (i > amount_of_colors) {
+            i = 0;
+          }
+
           calendar_events.push({
             title: element[0],
             start: element[1],
             color: event_colors[i]
           })
-          i++;
-          if (i > amount_of_colors) {
-            i = 0;
-          }
-        });
 
+          prev_quote = element[2]
+        });
+        console.log("un console log")
         console.log(calendar_events);
 
         const date = new Date();

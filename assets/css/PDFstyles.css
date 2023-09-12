@@ -1,0 +1,70 @@
+.roboto-small{
+    font-family: 'Roboto', sans-serif !important;
+    font-size: small !important;
+}
+
+.jostFont{
+    font-family: 'Jost', sans-serif;
+}
+
+.archivo-larger{
+    font-family: 'Archivo', sans-serif; 
+    font-size: larger;
+}
+
+.container-bg {
+    background: var(--secondary-color);
+}
+
+.text-color {
+    color: #FFFFFF;
+}
+
+.title-color {
+    color: var(--secondary-color);
+}
+
+.hr-style {
+    border: 5px solid var(--secondary-color);
+    border-radius: 4px;
+}
+
+.img-border{
+    border-radius: 8px;
+}
+
+.border-text{
+    border: 2px solid var(--secondary-color);
+    border-radius: 15px;
+}
+
+.req-table{
+    border: 1px solid var(--secondary-color);
+    background: lightgray;
+    font-family: 'Jost', sans-serif;
+    font-size: larger;
+    color: var(--secondary-color);
+}
+
+.rounded-top-left{
+    border-top-left-radius: 12px
+}
+.rounded-top-right{
+    border-top-right-radius: 12px
+}
+.rounded-bottom-left{
+    border-bottom-left-radius: 12px
+}
+.rounded-bottom-right{
+    border-bottom-right-radius: 12px
+}
+
+
+.text-bg{
+    background: lightgray;
+}
+
+.page-num-bg{
+    background: var(--secondary-color);
+    color: #FFFFFF;
+}

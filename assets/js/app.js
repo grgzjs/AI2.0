@@ -285,7 +285,6 @@ var App = (function () {
       $('[data-toggle="popover"]').popover();
     }
   };
-
 })();
 
 // TinyColor v1.4.1

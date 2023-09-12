@@ -1,3 +1,9 @@
+<?php
+require("conexion.php");
+$company = mysqli_query($con, 'select * from company');
+$rowcompany = mysqli_fetch_assoc($company);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +38,7 @@
             <p id="popup-text" class="popup-text">Some text in the Modal..</p>
           </div>
         </div>
-        <div class="col-md-6 form-message"><img class="logo-img mb-4" src="src/youlogo.svg" alt="logo" width="338" height="56"><span class="splash-description text-center mt-4 mb-4">Registrarse</span>
+        <div class="col-md-6 form-message"><img class="logo-img mb-4 rounded-circle" src="<?php echo $rowcompany['logo_dir']?>" alt="logo" height="60"><span class="splash-description text-center mt-4 mb-4">Registrarse</span>
           <form method='POST' id='login-form' action='dashboard.php' class="sign-up-form">
             <div class="form-group">
               <div class="input-group">
@@ -74,7 +80,7 @@
           </form>
           <div class="out-links"><a href="#">© 2023 Gustoso Soft</a></div>
         </div>
-        <div class="col-md-6 user-message"><span class="splash-message text-left">Bienvenido a<br> YouAir!<br> Disfrute</span></div> <!-- <span class="alternative-message text-right">Don't have an account? <a href="pages-sign-up.html">Sign Up</a></span> -->
+        <div class="col-md-6 user-message"><span class="splash-message text-left">Bienvenido a<br> <?php echo $rowcompany['name']?><br> Disfrute</span></div> <!-- <span class="alternative-message text-right">Don't have an account? <a href="pages-sign-up.html">Sign Up</a></span> -->
       </div>
     </div>
   </div>

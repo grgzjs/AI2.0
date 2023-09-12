@@ -1,6 +1,4 @@
-<?php
-include("conexion.php");
-?>
+<?php include("conexion.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +18,26 @@ include("conexion.php");
     <link rel="stylesheet" type="text/css" href="assets/lib/fuelux/css/wizard.css" />
     <link rel="stylesheet" type="text/css" href="assets/lib/dropzone/dropzone.css" />
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
+<style>
+    table{
+        width:inherit;
+    }
+
+    th,table,tr,td{
+        border:none;
+        background-color:white;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+    td,tr{
+        text-align:center;
+        align-items:center;
+        justify-content:center;
+    }
+    th div{
+        display: block;
+        margin: 0 auto; /* Centra el input horizontalmente en su celda */
+    }
+</style>
 </head>
 
 <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
@@ -178,7 +196,7 @@ include("conexion.php");
                                         <div class="form-group row">
 
                                             <div class="offset-sm-4 col-sm-6">
-                                                <h4 class="wizard-title">Programacion - Vuelo # <?php echo $quote ?>
+                                                <h4 class="wizard-title">Programación - Vuelo # <?php echo $quote ?>
                                                 </h4>
 
 
@@ -194,7 +212,7 @@ include("conexion.php");
 
                                                 ?>
                                                     <h5 class="wizard-title"> Tramo -
-                                                        <?php echo $itramo . ' ' . $rowdetail['origen'] . ' - ' . $rowdetail['destino'] ?>
+                                                        <?php echo $itramo . ' (' . $rowdetail['origen'] . ' - ' . $rowdetail['destino'].')' ?>
                                                     </h5>
                                                     <input type="hidden" id='<?php echo "tramoid$itramo" ?>' name='tramoid' value="<?php echo $rowdetail['Id'] ?>">
                                                 <?php $itramo++;
@@ -210,62 +228,62 @@ include("conexion.php");
                                         <!--COMIENZO Tripulacion-->
 
 
-                                        <div class="card-header">Informacion de Tripulacion<span class="card-subtitle">Ingresa los detalles de Tripulacion</span></div>
+                                        <div class="card-header">Información de Tripulación<span class="card-subtitle">Ingresa los detalles de Tripulación</span></div>
 
+                                                <table class="col-md-12 fuelux">
+                                                    <thead >
+                                                        <tr >
+                                                        <th>
+                                                            <select class="form-control custom-select" style="width:10em" name="tripulacion" id='tripulacion' onchange='javascript:updatepilot()'>
+                                                                <option value="">...</option>
 
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                                            <div class="col-12 col-sm-10 col-lg-12">
-                                                <div class="buscador">
-                                                    <select class="form-control custom-select" style="width:20em" name="tripulacion" id='tripulacion' onchange='javascript:updatepilot()'>
-                                                        <option value="">...</option>
+                                                                <?php
+                                                                    $sqllist = "select * from Contact where typeclient='Empleados' order by last_name";
+                                                                    $rows = mysqli_query($con, $sqllist);
+                                                                    while ($row = mysqli_fetch_assoc($rows)) {
+                                                                    ?>
+                                                                    <!-- Le agregue funcion para ver si lo refleja el listado de pilotos -->
+                                                                    <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['f_nacimiento'] . '*' . $row['dnipass'] . '*' . $row['licencia'] . '*' . $row['funcion'] ?>">
+                                                                        <?php echo $row['last_name'] . ', ' . $row['first_name'] ?>
+                                                                    </option>
+                                                                    <?php
+                                                                    }
+                                                                ?>
+                                                            </select>
+                                                        </th>
+                                                        <th>
+                                                            <div class="" style="width:10em">
+                                                                <input class="form-control " type="text" value="" placeholder="F.Nacimiento" id='f_nacimientopilot' name="f_nacimiento" disabled>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="" style="width:10em">
+                                                                <input class="form-control" type="text" value="" placeholder="Pais" id='paispilot' name="Pais" disabled>
+                                                                <input class="form-control" type="hidden" value="" id='idpilot' name="idpilot">
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="" style="width:10em">
+                                                                <input class="form-control" type="text" value="" placeholder="DNI/PASS" id='dnipasspilot' name="dnipass" disabled>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="" style="width:10em">
+                                                                <input class="form-control" type="text" value="" placeholder="Licencia" id='licenciapilot' name="Licencia" disabled>
+                                                            </div>
+                                                        </th>
+                                                        <th>
+                                                            <div class="" style="width:9em">
+                                                            <!-- y aca problema -->
 
-                                                        <?php
-                                                        $sqllist = "select * from Contact where typeclient='Empleados' order by last_name";
-                                                        $rows = mysqli_query($con, $sqllist);
-                                                        while ($row = mysqli_fetch_assoc($rows)) {
-                                                        ?>
-                                                            <!-- Le agregue funcion para ver si lo refleja el listado de pilotos -->
-                                                            <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['f_nacimiento'] . '*' . $row['dnipass'] . '*' . $row['licencia'] . '*' . $row['funcion'] ?>">
-                                                                <?php echo $row['last_name'] . ', ' . $row['first_name'] ?>
-                                                            </option>
-                                                        <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-
-                                                    <div class="" style="width:10em">
-                                                        <input class="form-control " type="text" value="" placeholder="F.Nacimiento" id='f_nacimientopilot' name="f_nacimiento">
-                                                    </div>
-                                                    <div class="" style="width:10em">
-                                                        <input class="form-control ch-width10" type="text" value="" placeholder="Pais" id='paispilot' name="Pais">
-                                                        <input class="form-control ch-width10" type="hidden" value="" id='idpilot' name="idpilot">
-                                                    </div>
-                                                    <div class="" style="width:10em">
-                                                        <input class="form-control ch-width10" type="text" value="" placeholder="DNI/PASS" id='dnipasspilot' name="dnipass">
-                                                    </div>
-                                                    <div class="" style="width:10em">
-                                                        <input class="form-control" type="text" value="" placeholder="Licencia" id='licenciapilot' name="Licencia">
-                                                    </div>
-                                                    <div class="" style="width:9em">
-                                                        <!-- y aca problema -->
-
-                                                        <select class="form-control custom-select" name="funcion" id='funcion'>
-                                                            <option value="Piloto" <?php if ($row['funcion'] == 'Piloto') {
-                                                                                        echo 'selected';
-                                                                                    } ?>>
-                                                                Piloto</option>
-                                                            <option value="Copiloto" <?php if ($row['funcion'] == 'Copiloto') {
-                                                                                            echo 'selected';
-                                                                                        } ?>>
-                                                                Copiloto</option>
-                                                            <option value="TCP" <?php if ($row['funcion'] == 'TCP') {
-                                                                                    echo 'selected';
-                                                                                } ?>>
-                                                                TCP</option>
-                                                        </select>
-                                                    </div>
-                                                    <div style="display:flex;justify-content:space-between;width:5%;align-items:center;margin:5px">
+                                                                <select class="form-control custom-select" name="funcion" id='funcion'>
+                                                                    <option value="Piloto" <?php if ($row['funcion'] == 'Piloto') { echo 'selected'; } ?>> Piloto</option>
+                                                                    <option value="Copiloto" <?php if ($row['funcion'] == 'Copiloto') { echo 'selected'; } ?>> Copiloto</option>
+                                                                    <option value="TCP" <?php if ($row['funcion'] == 'TCP') { echo 'selected'; } ?>> TCP</option>
+                                                                </select>
+                                                            </div>
+                                                        </th>
+                                                        
                                                         <?php
                                                         //$index=0;
                                                         $itramo = 1;
@@ -273,26 +291,23 @@ include("conexion.php");
                                                         while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
 
                                                         ?>
-                                                            <input id="<?php echo 'pilotchck' . $itramo ?>" type="checkbox" style="width:2em;height:2em" value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span>
+                                                        <th><input class="form-control pilot-check" onchange="javascript:can_add()" id="<?php echo 'pilotchck' . $itramo ?>" type="checkbox" value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span></th>
+                                                            
                                                         <?php
                                                             $itramo++;
                                                         }
                                                         ?>
-
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-primary" onclick='javascript:addbutton2()' type="button" class="ai-button">
-                                                            <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row container ">
-                                                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                                                    <div class="col-12 col-sm-10 col-lg-12 row" id='divpilot'>
-
-                                                        <?php
-                                                        //if(isset($tramoid)){
+                                                        <th>
+                                                            <div class="input-group-append">
+                                                                <button id="add_pilot_button" class="btn btn-primary" onclick='javascript:addbutton2()' type="button" class="ai-button">
+                                                                    <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                                                                </button>
+                                                            </div>
+                                                        </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="border:none;background-color:white;">
+                                                        <?php 
                                                         $sqlpilotlist = "select * from Contact c, opstramo o where o.contact_id=c.id and o.funcion <>'null' and (";
                                                         for ($i = 0; $i < count($tramoids); $i++) {
                                                             $sqlpilotlist .= "o.tramo_id=" . $tramoids[$i];
@@ -301,7 +316,7 @@ include("conexion.php");
                                                             }
                                                         }
                                                         $sqlpilotlist .= ")";
-                                                        // $sqlpilotlist = "select * from Contact c, opstramo o where o.contact_id=c.id and o.funcion <>'null' and o.tramo_id=".$tramoids[0];
+
                                                         $pilot_dni_list = array();
                                                         $rowspilot = mysqli_query($con, $sqlpilotlist);
                                                         while ($rowp = mysqli_fetch_assoc($rowspilot)) {
@@ -310,16 +325,34 @@ include("conexion.php");
                                                             }
 
                                                             array_push($pilot_dni_list, $rowp['dnipass']);
+                                                        
                                                         ?>
-
-                                                            <div class="input-group-append">
-                                                                <input class="form-control col-12 col-sm-3 col-lg-3" value="<?php echo $rowp['last_name'] . ', ' . $rowp['first_name'] ?>" readonly>
-                                                                <input class="form-control col-12 col-sm-2 col-lg-2" value="<?php echo $rowp['f_nacimiento'] ?>" readonly>
-                                                                <input class="form-control col-12 col-sm-2 col-lg-2" value="<?php echo $rowp['pais'] ?>" readonly>
-                                                                <input class="form-control col-12 col-sm-1 col-lg-1" value="<?php echo $rowp['licencia'] ?>" readonly>
-                                                                <input class="form-control col-12 col-sm-1 col-lg-1" value="<?php echo $rowp['dnipass'] ?>" readonly>
-                                                                <input class="form-control col-12 col-sm-1 col-lg-1" value="<?php echo $rowp['funcion'] ?>" readonly>
-                                                                <?php
+                                                        <tr id="divpilot">
+                                                            <td class="table-1">
+                                                            <?php echo $rowp['last_name'] . ', ' . $rowp['first_name'] ?>
+                                                                <!-- <input class="form-control col-12 col-sm-3 col-lg-3" value="<?php echo $rowp['last_name'] . ', ' . $rowp['first_name'] ?>" readonly> -->
+                                                            </td>
+                                                            <td class="table-1">
+                                                            <?php echo $rowp['f_nacimiento'] ?>
+                                                                <!-- <input class="form-control col-12 col-sm-2 col-lg-2" value="<?php echo $rowp['f_nacimiento'] ?>" readonly> -->
+                                                            </td>
+                                                            <td class="table-1">
+                                                            <?php echo $rowp['pais'] ?>
+                                                                <!-- <input class="form-control col-12 col-sm-2 col-lg-2" value="<?php echo $rowp['pais'] ?>" readonly> -->
+                                                            </td>
+                                                            <td class="table-1">
+                                                            <?php echo $rowp['licencia'] ?>
+                                                            <!-- <input class="form-control col-12 col-sm-1 col-lg-1" value="<?php echo $rowp['licencia'] ?>" readonly> -->
+                                                            </td>
+                                                            <td class="table-1">
+                                                            <?php echo $rowp['dnipass'] ?>
+                                                                <!-- <input class="form-control col-12 col-sm-1 col-lg-1" value="<?php echo $rowp['dnipass'] ?>" readonly> -->
+                                                            </td>
+                                                            <td class="table-1">
+                                                            <?php echo $rowp['funcion'] ?>  
+                                                                <!-- <input class="form-control col-12 col-sm-1 col-lg-1" value="<?php echo $rowp['funcion'] ?>" readonly> -->
+                                                            </td>
+                                                            <?php
                                                                 // $index=0;
                                                                 // $itramo=1;
                                                                 // $detailleg = mysqli_query($con, $sql);
@@ -342,112 +375,111 @@ include("conexion.php");
                                                                 foreach ($tramoids as $tramo) {
                                                                     if (in_array($tramo, $pilot_tramos)) {
                                                                 ?>
-                                                                        <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                <td class="table-1"><button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
                                                                             <!-- <span class="s7-trash"></span> -->
                                                                             <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon">
-                                                                        </button>
+                                                                        </button></td>
+                                                                        
 
                                                                     <?php
                                                                     } else {
                                                                     ?>
-                                                                        <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                    <td class="table-1"><button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
                                                                             <!-- <span class="s7-trash"></span> -->
                                                                             <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon ai-hide-checkmark">
-                                                                        </button>
+                                                                        </button></td>
+                                                                        
                                                                 <?php
                                                                     }
                                                                 }
                                                                 ?>
-
-                                                                <button class="btn btn-danger" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                            
+                                                            
+                                                            <td class="table-1">
+                                                            <button class="btn btn-danger" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
                                                                     <!-- <span class="s7-trash"></span> -->
                                                                     <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
                                                                 </button>
-                                                                <!-- changed from a to button-->
+                                                            </td>
 
-                                                            </div>
-
-                                                        <?php
+                                                        </tr>
+                                                        <?php 
+                                                        
                                                         }
-                                                        ?>
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                        </div>
+                                                        ?> 
+                                                    </tbody> 
+                                                </table>
+                                                
+                                     
                                         <hr>
 
                                         <!--COMIENZO Pasajeros-->
 
-                                        <div class="card-header">Informacion de Pasajeros<span class="card-subtitle">Ingresa los detalles de Pasajeros</span></div>
+                                        <div class="card-header">Información de Pasajeros<span class="card-subtitle">Ingresa los detalles de Pasajeros</span></div>
                                         <br>
-                                        <div class="form-group row">
-                                            <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                                            <div class="col-12 col-sm-10 col-lg-12">
-                                                <div class="buscador">
-                                                    <!-- <label class="col-12 col-sm-1 col-form-label text-sm-right"></label> -->
+                                        <table class="col-md-12 fuelux">
+                                            <thead>
+                                            <tr>
+                                                <th>
                                                     <div class="" style="width:16em">
                                                         <select class="form-control custom-select" name="cliente" id='cliente' onchange='javascript:updatepax()'>
                                                             <option value="">...</option>
                                                             <?php
-                                                            $sqllist = "select * from Contact where typeclient <>'Empleados' order by last_name";
-                                                            $rows = mysqli_query($con, $sqllist);
-                                                            while ($row = mysqli_fetch_assoc($rows)) {
-
-                                                            ?>
-
-
-                                                                <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['f_nacimiento'] . '*' . $row['dnipass'] ?>">
-                                                                    <?php echo $row['last_name'] . ', ' . $row['first_name'] ?>
-                                                                </option>
-                                                            <?php
-                                                            }
+                                                                $sqllist = "select * from Contact where typeclient <>'Empleados' order by last_name";
+                                                                $rows = mysqli_query($con, $sqllist);
+                                                                while ($row = mysqli_fetch_assoc($rows)) {
+                                                                ?>
+                                                                    <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['f_nacimiento'] . '*' . $row['dnipass'] ?>">
+                                                                        <?php echo $row['last_name'] . ', ' . $row['first_name'] ?>
+                                                                    </option>
+                                                                <?php
+                                                                }
                                                             ?>
                                                         </select>
                                                     </div>
-
+                                                </th>
+                                                <th>
                                                     <div class="" style="width:10em">
-                                                        <input class="form-control" type="text" value="" placeholder="Pais" id='pais' name="pais">
-                                                        <input class="form-control" type="hidden" value="" id='idpax' name="idpax">
+                                                        <input class="form-control" type="text" value="" placeholder="Pais" id='pais' name="pais" disabled>
+                                                        <input class="form-control" type="hidden" value="" id='idpax' name="idpax" disabled>
                                                     </div>
+                                                </th>
+                                                <th>
                                                     <div class="" style="width:10em">
-                                                        <input class="form-control" type="text" value="" placeholder="F.Nacimiento" id='f_nacimiento' name="f_nacimiento">
+                                                        <input class="form-control" type="text" value="" placeholder="F.Nacimiento" id='f_nacimiento' name="f_nacimiento" disabled>
                                                     </div>
+                                                </th>
+                                                <th>
                                                     <div class="" style="width:10em">
-                                                        <input class="form-control" type="text" value="" placeholder="DNI/PASS" id='dnipass' name="dnipass">
+                                                        <input class="form-control" type="text" value="" placeholder="DNI/PASS" id='dnipass' name="dnipass" disabled>
                                                     </div>
+                                                </th>
                                                     <div style="display:flex;justify-content:space-between;width:5%;align-items:center;margin:5px">
                                                         <?php
-                                                        //$index=0;
-                                                        $itramo = 1;
-                                                        $detailleg = mysqli_query($con, $sql);
-                                                        while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
+                                                            //$index=0;
+                                                            $itramo = 1;
+                                                            $detailleg = mysqli_query($con, $sql);
+                                                            while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
 
-                                                        ?>
-                                                            <input id="<?php echo 'paxchck' . $itramo ?>" type="checkbox" style="width:2em;height:2em" value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span>
-                                                        <?php
-                                                            $itramo++;
-                                                        }
-                                                        ?>
-
-                                                    </div>
-                                                    <button class="btn btn-primary" onclick='javascript:addbutton()' type="button" class="ai-button">
-                                                        <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
-                                                    </button>
-                                                </div>
-                                                <div class="form-group row container">
-                                                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                                                    <div class="col-12 col-sm-10 col-lg-12 row" id='divpax'>
-                                                        <!-- <div class="col-10 col-sm-8 col-lg-10 row" id='divpax'> -->
-                                                        <?php
-                                                        //if(isset($tramoid)){
-                                                        //$sqlpilotlist = "select * from Contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and o.tramo_id=".$tramoid;
-                                                        //$rowspilot = mysqli_query($con, $sqlpilotlist);
-                                                        //while($rowp = mysqli_fetch_assoc($rowspilot)){
-                                                        ?>
-                                                        <?php
+                                                            ?>
+                                                                <th>
+                                                                    <input id="<?php echo 'paxchck' . $itramo ?>" onchange="javascript:can_add()" class="form-control pas-check" type="checkbox"  value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span>
+                                                                </th>
+                                                            
+                                                            <?php
+                                                                $itramo++;
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                    <th>
+                                                        <button class="btn btn-primary" id="add_pass_button" onclick='javascript:addbutton()' type="button" class="ai-button">
+                                                            <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                                                        </button>
+                                                    </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
                                                         //if(isset($tramoid)){
                                                         $sqlpilotlist = "select * from Contact c, opstramo o where o.contact_id=c.id and o.funcion ='null' and (";
                                                         for ($i = 0; $i < count($tramoids); $i++) {
@@ -465,15 +497,23 @@ include("conexion.php");
 
                                                             array_push($pilot_dni_list, $rowp['dnipass']);
                                                         ?>
-
-
-                                                            <div class="input-group-append">
-                                                                <input class="form-control col-12 col-sm-3 col-lg-3" value="<?php echo $rowp['last_name'] . ', ' . $rowp['first_name'] ?>" readonly>
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo $rowp['last_name'] . ', ' . $rowp['first_name'] ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $rowp['f_nacimiento'] ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $rowp['pais'] ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $rowp['dnipass'] ?>
+                                                            </td>
+                                                        <!-- <input class="form-control col-12 col-sm-3 col-lg-3" value="<?php echo $rowp['last_name'] . ', ' . $rowp['first_name'] ?>" readonly>
                                                                 <input class="form-control col-12 col-sm-3 col-lg-3" value="<?php echo $rowp['f_nacimiento'] ?>" readonly>
                                                                 <input class="form-control col-12 col-sm-2 col-lg-2" value="<?php echo $rowp['pais'] ?>" readonly>
-                                                                <input class="form-control col-12 col-sm-2 col-lg-2" value="<?php echo $rowp['dnipass'] ?>" readonly>
-
-
+                                                                <input class="form-control col-12 col-sm-2 col-lg-2" value="<?php echo $rowp['dnipass'] ?>" readonly> -->
                                                                 <?php
                                                                 //     // }
                                                                 // $index++;
@@ -488,55 +528,46 @@ include("conexion.php");
                                                                 foreach ($tramoids as $tramo) {
                                                                     if (in_array($tramo, $pilot_tramos)) {
                                                                 ?>
-                                                                        <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
-                                                                            <!-- <span class="s7-trash"></span> -->
-                                                                            <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon">
-                                                                        </button>
+                                                                <td>
+                                                                    <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                        <!-- <span class="s7-trash"></span> -->
+                                                                        <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon">
+                                                                    </button>
+                                                                </td>
+                                                                        
                                                                     <?php
                                                                     } else {
                                                                     ?>
+                                                                    <td>
                                                                         <button class="btn ai-button-checkbox btn-dark" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
                                                                             <!-- <span class="s7-trash"></span> -->
                                                                             <img src="assets/img/icons/icono-10.png" alt="" class="ai-icon ai-hide-checkmark">
                                                                         </button>
+                                                                    </td>
+                                                                        
                                                                 <?php
                                                                     }
                                                                 }
                                                                 ?>
-
-                                                                <button class="btn btn-danger" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
-                                                                    <!-- <span class="s7-trash"></span> -->
-                                                                    <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
-                                                                </button>
-                                                            </div>
+                                                                <td>
+                                                                    <button class="btn btn-danger" onclick="javascript:deletepax2(<?php echo $rowp['contact_id'] ?>,<?php echo $quote ?>,event)">
+                                                                        <!-- <span class="s7-trash"></span> -->
+                                                                        <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
+                                                                    </button>
+                                                                </td>
+                                                                
+                                                          
                                                         <?php
                                                         }
                                                         //}
                                                         ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                            </tr>
 
-
-
-                                        <!--COMIENZO tramo info-->
-
-
-                                        <!--</form>-->
-
-                                    </div>
-
-
-
-
-                                    <?php
-                                    //$i++;
-                                    //}
-                                    ?>
-                                    <button class="btn btn-space btn-primary" onclick="javascript:save_all()">guardartodo </button>
-                                </div>
-
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Pasajeros </button>
+                                       
                             </div>
                         </div>
                     </div>
@@ -560,7 +591,21 @@ include("conexion.php");
             App.init();
             App.wizard();
         });
-
+        can_add();
+        function can_add(){
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let one_checked = false;
+            let two_checked = false;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked && checkbox.classList.contains("pilot-check")) {
+                    one_checked = true;
+                }else if(checkbox.checked && checkbox.classList.contains("pas-check")){
+                    two_checked = true;
+                }
+            });
+            document.getElementById("add_pilot_button").disabled = !one_checked;
+            document.getElementById("add_pass_button").disabled = !two_checked;
+        }
         function save_all() {
             let form = document.createElement('form')
             form.action = 'opsmain3.php?id=<?php echo $quote ?>'
@@ -718,18 +763,18 @@ include("conexion.php");
             console.log(input_tramos);
 
             input1.classList.add('form-control', 'col-3')
-            document.getElementById('divpilot').appendChild(input1)
+            // document.getElementById('divpilot').appendChild(input1)
             input2.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input2)
+            // document.getElementById('divpilot').appendChild(input2)
             input3.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input3)
+            // document.getElementById('divpilot').appendChild(input3)
             input4.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input4)
+            // document.getElementById('divpilot').appendChild(input4)
             input5.classList.add('form-control', 'col-2')
-            document.getElementById('divpilot').appendChild(input5)
+            // document.getElementById('divpilot').appendChild(input5)
             input6.classList.add('form-control', 'col-1')
-            document.getElementById('divpilot').appendChild(input6)
-            document.getElementById('divpilot').appendChild(input0)
+            // document.getElementById('divpilot').appendChild(input6)
+            // document.getElementById('divpilot').appendChild(input0)
 
             let e = document.getElementById('tripulacion')
             let nombre = e.options[e.selectedIndex].text;
@@ -795,13 +840,13 @@ include("conexion.php");
             input4.value = document.getElementById('dnipass').value
             input4.readOnly = 'readonly'
             input1.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input1)
+            // document.getElementById('divpax').appendChild(input1)
             input2.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input2)
+            // document.getElementById('divpax').appendChild(input2)
             input3.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input3)
+            // document.getElementById('divpax').appendChild(input3)
             input4.classList.add('form-control', 'col-3')
-            document.getElementById('divpax').appendChild(input4)
+            // document.getElementById('divpax').appendChild(input4)
 
             // let input7=document.createElement('input')
             // input7.value=document.getElementById('tramoid').value

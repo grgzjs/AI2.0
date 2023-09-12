@@ -29,11 +29,13 @@ if ($next_leg_id != "none") {
     $pax_disembarked = $pax_embarked - $row_next_invoice_detail["Pax"];
 }
 
-$sql_aircraft = "select operador from Aircraft where matricula=$matricula";
-$aircraft = mysqli_query($con, $sql_aircraft);
-$row_aircraft = mysqli_fetch_assoc($aircraft);
-
-$operador = $row_aircraft["operador"];
+//ERROR HTTP 500 -->
+//$sql_aircraft = "select operador from Aircraft where matricula=$matricula";
+//$aircraft = mysqli_query($con, $sql_aircraft);
+//$row_aircraft = mysqli_fetch_assoc($aircraft);
+//$operador = $row_aircraft["operador"];
+//<--ERROR HTTP 500
+$operador = "operador";
 
 $sql_contact = "select c.first_name, c.last_name, o.funcion from opstramo o, Contact c where o.tramo_id=$leg_id and o.contact_id=c.id and o.funcion!='null'";
 $contact = mysqli_query($con, $sql_contact);
@@ -54,19 +56,6 @@ $pdf->SetFont("helvetica", "B", 14);
 $pdf->Cell(0, 5, "APPENDIX 1. GENERAL DECLARATION", 0, 1, "C");
 $pdf->Ln();
 
-// operador - nombre del dueño de la aeronave
-// Marks of Nationality and Registration - Matricula
-// Flight No - quote
-// Date - del primer tramo
-// Departure from - primer tramo a
-// Arrival at - segundo tramo b
-
-// place - pilot - copilot . etc
-// name of guy
-
-// embarking amount of people that is on the leg
-// disembark amount of people that is on the next leg minus amount on the leg
-
 $pdf->SetFont("helvetica", "", 8);
 $html = "
 <br>
@@ -78,7 +67,6 @@ $html = "
 <br>
 ";
 $pdf->writeHTMLCell(0, 0, "", "", $html, 1, 1, false, true, "C");
-
 // $pdf->Cell(0, 1, "", 1, 1, "C");
 $pdf->Ln(2);
 
@@ -101,27 +89,6 @@ for ($i=0; $i < 7; $i++) {
     $pdf->Cell(38, 5, $employee_pax[$i][0], 1, 0, "C");
     $pdf->Cell(76, 5, $employee_pax[$i][1], 1, 1, "C");
 }
-
-// $pdf->Cell(38, 5, "", 1, 0, "C");
-// $pdf->Cell(76, 5, "", 1, 1, "C");
-
-// $pdf->Cell(38, 5, "", 1, 0, "C");
-// $pdf->Cell(76, 5, "", 1, 1, "C");
-
-// $pdf->Cell(38, 5, "", 1, 0, "C");
-// $pdf->Cell(76, 5, "", 1, 1, "C");
-
-// $pdf->Cell(38, 5, "", 1, 0, "C");
-// $pdf->Cell(76, 5, "", 1, 1, "C");
-
-// $pdf->Cell(38, 5, "", 1, 0, "C");
-// $pdf->Cell(76, 5, "", 1, 1, "C");
-
-// $pdf->Cell(38, 5, "", 1, 0, "C");
-// $pdf->Cell(76, 5, "", 1, 1, "C");
-
-// $pdf->Cell(38, 5, "", 1, 0, "C");
-// $pdf->Cell(76, 5, "", 1, 0, "C");
 
 $pdf->SetFont("helvetica", "", 7);
 $html = "
@@ -196,4 +163,7 @@ $html = "
 $pdf->writeHTMLCell(0, 0, "", "", $html, 0, 1, false, true, "L");
 
 // $pdf->Output("GENDEC.pdf", "I");
+
 $pdf->Output("GENDEC.pdf", "D");
+echo "<h1>HOLA!</h1>";
+?>

@@ -53,7 +53,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="crmregistro.php" id="crm-1">
                                     <span class="icon s7-user"></span>
-                                    <span class="name">Regristro</span>
+                                    <span class="name">Registro</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -123,6 +123,18 @@
                                     <span class="name">Config. Aeronaves</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="company_setup.php" id="admin-3">
+                                    <span class="icon s7-note2"></span>
+                                    <span class="name">Config. Compañía</span>
+                                </a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" href="airport_setup.php" id="admin-4">
+                                    <span class="icon s7-note2"></span>
+                                    <span class="name">Config. Aeropuertos</span>
+                                </a>
+                            </li> 
                         </ul>
                     </li>
                 </ul>
@@ -157,6 +169,7 @@
         // "crm-1",
         // "crm-2",
         "admin-1",
+        "admin-4",
         "ops-tab",
         "accounting-tab",
     ];
@@ -211,12 +224,14 @@
         crm = ["crmregistro.php", "crm.php"];
         ops = ["opsmain.php", "opsmain2.php", "opsmain3.php", "ops_calendar.php"];
         accounting = ["contabilidadgastos.php", "contabilidadingresos.php", "contabilidadinvoicec.php"]
-        admin = ["admin_panel.php", "aircraft_setup.php"];
+        admin = ["admin_panel.php", "aircraft_setup.php", "company_setup.php", "airport_setup.php"];
 
         if (document.getElementsByClassName("open")[0])
             document.getElementsByClassName("open")[0].classList.remove("open");
 
+        console.log(location.pathname);
         let current_page = location.pathname.substring(1);
+        console.log(current_page);
         if (home.includes(current_page)) {
             console.log("home-tab opened")
             document.getElementById("home-tab").classList.add("open");

@@ -111,19 +111,14 @@
         <div class="col-sm-12">
           <div class="card card-default card-table">
             <div class="card-header">Lista de Cotizaciones
-              <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-edit"></span></div>
+              <div class="tools"></div>
             </div>
             <div class="card-body">
               <div class="noSwipe">
                 <table class="table table-striped table-hover" id="table1">
                   <thead>
                     <tr>
-                      <th style="width:5%;">
-                        <label class="custom-control custom-control-sm custom-checkbox">
-                          <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                        </label>
-                      </th>
-                      <th style="width:10%;">Cotizacion </th>
+                      <th style="width:15%;">Cotizacion </th>
                       <th style="width:15%;">Fecha </th>
                       <th style="width:10%;">Aeronave</th>
                       <th style="width:10%;">Comprador</th>
@@ -137,11 +132,6 @@
                       while ($row = mysqli_fetch_assoc($rows)) {
                     ?>
                         <tr>
-                          <td>
-                            <label class="custom-control custom-control-sm custom-checkbox">
-                              <input class="custom-control-input" type="checkbox"><span class="custom-control-label"></span>
-                            </label>
-                          </td>
                           <td class="cell-detail"><span><b><?php echo $row['quote']; ?></b></span></td>
                           <td class="cell-detail"> <span><?php echo $row['date']; ?></span></td>
                           <td class="cell-detail"><span><?php echo $row['aircraft']; ?></span></td>
@@ -153,7 +143,7 @@
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <a class="dropdown-item" href='javascript:editarQuote ("<?php echo $row['quote'] ?>")' title="Cambiar">Editar</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" target='_blank' href='reportpdf.php?id=<?php echo $row['quote'] ?>' title="View">Ver</a>
+                                <a class="dropdown-item" href='pdfgen.php?id=<?php echo $row['quote'] ?>' title="View">Ver</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href='javascript:borrar ("<?php echo $row['quote'] ?>")' title="Eliminar">Borrar</a>
                                 <div class="dropdown-divider"></div>

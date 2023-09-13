@@ -103,6 +103,10 @@ include("conexion.php");
         $something_was_uploaded = false;
         $nombre       = mysqli_real_escape_string($con, (strip_tags($_POST["nombre"], ENT_QUOTES)));
         $email        = mysqli_real_escape_string($con, (strip_tags($_POST["email"], ENT_QUOTES)));
+        $direccion    = mysqli_real_escape_string($con, (strip_tags($_POST["direccion"], ENT_QUOTES)));
+        $telefono     = mysqli_real_escape_string($con, (strip_tags($_POST["telefono"], ENT_QUOTES)));
+        $webpage      = mysqli_real_escape_string($con, (strip_tags($_POST["webpage"], ENT_QUOTES)));
+        $tyc          = mysqli_real_escape_string($con, (strip_tags($_POST["tyc"], ENT_QUOTES)));
 
         $account      = mysqli_real_escape_string($con, (strip_tags($_POST["account"], ENT_QUOTES)));
         $aba          = mysqli_real_escape_string($con, (strip_tags($_POST["aba"], ENT_QUOTES)));
@@ -114,7 +118,7 @@ include("conexion.php");
         echo "<script>console.log('rows: $rows')</script>";
         // return;
         if ($rows == 0) {
-          mysqli_query($con, "INSERT INTO `company` (`company_id`, `name`, `email`, `account`, `aba`, `swift`, `bank_name`, `bank_address`) VALUES ('1', '$nombre', '$email', '$account', '$aba', '$swift', '$bank_name', '$bank_address');");
+          mysqli_query($con, "INSERT INTO `company` (`company_id`, `name`, `email`, `direccion`, `telefono`, `webpage`, `tyc`, `account`, `aba`, `swift`, `bank_name`, `bank_address`) VALUES ('1', '$nombre', '$email', '$direccion', '$telefono', '$webpage', '$tyc', '$account', '$aba', '$swift', '$bank_name', '$bank_address');");
           $something_was_uploaded = true;
         } else {
           if ($nombre) {
@@ -123,6 +127,22 @@ include("conexion.php");
           }
           if ($email) {
             mysqli_query($con, "UPDATE `company` SET `email` = '$email' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
+          }
+          if ($direccion) {
+            mysqli_query($con, "UPDATE `company` SET `direccion` = '$direccion' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
+          }
+          if ($telefono) {
+            mysqli_query($con, "UPDATE `company` SET `telefono` = '$telefono' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
+          }
+          if ($webpage) {
+            mysqli_query($con, "UPDATE `company` SET `webpage` = '$webpage' WHERE `company`.`company_id` = 1;");
+            $something_was_uploaded = true;
+          }
+          if ($tyc) {
+            mysqli_query($con, "UPDATE `company` SET `tyc` = '$tyc' WHERE `company`.`company_id` = 1;");
             $something_was_uploaded = true;
           }
           if ($account) {
@@ -217,7 +237,7 @@ include("conexion.php");
           <div class="card card-default">
             <div class="card-header card-header-divider">Configuracion de la Compañia<span class="card-subtitle">Informacion de la Compañia</span></div>
             <div class="card-body pl-sm-5">
-              <form action="company_setup.php" method="post" enctype="multipart/form-data">
+              <form action="company_setup.php" id="company-form" method="post" enctype="multipart/form-data">
                 <div class="form-group row">
                   <label class="col-12 col-sm-4 col-form-label text-sm-right">Nombre</label>
                   <div class="col-12 col-sm-8 col-lg-6">
@@ -225,9 +245,9 @@ include("conexion.php");
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-12 col-sm-4 col-form-label text-sm-right">Email</label>
+                  <label class="col-12 col-sm-4 col-form-label text-sm-right">Email Corporativo</label>
                   <div class="col-12 col-sm-8 col-lg-6">
-                    <input class="form-control" type="text" value="" placeholder="Email" name="email">
+                    <input class="form-control" type="text" value="" placeholder="Email Corporativo" name="email">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -246,6 +266,30 @@ include("conexion.php");
                     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
                   });
                 </script>
+                <div class="form-group row">
+                  <label class="col-12 col-sm-4 col-form-label text-sm-right">Dirección Corporativa</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <input class="form-control" type="text" value="" placeholder="Dirección Corporativa" name="direccion">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-12 col-sm-4 col-form-label text-sm-right">Teléfono Corporativo</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <input class="form-control" type="text" value="" placeholder="Teléfono Corporativo" name="telefono">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-12 col-sm-4 col-form-label text-sm-right">Página Web Oficial</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <input class="form-control" type="text" value="" placeholder="Página Web Oficial" name="webpage">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-12 col-sm-4 col-form-label text-sm-right">Términos y Condiciones</label>
+                  <div class="col-12 col-sm-8 col-lg-6">
+                    <textarea name="tyc" wrap="hard" form="company-form" class="form-control" placeholder="Términos y Condiciones" cols="50" rows="10"></textarea>
+                  </div>
+                </div>
             </div>
             <div class="row">
               <div class="col-md-12">
@@ -253,9 +297,9 @@ include("conexion.php");
                   <div class="card-header card-header-divider">Configuracion de Transferencia<span class="card-subtitle">Informacion de Transferencia</span></div>
                   <div class="card-body pl-sm-5">
                     <div class="form-group row">
-                      <label class="col-12 col-sm-4 col-form-label text-sm-right">Account</label>
+                      <label class="col-12 col-sm-4 col-form-label text-sm-right">Cuenta Bancaria</label>
                       <div class="col-12 col-sm-8 col-lg-6">
-                        <input class="form-control" type="text" value="" placeholder="Account" name="account">
+                        <input class="form-control" type="text" value="" placeholder="Cuenta Bancaria" name="account">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -265,21 +309,21 @@ include("conexion.php");
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-12 col-sm-4 col-form-label text-sm-right">Swift</label>
+                      <label class="col-12 col-sm-4 col-form-label text-sm-right">SWIFT</label>
                       <div class="col-12 col-sm-8 col-lg-6">
-                        <input class="form-control" type="text" value="" placeholder="Swift" name="swift">
+                        <input class="form-control" type="text" value="" placeholder="SWIFT" name="swift">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-12 col-sm-4 col-form-label text-sm-right">Bank Name</label>
+                      <label class="col-12 col-sm-4 col-form-label text-sm-right">Nombre de Banco</label>
                       <div class="col-12 col-sm-8 col-lg-6">
-                        <input class="form-control" type="text" value="" placeholder="Bank Name" name="bank_name">
+                        <input class="form-control" type="text" value="" placeholder="Nombre de Banco" name="bank_name">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-12 col-sm-4 col-form-label text-sm-right">Bank Address</label>
+                      <label class="col-12 col-sm-4 col-form-label text-sm-right">Dirección de Banco</label>
                       <div class="col-12 col-sm-8 col-lg-6">
-                        <input class="form-control" type="text" value="" placeholder="Bank Address" name="bank_address">
+                        <input class="form-control" type="text" value="" placeholder="Dirección de Banco" name="bank_address">
                       </div>
                     </div>
                   </div>

@@ -73,9 +73,9 @@ include("conexion.php");
         // echo '<script>console.log("empty?: '.empty($id).'")</script>';
 
         if (!empty($id)) {
-          $sql = "update Contact set typeclient='" . $typeclient . "',first_name='" . $first_name . "',last_name='" . $last_name . "',phone_number=" . $phone_number . ",address='" . $address . "',email='" . $email . "',notes='" . $notes . "',pais='" . $pais . "',funcion=" . $funcion . ",dnipass=" . $dnipass . ",licencia=" . $licencia . ",f_nacimiento='" . $f_nacimiento . "' where id=" . $id;
+          $sql = "update Contact set typeclient='$typeclient',first_name='$first_name',last_name='$last_name',phone_number='$phone_number',address='$address',email='$email',notes='$notes',pais='$pais',funcion='$funcion',dnipass='$dnipass',licencia='$licencia',f_nacimiento='$f_nacimiento' where id='$id'";
         } else {
-          $sql = "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('" . $typeclient . "','" . $first_name . "','" . $last_name . "'," . $phone_number . ",'" . $address . "','" . $email . "','" . $notes . "','" . $pais . "'," . $funcion . "," . $dnipass . "," . $licencia . ",'" . $f_nacimiento . "')";
+          $sql = "insert into Contact (typeclient,first_name,last_name,phone_number,address,email,notes,pais,funcion,dnipass,licencia,f_nacimiento) Values ('$typeclient','$first_name','$last_name','$phone_number','$address','$email','$notes','$pais','$funcion','$dnipass', '$licencia','$f_nacimiento')";
         }
 
         echo '<script>console.log("' . $sql . '")</script>';

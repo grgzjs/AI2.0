@@ -149,12 +149,24 @@ echo "<script>console.log('finished getting data')</script>";
                         PREPARED FOR
                     </div>
                     <div class="row roboto-small">
-                        <div class="col-auto font-weight-bold text-right ml-4 pr-2">&nbsp;&nbsp;Company</div>
+                        <div class="col-auto font-weight-bold text-right ml-4 pr-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company</div>
                         <div class="col text-left pl-0"><?php echo $company_row['name']; ?></div>
                     </div>
                     <div class="row roboto-small">
-                        <div class="col-auto font-weight-bold text-right ml-5 pr-2">&nbsp;Email</div>
+                        <div class="col-auto font-weight-bold text-right ml-5 pr-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email</div>
                         <div class="col text-left pl-0"><?php echo $company_row['email']; ?></div>
+                    </div>
+                    <div class="row roboto-small">
+                        <div class="col-auto font-weight-bold text-right ml-5 pr-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telefono</div>
+                        <div class="col text-left pl-0"><?php echo $company_row['telefono']; ?></div>
+                    </div>
+                    <div class="row roboto-small">
+                        <div class="col-auto font-weight-bold text-right ml-5 pr-2">&nbsp;&nbsp;&nbsp;&nbsp;Dirección</div>
+                        <div class="col text-left pl-0"><?php echo $company_row['direccion']; ?></div>
+                    </div>
+                    <div class="row roboto-small">
+                        <div class="col-auto font-weight-bold text-right ml-5 pr-2">Pagina Web</div>
+                        <div class="col text-left pl-0"><?php echo $company_row['webpage']; ?></div>
                     </div>
                 </div>
                 <div class="col">
@@ -327,7 +339,11 @@ echo "<script>console.log('finished getting data')</script>";
                 </div>
                 <hr class="my-1">
             </div>
-            <br>
+            <br><br><br><br>
+            <hr style="border: 1px solid;">
+            <div class="d-flex flex-row-reverse">
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 1/2 </span>
+            </div>
         </div>
         <div id="pag2" class="container" style="height: 1500px;">
             <br>
@@ -427,6 +443,11 @@ echo "<script>console.log('finished getting data')</script>";
                 }
             }
             ?>
+            <br><br>
+            <hr style="border: 1px solid;">
+            <div class="d-flex flex-row-reverse align-bottom">
+                <span class="page-num-bg rounded-pill px-3 font-weight-bold"> 2/2 </span>
+            </div>
         </div>
     </div>
     <br><br><br><br><br><br><br><br><br>

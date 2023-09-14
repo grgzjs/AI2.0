@@ -139,7 +139,7 @@ include("conexion.php");
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <a class="dropdown-item" href="javascript:editarcontacto(<?php echo $row['id']; ?>)">Editar</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="crm.php?aksi=delete&nik=<?php echo $row['id']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['Last_Name']; ?>')">Borrar</a>
+                                <a class="dropdown-item" id="delete_client_btn" href="crm.php?aksi=delete&nik=<?php echo $row['id']; ?>" title="Eliminar" onclick="return confirm('Are you sure? <?php echo $row['Last_Name']; ?>')">Borrar</a>
                               </div>
                             </div>
                           </td>
@@ -174,8 +174,24 @@ include("conexion.php");
       App.init();
       App.formElements();
     });
-
+    let delete_client_btn = document.getElementById("delete_client_btn");
+      delete_client_btn.addEventListener("click", function(event){
+      let user_type = localStorage.getItem("user_type");
+      let email = localStorage.getItem("email");
+      let username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='deleted client'", // your php file
+                type: "GET"
+            });
+    });
     function editarcontacto(idcontacto) {
+      let log_user_type = localStorage.getItem("user_type");
+      let log_email = localStorage.getItem("email");
+      let log_username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='edited client'", // your php file
+                type: "GET"
+            });
       let form = document.createElement('form')
       form.action = 'crmregistro.php'
       form.method = 'post'

@@ -262,7 +262,7 @@ include("conexion.php");
                   </div>
                   <div class="col-lg-6">
                     <p class="text-right">
-                      <button class="btn btn-space btn-primary" name="save" value="submit" type="submit">Procesar</button>
+                      <button class="btn btn-space btn-primary" name="save" value="submit" type="submit" id="submit_btn">Procesar</button>
                       <button class="btn btn-space btn-secondary">Cancelar</button>
                     </p>
                   </div>
@@ -292,6 +292,18 @@ include("conexion.php");
     });
   </script>
   <script>
+    let submit_btn = document.getElementById("submit_btn");
+    submit_btn.addEventListener("click", function(event){
+      event.preventDefault();
+      let user_type = localStorage.getItem("user_type");
+      let email = localStorage.getItem("email");
+      let username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered client'", // your php file
+                type: "GET"
+            });
+    });
+
     function showHideFields(selectedValue) {
       if (selectedValue === "Empleados") {
         // show tripulacion fields

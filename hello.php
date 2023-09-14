@@ -391,7 +391,7 @@
                 </div>
                 <div class="col-lg-6">
                   <p class="text-right">
-                    <button class="btn btn-space btn-primary" name="save" type="submit">Procesar</button>
+                    <button class="btn btn-space btn-primary" name="save" type="submit" id="submit_btn">Procesar</button>
                     <a class="btn btn-space btn-secondary" href="hellolist.php">Cancelar</a>
                   </p>
                 </div>
@@ -405,6 +405,24 @@
   </div>
   </div>
   <script>
+
+
+    let submit_btn = document.getElementById("submit_btn");
+    submit_btn.addEventListener("click", function(event){
+      let user_type = localStorage.getItem("user_type");
+      let email = localStorage.getItem("email");
+      let username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered quote'", // your php file
+                type: "GET", // type of the HTTP request
+                success: function(data) {
+                  console.log(data)
+                   console.log("registered quote");
+                }
+            });
+    });
+
+
     var tramo = <?php echo $i; ?>;
     var kmPrice = 0;
     var hPrice = 0;

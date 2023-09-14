@@ -129,7 +129,9 @@ include("conexion.php");
         $precioh = mysqli_real_escape_string($con, (strip_tags($_POST["precioh"], ENT_QUOTES)));
         $pesomaximo       = mysqli_real_escape_string($con, (strip_tags($_POST["pesomaximo"], ENT_QUOTES))); //Escanpando caracteres
         $ascentspeed     = mysqli_real_escape_string($con, (strip_tags($_POST["ascentspeed"], ENT_QUOTES))); //Escanpando caracteres
-        $fuelstop     = mysqli_real_escape_string($con, (strip_tags($_POST["fuelstop"], ENT_QUOTES))); //Escanpando caracteres
+        // $fuelstop     = mysqli_real_escape_string($con, (strip_tags($_POST["fuelstop"], ENT_QUOTES))); //Escanpando caracteres
+        $fuelstop = 0;
+        $taxitime     = mysqli_real_escape_string($con, (strip_tags($_POST["taxitime"], ENT_QUOTES)));
         $distancia    = mysqli_real_escape_string($con, (strip_tags($_POST["distancia"], ENT_QUOTES))); //Escanpando caracteres
         $pernocta    = mysqli_real_escape_string($con, (strip_tags($_POST["pernocta"], ENT_QUOTES))); //Escanpando caracteres
         $descentspeed    = mysqli_real_escape_string($con, (strip_tags($_POST["descentspeed"], ENT_QUOTES))); //Escanpando caracteres
@@ -180,11 +182,9 @@ include("conexion.php");
         }
         
         if ($matricula) {
-          // $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',preciokm='$preciokm',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
-          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',precioh='$precioh',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
+          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',precioh='$precioh',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop', taxitime='$taxitime',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
         } else {
-          // $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,taxitime,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop', '$taxitime','$distancia','$pernocta','$descentspeed')";
         }
 
         echo '<script>console.log("' . $sql . '")</script>';
@@ -193,8 +193,7 @@ include("conexion.php");
         echo '<script>console.log("update1: ' . $update . '")</script>';
 
         if ($update == 1) {
-          // $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,taxitime,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop', '$taxitime','$distancia','$pernocta','$descentspeed')";
           $update = mysqli_query($con, $sql);
 
           echo '<script>console.log("' . $sql . '")</script>';
@@ -331,8 +330,11 @@ include("conexion.php");
                         <input class="form-control" required type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="MN x Hr." name="ascentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Precio Fuel Stop
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['fuelstop']; ?>" placeholder="Parada Tecnica" name="fuelstop">
+                      <!-- <div class="col-12 col-sm-8 col-lg-2">Precio Fuel Stop
+                        <input class="form-control" required type="text" value="<?php //echo $rowaircraft['fuelstop']; ?>" placeholder="Parada Tecnica" name="fuelstop">
+                      </div> -->
+                      <div class="col-12 col-sm-8 col-lg-2">Taxi Time
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['taxitime']; ?>" placeholder="Hr.Min" name="taxitime">
                       </div>
                     </div>
                   </div>

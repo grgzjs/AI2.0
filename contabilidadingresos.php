@@ -38,24 +38,24 @@ if (isset($_POST['guardar_ingreso'])) {
   $monto = $_POST['monto'] != null ? $_POST['monto'] : 0;
   $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
 
-  $cambio = $_POST['cambio'] == "Pesos Arg" ? "ARS" : "USD";
+  $cambio = $_POST['cambio'] == "Pesos Mex" ? "MXN" : "USD";
   $fecha_cambio = $_POST['fecha_cambio']; // unused
-  $file = $_POST['file']; 
+  $file = $_POST['file'];
 
   // figure out where to save
-  $sql = "insert into ingresos_generales (`date`,tipoingreso,concepto,monto, moneda_cambio,`file`) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "','". $file ."')";
+  $sql = "insert into ingresos_generales (`date`,tipoingreso,concepto,monto, moneda_cambio,`file`) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "','" . $file . "')";
 
   mysqli_query($con, $sql);
 }
 ?>
 
 <body>
-<?php require_once("nav_header.html") ?>
+  <?php require_once("nav_header.html") ?>
 
   <!--COMIENZO BOTONERA PRINCIPAL-->
 
   <div class="mai-wrapper">
-  <?php require_once("nav_header2.html") ?>
+    <?php require_once("nav_header2.html") ?>
 
     <!--COMIENZO REGISTRACION PRINCIPAL-->
 
@@ -106,13 +106,13 @@ if (isset($_POST['guardar_ingreso'])) {
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Tipo de Ingreso</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <select required id="tipo_ingreso" class="form-control custom-select" name="typeclient">
-                        <option value="Generales" <?php if ($row['typeclient'] == 'Cliente Final') {
-                                                    echo 'selected';
-                                                  } ?>>Cotizaciones</option>
+                      <select required id="tipo_ingreso" class="form-control custom-select" name="typeclient" onchange="check_type(this)">
                         <option value="Administrativos" <?php if ($row['typeclient'] == 'Broker') {
                                                           echo 'selected';
                                                         } ?>>Administracion</option>
+                        <option value="Cotizaciones" <?php if ($row['typeclient'] == 'Cliente Final') {
+                                                        echo 'selected';
+                                                      } ?>>Cotización</option>
                         <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
                                                       echo 'selected';
                                                     } ?>>Corporativo</option>
@@ -122,32 +122,21 @@ if (isset($_POST['guardar_ingreso'])) {
                       </select>
                     </div>
                   </div>
-                  <!-- <div class="form-group row">
-                          <label class="col-12 col-sm-3 col-form-label text-sm-right">Nombre de la Empresa</label>
-                          <div class="col-12 col-sm-8 col-lg-6">
-                            <select id="empresa" class="form-control custom-select" name="typeclient">
-                              <?php
-                              // get nombre_empresa, id from Contact
-                              // $sql_empresas< = "select id, nombre_empresa from Contact where nombre_empresa != null";
-                              // $empresas = mysqli_query($con, $sql_empresas);
-                              // while ($rowp = mysqli_fetch_assoc($empresas)) {
-                              ?>
-                              <option value='<?php //echo $rowp["id"] 
-                                              ?>'><?php //echo $rowp["nombre_empresa"] 
-                                                                          ?></option>
-                              <?php
-                              // }
-                              ?>
-                            </select>
-                          </div>
-                        </div> -->
-                  <!-- <div class="form-group row">
-                          <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Referencia</label>
-                          <div class="col-12 col-sm-8 col-lg-6">
-                            <input class="form-control" type="Text" placeholder="Ingrese el numero de ">
-                          </div>
-                        </div> -->
-                  <div class="form-group row">
+                  <div class="form-group row" id="quote-selector-container">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Concepto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <select required class="form-control custom-select" id="concepto">
+                        <?php
+                        $get_invoices_query = mysqli_query($con, "SELECT i.quote, c.first_name, c.last_name, c.id FROM invoices AS i LEFT JOIN Contact AS c ON i.buyer_id=c.id");
+                        while ($invoice_row = mysqli_fetch_assoc($get_invoices_query)) {
+                          echo "<option value='Quote#" . $invoice_row['quote'] . "'>#" . $invoice_row['quote'] . " (" . $invoice_row['first_name'] . " " . $invoice_row['last_name'] . ")</option>";
+                        }
+                        // <option value="Generales">Generales</option>
+                        ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row" id="concept-container">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
                       <input required id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
@@ -202,12 +191,8 @@ if (isset($_POST['guardar_ingreso'])) {
                     </div>
                     <div class="col-sm-3 xs-pt-15">
                       <select required id="moneda_cambio" class="form-control custom-select" name="typeclient">
-                        <option value="Pesos Arg" <?php if ($row['typeclient'] == 'Cliente Final') {
-                                                    echo 'selected';
-                                                  } ?>>Pesos Arg</option>
-                        <option value="Usdollar" <?php if ($row['typeclient'] == 'Broker') {
-                                                    echo 'selected';
-                                                  } ?>>Dolares</option>
+                        <option value="Pesos Mex">Pesos Mex</option>
+                        <option value="Usdollar">Dolares</option>
                       </select>
                     </div>
                   </div>
@@ -231,15 +216,15 @@ if (isset($_POST['guardar_ingreso'])) {
                   <div class="form-group row">
                     <div class="col-12 xs-pt-15">
                       <div class="main-content container">
-                      <input type="file" id="ingreso" name="ingreso" style="display:none" accept="image/*">
+                        <input type="file" id="ingreso" name="ingreso" style="display:none" accept="image/*">
                         <form class="dropzone" id="my-awesome-dropzone" style="cursor:pointer;justify-content:center;text-align:center">
-                        <label for="ingreso" style="cursor:pointer;">
-                          <div class="dz-message">
-                            <div class="icon"><span class="s7-cloud-upload"></span></div>
-                            <h2>Search and select files here</h2>
-                            <div id="needsclick" class="dropzone-mobile-trigger needsclick"></div>
-                          </div>
-                        </label>
+                          <label for="ingreso" style="cursor:pointer;">
+                            <div class="dz-message">
+                              <div class="icon"><span class="s7-cloud-upload"></span></div>
+                              <h2>Search and select files here</h2>
+                              <div id="needsclick" class="dropzone-mobile-trigger needsclick"></div>
+                            </div>
+                          </label>
                         </form>
                       </div>
                     </div>
@@ -383,15 +368,15 @@ if (isset($_POST['guardar_ingreso'])) {
                         <span>$<?php echo $rowp["monto"] ?></span>
                       </td>
                       <td class="cell-detail">
-                      <?php
-                      if($file_exists !=""){
-                        echo '<a style="font-size:1.5rem" href="ingresos/'.$rowp["file"].'" download="'.$rowp["file"].'">
+                        <?php
+                        if ($file_exists != "") {
+                          echo '<a style="font-size:1.5rem" href="ingresos/' . $rowp["file"] . '" download="' . $rowp["file"] . '">
                         <span class="icon s7-file"></span>
                       </a>';
-                      }
-                      ?>
-                      
-                    </td>
+                        }
+                        ?>
+
+                      </td>
                     </tr>
                   <?php
                   }
@@ -421,6 +406,22 @@ if (isset($_POST['guardar_ingreso'])) {
       App.wizard();
     });
 
+    check_type(""); // defaults the selector value
+
+    function check_type(selected_type) {
+      if (selected_type.value == "Cotizaciones") {
+        // $("#quote-selector-container").show();
+        // $("#concept-container").hide();
+        document.getElementById("concept-container").setAttribute("hidden", "")
+        document.getElementById("quote-selector-container").removeAttribute("hidden")
+      } else {
+        // $("#quote-selector-container").hide();
+        // $("#concept-container").show();
+        document.getElementById("concept-container").removeAttribute("hidden")
+        document.getElementById("quote-selector-container").setAttribute("hidden", "")
+      }
+    }
+
     function save_all() {
       let end_point = "reception_area_query.php";
       let form_data = new FormData();
@@ -429,65 +430,65 @@ if (isset($_POST['guardar_ingreso'])) {
       fetch(end_point, {
         method: "POST",
         body: form_data
-      }).then(()=>{
+      }).then(() => {
         let form = document.createElement('form')
 
-// let tramo = document.createElement('input')
-// tramo.value = document.getElementById('tramo_reserva').value
-// tramo.name = 'tramo_reserva'
+        // let tramo = document.createElement('input')
+        // tramo.value = document.getElementById('tramo_reserva').value
+        // tramo.name = 'tramo_reserva'
 
-let tipo_ingreso = document.createElement('input')
-tipo_ingreso.value = document.getElementById('tipo_ingreso').value
-tipo_ingreso.name = 'tipo_ingreso'
-// let referencia = document.createElement('input')
-// referencia.value = document.getElementById('referencia').value
-// referencia.name="referencia"
-let concepto = document.createElement('input')
-concepto.value = document.getElementById('concepto').value
-concepto.name = "concepto"
-let monto = document.createElement('input')
-monto.value = document.getElementById('monto').value
-monto.name = "monto"
-let fecha_gasto = document.createElement('input')
-fecha_gasto.value = document.getElementById('fecha').value
-fecha_gasto.name = "fecha_gasto"
+        let tipo_ingreso = document.createElement('input')
+        tipo_ingreso.value = document.getElementById('tipo_ingreso').value
+        tipo_ingreso.name = 'tipo_ingreso'
+        // let referencia = document.createElement('input')
+        // referencia.value = document.getElementById('referencia').value
+        // referencia.name="referencia"
+        let concepto = document.createElement('input')
+        concepto.value = document.getElementById('concepto').value
+        concepto.name = "concepto"
+        let monto = document.createElement('input')
+        monto.value = document.getElementById('monto').value
+        monto.name = "monto"
+        let fecha_gasto = document.createElement('input')
+        fecha_gasto.value = document.getElementById('fecha').value
+        fecha_gasto.name = "fecha_gasto"
 
-let cambio = document.createElement('input')
-cambio.value = document.getElementById('moneda_cambio').value
-cambio.name = "cambio"
-let fecha_cambio = document.createElement('input')
-fecha_cambio.value = document.getElementById('fecha_cambio').value
-fecha_cambio.name = "fecha_cambio"
-let file = document.createElement('input')
-file.value = input_file.files[0].name
-file.name = "file"
-let button1 = document.createElement('button')
-button1.name = 'guardar_ingreso'
+        let cambio = document.createElement('input')
+        cambio.value = document.getElementById('moneda_cambio').value
+        cambio.name = "cambio"
+        let fecha_cambio = document.createElement('input')
+        fecha_cambio.value = document.getElementById('fecha_cambio').value
+        fecha_cambio.name = "fecha_cambio"
+        let file = document.createElement('input')
+        file.value = input_file.files[0].name
+        file.name = "file"
+        let button1 = document.createElement('button')
+        button1.name = 'guardar_ingreso'
 
-// form.appendChild(tramo)
+        // form.appendChild(tramo)
 
-form.appendChild(tipo_ingreso)
-// form.appendChild(referencia)
-form.appendChild(concepto)
-form.appendChild(monto)
-form.appendChild(fecha_gasto)
+        form.appendChild(tipo_ingreso)
+        // form.appendChild(referencia)
+        form.appendChild(concepto)
+        form.appendChild(monto)
+        form.appendChild(fecha_gasto)
 
-form.appendChild(cambio)
-form.appendChild(fecha_cambio)
-form.appendChild(file)
-form.appendChild(button1)
+        form.appendChild(cambio)
+        form.appendChild(fecha_cambio)
+        form.appendChild(file)
+        form.appendChild(button1)
 
-document.body.appendChild(form)
-form.action = 'contabilidadingresos.php'
-form.method = 'post'
-// form.submit()
-button1.click()
+        document.body.appendChild(form)
+        form.action = 'contabilidadingresos.php'
+        form.method = 'post'
+        // form.submit()
+        button1.click()
       }).catch(console.error);
 
 
     }
 
-   
+
 
     function loginuser() {
       let form = document.createElement('form')

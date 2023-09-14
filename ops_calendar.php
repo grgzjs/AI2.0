@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include("conexion.php");
+?>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,9 +31,58 @@
 
   <div class="mai-wrapper">
     <?php require_once("nav_header2.html") ?>
+
+    <input id="matricula_selected" value="<?php echo isset($_POST["matricula_selector"]) ? $_POST["matricula_selector"] : "General"; ?>" hidden></input>
+
+    <div class="container" style="padding-top:4em">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group row">
+            <div class="col-12">
+              <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST" id="matricula_selector_form" style="display:none">
+                <h4>Seleccione una Aeronave</h4>
+                <select name="matricula_selector" id="matricula_selector" class="form-control custom-select">
+                  <?php
+                  $aircraft = mysqli_query($con, "SELECT * FROM Aircraft");
+
+                  // Verificar si se ha enviado un valor para matricula_selector
+                  if (isset($_POST['matricula_selector'])) {
+                    $selectedValue = $_POST['matricula_selector'];
+
+                    // Comprobar y marcar como seleccionado si coincide con el valor en el bucle
+                    if ($selectedValue == 'General') {
+                      echo "<option value='General' selected>General</option>";
+                      while ($plane_rows = mysqli_fetch_assoc($aircraft)) {
+                        echo "<option value='" . $plane_rows['matricula'] . "'>".$plane_rows['aeronave']." (" . $plane_rows['matricula'] . ")</option>";
+                      }
+                    } else {
+                      echo "<option value='General'>General</option>";
+                      while ($plane_rows = mysqli_fetch_assoc($aircraft)) {
+                        if ($selectedValue == $plane_rows['matricula']) {
+                          echo "<option value='" . $plane_rows['matricula'] . "' selected>" . $plane_rows['matricula'] . "</option>";
+                        } else {
+                          echo "<option value='" . $plane_rows['matricula'] . "'>".$plane_rows['aeronave']." (" . $plane_rows['matricula'] . ")</option>";
+                        }
+                      }
+                    }
+                  } else {
+                    echo "<option value='General'>General</option>";
+                    while ($plane_rows = mysqli_fetch_assoc($aircraft)) {
+                      echo "<option value='" . $plane_rows['matricula'] . "'>".$plane_rows['aeronave']." (" . $plane_rows['matricula'] . ")</option>";
+                    }
+                  }
+                  ?>
+                </select>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="main-content container">
       <div class="row full-calendar">
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="card card-default card-fullcalendar">
             <div class="card-body">
               <div id="calendar"></div>
@@ -52,6 +105,20 @@
       //-initialize the javascript
       App.init();
       App.pageCalendar();
+    });
+  </script>
+  <script>
+    let user_type = localStorage.getItem("user_type");
+    let matricula_selector_form = document.getElementById("matricula_selector_form");
+    let selectElement = document.getElementById("matricula_selector");
+
+    if (user_type == "owner") {
+      document.getElementById("matricula_selector_form").style.display = "block";
+    }
+
+    // Agrega un evento de cambio al select
+    selectElement.addEventListener("change", function() {
+      matricula_selector_form.submit();
     });
   </script>
 </body>

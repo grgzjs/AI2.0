@@ -64,8 +64,8 @@
         } else {
           echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, Data cannot be deleted.</div>';
         }
-      }else{
-        $rowedit=array(
+      } else {
+        $rowedit = array(
           "aircraft" => "",
         );
       }
@@ -89,9 +89,9 @@
           <div class="card card-default">
             <div class="card-header card-header-divider">Info de Cotizacion<span class="card-subtitle">Ingresa detalles del comprador</span></div>
             <!-- <div class="card-body pl-sm-5"> -->
-              <br />
-              <br />
-            <form id="quote-form" action="pdfgen.php" method="post" >
+            <br />
+            <br />
+            <form id="quote-form" action="pdfgen.php" method="post">
               <!-- </div> -->
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Comprador:</label>
@@ -141,7 +141,8 @@
                     //$buyers = mysqli_query($con, $queryBuyer);
                   ?>
                     <input class="form-control" type="text" value="<?php echo $rowbuyer['address']; ?>" placeholder="<?php echo $rowbuyer['address']; ?>" name="address" id="address" readonly='readonly'>
-                    <!-- <input class="form-control" type='text' name='buyer' value="<?php //echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name'];?>" readonly='readonly'> -->
+                    <!-- <input class="form-control" type='text' name='buyer' value="<?php //echo $rowbuyer['first_name'] . ' ' . $rowbuyer['last_name'];
+                                                                                      ?>" readonly='readonly'> -->
                   <?php
                   } else {
                   ?>
@@ -170,18 +171,25 @@
                   $sqlaircraft = 'select * from Aircraft';
                   $aircraft = mysqli_query($con, $sqlaircraft);
 
+                  ?>
+                  <script type="text/javascript">
+                    window.addEventListener("load", function() {
+                      calculate_pernocta(<?php echo mysqli_num_rows($aircraft); ?>)
+                    }, false);
+                  </script>
+                  <?php
 
                   ?>
                   <select required name='aircraft' class="form-control custom-select" id="aircraft" onchange="update_km_price(this)">
                     <?php
                     while ($rowaircraft = mysqli_fetch_assoc($aircraft)) {
                     ?>
-                      <option value="<?php echo $rowaircraft['matricula'] . '*' . $rowaircraft['preciokm'] . '*' . $rowaircraft['precioh'] . '*' . $rowaircraft['cruisespeed'] ?>" <?php echo($rowedit['aircraft'] == $rowaircraft['matricula']) ? 'selected="selected"' : ''; ?>> 
+                      <option value="<?php echo $rowaircraft['matricula'] . '*' . $rowaircraft['preciokm'] . '*' . $rowaircraft['precioh'] . '*' . $rowaircraft['cruisespeed'] . '*' . $rowaircraft['capacidad'] . '*' . $rowaircraft['pernocta'] . '*' . $rowaircraft['taxitime'] ?>" <?php echo ($rowedit['aircraft'] == $rowaircraft['matricula']) ? 'selected="selected"' : ''; ?>>
                         <?php echo $rowaircraft['matricula']; ?>
                       </option>
-                      <?php
+                    <?php
                     }
-                      ?>
+                    ?>
                   </select>
                 </div>
               </div>
@@ -204,128 +212,131 @@
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Origen</div>
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Destino</div>
                   <div class="col-12 col-sm-8 col-lg-1 center-text">Pax</div>
-                  <div class="col-12 col-sm-8 col-lg-2 center-text">Tiempo de vuelo</div>
+                  <div class="col-12 col-sm-8 col-lg-2 center-text">Tiempo de Vuelo</div>
                 </div>
                 <?php
                 //if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
                 $i = 1;
-                if (isset($edit)){
+                if (isset($edit)) {
                   $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice=$nik");
                   while ($rowdetail = mysqli_fetch_assoc($editdetail)) {
                     //$i esta hecho para view y reveer el pdf
                 ?>
-                    <div class="form-group row" id="tramo-<?php echo $i;?>">
+                    <div class="form-group row" id="tramo-<?php echo $i; ?>">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">
-                        <input required class="form-control" type="date" value="<?php echo substr($rowdetail['fecha'],0,10); ?>" placeholder="Fecha" name="<?php echo 'fdateh' . $i; ?>" id="<?php echo 'fdate' . $i; ?>">
+                        <input required class="form-control" type="datetime-local" value="<?php echo $rowdetail['fecha']; ?>" name="<?php echo 'fdateh' . $i; ?>" id="<?php echo 'fdate' . $i; ?>" onchange="calculate_pernocta()">
                       </div>
                       <div class="col-12 col-sm-8 col-lg-2">
                         <input required class="form-control" type="text" value="<?php echo $rowdetail['origen']; ?>" placeholder="origen" name="<?php echo 'forigenh' . $i; ?>" id="<?php echo 'forigen' . $i; ?>" onkeyup="get_airports(this)" onchange="origen_changed(this)">
-                        <!--<div class="dropdown-menu dropdown-menu-left" role="menu" id="<?php //echo 'origen-dropdown' . $i; ?>" style="max-height:19em; overflow: auto;"> -->
+                        <!--<div class="dropdown-menu dropdown-menu-left" role="menu" id="<?php //echo 'origen-dropdown' . $i; 
+                                                                                          ?>" style="max-height:19em; overflow: auto;"> -->
                       </div>
                       <div class="col-12 col-sm-8 col-lg-2">
                         <input required class="form-control" type="text" value="<?php echo $rowdetail['destino']; ?>" placeholder="destino" name="<?php echo 'fdestinoh' . $i; ?>" id="<?php echo 'fdestino' . $i; ?>" onkeyup="get_airports(this)" onchange="destino_changed(this)">
-                        <!--<div class="dropdown-menu dropdown-menu-left" role="menu" id="<?php //echo 'destino-dropdown' . $i; ?>" style="max-height:19em; overflow: auto;"> -->
+                        <!--<div class="dropdown-menu dropdown-menu-left" role="menu" id="<?php //echo 'destino-dropdown' . $i; 
+                                                                                          ?>" style="max-height:19em; overflow: auto;"> -->
                       </div>
                       <div class="col-12 col-sm-8 col-lg-1">
-                        <input required class="form-control" type="text" value="<?php echo $rowdetail['Pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>" id="<?php echo 'fpax' . $i; ?>">
+                        <input required class="form-control" type="number" min="1" value="<?php echo $rowdetail['Pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>" id="<?php echo 'fpax' . $i; ?>">
                       </div>
                       <div class="col-12 col-sm-8 col-lg-1">
-                        <input required class="form-control" type="text" value="<?php echo $rowdetail['tiempo_vuelo']; ?>" name="<?php echo 'fh_vueloh' . $i; ?>" id="<?php echo 'h_vuelo' . $i; ?>" onchange="editSubtotal(this.value)" readonly> 
+                        <input required class="form-control" type="text" value="<?php echo $rowdetail['tiempo_vuelo']; ?>" name="<?php echo 'fh_vueloh' . $i; ?>" id="<?php echo 'h_vuelo' . $i; ?>" onchange="editSubtotal(this.value)">
                         <input required class="form-control" type="hidden" value="<?php echo $rowdetail['nm_vuelo']; ?>" placeholder="kms" name="<?php echo 'fnm_vueloh' . $i; ?>" id="<?php echo 'nm_vuelo' . $i; ?>">
                         <input required class="form-control" type="hidden" value="<?php echo $rowdetail['Id']; ?>" placeholder="" name="<?php echo 'fidh' . $i; ?>" id="<?php echo 'fid' . $i; ?>">
                       </div>
                     </div>
-                <?php
-                  $i++;
+                  <?php
+                    $i++;
                   }
                   ?>
                   <!-- <script>setTimeout(() => { add_tramo(); }, 1000);</script>
                   <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
                     <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
                   </button>
-                  <button id="delete-tramo-btn" class="btn btn-danger" onclick='javascript:delete_tramo()' type="button" <?php echo ($i==1)?'style="display:none"':''; ?>>
+                  <button id="delete-tramo-btn" class="btn btn-danger" onclick='javascript:delete_tramo()' type="button" <?php echo ($i == 1) ? 'style="display:none"' : ''; ?>>
                     <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
                   </button> -->
                 <?php
-                }//else{
-                  ?>
+                } //else{
+                ?>
 
-                  <?php
-                  $query_airports = mysqli_query($con, "SELECT airport_code, airport_name FROM airports");
-                  ?>
+                <?php
+                $query_airports = mysqli_query($con, "SELECT airport_code, airport_name FROM airports");
+                ?>
+                <script>
+                  var airports = [];
+                </script>
+                <?php
+                while ($row_airport = mysqli_fetch_assoc($query_airports)) { ?>
                   <script>
-                    var airports = [];
+                    airports.push(['<?php echo $row_airport["airport_code"] ?>', '<?php echo $row_airport["airport_name"] ?>']);
                   </script>
-                  <?php
-                  while ($row_airport = mysqli_fetch_assoc($query_airports)) { ?>
-                    <script>
-                      airports.push(['<?php echo $row_airport["airport_code"] ?>', '<?php echo $row_airport["airport_name"] ?>']);
-                    </script>
-                  <?php
-                  }
-                  ?>
+                <?php
+                }
+                ?>
 
-                  <div class="form-group row" id="tramo-<?php echo $i;?>">
-                    <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                    <div class="col-12 col-sm-8 col-lg-2">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="date" placeholder="fecha" name="fdate1" id="fdate<?php echo $i;?>">
-                    </div>
-                    <div class="col-12 col-sm-8 col-lg-2">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="Origen" name="forigen1" id="forigen<?php echo $i;?>" onkeyup="get_airports(this)" onchange="origen_changed(this)">
-                      <!-- <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button> -->
-                      <div class="dropdown-menu dropdown-menu-left" role="menu" id="origen-dropdown1" style="max-height:19em; overflow: auto;">
-                      </div>
-                      <!-- <select class="form-control custom-select" name="forigen1" id="forigen1" onchange="origen_changed(this)">
-                        <option value="none">...</option>
-                      </select> -->
-                    </div>
-                    <div class="col-12 col-sm-8 col-lg-2">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="Destino" name="fdestino1" id="fdestino<?php echo $i;?>" onkeyup="get_airports(this)" onchange="destino_changed(this)">
-                      <div class="dropdown-menu dropdown-menu-left" role="menu" id="destino-dropdown1" style="max-height:19em; overflow: auto;">
-                      </div>
-                      <!-- <select class="form-control custom-select" name="fdestino1" id="fdestino1" onchange="destino_changed(this)">
-                        <option value="none">...</option>
-                      </select> -->
-                    </div>
-                    <div class="col-12 col-sm-8 col-lg-1">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" placeholder="Pax" name="fpax1" id="fpax<?php echo $i;?>">
-                    </div>
-                    <!-- <div class="col-12 col-sm-8 col-lg-1"> -->
-                      <input class="form-control" type="hidden" placeholder="" name="nm_vuelo1" id="nm_vuelo<?php echo $i;?>" onchange="//editSubtotal(this.value)" readonly>
-                    <!-- </div> -->
-                    <div class="col-12 col-sm-8 col-lg-1">
-                      <input <?php echo isset($edit)? "":"required" ?> class="form-control" type="text" placeholder="Hs" name="h_vuelo1" id="h_vuelo<?php echo $i;?>" onchange="editSubtotal(this.value)" readonly> 
-                    </div>
-                    <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
-                      <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
-                    </button>
-                    <button id="delete-tramo-btn" class="btn btn-danger" onclick='javascript:delete_tramo()' type="button" style="display:<?php echo isset($edit)? "block":"none" ?>">
-                      <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
-                    </button>
+                <div class="form-group row" id="tramo-<?php echo $i; ?>">
+                  <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
+                  <div class="col-12 col-sm-8 col-lg-2">
+                    <input <?php echo isset($edit) ? "" : "required" ?> class="form-control" type="datetime-local" placeholder="dd-mm-yyyy --:--" name="fdate1" id="fdate<?php echo $i; ?>" onchange="calculate_pernocta()">
                   </div>
+                  <div class="col-12 col-sm-8 col-lg-2">
+                    <input <?php echo isset($edit) ? "" : "required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="Origen" name="forigen1" id="forigen<?php echo $i; ?>" onkeyup="get_airports(this)" onchange="origen_changed(this)">
+                    <!-- <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button> -->
+                    <div class="dropdown-menu dropdown-menu-left" role="menu" id="origen-dropdown1" style="max-height:19em; overflow: auto;">
+                    </div>
+                    <!-- <select class="form-control custom-select" name="forigen1" id="forigen1" onchange="origen_changed(this)">
+                        <option value="none">...</option>
+                      </select> -->
+                  </div>
+                  <div class="col-12 col-sm-8 col-lg-2">
+                    <input <?php echo isset($edit) ? "" : "required" ?> class="form-control" type="text" data-toggle="dropdown" placeholder="Destino" name="fdestino1" id="fdestino<?php echo $i; ?>" onkeyup="get_airports(this)" onchange="destino_changed(this)">
+                    <div class="dropdown-menu dropdown-menu-left" role="menu" id="destino-dropdown1" style="max-height:19em; overflow: auto;">
+                    </div>
+                    <!-- <select class="form-control custom-select" name="fdestino1" id="fdestino1" onchange="destino_changed(this)">
+                        <option value="none">...</option>
+                      </select> -->
+                  </div>
+                  <div class="col-12 col-sm-8 col-lg-1">
+                    <input <?php echo isset($edit) ? "" : "required" ?> class="form-control" type="number" min="1" placeholder="Pax" name="fpax1" id="fpax<?php echo $i; ?>">
+                  </div>
+                  <!-- <div class="col-12 col-sm-8 col-lg-1"> -->
+                  <input class="form-control" type="hidden" placeholder="" name="nm_vuelo1" id="nm_vuelo<?php echo $i; ?>" onchange="//editSubtotal(this.value)" readonly>
+                  <!-- </div> -->
+                  <div class="col-12 col-sm-8 col-lg-1">
+                    <input <?php echo isset($edit) ? "" : "required" ?> class="form-control" type="text" placeholder="Hs" name="h_vuelo1" id="h_vuelo<?php echo $i; ?>" onchange="editSubtotal(this.value)">
+                  </div>
+                  <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
+                    <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
+                  </button>
+                  <button id="delete-tramo-btn" class="btn btn-danger" onclick='javascript:delete_tramo()' type="button" style="display:<?php echo isset($edit) ? "block" : "none" ?>">
+                    <img src="assets/img/icons/icono-9.png" alt="" class="ai-icon">
+                  </button>
+                </div>
 
-                  <script>
-                    // console.log(airports);
-                    function populate_selects(origen_select_name, destino_select_name) {
-                      let origen_select = document.getElementById(origen_select_name);
-                      let destino_select = document.getElementById(destino_select_name);
+                <script>
+                  // console.log(airports);
+                  function populate_selects(origen_select_name, destino_select_name) {
+                    let origen_select = document.getElementById(origen_select_name);
+                    let destino_select = document.getElementById(destino_select_name);
 
-                      airports.forEach(airport => {
-                        let origen_option = document.createElement("option");
-                        origen_option.value = airport[0];
-                        origen_option.innerHTML = airport[1];
+                    airports.forEach(airport => {
+                      let origen_option = document.createElement("option");
+                      origen_option.value = airport[0];
+                      origen_option.innerHTML = airport[1];
 
-                        let destino_option = origen_option.cloneNode(true);
+                      let destino_option = origen_option.cloneNode(true);
 
-                        origen_select.appendChild(origen_option);
-                        destino_select.appendChild(destino_option);
-                      });
-                    }
+                      origen_select.appendChild(origen_option);
+                      destino_select.appendChild(destino_option);
+                    });
+                  }
 
-                    populate_selects("forigen1", "fdestino1");
-                  </script>
-              <?php //} ?>
+                  populate_selects("forigen1", "fdestino1");
+                </script>
+                <?php //} 
+                ?>
               </div>
 
               <hr>
@@ -334,36 +345,42 @@
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Subtotal:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" type="text" value="<?php echo isset($edit)? $rowedit['subtotal']:"0" ?>" placeholder="subtotal" name="subtotal" id="subtotal" readonly>
+                  <input required class="form-control" type="text" value="<?php echo isset($edit) ? $rowedit['subtotal'] : "$0" ?>" placeholder="subtotal" name="subtotal" id="subtotal" readonly>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-12 col-sm-3 col-form-label text-sm-right">Recargo Pernocta:</label>
+                <div class="col-12 col-sm-8 col-lg-6">
+                  <input class="form-control" value="<?php echo isset($edit) ? $rowedit['pernocta'] : "$0" ?>" placeholder="Recargo Pernocta" name="pernocta" id="pernocta" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Adicionales:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" value="<?php echo isset($edit)? $rowedit['addons']:"" ?>" placeholder="Adicionales" name="addons" id="addons" onchange="editTotal()">
+                  <input class="form-control" value="<?php echo isset($edit) ? $rowedit['addons'] : "$0" ?>" placeholder="Adicionales" name="addons" id="addons" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Impuesto:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" type="text" value="<?php echo isset($edit)? $rowedit['tax']:"" ?>" placeholder="Impuesto (%)" name="tax" id="tax" onchange="editTotal()">
+                  <input required class="form-control" type="text" value="<?php echo isset($edit) ? $rowedit['tax'] : "0%" ?>" placeholder="Impuesto (%)" name="tax" id="tax" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-12 col-sm-3 col-form-label text-sm-right">Total:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input required class="form-control" type="text" value="<?php echo isset($edit)? $rowedit['amount']:"0" ?>" placeholder="amount" name="amount" id="amount" readonly>
+                  <input required class="form-control" type="text" value="<?php echo isset($edit) ? $rowedit['amount'] : "$0" ?>" placeholder="amount" name="amount" id="amount" readonly>
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col-12 col-sm-8 col-lg-6">
                   <?php
-                  if(isset($edit)){
-                    ?>
+                  if (isset($edit)) {
+                  ?>
                     <input class="form-control" type="hidden" value="<?php echo $rowedit['quote']; ?>" placeholder="idpdf" name="idpdf" id="idpdf">
-                    <?php
+                  <?php
                   }
-                  ?>    
+                  ?>
                 </div>
 
 
@@ -388,14 +405,36 @@
   </div>
   </div>
   <script>
-    var tramo = <?php echo $i;?>;
+    var tramo = <?php echo $i; ?>;
+    var kmPrice = 0;
+    var hPrice = 0;
+    var cruise_speed = 0;
+    var capacidad = 0;
+    var pernocta = 0;
+    var taxi_time = 0;
 
-    //$('#quote-form').on('submit', function(e) {
-      //e.preventDefault();
-      // alert($(this).serialize());
-      //$.post('pdfgen.php', $(this).serialize());
-      //location.reload();
-    //});
+    function calculate_pernocta(last_tramo_edit=0) {
+      let pernocta_input = document.getElementById("pernocta");
+      let last_tramo = last_tramo_edit != 0 ? tramo : last_tramo_edit;
+
+      // find true last tramo (the one that IS set)
+      for (let t = tramo; t > 0; t--) {
+        if (document.getElementById("fdate" + t).value != "") {
+          last_tramo = t
+          break;
+        }
+      }
+
+      console.log(document.getElementById("fdate" + last_tramo).value);
+
+      let first_date = new Date(document.getElementById("fdate1").value.split("T")[0]);
+      let last_date = new Date(document.getElementById("fdate" + last_tramo).value.split("T")[0]);
+
+      let difference = (last_date.getTime() - first_date.getTime()) / (1000 * 3600 * 24);
+
+      pernocta_input.value = Math.round(((difference * pernocta) + Number.EPSILON) * 100) / 100;
+      editTotal();
+    }
 
     function add_tramo() {
       tramo++;
@@ -420,12 +459,15 @@
 
       date_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
       date_input.classList.add('form-control')
-      date_input.setAttribute('required','')
-      date_input.type = 'date'
+      date_input.setAttribute('required', '')
+      date_input.type = 'datetime-local'
       date_input.placeholder = 'fecha'
       date_input.name = 'fdate' + tramo
       date_input.id = 'fdate' + tramo
       date_input.min = document.getElementById('fdate' + (tramo - 1)).value;
+      date_input.addEventListener('change', function() {
+        calculate_pernocta()
+      }, false)
 
       let origen_div = document.createElement('div')
       new_container.appendChild(origen_div)
@@ -441,12 +483,12 @@
 
       origen_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
       origen_input.classList.add('form-control')
-      origen_input.setAttribute('required','')
+      origen_input.setAttribute('required', '')
       origen_input.name = 'forigen' + tramo
       origen_input.id = 'forigen' + tramo
       origen_input.placeholder = 'Origen'
       origen_input.value = document.getElementById('fdestino' + (tramo - 1)).value
-      origen_input.setAttribute("data-toggle","dropdown")
+      origen_input.setAttribute("data-toggle", "dropdown")
       // origen_select.onchange = origen_changed(this)
       origen_input.addEventListener('change', function() {
         origen_changed(this)
@@ -473,11 +515,11 @@
 
       destino_div.classList.add('col-12', 'col-sm-8', 'col-lg-2')
       destino_input.classList.add('form-control')
-      destino_input.setAttribute('required','')
+      destino_input.setAttribute('required', '')
       destino_input.name = 'fdestino' + tramo
       destino_input.id = 'fdestino' + tramo
       destino_input.placeholder = 'Destino'
-      destino_input.setAttribute("data-toggle","dropdown")
+      destino_input.setAttribute("data-toggle", "dropdown")
       destino_input.addEventListener('change', function() {
         destino_changed(this)
       }, false);
@@ -498,8 +540,12 @@
 
       pax_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
       pax_input.classList.add('form-control')
-      pax_input.setAttribute('required','')
-      pax_input.type = 'text'
+      pax_input.setAttribute('required', '')
+      // pax_input.type = 'text'
+      pax_input.type = 'number'
+      pax_input.min = 1
+      pax_input.max = capacidad
+      pax_input.title = "Value needs to be below max pax (" + capacidad + ")"
       pax_input.placeholder = 'Pax'
       pax_input.name = 'fpax' + tramo
 
@@ -539,12 +585,12 @@
 
       h_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
       h_input.classList.add('form-control')
-      h_input.setAttribute('required','')
+      h_input.setAttribute('required', '')
       h_input.type = 'text'
       h_input.placeholder = 'Hs'
       h_input.name = 'h_vuelo' + tramo
       h_input.id = 'h_vuelo' + tramo
-      h_input.readOnly = 'readonly'
+      // h_input.readOnly = 'readonly'
       h_input.addEventListener('change', function() {
         editSubtotal(this.value);
       }, false)
@@ -574,7 +620,7 @@
       // }
 
       // substract_price = Math.round((substract_price + Number.EPSILON) * 100) / 100;
-      
+
 
       // editSubtotal(document.getElementById('h_vuelo' + tramo).value * -1)
 
@@ -587,7 +633,7 @@
 
       let last_container = document.getElementById("tramo-" + tramo)
       last_container.remove() // delete the new container
-      
+
       editSubtotal();
 
       tramo--
@@ -596,10 +642,6 @@
         delete_tramo_bnt.style.display = "none";
       }
     }
-
-    kmPrice = 0
-    hPrice = 0
-    cruise_speed = 0
 
     function editSubtotal(newPrice) {
       // let curr_val = document.getElementById('subtotal').value
@@ -616,8 +658,9 @@
         //console.log("h_vuelo.getAttribute('value'): ");
         //console.log(h_vuelo.getAttribute('value'));
         //console.log(h_vuelo.value);
-        if(h_vuelo.value){
-          total_hours += parseFloat(h_vuelo.value) > 0 && parseFloat(h_vuelo.value) < 1 ? 1 : parseFloat(h_vuelo.value)
+        if (h_vuelo.value) {
+          let leg_flight_time = h_vuelo.value + taxi_time
+          total_hours += parseFloat(leg_flight_time) > 0 && parseFloat(leg_flight_time) < 1 ? 1 : parseFloat(leg_flight_time)
           //console.log("ENTRE AL IF");
         }
         //total_hours += taxi_time
@@ -626,41 +669,31 @@
       new_price = total_hours * hPrice;
       new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;
 
-      console.log("total_hours: " + total_hours)
       console.log("new_price: " + new_price)
 
-      document.getElementById('subtotal').setAttribute('value', parseFloat(new_price));
-      document.getElementById('subtotal').value = parseFloat(new_price);
+      // document.getElementById('subtotal').setAttribute('value', parseFloat(new_price));
+      document.getElementById('subtotal').value = "$" + parseFloat(new_price);
       editTotal(); // also add to total
     }
 
     function editTotal() {
-      //////////////////////////////////////////////////////////////////////////////
-      let subtotal_value = parseFloat(document.getElementById('subtotal').value);
-      let addons_value = document.getElementById('addons').value == "" ? 0 : parseFloat(document.getElementById('addons').value);
-      let tax_value = document.getElementById('tax').value == "" ? 0 : parseFloat(document.getElementById('tax').value);
+      let subtotal_value = isNaN(parseFloat(document.getElementById('subtotal').value)) ? isNaN(parseFloat(document.getElementById('subtotal').value.split("$")[1])) ? 0 : parseFloat(document.getElementById('subtotal').value.split("$")[1]) : parseFloat(document.getElementById('subtotal').value);
+      let pernocta_value = isNaN(parseFloat(document.getElementById('pernocta').value)) ? isNaN(parseFloat(document.getElementById('pernocta').value.split("$")[1])) ? 0 : parseFloat(document.getElementById('pernocta').value.split("$")[1]) : parseFloat(document.getElementById('pernocta').value);
+      let addons_value = isNaN(parseFloat(document.getElementById('addons').value)) ? isNaN(parseFloat(document.getElementById('addons').value.split("$")[1])) ? 0 : parseFloat(document.getElementById('addons').value.split("$")[1]) : parseFloat(document.getElementById('addons').value);
+      let tax_value = isNaN(parseFloat(document.getElementById('tax').value)) ? isNaN(parseFloat(document.getElementById('tax').value.split("%")[0])) ? 0 : parseFloat(document.getElementById('tax').value.split("%")[0]) : parseFloat(document.getElementById('tax').value);
 
-      document.getElementById('tax').value = document.getElementById('tax').value == "" ? 0 + "%" : parseFloat(document.getElementById('tax').value) + "%";
-      document.getElementById('addons').value = document.getElementById('addons').value == "" ?0 + "$" : parseFloat(document.getElementById('addons').value) + "$";
-      document.getElementById('subtotal').value = document.getElementById('subtotal').value == "" ?0 + "$" : parseFloat(document.getElementById('subtotal').value) + "$";
+      document.getElementById('subtotal').value = document.getElementById('subtotal').value == "" ? "$" + 0 : "$" + subtotal_value;
+      document.getElementById('pernocta').value = document.getElementById('pernocta').value == "" ? "$" + 0 : "$" + pernocta_value;
+      document.getElementById('addons').value = document.getElementById('addons').value == "" ? "$" + 0 : "$" + addons_value;
+      document.getElementById('tax').value = document.getElementById('tax').value == "" ? 0 + "%" : tax_value + "%";
 
+      let total_without_tax = subtotal_value + addons_value + pernocta_value;
 
-      console.log("el valor de addon: " + document.getElementById('addons').value)
-      console.log("el valor modificado de addon: " + addons_value)
-
-      console.log("el valor de addon: " + document.getElementById('subtotal').value)
-      console.log("el valor modificado de addon: " + subtotal_value)
-
-      ///////////////////////////////////////////////////////////////////////////////////////
-
-      let total_without_tax = subtotal_value + addons_value;
-
-
-      let new_value = total_without_tax + (total_without_tax * (tax_value/100));
+      let new_value = total_without_tax + (total_without_tax * (tax_value / 100));
       new_value = Math.round((new_value + Number.EPSILON) * 100) / 100;
 
-      document.getElementById('amount').setAttribute('value',new_value);
-      document.getElementById('amount').value =  new_value + "$";
+      // document.getElementById('amount').setAttribute('value', new_value);
+      document.getElementById('amount').value = "$" + new_value;
     }
 
     function borrar(id_invoice) {
@@ -735,12 +768,15 @@
     }
 
     function origen_changed(input) {
+      input.value = input.value.toUpperCase();
       let tramo_destino = parseInt(input.id.split("forigen")[1]);
 
       calculate_distance(tramo_destino);
     }
 
     function destino_changed(input) {
+      input.value = input.value.toUpperCase();
+
       let tramo_destino = parseInt(input.id.split("fdestino")[1]);
       let siguiente_origen = document.getElementById("forigen" + (tramo_destino + 1));
 
@@ -764,7 +800,7 @@
       let ori = elemento_origen.value;
       let des = elemento_destino.value;
 
-      let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + (cruise_speed*0.539956803)
+      let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + (cruise_speed * 0.539956803)
       const _0x5dcf22 = _0x4685;
       (function(_0x2fba52, _0xa9040d) {
         const _0x47ba0d = _0x4685,
@@ -820,8 +856,8 @@
         document.getElementById("nm_vuelo" + tramo).value = distance_nm;
 
         let flight_time_min = json_data["totals"]["flight_time_min"];
-        let hora = Math.round(((flight_time_min/60) + Number.EPSILON) * 100) / 100;
-        let hora_minutos =  Math.round(hora) + ((hora - parseInt(hora))*0.6);
+        let hora = Math.round(((flight_time_min / 60) + Number.EPSILON) * 100) / 100;
+        let hora_minutos = Math.round(hora) + ((hora - parseInt(hora)) * 0.6);
         document.getElementById("h_vuelo" + tramo).value = Math.round((hora_minutos + Number.EPSILON) * 100) / 100;
         //document.getElementById("h_vuelo" + tramo).setAttribute("value", Math.round((hora_minutos + Number.EPSILON) * 100) / 100);
         flight_time_min = flight_time_min > 60 ? flight_time_min : 60;
@@ -829,7 +865,7 @@
         if (false) {
           new_price = distance_km * kmPrice;
         } else {
-          new_price = ((flight_time_min) + 15)/60 * hPrice; //15 = taxi time
+          new_price = ((flight_time_min) + 15) / 60 * hPrice; //15 = taxi time
         }
 
         new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;
@@ -1028,9 +1064,14 @@
       kmPrice = plane_data[1];
       hPrice = plane_data[2];
       cruise_speed = plane_data[3];
+      capacidad = plane_data[4];
+      pernocta = plane_data[5];
+      taxi_time = plane_data[6];
 
       for (let tramo_count = 1; tramo_count <= tramo; tramo_count++) {
         calculate_distance(tramo_count);
+        document.getElementById("fpax" + tramo_count).max = capacidad;
+        document.getElementById("fpax" + tramo_count).title = "Value needs to be below max pax (" + capacidad + ")"
       }
     }
   </script>

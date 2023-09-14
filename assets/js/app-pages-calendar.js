@@ -60,14 +60,21 @@ var App = (function () {
     ];
     let amount_of_colors = event_colors.length;
     
-    let calendar_data = undefined;
+    const date = new Date();
+
+    let currentDay = String(date.getDate()).padStart(2, "0");
+    let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
+    let currentYear = date.getFullYear();
+
+    let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+
+    let calendar_events = [];
     $.ajax({
-      url: "calendar_query.php", // your php file
+      url: "calendar_query.php?matricula="+document.getElementById("matricula_selected").value, // your php file
       type: "GET", // type of the HTTP request
       success: function (data) {
-        calendar_data = jQuery.parseJSON(data);
+        let calendar_data = jQuery.parseJSON(data);
         console.log(calendar_data)
-        calendar_events = []
         let i = -1;
         let prev_quote = -1;
         calendar_data.forEach(element => {
@@ -88,87 +95,23 @@ var App = (function () {
 
           prev_quote = element[2]
         });
-        console.log("un console log")
-        console.log(calendar_events);
-
-        const date = new Date();
-
-        let currentDay = String(date.getDate()).padStart(2, "0");
-        let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
-        let currentYear = date.getFullYear();
-
-        let currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
-
-        $('#calendar').fullCalendar({
-          header: {
-            left: 'title',
-            center: '',
-            right: 'month,agendaWeek,agendaDay, today, prev,next',
-          },
-          defaultDate: currentDate,
-          editable: false,
-          eventLimit: true,
-          droppable: false,
-          displayEventTime : false,
-          events: calendar_events
-          // events: [
-          //   {
-          //     title: 'All Day Event',
-          //     start: '2017-02-01'
-          //   },
-          //   {
-          //     title: 'Long Event',
-          //     start: '2017-02-07',
-          //     end: '2017-02-10'
-          //   },
-          //   {
-          //     id: 999,
-          //     title: 'Repeating Event',
-          //     start: '2017-02-09T16:00:00'
-          //   },
-          //   {
-          //     id: 999,
-          //     title: 'Repeating Event',
-          //     start: '2017-02-16T16:00:00'
-          //   },
-          //   {
-          //     title: 'Conference',
-          //     start: '2017-02-11',
-          //     end: '2017-02-13'
-          //   },
-          //   {
-          //     title: 'Meeting',
-          //     start: '2017-02-12T10:30:00',
-          //     end: '2017-02-12T12:30:00'
-          //   },
-          //   {
-          //     title: 'Lunch',
-          //     start: '2017-02-12T12:00:00'
-          //   },
-          //   {
-          //     title: 'Meeting',
-          //     start: '2017-02-12T14:30:00'
-          //   },
-          //   {
-          //     title: 'Happy Hour',
-          //     start: '2017-02-12T17:30:00'
-          //   },
-          //   {
-          //     title: 'Dinner',
-          //     start: '2017-02-12T20:00:00'
-          //   },
-          //   {
-          //     title: 'Birthday Party',
-          //     start: '2017-02-13T07:00:00'
-          //   },
-          //   {
-          //     title: 'Click for Google',
-          //     url: 'http://google.com/',
-          //     start: '2017-02-28'
-          //   }
-          // ]
-        });
       },
+    }).fail(function () {
+      console.log("there is no data")
+    }).always(function () {
+      $('#calendar').fullCalendar({
+        header: {
+          left: 'title',
+          center: '',
+          right: 'month,agendaWeek,agendaDay, today, prev,next',
+        },
+        defaultDate: currentDate,
+        editable: false,
+        eventLimit: true,
+        droppable: false,
+        displayEventTime : false,
+        events: calendar_events
+      });
     });
 
   };

@@ -25,7 +25,6 @@ window.onload = () => {
 		"hellolist.php",
 		"crmregistro.php",
 		"crm.php",
-		// "aircraft_setup.php",
 		"ops_calendar.php",
 	];
 	var valid_for_dispatcher = [
@@ -35,7 +34,6 @@ window.onload = () => {
 		"hellolist.php",
 		"crmregistro.php",
 		"crm.php",
-		// "aircraft_setup.php",
 		"opsmain.php",
 		"opsmain2.php",
 		"opsmain3.php",
@@ -44,7 +42,8 @@ window.onload = () => {
 		"dashboard.php",
 		"menuprofile.php",
 		"aircraft_setup.php",
-		
+		"company_setup.php",
+		"ops_calendar.php",
 	];
 
 	async function auto_redirect() {

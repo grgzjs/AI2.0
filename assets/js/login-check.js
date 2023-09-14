@@ -17,6 +17,7 @@ window.onload = () => {
 		"contabilidadinvoicec.php",
 		"company_setup.php",
 		"airport_setup.php",
+		"reportegeneral.php",
 	];
 	var valid_for_seller = [
 		"dashboard.php",

@@ -5,7 +5,7 @@ echo "<script>console.log('0')</script>";
 
 if (isset($_POST['id'])) {
     $invoice_id = $_POST['id'];
-    $invoice_table = mysqli_query($con, "SELECT * FROM `invoices` WHERE `invoices`.`quote`=$invoice_id");
+    $invoice_table = mysqli_query($con, "SELECT *,DATE_FORMAT(date, '%d/%m/%Y %H:%i:%s') as spanish_date FROM `invoices` WHERE `invoices`.`quote`=$invoice_id");
     $invoice_row = mysqli_fetch_assoc($invoice_table);
     $company_table = mysqli_query($con, "SELECT * FROM `company`");
     $company_row = mysqli_fetch_assoc($company_table);
@@ -28,7 +28,7 @@ echo "<script>console.log('1')</script>";
 
 if (isset($_GET['id'])) {
     $invoice_id = $_GET['id'];
-    $invoice_table = mysqli_query($con, "SELECT * FROM `invoices` WHERE `invoices`.`quote`=$invoice_id");
+    $invoice_table = mysqli_query($con, "SELECT *,DATE_FORMAT(date, '%d/%m/%Y %H:%i:%s') as spanish_date FROM `invoices` WHERE `invoices`.`quote`=$invoice_id");
     $invoice_row = mysqli_fetch_assoc($invoice_table);
     $company_table = mysqli_query($con, "SELECT * FROM `company`");
     $company_row = mysqli_fetch_assoc($company_table);
@@ -131,7 +131,7 @@ echo "<script>console.log('finished getting data')</script>";
                     <div class="col text-right title-color mr-2"><?php echo $contact_row['first_name'] . " " . $contact_row['last_name']; ?></div>
                 </div>
                 <div class="row">
-                    <div class="col"><?php echo $invoice_row['date']; ?></div>
+                    <div class="col"><?php echo $invoice_row['spanish_date']; ?></div>
                     <div class="col text-right title-color mr-2">
                         Phone: <?php echo $contact_row['phone_number']; ?>
                     </div>

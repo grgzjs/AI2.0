@@ -165,7 +165,7 @@
                         let colDate = document.createElement('div');
                         colDate.classList.add('col-3');
                         row.appendChild(colDate);
-                        colDate.innerHTML = userData['date'];
+                        colDate.innerHTML = userData['spanish_date'];
 
                         let colConcept = document.createElement('div');
                         colConcept.classList.add('col');

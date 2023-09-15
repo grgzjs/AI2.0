@@ -85,7 +85,7 @@
         }
       }
 
-      $sqllist = "select i.*,c.* from invoices i, Contact c where i.status = 1 and i.buyer_id=c.id ORDER BY i.`date` DESC";
+      $sqllist = "select i.*,c.*,DATE_FORMAT(i.date, '%d/%m/%Y %H:%i:%s') as spanish_date from invoices i, Contact c where i.status = 1 and i.buyer_id=c.id ORDER BY i.`date` DESC";
       $rows = mysqli_query($con, $sqllist);
       echo '<script>console.log("' . $sqllist . '")</script>';
 
@@ -133,7 +133,7 @@
                     ?>
                         <tr>
                           <td class="cell-detail"><span><b><?php echo $row['quote']; ?></b></span></td>
-                          <td class="cell-detail"> <span><?php echo $row['date']; ?></span></td>
+                          <td class="cell-detail"> <span><?php echo $row['spanish_date']; ?></span></td>
                           <td class="cell-detail"><span><?php echo $row['aircraft']; ?></span></td>
                           <td class="cell-detail"><span><?php echo $row['first_name']; ?><?php echo ' ' . $row['last_name']; ?></span></td>
                           <td class="cell-detail"><span>$<?php echo $row['amount']; ?></span></td>

@@ -125,7 +125,7 @@
     }else{
         $quote = $_GET['id'];
     }
-    $invoice = mysqli_query($con, 'select * from invoices where quote=' . $quote);
+    $invoice = mysqli_query($con, 'select *,DATE_FORMAT(date, "%d/%m/%Y %H:%i:%s") as spanish_date from invoices where quote=' . $quote);
     $rowinvoice = mysqli_fetch_assoc($invoice);
     $company = mysqli_query($con, 'select * from company');
     $rowcompany = mysqli_fetch_assoc($company);
@@ -136,7 +136,7 @@
     while ($rowaircraft_img = mysqli_fetch_assoc($aircraft_img)) {
         array_push($aircraft_img_dir, $rowaircraft_img['img_dir']);
     }
-    $detail_tramo = mysqli_query($con, 'select * from invoice_detail where id_invoice=' . $quote);
+    $detail_tramo = mysqli_query($con, 'select *,DATE_FORMAT(fecha, "%H:%i:%s %d/%m/%Y") as spanish_date from invoice_detail where id_invoice=' . $quote);
     //$tramoids = array();
     
 ?>
@@ -174,7 +174,7 @@
             <br>
             <p class="font-weight-bold">
                 Quote # : <?php echo $rowinvoice['quote']?> <br>
-                Date: <?php echo $rowinvoice['date']?> <br>
+                Date: <?php echo $rowinvoice['spanish_date']?> <br>
                 Buyer: <?php echo $rowbuyer['first_name'].' '.$rowbuyer['last_name']?> <br>
                 Address: <?php echo $rowbuyer['address']?> <br>
             </p>
@@ -198,7 +198,7 @@
             </div>
             <?php while ($rowdetail_tramo = mysqli_fetch_assoc($detail_tramo)){?>
                 <div class="row font-weight-bold mx-auto text-secondary">
-                    <div class="col-3"><?php echo $rowdetail_tramo['fecha']?></div>
+                    <div class="col-3"><?php echo $rowdetail_tramo['spanish_date']?></div>
                     <div class="col"><?php echo $rowdetail_tramo['origen']?></div>
                     <div class="col"><?php echo $rowdetail_tramo['destino']?></div>
                     <div class="col"><?php echo $rowdetail_tramo['Pax']?></div>

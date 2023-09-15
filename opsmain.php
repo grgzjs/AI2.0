@@ -44,9 +44,9 @@ include("conexion.php");
         $nik = mysqli_real_escape_string($con, (strip_tags($_POST["nik"], ENT_QUOTES)));
         $reservar = mysqli_query($con, "UPDATE invoices SET STATUS =2 WHERE quote=$nik");
       }
-
+ 
       // SECCION DE BORRAR Y EDITAR
-      $sqllist = "select i.*,c.* from invoices i, Contact c where i.status = 2 and i.buyer_id=c.id ORDER BY i.date DESC";
+      $sqllist = "select i.*,c.* from invoices i, Contact c where (i.status = 2 OR i.status = 3) and i.buyer_id=c.id ORDER BY i.date DESC";
       $rows = mysqli_query($con, $sqllist);
 
       if (isset($_POST['username']) && ($_POST['aksi'] == 'delete' || $_POST['aksi'] == 'edit')) {
@@ -150,7 +150,7 @@ include("conexion.php");
                             <div class="btn-group btn-hspace">
                               <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button>
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <a class="dropdown-item" href='pdfTripSheet.php?id=<?php echo $row['quote'] ?>' title="Trip Sheet">Trip Sheet</a>
+                                <a class="dropdown-item<?php if ($row['status'] != 3) echo ' disabled'; ?>" href='pdfTripSheet.php?id=<?php echo $row['quote'] ?>' title="Trip Sheet">Trip Sheet</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programación</a>
                                 <div hidden class="dropdown-divider"></div>
@@ -177,7 +177,7 @@ include("conexion.php");
                                 for ($i=0; $i < count($legs); $i++) {
                                   $next_leg = ($i + 1) < count($legs) ? $legs[$i + 1] : "none";
                                 ?>
-                                  <a class="dropdown-item" target='_blank' href='gendecpdf.php?quote=<?php echo $row["quote"] ?>&leg=<?php echo $legs[$i] ?>&next_leg=<?php echo $next_leg ?>' title="View">GENDEC <?php echo $leg_names[$i] ?></a>
+                                  <a class="dropdown-item<?php if ($row['status'] != 3) echo ' disabled'; ?>" target='_blank' href='gendecpdf.php?quote=<?php echo $row["quote"] ?>&leg=<?php echo $legs[$i] ?>&next_leg=<?php echo $next_leg ?>' title="View">GENDEC <?php echo $leg_names[$i] ?></a>
                                   <div class="dropdown-divider"></div>
                                 <?php
                                 }
@@ -205,6 +205,13 @@ include("conexion.php");
     //LOGIN PASSWORD OVERWRITE HELLO
 
     function anular(quote) {
+      let log_user_type = localStorage.getItem("user_type");
+      let log_email = localStorage.getItem("email");
+      let log_username = localStorage.getItem("username");
+      $.ajax({
+        url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='canceled flight'", // your php file
+        type: "GET"
+      });
       let form = document.createElement('form')
 
       let aksi = document.createElement('input')

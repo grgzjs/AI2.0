@@ -56,10 +56,8 @@ if (isset($_GET["new_username"]) && isset($_GET["new_password"]) && isset($_GET[
     $new_token = $_GET["new_token"];
     $user_type = $_GET["user_type"];
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-    $signup_succesful = mysqli_query($con, "INSERT INTO users (username, email, `password`, token, user_type) VALUES('$new_username', '$new_email', '$hashed_password', '$new_token', '$user_type')");
+    $signup_succesful = mysqli_query($con, "INSERT INTO `users` (`username`, `email`, `password`, `token`, `user_type`) VALUES('$new_username', '$new_email', '$hashed_password', '$new_token', '$user_type');");
 
-    $row = mysqli_fetch_assoc($signup_succesful);
-    echo json_encode($row);
     return;
 }
 

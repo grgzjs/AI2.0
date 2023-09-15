@@ -143,6 +143,7 @@ $rowcompany = mysqli_fetch_assoc($company);
                   localStorage.setItem('user_type', 'unset');
 
                   document.getElementById("login-form").submit();
+                  //location.href = "dashboard.php";
                 }
               });
             } else if (response == 1) {

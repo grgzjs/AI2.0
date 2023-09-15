@@ -244,101 +244,191 @@ include("conexion.php");
 
     <!--COMIENZO DASHBOARD-->
 
-    <!-- PHP SUM QUOTES PER MONTH-->
     <?php
-    // Connect to the database
-    // $con = mysqli_connect("localhost", "root", "", "YAC");
-
-    // Get the current month and year
     $month = date('m');
     $year = date('Y');
-
-    // Execute the SQL query to count the quotes generated this month
-    $result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
-
-    // Fetch the result as an associative array
-    $row = mysqli_fetch_assoc($result);
-
-    // Assign the number of quotes generated this month to $quotesthismonth
-    $quotesthismonth = $row['quote'];
-    ?>
-
-    <!-- PHP CALCULATION TOTAL SUM QUOTES PER MONTH-->
-
-    <?php
-    // Connect to the database
-    // $con = mysqli_connect("localhost", "root", "", "YAC");
-
-    // Get the current month and year
-    $month = date('m');
-    $year = date('Y');
-
-    // Execute the SQL query to get the total amount of all quotes generated this month
-    $resultamount = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
-
-    // Fetch the result as an associative array
-    $row = mysqli_fetch_assoc($resultamount);
-
-    // Assign the total amount of all quotes generated this month to $totalamountthismonth
-    $totalamountthismonth = $row['amount'];
-
-    // Add the $ sign to the total amount
-    //$totalamountthismonth_with_sign = '$' . number_format($totalamountthismonth, 2);
-
-
-    ?>
-
-    <!-- PHP SUM TRIPS PER MONTH-->
-    <?php
-    // Connect to the database
-    // $con = mysqli_connect("localhost", "root", "", "YAC");
-
-    // Get the current month and year
-    $month = date('m');
-    $year = date('Y');
+    $current_date = date('Y-m-d H:i:s');
     $status = 2;
 
-    // Execute the SQL query to count the quotes generated this month
-    $resultcon = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND Status = $status");
 
-    // Fetch the result as an associative array
-    $row = mysqli_fetch_assoc($resultcon);
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+      $filter = $_POST["matricula_selector"];
+      if($filter =="General" || $filter ==""){
+        //Cotizaciones
+        $cot_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
+        $cot_row = mysqli_fetch_assoc($cot_result);
+        // Assign the number of quotes generated this month to $quotesthismonth
+        $quotesthismonth = $cot_row['quote'];
 
-    // Assign the number of quotes generated this month to $quotesthismonth
-    $tripsthismonth = $row['quote'];
+        //Amount
+        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
+        $amount_row = mysqli_fetch_assoc($amount_result);
+        // Assign the total amount of all quotes generated this month to $totalamountthismonth
+        $totalamountthismonth = $amount_row['amount'];
+        //Trips
+        $trips_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND Status = $status");
+        $trip_row = mysqli_fetch_assoc($trips_result);
+        // Assign the number of quotes generated this month to $quotesthismonth
+        $tripsthismonth = $trip_row['quote'];
+        //Total amount
+        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND `status` = $status");
+        $total_row = mysqli_fetch_assoc($total_result);
+        // Assign the total amount of all quotes generated this month to $totalamountthismonth
+        $totaltripsthismonth = $total_row['amount'];
+      }else{
+        //Cotizaciones
+      $cot_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter'");
+      $cot_row = mysqli_fetch_assoc($cot_result);
+      // Assign the number of quotes generated this month to $quotesthismonth
+      $quotesthismonth = $cot_row['quote'];
+
+      //Amount
+      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter'");
+      $amount_row = mysqli_fetch_assoc($amount_result);
+      // Assign the total amount of all quotes generated this month to $totalamountthismonth
+      $totalamountthismonth = $amount_row['amount'];
+
+      //Trips
+      $trips_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter'");
+      $trip_row = mysqli_fetch_assoc($trips_result);
+      // Assign the number of quotes generated this month to $quotesthismonth
+      $tripsthismonth = $trip_row['quote'];
+  
+      
+      //Total amount
+      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter'");
+      $total_row = mysqli_fetch_assoc($total_result);
+      // Assign the total amount of all quotes generated this month to $totalamountthismonth
+      $totaltripsthismonth = $total_row['amount'];
+      
+      }
+      
+    }else{
+      //Cotizaciones
+      $cot_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
+      $cot_row = mysqli_fetch_assoc($cot_result);
+      // Assign the number of quotes generated this month to $quotesthismonth
+      $quotesthismonth = $cot_row['quote'];
+
+      //Amount
+      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
+      $amount_row = mysqli_fetch_assoc($amount_result);
+      // Assign the total amount of all quotes generated this month to $totalamountthismonth
+      $totalamountthismonth = $amount_row['amount'];
+
+      //Trips
+      $trips_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status");
+      $trip_row = mysqli_fetch_assoc($trips_result);
+      // Assign the number of quotes generated this month to $quotesthismonth
+      $tripsthismonth = $trip_row['quote'];
+
+      //Total amount
+      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status");
+      $total_row = mysqli_fetch_assoc($total_result);
+      // Assign the total amount of all quotes generated this month to $totalamountthismonth
+      $totaltripsthismonth = $total_row['amount'];
+    } 
 
     // Format the number without extra decimals
     $tripsthismonth = number_format($tripsthismonth, 0);
 
-    ?>
 
-    <!-- PHP CALCULATION TOTAL SUM TRIPS PER MONTH-->
+    $plane_result = mysqli_query($con, "SELECT COUNT(*) as plane_quantity FROM Aircraft");
+    $plane_row = mysqli_fetch_assoc($plane_result);
+    $plane_quantity = $plane_row['plane_quantity'];
 
-    <?php
-    // Connect to the database
-    // $con = mysqli_connect("localhost", "root", "", "YAC");
+    $user_result = mysqli_query($con, "SELECT COUNT(*) as user_quantity FROM users");
+    $user_row = mysqli_fetch_assoc($user_result);
+    $user_quantity = $user_row['user_quantity'];
 
-    // Get the current month and year
-    $month = date('m');
-    $year = date('Y');
-    $status = 2;
 
-    // Execute the SQL query to get the total amount of all quotes generated this month
-    $resultamounttrips = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND Status = $status");
+    $top_user_result = mysqli_query($con, "SELECT email, COUNT(*) AS user_quantity FROM logs GROUP BY email ORDER BY user_quantity DESC LIMIT 1");
+    $top_user_row = mysqli_fetch_assoc($top_user_result);
 
-    // Fetch the result as an associative array
-    $row = mysqli_fetch_assoc($resultamounttrips);
+    if ($top_user_row && $top_user_row['user_quantity'] > 0) {
+        $search_user = $top_user_row['email'];
+        $top_user_result = mysqli_query($con, "SELECT username FROM users WHERE email='$search_user'");
+        if ($top_user_result) {
+            $top_user_data = mysqli_fetch_assoc($top_user_result);
+            $top_user = $top_user_data['username'];
+        } else {
+            $top_user = "información insuficiente";
+        }
+    } else {
+        $top_user = "información insuficiente";
+    }
 
-    // Assign the total amount of all quotes generated this month to $totalamountthismonth
-    $totaltripsthismonth = $row['amount'];
 
-    // Add the $ sign to the total amount
-    //$totalamountthismonth_with_sign = '$' . number_format($totalamountthismonth, 2);
+
+
+
+    $top_saler_result = mysqli_query($con, "SELECT email, COUNT(*) AS saler_quantity FROM logs WHERE `action` = 'registered quote' GROUP BY email ORDER BY saler_quantity DESC LIMIT 1");
+    $top_saler_row = mysqli_fetch_assoc($top_saler_result);
+    if ($top_saler_row && $top_saler_row['saler_quantity'] > 0) {
+        $search_saler = $top_saler_row['email'];
+        $top_saler_result = mysqli_query($con, "SELECT username FROM users WHERE email='$search_saler'");
+        if ($top_saler_result) {
+            $top_saler_data = mysqli_fetch_assoc($top_saler_result);
+            $top_saler = $top_saler_data['username'];
+        } else {
+            $top_saler = "información insuficiente";
+        }
+    } else {
+        $top_saler = "información insuficiente";
+    }
     ?>
 
 
 
     <div class="main-content container">
+      <div class="row">
+       <div class="col-md-12">
+       <div class="form-group row">
+        <div class="col-12">
+        <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="matricula_selector_form" style="display:none">
+          <select name="matricula_selector" id="matricula_selector" class="form-control custom-select">
+            <?php 
+              $aircraft = mysqli_query($con, "SELECT * FROM Aircraft");
+              
+              // Verificar si se ha enviado un valor para matricula_selector
+              if(isset($_POST['matricula_selector'])) {
+                $selectedValue = $_POST['matricula_selector'];
+                
+                // Comprobar y marcar como seleccionado si coincide con el valor en el bucle
+                if ($selectedValue == 'General') {
+                  echo "<option value='General' selected>General</option>";
+                  while( $plane_rows = mysqli_fetch_assoc($aircraft)){
+                    echo "<option value='".$plane_rows['matricula']."'>".$plane_rows['matricula']."</option>";
+                  }
+                }else{
+                  echo "<option value='General'>General</option>";
+                  while( $plane_rows = mysqli_fetch_assoc($aircraft)){
+                    if($selectedValue == $plane_rows['matricula']){
+                      echo "<option value='".$plane_rows['matricula']."' selected>".$plane_rows['matricula']."</option>";
+
+                    }else{
+                      echo "<option value='".$plane_rows['matricula']."'>".$plane_rows['matricula']."</option>";
+
+                    }
+                  }
+                }
+              }else{
+                echo "<option value='General'>General</option>";
+                while( $plane_rows = mysqli_fetch_assoc($aircraft)){
+                  echo "<option value='".$plane_rows['matricula']."'>".$plane_rows['matricula']."</option>";
+                }
+              }
+              
+            ?>
+          </select>
+        </form>
+        </div>
+      </div>
+    
+      
+        
+        
+      
       <div class="row">
         <div class="col-md-7">
           <div class="widget widget-fullwidth user-develop-chart">
@@ -347,12 +437,21 @@ include("conexion.php");
             </div>
             <div class="widget-chart-container">
               <div class="legend-container" id="develop-chart-legend"></div>
-              <div id="develop-chart" style="height: 225px;"></div>
+              <div id="develop-chart" style="height: 312px;"></div>
             </div>
           </div>
         </div>
         <div class="col-md-5">
           <div class="widget-indicators">
+          <div class="indicator-item">
+              <div class="indicator-item-icon">
+                <div class="icon"><span class="s7-user"></span></div>
+              </div>
+              <div class="indicator-item-value">
+                <span class="indicator-value-counter" data-toggle="counter" data-end="<?php echo $user_quantity; ?>">0</span>
+                <div class="indicator-value-title">Cantidad de usuarios</div>
+              </div>
+            </div>
             <div class="indicator-item">
               <div class="indicator-item-icon">
                 <div class="icon"><span class="s7-paper-plane"></span></div>
@@ -533,12 +632,31 @@ include("conexion.php");
                   <div class="earnings-value"><span class="earnings-counter" data-toggle="counter" data-end="79" data-suffix="%">0</span><span class="earnings-title">Inc. Ventas</span></div>
                 </div>
                 <div class="earnings-chart">
-                  <div id="earnings-chart" style="height: 156px;"></div>
+                  <div id="earnings-chart" style="height: 56px;"></div>
                 </div>
               </div>
             </div>
             <div class="col-sm-6 col-lg-3">
               <div class="usage usage-dark">
+                <div class="usage-head"><span class="usage-head-title">Top saler</span>
+                </div>
+                <div class="usage-resume">
+                  <h5 class="usage-data"><span class="usage-title"><?php echo $top_saler ?></span></h5>
+                  <div class="usage-icon"><span class="icon s7-graph3"></span></div>
+                </div>
+              </div> 
+              <div class="usage usage-dark">
+                <div class="usage-head"><span class="usage-head-title">Top user</span>
+                </div>
+                <div class="usage-resume">
+                  <h5 class="usage-data"><span class="usage-title"><?php echo $top_user ?></span></h5>
+                  <div class="usage-icon"><span class="icon s7-timer"></span></div>
+                </div>
+              </div> 
+              
+            </div>
+            <!-- <div class="col-sm-6 col-lg-3">
+               <div class="usage usage-dark">
                 <div class="usage-head"><span class="usage-head-title">Marketing</span>
                   <div class="usage-head-tools"><span class="icon s7-refresh-2"></span></div>
                 </div>
@@ -546,19 +664,37 @@ include("conexion.php");
                   <div class="usage-data"><span class="usage-counter" data-toggle="counter" data-end="73.6" data-decimals="1" data-suffix="%"></span><span class="usage-title">Download Files</span><span class="usage-detail">13,5 MB</span></div>
                   <div class="usage-icon"><span class="icon s7-graph3"></span></div>
                 </div>
-              </div>
-              <div class="usage usage-primary">
+              </div> 
+               <div class="usage usage-primary">
                 <div class="usage-head"><span class="usage-head-title">Server CPU</span>
                   <div class="usage-head-tools"><span class="icon s7-refresh-2"></span></div>
                 </div>
                 <div class="usage-resume">
                   <div class="usage-data"><span class="usage-counter" data-toggle="counter" data-end="33.9" data-decimals="1" data-suffix="%"></span><span class="usage-title">Total Usage</span><span class="usage-detail">178 MB</span></div>
                   <div class="usage-icon"><span class="icon s7-timer"></span></div>
-                </div>
+                </div> 
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-md-6"></div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <div class="col-12">
+                <div class="usage usage-dark">
+                  <div class="usage-head"><span class="usage-head-title">Cantidad de aeronaves</span>
+                  </div>
+                  <div class="usage-resume">
+                    <h5 class="usage-data"><span class="usage-title" ><?php echo $plane_quantity ?></span></h5>
+                    <div class="usage-icon"><span class="icon s7-paper-plane"></span></div>
+                  </div>
+                </div> 
               </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
       <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
       <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
@@ -581,7 +717,27 @@ include("conexion.php");
         });
       </script>
       <script>
+        let user_type = localStorage.getItem("user_type");
+        let selectElement = document.getElementById("matricula_selector");
+        let matricula_selector_form = document.getElementById("matricula_selector_form");
+
+        if(user_type== "owner"){
+          document.getElementById("matricula_selector_form").style.display = "block";
+        }
+
         cargarDatosTabla();
+
+        
+        // Agrega un evento de cambio al select
+        selectElement.addEventListener("change", function () {
+          let selectedValue = selectElement.value;
+          console.log(selectedValue);
+          matricula_selector_form.submit();
+
+        });
+
+
+
         function addTask() {
           let task_name = document.getElementById("task-text").value;
           // execute query to load taks
@@ -591,7 +747,15 @@ include("conexion.php");
             success: function(data) {
               cargarDatosTabla();
               document.getElementById("task-text").value="";
+              let log_user_type = localStorage.getItem("user_type");
+              let log_email = localStorage.getItem("email");
+              let log_username = localStorage.getItem("username");
+              $.ajax({
+                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='registered note'", // your php file
+                type: "GET"
+              });
             }
+            
           });
         }
 
@@ -602,6 +766,13 @@ include("conexion.php");
             type: "GET", // type of the HTTP request
             success: function(data) {
               cargarDatosTabla();
+              let log_user_type = localStorage.getItem("user_type");
+              let log_email = localStorage.getItem("email");
+              let log_username = localStorage.getItem("username");
+              $.ajax({
+                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='deleted note'", // your php file
+                type: "GET"
+              });
             }
           });
           

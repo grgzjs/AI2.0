@@ -173,6 +173,19 @@
   </div>
   <script>
     function borrar(id_invoice) {
+
+      let log_user_type = localStorage.getItem("user_type");
+      let log_email = localStorage.getItem("email");
+      let log_username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='delete quote'", // your php file
+                type: "GET", // type of the HTTP request
+                success: function(data) {
+                  console.log(data)
+                   console.log("registered quote");
+                }
+            });
+
       //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
       //console.log('borrar '+id_invoice)
       let form = document.createElement('form')
@@ -204,6 +217,14 @@
     }
     //FUNCTION EDITAR - PROBLEMA CON NO EDITAR el SUBTOTAL + TAX + TOTAL
     function editarQuote(id_invoice) {
+      //CAMBIAR
+      let log_user_type = localStorage.getItem("user_type");
+      let log_email = localStorage.getItem("email");
+      let log_username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='edited quote'", // your php file
+                type: "GET"
+            });
       let form = document.createElement('form')
       form.action = 'hello.php'
       form.method = 'post'
@@ -374,6 +395,14 @@
     }
     //Status Function//
     function statusbooked(id_invoice) {
+      let log_user_type = localStorage.getItem("user_type");
+      let log_email = localStorage.getItem("email");
+      let log_username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='reserved quote'", // your php file
+                type: "GET"
+
+            });
       let form = document.createElement('form')
       form.action = 'opsmain.php'
       form.method = 'post'

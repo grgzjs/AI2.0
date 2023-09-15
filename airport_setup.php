@@ -198,7 +198,7 @@ include("conexion.php");
                 </div>
                 <div class="col-lg-12">
                   <p class="text-right">
-                    <button class="btn btn-space btn-primary" name="save" type="submit">Procesar</button>
+                    <button class="btn btn-space btn-primary" name="save" type="submit" id="submit_btn">Procesar</button>
                   </p>
                 </div>
             </div>
@@ -345,9 +345,33 @@ include("conexion.php");
   </script>
 
   <script>
-    //POPUP SCRIPT
-
+    
+    let submit_btn = document.getElementById("submit_btn");
+      submit_btn.addEventListener("click", function(event){
+      let user_type = localStorage.getItem("user_type");
+      let email = localStorage.getItem("email");
+      let username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered airport'", // your php file
+                type: "GET", // type of the HTTP request
+                success: function(data) {
+                  console.log(data)
+                   console.log("registered quote");
+                }
+            });
+    });
     function delete_airport(icao) {
+      let user_type = localStorage.getItem("user_type");
+      let email = localStorage.getItem("email");
+      let username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='deleted airport'", // your php file
+                type: "GET", // type of the HTTP request
+                success: function(data) {
+                  console.log(data)
+                   console.log("registered quote");
+                }
+            });
       let form = document.createElement("form");
       form.action = "airport_setup.php";
       form.method = "post";

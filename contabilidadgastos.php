@@ -424,6 +424,14 @@ if (isset($_POST['guardar_gasto'])) {
 
 
     function save_all() {
+      let user_type = localStorage.getItem("user_type");
+      let email = localStorage.getItem("email");
+      let username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered expense'", // your php file
+                type: "GET"
+            });
+
       let end_point = "reception_area_query.php";
       let form_data = new FormData();
       let input_file = document.getElementById("gastos");

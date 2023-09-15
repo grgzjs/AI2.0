@@ -423,6 +423,7 @@ if (isset($_POST['guardar_ingreso'])) {
     }
 
     function save_all() {
+      
       let end_point = "reception_area_query.php";
       let form_data = new FormData();
       let input_file = document.getElementById("ingreso");
@@ -482,6 +483,14 @@ if (isset($_POST['guardar_ingreso'])) {
         form.action = 'contabilidadingresos.php'
         form.method = 'post'
         // form.submit()
+        let user_type = localStorage.getItem("user_type");
+      let email = localStorage.getItem("email");
+      let username = localStorage.getItem("username");
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered income'", // your php file
+                type: "GET"
+            });
+
         button1.click()
       }).catch(console.error);
 

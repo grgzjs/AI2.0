@@ -421,9 +421,9 @@ include("conexion.php");
                             <div class="btn-group btn-hspace">
                               <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Select <span class="icon-dropdown s7-angle-down"></span></button>
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <a class="dropdown-item" href='javascript:editarmatricula ("<?php echo $row['matricula'] ?>")'>Edit</a>
+                                <a class="dropdown-item" onclick="log_edit()" href='javascript:editarmatricula ("<?php echo $row['matricula'] ?>")'>Edit</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="aircraft_setup.php?aksi=delete&nik=<?php echo $row['matricula']; ?>" title="Eliminar">Delete</a> <!-- onclick="return confirm('Are you sure? <?php //echo $row['matricula']; 
+                                <a class="dropdown-item" id="delete_client_btn" onclick="log_delete()" href="aircraft_setup.php?aksi=delete&nik=<?php echo $row['matricula']; ?>" title="Eliminar">Delete</a> <!-- onclick="return confirm('Are you sure? <?php //echo $row['matricula']; 
                                                                                                                                                                                                             ?>')" -->
                               </div>
                             </div>
@@ -463,11 +463,28 @@ include("conexion.php");
     });
   </script>
   <script>
-       let submit_btn = document.getElementById("submit_btn");
-      submit_btn.addEventListener("click", function(event){
       let user_type = localStorage.getItem("user_type");
       let email = localStorage.getItem("email");
       let username = localStorage.getItem("username");
+    function log_edit(){
+      
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='edited aircraft'", // your php file
+                type: "GET"
+            });
+
+    }
+    function log_delete(){
+      $.ajax({
+                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='deleted aircraft'", // your php file
+                type: "GET"
+            });
+
+    }
+     
+
+       let submit_btn = document.getElementById("submit_btn");
+      submit_btn.addEventListener("click", function(event){
       $.ajax({
                 url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered aircraft'", // your php file
                 type: "GET", // type of the HTTP request
@@ -694,7 +711,7 @@ document.getElementById("aircraft-form").addEventListener("submit", function(eve
     
   </script>
   <script>
-    toLibras(){
+    function toLibras(){
       let peso_maximo = document.getElementById("pesomaximo").value;
 
       document.getElementById("pesomaximo").value =  parseFloat(peso_maximo) + "lbs";

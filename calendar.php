@@ -104,7 +104,7 @@ include("conexion.php");
       </ul>
       <ul class="nav navbar-nav float-lg-right mai-user-nav">
         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false"><img src="assets/img/avatar.jpg" alt="Avatar"><span class="user-name">Demo Account</span><span class="angle-down s7-angle-down"></span></a>
-          <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
+          <div class="dropdown-menu" role="menu"><a class="dropdown-item" href="#"><span class="icon s7-home"></span>My Account</a><a class="dropdown-item" id="profile_1" href="menuprofile.php"><span class="icon s7-user"></span>Profile</a><a class="dropdown-item" id="profile_2" href="menuprofile.php"><span class="icon s7-tools"></span>Settings</a><a class="dropdown-item" href="login.php"><span class="icon s7-power"></span>Log Out</a></div>
         </li>
       </ul>
     </div>
@@ -223,6 +223,9 @@ include("conexion.php");
       App.init();
       App.pageCalendar();
     });
+    let email = localStorage.getItem("email");
+    document.getElementById("profile_1").href ="menuprofile.php?email=" + email;
+    document.getElementById("profile_2").href ="menuprofile.php?email=" + email;
   </script>
 </body>
 

@@ -291,7 +291,9 @@
                                                         while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
 
                                                         ?>
-                                                        <th><input class="form-control pilot-check" onchange="javascript:can_add()" id="<?php echo 'pilotchck' . $itramo ?>" type="checkbox" value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span></th>
+                                                        <th style="width:40px;height:40px">
+                                                            <input style="width:40px;height:40px" class="form-control pilot-check" onchange="javascript:can_add()" id="<?php echo 'pilotchck' . $itramo ?>" type="checkbox" value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span>
+                                                        </th>
                                                             
                                                         <?php
                                                             $itramo++;
@@ -462,8 +464,8 @@
                                                             while ($rowdetail = mysqli_fetch_assoc($detailleg)) {
 
                                                             ?>
-                                                                <th>
-                                                                    <input id="<?php echo 'paxchck' . $itramo ?>" onchange="javascript:can_add()" class="form-control pas-check" type="checkbox"  value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span>
+                                                                <th style="width:40px;height:40px">
+                                                                    <input style="width:40px;height:40px" id="<?php echo 'paxchck' . $itramo ?>" onchange="javascript:can_add()" class="form-control pas-check" type="checkbox"  value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span>
                                                                 </th>
                                                             
                                                             <?php

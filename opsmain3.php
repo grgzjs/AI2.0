@@ -285,6 +285,13 @@ include("conexion.php");
         function guardardetalle(e) {
             e.preventDefault();
 
+            let log_user_type = localStorage.getItem("user_type");
+            let log_email = localStorage.getItem("email");
+            let log_username = localStorage.getItem("username");
+            $.ajax({
+                    url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='scheduled flight'", // your php file
+                    type: "GET"
+                });
             let form = document.createElement('form');
             form.action = 'pdfTripSheet.php';
             form.method = 'post';
@@ -328,7 +335,15 @@ include("conexion.php");
             }
 
             document.body.appendChild(form);
-            form.submit();
+            let quote = "<?php echo $quote ?>";
+            $.ajax({
+            url: "status_query.php?quote=" + quote , // your php file
+            type: "GET", // type of the HTTP request
+            success: function(data) {
+                form.submit();
+            }
+          });
+            
             // window.location.href = 'opsmain.php';
         }
 

@@ -31,99 +31,104 @@ include("conexion.php");
         <?php require_once("nav_header2.html") ?>
         <!--FINAL BOTONERA PRINCIPAL-->
         <div class="main-content container">
-            <div class="form-group row">
-                <label class="col-auto col-form-label">Desde</label>
-                <div class="col">
-                    <input class="form-control" onchange="reloadTable()" type="date" id="desde">
+            <form action="reportegeneral-pdf.php" id="reporte-form" method="post">
+                <div class="form-group row">
+                    <label class="col-auto col-form-label">Desde</label>
+                    <div class="col">
+                        <input class="form-control" onchange="reloadTable()" type="date" name="desde" id="desde">
+                    </div>
+                    <label class="col-auto col-form-label">Hasta</label>
+                    <div class="col">
+                        <input class="form-control" onchange="reloadTable()" type="date" name="hasta" id="hasta">
+                    </div>
                 </div>
-                <label class="col-auto col-form-label">Hasta</label>
-                <div class="col">
-                    <input class="form-control" onchange="reloadTable()" type="date" id="hasta">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-default card-table">
-                        <div class="card-body">
-                            <div class="noSwipe">
-                                <table class="table table-striped table-hover ma-table-responsive" id="table">
-                                    <thead>
-                                        <tr>
-                                            <th style="width:17%;">Fecha</th>
-                                            <th style="width:15%;">Concepto</th>
-                                            <th style="width:10%;">Tipo de Ingreso</th>
-                                            <th style="width:13%;">Moneda de Cambio</th>
-                                            <th style="width:13%;">Monto</th>
-                                            <th style="width:10%;">Archivo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbody">
-                                        <?php
-                                        $sql_reporte = '
-                                        SELECT `date`, `type`, `concept`, `amount`, `moneda_cambio`, `file` FROM `gastos_generales`
-                                        UNION
-                                        SELECT `date`, `tipoingreso` AS `type`, `concepto` AS `concept`, `monto` AS `amount`, `moneda_cambio`, `file` FROM `ingresos_generales`
-                                        ORDER BY `date` DESC;';
-                                        $reporte = mysqli_query($con, $sql_reporte);
-                                        $total_pesos = 0;
-                                        $total_usd = 0;
-                                        while ($rowp = mysqli_fetch_assoc($reporte)) {
-                                            $file_exists = $rowp["file"];
-                                        ?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-default card-table">
+                            <div class="card-body">
+                                <div class="noSwipe">
+                                    <table class="table table-striped table-hover ma-table-responsive" id="table">
+                                        <thead>
                                             <tr>
-                                                <td class="cell-detail">
-                                                    <span class="date"><?php echo $rowp["date"] ?></span>
-                                                </td>
-                                                <td class="cell-detail">
-                                                    <span><?php echo $rowp["concept"] ?></span>
-                                                </td>
-                                                <td class="cell-detail">
-                                                    <span><?php echo $rowp["type"] ?></span>
-                                                </td>
-                                                <td class="cell-detail">
-                                                    <span><?php echo $rowp["moneda_cambio"] ?></span>
-                                                </td>
-                                                <td class="cell-detail">
-                                                    <span>$<?php echo $rowp["amount"] ?></span>
-                                                </td>
-                                                <td class="cell-detail">
-                                                    <?php
-                                                    if ($file_exists != "") {
-                                                        echo '<a style="font-size:1.5rem" href="ingresos/' . $rowp["file"] . '" download="' . $rowp["file"] . '">
-                        <span class="icon s7-file"></span>
-                      </a>';
-                                                    }
-                                                    ?>
-
-                                                </td>
+                                                <th style="width:17%;">Fecha</th>
+                                                <th style="width:15%;">Concepto</th>
+                                                <th style="width:10%;">Tipo de Ingreso</th>
+                                                <th style="width:13%;">Moneda de Cambio</th>
+                                                <th style="width:13%;">Monto</th>
+                                                <th style="width:10%;">Archivo</th>
                                             </tr>
-                                        <?php
-                                            if($rowp["moneda_cambio"]=="USD"){
-                                                $total_usd += $rowp["amount"];
-                                            }else{
-                                                $total_pesos += $rowp["amount"];
+                                        </thead>
+                                        <tbody id="tbody">
+                                            <?php
+                                            $sql_reporte = '
+                                            SELECT `date`, `type`, `concept`, `amount`, `moneda_cambio`, `file` FROM `gastos_generales`
+                                            UNION
+                                            SELECT `date`, `tipoingreso` AS `type`, `concepto` AS `concept`, `monto` AS `amount`, `moneda_cambio`, `file` FROM `ingresos_generales`
+                                            ORDER BY `date` DESC;';
+                                            $reporte = mysqli_query($con, $sql_reporte);
+                                            $total_pesos = 0;
+                                            $total_usd = 0;
+                                            while ($rowp = mysqli_fetch_assoc($reporte)) {
+                                                $file_exists = $rowp["file"];
+                                            ?>
+                                                <tr>
+                                                    <td class="cell-detail">
+                                                        <span class="date"><?php echo $rowp["date"] ?></span>
+                                                    </td>
+                                                    <td class="cell-detail">
+                                                        <span><?php echo $rowp["concept"] ?></span>
+                                                    </td>
+                                                    <td class="cell-detail">
+                                                        <span><?php echo $rowp["type"] ?></span>
+                                                    </td>
+                                                    <td class="cell-detail">
+                                                        <span><?php echo $rowp["moneda_cambio"] ?></span>
+                                                    </td>
+                                                    <td class="cell-detail">
+                                                        <span>$<?php echo $rowp["amount"] ?></span>
+                                                    </td>
+                                                    <td class="cell-detail">
+                                                        <?php
+                                                        if ($file_exists != "") {
+                                                            echo '<a style="font-size:1.5rem" href="ingresos/' . $rowp["file"] . '" download="' . $rowp["file"] . '">
+                            <span class="icon s7-file"></span>
+                        </a>';
+                                                        }
+                                                        ?>
+
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                                if($rowp["moneda_cambio"]=="USD"){
+                                                    $total_usd += $rowp["amount"];
+                                                }else{
+                                                    $total_pesos += $rowp["amount"];
+                                                }
                                             }
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group row" style="display: flex; justify-content:end;">
-                <label class="col-auto col-form-label">Total Pesos:</label>
-                <div class="col-auto">
-                    <input class="form-control" id="total_pesos" type="text" value="$<?php echo $total_pesos?>" disabled>
+                <div class="form-group row" style="display: flex; justify-content:end;">
+                    <label class="col-auto col-form-label">Total Pesos:</label>
+                    <div class="col-auto">
+                        <input class="form-control" id="total_pesos" type="text" value="$<?php echo $total_pesos?>" disabled>
+                    </div>
+                    <label class="col-auto col-form-label">Total USD:</label>
+                    <div class="col-auto">
+                        <input class="form-control" id="total_usd" type="text" value="$<?php echo $total_usd?>" disabled>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row" style="display: flex; justify-content:end;">
-                <label class="col-auto col-form-label">Total USD:</label>
-                <div class="col-auto">
-                    <input class="form-control" id="total_usd" type="text" value="$<?php echo $total_usd?>" disabled>
+                <div class="form-group row" style="display: flex; justify-content:end;">
+                    <div class="col-auto">
+                        <button class="btn btn-space btn-primary" name="save" type="submit">Generar PDF</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
         <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
         <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>

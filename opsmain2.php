@@ -238,12 +238,12 @@
                                                                 <option value="">...</option>
 
                                                                 <?php
-                                                                    $sqllist = "select * from Contact where typeclient='Empleados' order by last_name";
+                                                                    $sqllist = "select *,DATE_FORMAT(f_nacimiento, '%d/%m/%Y') as spanish_date from Contact where typeclient='Empleados' order by last_name";
                                                                     $rows = mysqli_query($con, $sqllist);
                                                                     while ($row = mysqli_fetch_assoc($rows)) {
                                                                     ?>
                                                                     <!-- Le agregue funcion para ver si lo refleja el listado de pilotos -->
-                                                                    <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['f_nacimiento'] . '*' . $row['dnipass'] . '*' . $row['licencia'] . '*' . $row['funcion'] ?>">
+                                                                    <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['spanish_date'] . '*' . $row['dnipass'] . '*' . $row['licencia'] . '*' . $row['funcion'] ?>">
                                                                         <?php echo $row['last_name'] . ', ' . $row['first_name'] ?>
                                                                     </option>
                                                                     <?php
@@ -425,11 +425,11 @@
                                                         <select class="form-control custom-select" name="cliente" id='cliente' onchange='javascript:updatepax()'>
                                                             <option value="">...</option>
                                                             <?php
-                                                                $sqllist = "select * from Contact where typeclient <>'Empleados' order by last_name";
+                                                                $sqllist = "select *,DATE_FORMAT(f_nacimiento, '%d/%m/%Y') as spanish_date from Contact where typeclient <>'Empleados' order by last_name";
                                                                 $rows = mysqli_query($con, $sqllist);
                                                                 while ($row = mysqli_fetch_assoc($rows)) {
                                                                 ?>
-                                                                    <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['f_nacimiento'] . '*' . $row['dnipass'] ?>">
+                                                                    <option value="<?php echo $row['id'] . '*' . $row['pais'] . '*' . $row['spanish_date'] . '*' . $row['dnipass'] ?>">
                                                                         <?php echo $row['last_name'] . ', ' . $row['first_name'] ?>
                                                                     </option>
                                                                 <?php

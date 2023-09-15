@@ -46,7 +46,7 @@ include("conexion.php");
       }
  
       // SECCION DE BORRAR Y EDITAR
-      $sqllist = "select i.*,c.* from invoices i, Contact c where (i.status = 2 OR i.status = 3) and i.buyer_id=c.id ORDER BY i.date DESC";
+      $sqllist = "select i.*,c.*,DATE_FORMAT(i.date, '%d/%m/%Y %H:%i:%s') as spanish_date from invoices i, Contact c where (i.status = 2 OR i.status = 3) and i.buyer_id=c.id ORDER BY i.date DESC";
       $rows = mysqli_query($con, $sqllist);
 
       if (isset($_POST['username']) && ($_POST['aksi'] == 'delete' || $_POST['aksi'] == 'edit')) {
@@ -137,7 +137,7 @@ include("conexion.php");
                           <td class="cell-detail"><span><b><?php echo $row['quote']; ?></b>
                             </span>
                           </td>
-                          <td class="cell-detail"> <span><?php echo $row['date']; ?>
+                          <td class="cell-detail"> <span><?php echo $row['spanish_date']; ?>
                             </span>
                           </td>
                           <td class="cell-detail"><span><?php echo $row['aircraft']; ?>

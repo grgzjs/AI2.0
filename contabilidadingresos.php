@@ -346,14 +346,14 @@ if (isset($_POST['guardar_ingreso'])) {
                 </thead>
                 <tbody>
                   <?php
-                  $sql_ingresos = 'select * from ingresos_generales';
+                  $sql_ingresos = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from ingresos_generales';
                   $ingresos = mysqli_query($con, $sql_ingresos);
                   while ($rowp = mysqli_fetch_assoc($ingresos)) {
                     $file_exists = $rowp["file"];
                   ?>
                     <tr>
                       <td class="cell-detail">
-                        <span class="date"><?php echo $rowp["date"] ?></span>
+                        <span class="date"><?php echo $rowp["spanish_date"] ?></span>
                       </td>
                       <td class="cell-detail">
                         <span><?php echo $rowp["concepto"] ?></span>

@@ -61,9 +61,8 @@ include("conexion.php");
                                         <tbody id="tbody">
                                             <?php
                                             $sql_reporte = '
-                                            SELECT `date`, `type`, `concept`, `amount`, `moneda_cambio`, `file` FROM `gastos_generales`
-                                            UNION
-                                            SELECT `date`, `tipoingreso` AS `type`, `concepto` AS `concept`, `monto` AS `amount`, `moneda_cambio`, `file` FROM `ingresos_generales`
+                                            SELECT `date`,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date, `type`, `concept`, `amount`, `moneda_cambio`, `file` FROM `gastos_generales` 
+                                            UNION SELECT `date`, DATE_FORMAT(date, "%d/%m/%Y") as spanish_date, `tipoingreso` AS `type`, `concepto` AS `concept`, `monto` AS `amount`, `moneda_cambio`, `file` FROM `ingresos_generales` 
                                             ORDER BY `date` DESC;';
                                             $reporte = mysqli_query($con, $sql_reporte);
                                             $total_pesos = 0;
@@ -73,7 +72,7 @@ include("conexion.php");
                                             ?>
                                                 <tr>
                                                     <td class="cell-detail">
-                                                        <span class="date"><?php echo $rowp["date"] ?></span>
+                                                        <span class="date"><?php echo $rowp["spanish_date"] ?></span>
                                                     </td>
                                                     <td class="cell-detail">
                                                         <span><?php echo $rowp["concept"] ?></span>
@@ -178,14 +177,13 @@ include("conexion.php");
                                 tr.appendChild(tdDate);
                                 let spanDate = document.createElement('span');
                                 spanDate.classList.add('date');
-                                spanDate.innerHTML = userData['date'];
+                                spanDate.innerHTML = userData['spanish_date'];
                                 tdDate.appendChild(spanDate);
 
                                 let tdConcept = document.createElement('td');
                                 tdConcept.classList.add('cell-detail');
                                 tr.appendChild(tdConcept);
                                 let spanConcept = document.createElement('span');
-                                spanConcept.classList.add('date');
                                 spanConcept.innerHTML = userData['concept'];
                                 tdConcept.appendChild(spanConcept);
 
@@ -193,7 +191,6 @@ include("conexion.php");
                                 tdType.classList.add('cell-detail');
                                 tr.appendChild(tdType);
                                 let spanType = document.createElement('span');
-                                spanType.classList.add('date');
                                 spanType.innerHTML = userData['type'];
                                 tdType.appendChild(spanType);
 
@@ -201,7 +198,6 @@ include("conexion.php");
                                 tdMoneda.classList.add('cell-detail');
                                 tr.appendChild(tdMoneda);
                                 let spanMoneda = document.createElement('span');
-                                spanMoneda.classList.add('date');
                                 spanMoneda.innerHTML = userData['moneda_cambio'];
                                 tdMoneda.appendChild(spanMoneda);
 
@@ -209,7 +205,6 @@ include("conexion.php");
                                 tdAmount.classList.add('cell-detail');
                                 tr.appendChild(tdAmount);
                                 let spanAmount = document.createElement('span');
-                                spanAmount.classList.add('date');
                                 spanAmount.innerHTML = userData['amount'];
                                 tdAmount.appendChild(spanAmount);
 

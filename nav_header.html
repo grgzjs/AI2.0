@@ -23,7 +23,7 @@
         <ul class="nav navbar-nav float-lg-right mai-user-nav">
             <li class="dropdown nav-item">
                 <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" role="button" aria-expanded="false">
-                    <img src="assets/img/avatars/no_user.jpg" alt="Avatar" style="border-radius: 50%;">
+                    <img id="avatar" src="assets/img/avatars/no_user.jpg" alt="Avatar" style="border-radius: 50%;">
                     <span class="user-name" id="account-name"></span>
                     <span class="angle-down s7-angle-down"></span>
                 </a>
@@ -32,7 +32,7 @@
                         <span class="icon s7-home"></span>
                         <span></span>
                     </a> -->
-                    <a class="dropdown-item" href="menuprofile.php">
+                    <a class="dropdown-item" id="profile" href="menuprofile.php">
                         <span class="icon s7-user"></span>Perfil
                     </a>
                     <!-- <a class="dropdown-item" href="menuprofile.php">
@@ -48,9 +48,21 @@
 </nav>
 
 <script>
+    let email=localStorage.getItem("email");
+    
+    document.getElementById("profile").href ="menuprofile.php?email=" + email;
     var username_in_storage = localStorage.getItem("username");
-
+console.log("haciendo algo")
     document.getElementById("account-name").innerHTML = username_in_storage;
+    $.ajax({
+                url: "get_user_img_query.php?email=" + email , // your php file
+                type: "GET", // type of the HTTP request
+                success: function(data) {
+                    
+                    document.getElementById("avatar").src=jQuery.parseJSON(data);
+                    // if (new_user_type == "admin") element.setAttribute("disabled", true);
+                }
+            });
 
     function logout() {
         console.log("logging out...");

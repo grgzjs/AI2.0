@@ -112,7 +112,7 @@
 
     <?php
     include("conexion.php");
-    $get_user_data = "SELECT * FROM `users`;";
+    $get_user_data = "SELECT * FROM `users` WHERE `email` = '".$_GET['email']."';";
     $user_data = mysqli_query($con, $get_user_data);
     $rows = mysqli_fetch_assoc($user_data);
     ?>
@@ -125,7 +125,7 @@
               <div class="user-display-cover"><img src="assets/img/cover.jpg" alt="cover"></div>
               <div class="user-display-bottom" style="padding-bottom: 10%">
                 <div class="user-display-id">
-                  <button class="transparent-button" onclick="change_user_image()">
+                  <button class="transparent-button">
                     <img class="user-display-avatar" src=<?php echo $rows["user_img"]; ?> alt="avatar" id="user-image">
                     <div class="user-display-avatar image-overlay center-sm">
                       <!-- <div class="overlay-text">Cambiar</div> -->
@@ -439,11 +439,64 @@
       });
     </script>
     <script>
+      let user_type = localStorage.getItem("user_type");
+        let email_script = localStorage.getItem("email");
+        let username = localStorage.getItem("username");
+// Obtén el elemento de entrada de archivo
+const fileInput = document.getElementById('file-input');
+
+// Agrega un evento 'change' al elemento
+fileInput.addEventListener('change', function() {
+  // Verifica si se ha seleccionado un archivo
+  if (this.files.length > 0) {
+    // Obtén el nombre del archivo seleccionado
+    const selectedFileName = this.files[0].name;
+    // Imprime el nombre del archivo
+    console.log(`Nombre del archivo: ${selectedFileName}`);
+
+
+      let form_data = new FormData();
+      form_data.append("avatar_img", fileInput.files[0]);
+      form_data.append("email", email_script);
+      $.ajax({
+      url: 'save_avatar_img_query.php', // URL del servidor donde manejarás la carga de la imagen
+      type: 'POST', // Utiliza el método POST para enviar los datos
+      data: form_data, // El objeto FormData que contiene la imagen y el correo electrónico
+      processData: false, // No proceses los datos (importante para archivos)
+      contentType: false, // No establezcas el tipo de contenido (importante para archivos)
+      success: function(response) {
+        // Maneja la respuesta del servidor
+        console.log('Respuesta del servidor:', response);
+        location.reload();
+        // Si deseas mostrar el target_path en la página
+        // aquí puedes hacerlo, por ejemplo, en un elemento div con id "output"
+        // document.getElementById('output').textContent = response;
+      },
+      error: function(error) {
+        // Maneja los errores de la solicitud
+        console.error('Error al cargar la imagen y el correo electrónico:', error);
+      }
+    });
+
+
+
+  }
+});
+
+
+
+
       function change_user_image() {
         console.log("Ask for image and validate");
       }
 
       function change_admin_type(element) {
+        
+        $.ajax({
+          url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='changed user role'", // your php file
+          type: "GET"
+        });
+
         let new_user_type = "";
         switch (element.value) {
           case "Administrador":

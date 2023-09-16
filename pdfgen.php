@@ -59,7 +59,7 @@
         if(isset($_POST['idpdf'])){
             $idquote = $_POST['idpdf'];
             //echo "<script>console.log('ENTRE A IDPDF')</script>";
-            $sql = "UPDATE `invoices` SET `date` = '$date', `aircraft` = '$aircraft', `subtotal` = '$subtotal', `tax` = '$tax', `amount` = '$amount', `addons` = '$addons', `pernocta` = '$pernocta', `buyer_id` = '$idbuyer', `status` = '1' WHERE `invoices`.`quote` = '$idquote'";
+            $sql = "UPDATE `invoices` SET `date` = '$date', `aircraft` = '$aircraft', `moneda` = '$moneda', `subtotal` = '$subtotal', `tax` = '$tax', `amount` = '$amount', `addons` = '$addons', `pernocta` = '$pernocta', `buyer_id` = '$idbuyer', `status` = '1' WHERE `invoices`.`quote` = '$idquote'";
         }else{
             $sql = "insert into invoices (date,buyer_id,aircraft,moneda,subtotal,addons,pernocta,tax,amount,status) Values ('$date',$idbuyer,'$aircraft','$moneda',$subtotal,$addons,$pernocta,$tax,$amount,1)";
         }

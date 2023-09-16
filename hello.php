@@ -210,11 +210,17 @@
                   <?php
 
                   ?>
-                  <select required class="form-control custom-select" id="moneda"  name="moneda" onchange="update_currency(this)">
+                  <select required class="form-control custom-select" id="moneda" name="moneda" onchange="update_currency(this)">
                     <?php
                     $get_currencies_query = mysqli_query($con, "SELECT moneda FROM currency");
                     while ($currency_row = mysqli_fetch_assoc($get_currencies_query)) {
-                      echo "<option value='" . $currency_row['moneda'] . "'>" . $currency_row['moneda'] . "</option>";
+                      // ($rowedit['moneda'] == $currency_row['moneda']) ? "selected='selected'" : "''"
+                    ?>
+                      <option value="<?php echo $currency_row['moneda'] ?>" <?php echo ($rowedit['moneda'] == $currency_row['moneda']) ? 'selected="selected"' : ''; ?>>
+                        <?php echo $currency_row['moneda'] ?>
+                      </option>
+                    <?php
+                      // echo "<option value='" . $currency_row['moneda'] . "' ". ($rowedit['moneda'] == $currency_row['moneda']) ? "selected='selected'" : "''" .">" . $currency_row['moneda'] . "</option>";
                     }
                     // <option value="Generales">Generales</option>
                     ?>
@@ -464,8 +470,7 @@
       new_currency = selected_currency.value;
       if (new_currency == currency) {
         return;
-      }
-      else if (request_made) {
+      } else if (request_made) {
         currency = currency == "USD" ? "MXN" : "USD";
         calculate_pernocta();
         editSubtotal();
@@ -475,7 +480,7 @@
       const settings = {
         async: true,
         crossDomain: true,
-        url: 'https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=USD&to='+new_currency+'&amount=1',
+        url: 'https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=USD&to=' + new_currency + '&amount=1',
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': '7ca5fcbf98mshc6c382d596c1447p14f6d8jsnb1ee6e285853',
@@ -483,7 +488,7 @@
         }
       };
 
-      $.ajax(settings).done(function (response) {
+      $.ajax(settings).done(function(response) {
         currency = new_currency;
         rate = response["rates"][new_currency]["rate"];
 
@@ -707,7 +712,7 @@
           let leg_flight_time = h_vuelo.value + taxi_time
           total_hours += parseFloat(leg_flight_time) > 0 && parseFloat(leg_flight_time) < 1 ? 1 : parseFloat(leg_flight_time)
         }
-      }      
+      }
 
       if (currency == "USD") {
         new_price = total_hours * hPrice;

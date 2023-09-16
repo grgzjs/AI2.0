@@ -193,9 +193,39 @@
                   </select>
                 </div>
               </div>
+              <div class="form-group row">
+                <label class="col-12 col-sm-3 col-form-label text-sm-right">Moneda:</label>
+                <div class="col-12 col-sm-8 col-lg-6">
+                  <?php
+                  //AIRCRAFT TABLE
+                  $sqlaircraft = 'select * from Aircraft';
+                  $aircraft = mysqli_query($con, $sqlaircraft);
 
+                  ?>
+                  <script type="text/javascript">
+                    window.addEventListener("load", function() {
+                      calculate_pernocta(<?php echo mysqli_num_rows($aircraft); ?>)
+                    }, false);
+                  </script>
+                  <?php
 
-              <div class="card-header card-header-divider"> Detalle de Tramos<span class="card-subtitle">Ingresa las piernes de vuelo</span></div>
+                  ?>
+                  <select required class="form-control custom-select" id="moneda"  name="moneda" onchange="update_currency(this)">
+                    <?php
+                    $get_currencies_query = mysqli_query($con, "SELECT moneda FROM currency");
+                    while ($currency_row = mysqli_fetch_assoc($get_currencies_query)) {
+                      echo "<option value='" . $currency_row['moneda'] . "'>" . $currency_row['moneda'] . "</option>";
+                    }
+                    // <option value="Generales">Generales</option>
+                    ?>
+                  </select>
+                </div>
+              </div>
+
+              <div class="card-header card-header-divider">
+                Detalle de Tramos
+                <span class="card-subtitle">Ingresa las piernes de vuelo</span>
+              </div>
               <br>
 
               <div id='form-container'>
@@ -316,7 +346,6 @@
                 </div>
 
                 <script>
-                  // console.log(airports);
                   function populate_selects(origen_select_name, destino_select_name) {
                     let origen_select = document.getElementById(origen_select_name);
                     let destino_select = document.getElementById(destino_select_name);
@@ -405,23 +434,20 @@
   </div>
   </div>
   <script>
-
-
     let submit_btn = document.getElementById("submit_btn");
-    submit_btn.addEventListener("click", function(event){
+    submit_btn.addEventListener("click", function(event) {
       let user_type = localStorage.getItem("user_type");
       let email = localStorage.getItem("email");
       let username = localStorage.getItem("username");
       $.ajax({
-                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered quote'", // your php file
-                type: "GET", // type of the HTTP request
-                success: function(data) {
-                  console.log(data)
-                   console.log("registered quote");
-                }
-            });
+        url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered quote'", // your php file
+        type: "GET", // type of the HTTP request
+        success: function(data) {
+          console.log(data)
+          console.log("registered quote");
+        }
+      });
     });
-
 
     var tramo = <?php echo $i; ?>;
     var kmPrice = 0;
@@ -430,8 +456,44 @@
     var capacidad = 0;
     var pernocta = 0;
     var taxi_time = 0;
+    var currency = "USD";
+    var request_made = false;
+    var rate = 1;
 
-    function calculate_pernocta(last_tramo_edit=0) {
+    function update_currency(selected_currency) {
+      new_currency = selected_currency.value;
+      if (new_currency == currency) {
+        return;
+      }
+      else if (request_made) {
+        currency = currency == "USD" ? "MXN" : "USD";
+        calculate_pernocta();
+        editSubtotal();
+        return;
+      }
+
+      const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=USD&to='+new_currency+'&amount=1',
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': '7ca5fcbf98mshc6c382d596c1447p14f6d8jsnb1ee6e285853',
+          'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
+        }
+      };
+
+      $.ajax(settings).done(function (response) {
+        currency = new_currency;
+        rate = response["rates"][new_currency]["rate"];
+
+        request_made = true;
+        calculate_pernocta();
+        editSubtotal();
+      });
+    }
+
+    function calculate_pernocta(last_tramo_edit = 0) {
       let pernocta_input = document.getElementById("pernocta");
       let last_tramo = last_tramo_edit != 0 ? tramo : last_tramo_edit;
 
@@ -443,14 +505,19 @@
         }
       }
 
-      console.log(document.getElementById("fdate" + last_tramo).value);
-
       let first_date = new Date(document.getElementById("fdate1").value.split("T")[0]);
       let last_date = new Date(document.getElementById("fdate" + last_tramo).value.split("T")[0]);
 
       let difference = (last_date.getTime() - first_date.getTime()) / (1000 * 3600 * 24);
 
       pernocta_input.value = Math.round(((difference * pernocta) + Number.EPSILON) * 100) / 100;
+
+      if (currency == "USD") {
+        pernocta_input.value = pernocta_input.value;
+      } else {
+        pernocta_input.value = pernocta_input.value * rate;
+      }
+
       editTotal();
     }
 
@@ -567,22 +634,6 @@
       pax_input.placeholder = 'Pax'
       pax_input.name = 'fpax' + tramo
 
-      // let km_div = document.createElement('div')
-      // new_container.appendChild(km_div)
-      // let km_input = document.createElement('input')
-      // km_div.appendChild(km_input)
-
-      // km_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
-      // km_input.classList.add('form-control')
-      // km_input.type = 'text'
-      // km_input.placeholder = 'kms'
-      // km_input.name = 'km_vuelo' + tramo
-      // km_input.id = 'km_vuelo' + tramo
-      // km_input.readOnly = 'readonly'
-      // km_input.addEventListener('change', function() {
-      //   editSubtotal(this.value);
-      // }, false)
-
       let nm_div = document.createElement('div')
       new_container.appendChild(nm_div)
       let nm_input = document.createElement('input')
@@ -626,22 +677,6 @@
     }
 
     function delete_tramo() {
-      // deletes last tramo price
-      // console.log('h_vuelo' + tramo)
-      // let substract_price = 0
-      // let substract_amount = document.getElementById('h_vuelo' + tramo).value;
-
-      // if (false) {
-      //   substract_price = substract_amount * kmPrice;
-      // } else {
-      //   substract_price = substract_amount * hPrice;
-      // }
-
-      // substract_price = Math.round((substract_price + Number.EPSILON) * 100) / 100;
-
-
-      // editSubtotal(document.getElementById('h_vuelo' + tramo).value * -1)
-
       let add_tramo_bnt = document.getElementById('add-tramo-btn')
       let delete_tramo_bnt = document.getElementById('delete-tramo-btn')
 
@@ -662,35 +697,27 @@
     }
 
     function editSubtotal(newPrice) {
-      // let curr_val = document.getElementById('subtotal').value
-      // console.log(curr_val)
-
       let new_price = 0
       let total_hours = 0
 
       for (let i = 1; i < 10; i++) {
-        //console.log(i);
         let h_vuelo = document.getElementById("h_vuelo" + i)
         if (h_vuelo == null) break
-        // total_hours += h_vuelo.value
-        //console.log("h_vuelo.getAttribute('value'): ");
-        //console.log(h_vuelo.getAttribute('value'));
-        //console.log(h_vuelo.value);
         if (h_vuelo.value) {
           let leg_flight_time = h_vuelo.value + taxi_time
           total_hours += parseFloat(leg_flight_time) > 0 && parseFloat(leg_flight_time) < 1 ? 1 : parseFloat(leg_flight_time)
-          //console.log("ENTRE AL IF");
         }
-        //total_hours += taxi_time
+      }      
+
+      if (currency == "USD") {
+        new_price = total_hours * hPrice;
+      } else {
+        new_price = total_hours * hPrice * rate;
       }
 
-      new_price = total_hours * hPrice;
       new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;
-
-      console.log("new_price: " + new_price)
-
-      // document.getElementById('subtotal').setAttribute('value', parseFloat(new_price));
       document.getElementById('subtotal').value = "$" + parseFloat(new_price);
+
       editTotal(); // also add to total
     }
 

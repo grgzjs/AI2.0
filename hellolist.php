@@ -34,9 +34,9 @@
 <!-- <script src="assets/js/user-validation.js" type="text/javascript"></script> -->
 
 <body>
-<?php require_once("nav_header.html") ?>
+  <?php require_once("nav_header.html") ?>
   <div class="mai-wrapper">
-  <?php require_once("nav_header2.html") ?>
+    <?php require_once("nav_header2.html") ?>
 
     <!--FINAL DE BOTONERA-->
 
@@ -123,6 +123,7 @@
                       <th style="width:10%;">Aeronave</th>
                       <th style="width:10%;">Comprador</th>
                       <th style="width:10%;">Total</th>
+                      <th style="width:10%;">Moneda</th>
                       <th style="width:10%;"></th>
                     </tr>
                   </thead>
@@ -137,6 +138,7 @@
                           <td class="cell-detail"><span><?php echo $row['aircraft']; ?></span></td>
                           <td class="cell-detail"><span><?php echo $row['first_name']; ?><?php echo ' ' . $row['last_name']; ?></span></td>
                           <td class="cell-detail"><span>$<?php echo $row['amount']; ?></span></td>
+                          <td class="cell-detail"><span>$<?php echo $row['moneda']; ?></span></td>
                           <td class="text-right">
                             <div class="btn-group btn-hspace">
                               <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button>
@@ -178,13 +180,13 @@
       let log_email = localStorage.getItem("email");
       let log_username = localStorage.getItem("username");
       $.ajax({
-                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='delete quote'", // your php file
-                type: "GET", // type of the HTTP request
-                success: function(data) {
-                  console.log(data)
-                   console.log("registered quote");
-                }
-            });
+        url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='delete quote'", // your php file
+        type: "GET", // type of the HTTP request
+        success: function(data) {
+          console.log(data)
+          console.log("registered quote");
+        }
+      });
 
       //"hello.php?aksi=delete&nik= echo $row['quote']; ?>" 
       //console.log('borrar '+id_invoice)
@@ -222,9 +224,9 @@
       let log_email = localStorage.getItem("email");
       let log_username = localStorage.getItem("username");
       $.ajax({
-                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='edited quote'", // your php file
-                type: "GET"
-            });
+        url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='edited quote'", // your php file
+        type: "GET"
+      });
       let form = document.createElement('form')
       form.action = 'hello.php'
       form.method = 'post'
@@ -399,10 +401,10 @@
       let log_email = localStorage.getItem("email");
       let log_username = localStorage.getItem("username");
       $.ajax({
-                url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='reserved quote'", // your php file
-                type: "GET"
+        url: "logs_query.php?email=" + log_email + "&username=" + log_username + "&role=" + log_user_type + "&action='reserved quote'", // your php file
+        type: "GET"
 
-            });
+      });
       let form = document.createElement('form')
       form.action = 'opsmain.php'
       form.method = 'post'

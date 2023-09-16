@@ -15,6 +15,7 @@
         $pernocta = str_replace("$", "", $_POST['pernocta']);
         $tax = $_POST['tax'];
         $amount = str_replace("$", "", $_POST['amount']);
+        $moneda = $_POST["moneda"];
 
         $fdate1 = $_POST['fdate1'];
         $forigen1 = $_POST['forigen1'];
@@ -60,7 +61,7 @@
             //echo "<script>console.log('ENTRE A IDPDF')</script>";
             $sql = "UPDATE `invoices` SET `date` = '$date', `aircraft` = '$aircraft', `subtotal` = '$subtotal', `tax` = '$tax', `amount` = '$amount', `addons` = '$addons', `pernocta` = '$pernocta', `buyer_id` = '$idbuyer', `status` = '1' WHERE `invoices`.`quote` = '$idquote'";
         }else{
-            $sql = "insert into invoices (date,buyer_id,aircraft,subtotal,addons,pernocta,tax,amount,status) Values ('$date',$idbuyer,'$aircraft',$subtotal,$addons,$pernocta,$tax,$amount,1)";
+            $sql = "insert into invoices (date,buyer_id,aircraft,moneda,subtotal,addons,pernocta,tax,amount,status) Values ('$date',$idbuyer,'$aircraft','$moneda',$subtotal,$addons,$pernocta,$tax,$amount,1)";
         }
         $update = mysqli_query($con, $sql);
         $query = "select * from invoices order by date desc";

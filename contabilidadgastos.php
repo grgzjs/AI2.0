@@ -31,17 +31,22 @@ include("conexion.php");
 
 <?php
 if (isset($_POST['guardar_gasto'])) {
-  $tipo_ingreso = $_POST['tipo_gasto'] ? $_POST['tipo_gasto'] : 'null';
+  $tipo_ingreso = $_POST['tipo_gasto'] ? $_POST['tipo_gasto'] : '-';
   $referencia = $_POST['referencia']; // unused
-  $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : 'null';
-  $monto = $_POST['monto'] != null ? $_POST['monto']*-1 : 0;
-  $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : 'null';
+  $concepto = $_POST['concepto'] != null ? $_POST['concepto'] : '-';
+  $monto = $_POST['monto'] != null ? $_POST['monto'] * -1 : 0;
+  $fecha_gasto = $_POST['fecha_gasto'] != null ? $_POST['fecha_gasto'] : '-';
 
-  $cambio = $_POST['cambio'] == "Pesos Mex" ? "MXN" : "USD";
-  $fecha_cambio = $_POST['fecha_cambio']; // unused
+  // $cambio = $_POST['cambio'] == "MXN" ? "MXN" : "USD";
+  $cambio = $_POST['cambio'];
+
   $file = $_POST['file'];
-  // figure out where to save
-  $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, moneda_cambio,`file`) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "','" . $file . "')";
+
+  if ($fecha_gasto != "-") {
+    $sql = "insert into gastos_generales (`date`,`type`,`concept`,`amount`, `moneda_cambio`,`file`) values ('" . $fecha_gasto . "','" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "','" . $file . "')";
+  } else {
+    $sql = "insert into gastos_generales (`type`,`concept`,`amount`, `moneda_cambio`,`file`) values ('" . $tipo_ingreso . "','" . $concepto . "'," . $monto . ",'" . $cambio . "','" . $file . "')";
+  }
 
   mysqli_query($con, $sql);
   // clean post data
@@ -131,12 +136,12 @@ if (isset($_POST['guardar_gasto'])) {
                   <div class="form-group row" id="aicraft-selector-container">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <select required class="form-control custom-select" id="concepto">
+                      <select required class="form-control custom-select" id="concepto-aircraft">
                         <?php
-                          $get_aircrafts_query = mysqli_query($con, "SELECT matricula, aeronave FROM Aircraft");
-                          while ($aircraft_row = mysqli_fetch_assoc($get_aircrafts_query)) {
-                            echo "<option value='" . $aircraft_row['matricula'] . "'>".$aircraft_row['aeronave']." (" . $aircraft_row['matricula'] . ")</option>";
-                          }
+                        $get_aircrafts_query = mysqli_query($con, "SELECT matricula, aeronave FROM Aircraft");
+                        while ($aircraft_row = mysqli_fetch_assoc($get_aircrafts_query)) {
+                          echo "<option value='" . $aircraft_row['matricula'] . "'>" . $aircraft_row['aeronave'] . " (" . $aircraft_row['matricula'] . ")</option>";
+                        }
                         // <option value="Generales">Generales</option>
                         ?>
                       </select>
@@ -145,7 +150,7 @@ if (isset($_POST['guardar_gasto'])) {
                   <div class="form-group row" id="concept-container">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input required id="concepto" class="form-control" type="Text" placeholder="Ingrese el concepto">
+                      <input required id="concepto-regular" class="form-control" type="Text" placeholder="Ingrese el concepto">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -154,19 +159,23 @@ if (isset($_POST['guardar_gasto'])) {
                       <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
                     </div>
                   </div>
-                  <!-- <div class="form-group row pt-3">
-                      <div class="col-sm-12">
-                        <button class="btn btn-secondary btn-space">Cancel</button>
-                        <button class="btn btn-primary btn-space wizard-next" data-wizard="#wizard1">Next Step</button>
-                      </div>
-                    </div> -->
-                  <!-- </form> -->
-                  <!-- </div> -->
-                  <!-- </div> -->
-
-                  <!-- <div class="step-pane" data-step="2"> -->
-                  <!-- <form class="group-border-dashed" action="#" data-parsley-namespace="data-parsley-" data-parsley-validate="" novalidate=""> -->
                   <div class="form-group row">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Moneda</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <!-- <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto "> -->
+                      <select required class="form-control custom-select" id="cambio" name="typeclient">
+                        <?php
+                        $get_currencies_query = mysqli_query($con, "SELECT moneda FROM currency");
+                        while ($currency_row = mysqli_fetch_assoc($get_currencies_query)) {
+                          echo "<option value='" . $currency_row['moneda'] . "'>" . $currency_row['moneda'] . "</option>";
+                        }
+                        // <option value="Generales">Generales</option>
+                        ?>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- <div class="form-group row">
                     <div class="col-sm-7">
                       <h3 class="wizard-title">Tipo de Cambio</h3>
                     </div>
@@ -200,7 +209,7 @@ if (isset($_POST['guardar_gasto'])) {
                         <option value="Usdollar">Dolares</option>
                       </select>
                     </div>
-                  </div>
+                  </div> -->
 
                   <!-- <div class="form-group row pt-3">
                     <div class="col-sm-12">
@@ -320,7 +329,7 @@ if (isset($_POST['guardar_gasto'])) {
                       <span><?php echo $rowp["moneda_cambio"] ?></span>
                     </td>
                     <td class="cell-detail">
-                      <span>$<?php echo $rowp["amount"]*-1; ?></span>
+                      <span>$<?php echo $rowp["amount"] * -1; ?></span>
                     </td>
                     <td class="cell-detail">
                       <?php
@@ -361,20 +370,19 @@ if (isset($_POST['guardar_gasto'])) {
       App.wizard();
     });
 
+    var concept_type = "regular";
+
     check_type(""); // defaults the selector value
 
     function check_type(selected_type) {
       if (selected_type.value == "Aeronave") {
-        // $("#aicraft-selector-container").show();
-        // $("#concept-container").hide();
         document.getElementById("concept-container").setAttribute("hidden", "")
         document.getElementById("aicraft-selector-container").removeAttribute("hidden")
-      }
-      else {
-        // $("#aicraft-selector-container").hide();
-        // $("#concept-container").show();
+        concept_type = "aircraft";
+      } else {
         document.getElementById("concept-container").removeAttribute("hidden")
         document.getElementById("aicraft-selector-container").setAttribute("hidden", "")
+        concept_type = "regular";
       }
     }
 
@@ -428,9 +436,9 @@ if (isset($_POST['guardar_gasto'])) {
       let email = localStorage.getItem("email");
       let username = localStorage.getItem("username");
       $.ajax({
-                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered expense'", // your php file
-                type: "GET"
-            });
+        url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered expense'", // your php file
+        type: "GET"
+      });
 
       let end_point = "reception_area_query.php";
       let form_data = new FormData();
@@ -453,8 +461,17 @@ if (isset($_POST['guardar_gasto'])) {
         // let referencia = document.createElement('input')
         // referencia.value = document.getElementById('referencia').value
         // referencia.name="referencia"
+
+        // let concepto = document.createElement('input')
+        // concepto.value = document.getElementById('concepto').value
+        // concepto.name = "concepto"
+
         let concepto = document.createElement('input')
-        concepto.value = document.getElementById('concepto').value
+        if (concept_type == "regular") {
+          concepto.value = document.getElementById('concepto-regular').value
+        } else if (concept_type == "aircraft") {
+          concepto.value = document.getElementById('concepto-aircraft').value
+        }
         concepto.name = "concepto"
 
         let monto = document.createElement('input')
@@ -467,9 +484,9 @@ if (isset($_POST['guardar_gasto'])) {
         let cambio = document.createElement('input')
         cambio.value = document.getElementById('cambio').value
         cambio.name = "cambio"
-        let fecha_cambio = document.createElement('input')
-        fecha_cambio.value = document.getElementById('fecha_cambio').value
-        fecha_cambio.name = "fecha_cambio"
+        // let fecha_cambio = document.createElement('input')
+        // fecha_cambio.value = document.getElementById('fecha_cambio').value
+        // fecha_cambio.name = "fecha_cambio"
         let file = document.createElement('input')
         file.value = input_file.files[0].name
         file.name = "file"
@@ -486,7 +503,7 @@ if (isset($_POST['guardar_gasto'])) {
         form.appendChild(fecha_gasto)
 
         form.appendChild(cambio)
-        form.appendChild(fecha_cambio)
+        // form.appendChild(fecha_cambio)
         form.appendChild(file)
         form.appendChild(button1)
 

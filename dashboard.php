@@ -250,10 +250,9 @@ include("conexion.php");
     $current_date = date('Y-m-d H:i:s');
     $status = 2;
 
-
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $filter = $_POST["matricula_selector"];
-      if($filter =="General" || $filter ==""){
+      if ($filter == "General" || $filter == "") {
         //Cotizaciones
         $cot_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
         $cot_row = mysqli_fetch_assoc($cot_result);
@@ -261,49 +260,60 @@ include("conexion.php");
         $quotesthismonth = $cot_row['quote'];
 
         //Amount
-        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
+        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'USD'");
         $amount_row = mysqli_fetch_assoc($amount_result);
-        // Assign the total amount of all quotes generated this month to $totalamountthismonth
         $totalamountthismonth = $amount_row['amount'];
+
+        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'MXN'");
+        $amount_row = mysqli_fetch_assoc($amount_result);
+        $totalamountthismonth2 = $amount_row['amount'];
+
         //Trips
         $trips_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND Status = $status");
         $trip_row = mysqli_fetch_assoc($trips_result);
         // Assign the number of quotes generated this month to $quotesthismonth
         $tripsthismonth = $trip_row['quote'];
+
         //Total amount
-        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND `status` = $status");
+        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND moneda = 'USD'");
         $total_row = mysqli_fetch_assoc($total_result);
-        // Assign the total amount of all quotes generated this month to $totalamountthismonth
         $totaltripsthismonth = $total_row['amount'];
-      }else{
+
+        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND moneda = 'MXN'");
+        $total_row = mysqli_fetch_assoc($total_result);
+        $totaltripsthismonth2 = $total_row['amount'];
+      } else {
         //Cotizaciones
-      $cot_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter'");
-      $cot_row = mysqli_fetch_assoc($cot_result);
-      // Assign the number of quotes generated this month to $quotesthismonth
-      $quotesthismonth = $cot_row['quote'];
+        $cot_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter'");
+        $cot_row = mysqli_fetch_assoc($cot_result);
+        // Assign the number of quotes generated this month to $quotesthismonth
+        $quotesthismonth = $cot_row['quote'];
 
-      //Amount
-      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter'");
-      $amount_row = mysqli_fetch_assoc($amount_result);
-      // Assign the total amount of all quotes generated this month to $totalamountthismonth
-      $totalamountthismonth = $amount_row['amount'];
+        //Amount
+        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter' AND moneda = 'USD'");
+        $amount_row = mysqli_fetch_assoc($amount_result);
+        $totalamountthismonth = $amount_row['amount'];
 
-      //Trips
-      $trips_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter'");
-      $trip_row = mysqli_fetch_assoc($trips_result);
-      // Assign the number of quotes generated this month to $quotesthismonth
-      $tripsthismonth = $trip_row['quote'];
-  
-      
-      //Total amount
-      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter'");
-      $total_row = mysqli_fetch_assoc($total_result);
-      // Assign the total amount of all quotes generated this month to $totalamountthismonth
-      $totaltripsthismonth = $total_row['amount'];
-      
+        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter' AND moneda = 'MXN'");
+        $amount_row = mysqli_fetch_assoc($amount_result);
+        $totalamountthismonth2 = $amount_row['amount'];
+
+        //Trips
+        $trips_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter'");
+        $trip_row = mysqli_fetch_assoc($trips_result);
+        // Assign the number of quotes generated this month to $quotesthismonth
+        $tripsthismonth = $trip_row['quote'];
+
+        //Total amount
+        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter' AND moneda = 'USD'");
+        $total_row = mysqli_fetch_assoc($total_result);
+        $totaltripsthismonth = $total_row['amount'];
+
+        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter' AND moneda = 'MXN'");
+        $total_row = mysqli_fetch_assoc($total_result);
+        $totaltripsthismonth2 = $total_row['amount'];
       }
-      
-    }else{
+    } else {
       //Cotizaciones
       $cot_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
       $cot_row = mysqli_fetch_assoc($cot_result);
@@ -311,10 +321,13 @@ include("conexion.php");
       $quotesthismonth = $cot_row['quote'];
 
       //Amount
-      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year");
+      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'USD'");
       $amount_row = mysqli_fetch_assoc($amount_result);
-      // Assign the total amount of all quotes generated this month to $totalamountthismonth
       $totalamountthismonth = $amount_row['amount'];
+
+      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'MXN'");
+      $amount_row = mysqli_fetch_assoc($amount_result);
+      $totalamountthismonth2 = $amount_row['amount'];
 
       //Trips
       $trips_result = mysqli_query($con, "SELECT COUNT(*) as quote FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status");
@@ -323,11 +336,14 @@ include("conexion.php");
       $tripsthismonth = $trip_row['quote'];
 
       //Total amount
-      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status");
+      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'USD' AND status= $status");
       $total_row = mysqli_fetch_assoc($total_result);
-      // Assign the total amount of all quotes generated this month to $totalamountthismonth
       $totaltripsthismonth = $total_row['amount'];
-    } 
+
+      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND moneda = 'MXN'");
+      $total_row = mysqli_fetch_assoc($total_result);
+      $totaltripsthismonth2 = $total_row['amount'];
+    }
 
     // Format the number without extra decimals
     $tripsthismonth = number_format($tripsthismonth, 0);
@@ -346,16 +362,16 @@ include("conexion.php");
     $top_user_row = mysqli_fetch_assoc($top_user_result);
 
     if ($top_user_row && $top_user_row['user_quantity'] > 0) {
-        $search_user = $top_user_row['email'];
-        $top_user_result = mysqli_query($con, "SELECT username FROM users WHERE email='$search_user'");
-        if ($top_user_result) {
-            $top_user_data = mysqli_fetch_assoc($top_user_result);
-            $top_user = $top_user_data['username'];
-        } else {
-            $top_user = "información insuficiente";
-        }
-    } else {
+      $search_user = $top_user_row['email'];
+      $top_user_result = mysqli_query($con, "SELECT username FROM users WHERE email='$search_user'");
+      if ($top_user_result) {
+        $top_user_data = mysqli_fetch_assoc($top_user_result);
+        $top_user = $top_user_data['username'];
+      } else {
         $top_user = "información insuficiente";
+      }
+    } else {
+      $top_user = "información insuficiente";
     }
 
 
@@ -365,16 +381,16 @@ include("conexion.php");
     $top_saler_result = mysqli_query($con, "SELECT email, COUNT(*) AS saler_quantity FROM logs WHERE `action` = 'registered quote' GROUP BY email ORDER BY saler_quantity DESC LIMIT 1");
     $top_saler_row = mysqli_fetch_assoc($top_saler_result);
     if ($top_saler_row && $top_saler_row['saler_quantity'] > 0) {
-        $search_saler = $top_saler_row['email'];
-        $top_saler_result = mysqli_query($con, "SELECT username FROM users WHERE email='$search_saler'");
-        if ($top_saler_result) {
-            $top_saler_data = mysqli_fetch_assoc($top_saler_result);
-            $top_saler = $top_saler_data['username'];
-        } else {
-            $top_saler = "información insuficiente";
-        }
-    } else {
+      $search_saler = $top_saler_row['email'];
+      $top_saler_result = mysqli_query($con, "SELECT username FROM users WHERE email='$search_saler'");
+      if ($top_saler_result) {
+        $top_saler_data = mysqli_fetch_assoc($top_saler_result);
+        $top_saler = $top_saler_data['username'];
+      } else {
         $top_saler = "información insuficiente";
+      }
+    } else {
+      $top_saler = "información insuficiente";
     }
     ?>
 
@@ -382,152 +398,173 @@ include("conexion.php");
 
     <div class="main-content container">
       <div class="row">
-       <div class="col-md-12">
-       <div class="form-group row">
-        <div class="col-12">
-        <form action="<?php $_SERVER['PHP_SELF']?>" method="POST" id="matricula_selector_form" style="display:none">
-          <select name="matricula_selector" id="matricula_selector" class="form-control custom-select">
-            <?php 
-              $aircraft = mysqli_query($con, "SELECT * FROM Aircraft");
-              
-              // Verificar si se ha enviado un valor para matricula_selector
-              if(isset($_POST['matricula_selector'])) {
-                $selectedValue = $_POST['matricula_selector'];
-                
-                // Comprobar y marcar como seleccionado si coincide con el valor en el bucle
-                if ($selectedValue == 'General') {
-                  echo "<option value='General' selected>General</option>";
-                  while( $plane_rows = mysqli_fetch_assoc($aircraft)){
-                    echo "<option value='".$plane_rows['matricula']."'>".$plane_rows['matricula']."</option>";
-                  }
-                }else{
-                  echo "<option value='General'>General</option>";
-                  while( $plane_rows = mysqli_fetch_assoc($aircraft)){
-                    if($selectedValue == $plane_rows['matricula']){
-                      echo "<option value='".$plane_rows['matricula']."' selected>".$plane_rows['matricula']."</option>";
+        <div class="col-md-12">
+          <div class="form-group row">
+            <div class="col-12">
+              <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST" id="matricula_selector_form" style="display:none">
+                <select name="matricula_selector" id="matricula_selector" class="form-control custom-select">
+                  <?php
+                  $aircraft = mysqli_query($con, "SELECT * FROM Aircraft");
 
-                    }else{
-                      echo "<option value='".$plane_rows['matricula']."'>".$plane_rows['matricula']."</option>";
+                  // Verificar si se ha enviado un valor para matricula_selector
+                  if (isset($_POST['matricula_selector'])) {
+                    $selectedValue = $_POST['matricula_selector'];
 
+                    // Comprobar y marcar como seleccionado si coincide con el valor en el bucle
+                    if ($selectedValue == 'General') {
+                      echo "<option value='General' selected>General</option>";
+                      while ($plane_rows = mysqli_fetch_assoc($aircraft)) {
+                        echo "<option value='" . $plane_rows['matricula'] . "'>" . $plane_rows['matricula'] . "</option>";
+                      }
+                    } else {
+                      echo "<option value='General'>General</option>";
+                      while ($plane_rows = mysqli_fetch_assoc($aircraft)) {
+                        if ($selectedValue == $plane_rows['matricula']) {
+                          echo "<option value='" . $plane_rows['matricula'] . "' selected>" . $plane_rows['matricula'] . "</option>";
+                        } else {
+                          echo "<option value='" . $plane_rows['matricula'] . "'>" . $plane_rows['matricula'] . "</option>";
+                        }
+                      }
+                    }
+                  } else {
+                    echo "<option value='General'>General</option>";
+                    while ($plane_rows = mysqli_fetch_assoc($aircraft)) {
+                      echo "<option value='" . $plane_rows['matricula'] . "'>" . $plane_rows['matricula'] . "</option>";
                     }
                   }
-                }
-              }else{
-                echo "<option value='General'>General</option>";
-                while( $plane_rows = mysqli_fetch_assoc($aircraft)){
-                  echo "<option value='".$plane_rows['matricula']."'>".$plane_rows['matricula']."</option>";
-                }
-              }
-              
-            ?>
-          </select>
-        </form>
-        </div>
-      </div>
-    
-      
-        
-        
-      
-      <div class="row">
-        <div class="col-md-7">
-          <div class="widget widget-fullwidth user-develop-chart">
-            <div class="widget-head">
-              <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-refresh-2"></span></div><span class="title">Estadisticas Generales</span>
-            </div>
-            <div class="widget-chart-container">
-              <div class="legend-container" id="develop-chart-legend"></div>
-              <div id="develop-chart" style="height: 312px;"></div>
+
+                  ?>
+                </select>
+              </form>
             </div>
           </div>
-        </div>
-        <div class="col-md-5">
-          <div class="widget-indicators">
-          <div class="indicator-item">
-              <div class="indicator-item-icon">
-                <div class="icon"><span class="s7-user"></span></div>
-              </div>
-              <div class="indicator-item-value">
-                <span class="indicator-value-counter" data-toggle="counter" data-end="<?php echo $user_quantity; ?>">0</span>
-                <div class="indicator-value-title">Cantidad de usuarios</div>
-              </div>
-            </div>
-            <div class="indicator-item">
-              <div class="indicator-item-icon">
-                <div class="icon"><span class="s7-paper-plane"></span></div>
-              </div>
-              <div class="indicator-item-value">
-                <span class="indicator-value-counter" data-toggle="counter" data-end="<?php echo $quotesthismonth; ?>">0</span>
-                <div class="indicator-value-title">Cotizaciones del Mes</div>
-              </div>
-            </div>
-            <div class="indicator-item">
-              <div class="indicator-item-icon">
-                <div class="icon"><span class="s7-graph"></span></div>
-              </div>
-              <div class="indicator-item-value"><span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totalamountthismonth; ?>" data-prefix="$">>0</span>
-                <div class="indicator-value-title">Total Cotizaciones</div>
+
+
+          <style>
+            .vertical-hr {
+              border: none;
+              border-left: 1px solid hsla(200, 10%, 50%, 100);
+              height: 100%;
+              width: 1px;
+            }
+          </style>
+
+
+          <div class="row">
+            <div class="col-md-7">
+              <div class="widget widget-fullwidth user-develop-chart">
+                <div class="widget-head">
+                  <div class="tools"><span class="icon s7-cloud-download"></span><span class="icon s7-refresh-2"></span></div><span class="title">Estadisticas Generales</span>
+                </div>
+                <div class="widget-chart-container">
+                  <div class="legend-container" id="develop-chart-legend"></div>
+                  <div id="develop-chart" style="height: 312px;"></div>
+                </div>
               </div>
             </div>
-            <div class="indicator-item">
-              <div class="indicator-item-icon">
-                <div class="icon"><span class="s7-pin"></span></div>
-              </div>
-              <div class="indicator-item-value"><span class="indicator-value-counter" data-toggle="counter" data-end="<?php echo $tripsthismonth; ?>">0</span>
-                <div class="indicator-value-title">Viajes Confirmados</div>
-              </div>
-            </div>
-            <div class="indicator-item">
-              <div class="indicator-item-icon">
-                <div class="icon"><span class="s7-cash"></span></div>
-              </div>
-              <div class="indicator-item-value"><span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totaltripsthismonth; ?>" data-prefix="$">0</span>
-                <div class="indicator-value-title">Total Ventas</div>
+            <div class="col-md-5">
+              <div class="widget-indicators">
+                <div class="indicator-item">
+                  <div class="indicator-item-icon">
+                    <div class="icon"><span class="s7-user"></span></div>
+                  </div>
+                  <div class="indicator-item-value">
+                    <span class="indicator-value-counter" data-toggle="counter" data-end="<?php echo $user_quantity; ?>">0</span>
+                    <div class="indicator-value-title">Cantidad de usuarios</div>
+                  </div>
+                </div>
+                <div class="indicator-item">
+                  <div class="indicator-item-icon">
+                    <div class="icon"><span class="s7-paper-plane"></span></div>
+                  </div>
+                  <div class="indicator-item-value">
+                    <span class="indicator-value-counter" data-toggle="counter" data-end="<?php echo $quotesthismonth; ?>">0</span>
+                    <div class="indicator-value-title">Cotizaciones del Mes</div>
+                  </div>
+                </div>
+                <div class="indicator-item">
+                  <div class="indicator-item-icon" style="flex: 0; width: 5em;">
+                    <div class="icon"><span class="s7-graph"></span></div>
+                  </div>
+                  <div class="indicator-item-value" style="display: flex; flex: 1; flex-direction: row; padding-left: 1em;">
+                    <div style="display: flex; flex-direction: column; text-align: right;">
+                      <span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totalamountthismonth; ?>" data-prefix="$">>0</span>
+                      <div class="indicator-value-title">Total Cotizaciones (USD)</div>
+                    </div>
+                    <hr class="vertical-hr">
+                    <div style="display: flex; flex-direction: column; text-align: right;">
+                    <span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totalamountthismonth2; ?>" data-prefix="$">>0</span>
+                      <div class="indicator-value-title">Total Cotizaciones (MXN)</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="indicator-item">
+                  <div class="indicator-item-icon">
+                    <div class="icon"><span class="s7-pin"></span></div>
+                  </div>
+                  <div class="indicator-item-value"><span class="indicator-value-counter" data-toggle="counter" data-end="<?php echo $tripsthismonth; ?>">0</span>
+                    <div class="indicator-value-title">Viajes Confirmados</div>
+                  </div>
+                </div>
+                <div class="indicator-item">
+                  <div class="indicator-item-icon" style="flex: 0; width: 5em;">
+                    <div class="icon"><span class="s7-cash"></span></div>
+                  </div>
+                  <div class="indicator-item-value" style="display: flex; flex: 1; flex-direction: row; padding-left: 2em;">
+                    <div style="display: flex; flex-direction: column; text-align: right;">
+                      <span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totaltripsthismonth; ?>" data-prefix="$">>0</span>
+                      <div class="indicator-value-title">Total Ventas (USD)</div>
+                    </div>
+                    <hr class="vertical-hr">
+                    <div style="display: flex; flex-direction: column; text-align: right;">
+                    <span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totaltripsthismonth2; ?>" data-prefix="$">>0</span>
+                      <div class="indicator-value-title">Total Ventas (MXN)</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- PHP TODO LIST-->
+          <!-- PHP TODO LIST-->
 
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="widget widget-fullwidth todo-list">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="widget widget-fullwidth todo-list">
 
-            <?php
-            // Connect to the database
-            // $con = mysqli_connect("localhost", "root", "", "YAC");
+                <?php
+                // Connect to the database
+                // $con = mysqli_connect("localhost", "root", "", "YAC");
 
-            // Check if the form was submitted
-            // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //   // Get the task description from the form
-            //   $task = $_POST['task'];
+                // Check if the form was submitted
+                // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                //   // Get the task description from the form
+                //   $task = $_POST['task'];
 
-            //   // Insert the new task into the database
-            //   mysqli_query($con, "INSERT INTO tasks (status, task) VALUES ('pending', '$task')");
+                //   // Insert the new task into the database
+                //   mysqli_query($con, "INSERT INTO tasks (status, task) VALUES ('pending', '$task')");
 
-            //   // Redirect back to the same page to avoid resubmitting the form
-            //   header("Location: " . $_SERVER['PHP_SELF']);
-            //   exit;
-            // }
+                //   // Redirect back to the same page to avoid resubmitting the form
+                //   header("Location: " . $_SERVER['PHP_SELF']);
+                //   exit;
+                // }
 
-            // Execute the SQL query to get the pending tasks
-            $result = mysqli_query($con, "SELECT * FROM tasks WHERE status = 'pending'");
+                // Execute the SQL query to get the pending tasks
+                $result = mysqli_query($con, "SELECT * FROM tasks WHERE status = 'pending'");
 
-            // Check if there are any pending tasks
-            if (mysqli_num_rows($result) > 0) {
-              echo '
+                // Check if there are any pending tasks
+                if (mysqli_num_rows($result) > 0) {
+                  echo '
               <div class="widget-head"><span class="title">Notas</span></div>
                 <div class="todo-list-container">
                   <ul class="todo-tasks">';
 
-              // Loop through the results and create a list item for each task
-              ?>
-              <div id="elementosContainer" name="elementosContainer">
-              <!-- Los elementos se mostrarán aquí -->
-          </div>
-              <!-- // while ($row = mysqli_fetch_assoc($result)) {
+                  // Loop through the results and create a list item for each task
+                ?>
+                  <div id="elementosContainer" name="elementosContainer">
+                    <!-- Los elementos se mostrarán aquí -->
+                  </div>
+                  <!-- // while ($row = mysqli_fetch_assoc($result)) {
               //   echo '
               //   <li class="todo-task">
               //     <label class="custom-control custom-checkbox">
@@ -535,8 +572,8 @@ include("conexion.php");
               //     </label><a class="close" href="javascript:deleteTask(' . $row['id'] . ')"><span class="icon s7-close"></span></a>
               //   </li>';
               // } -->
-              <?php
-              echo '
+                <?php
+                  echo '
                   </ul>
                   </div>
                   <div class="todo-new-task" id="todo-new-task">
@@ -547,8 +584,8 @@ include("conexion.php");
                 </div>
               </div>
             </div>';
-            } else {
-              echo '
+                } else {
+                  echo '
           
             <div class="widget-head"><span class="title">Lista de Pendientes</span></div>
             <div class="todo-list-container">
@@ -564,98 +601,48 @@ include("conexion.php");
             </form>
           </div>
         </div>';
-            }
+                }
 
-            // Close the database connection
-            mysqli_close($con);
+                // Close the database connection
+                mysqli_close($con);
 
-            ?>
+                ?>
 
+                <div class="col-sm-6 col-lg-3">
+                  <div class="widget widget-fullwidth earnings">
+                    <div class="widget-head">
+                      <div class="tools"><span class="icon s7-refresh-2"></span></div><span class="title">Ventas Semanales</span>
+                    </div>
+                    <div class="earnings-resume">
+                      <div class="earnings-value earnings-value-big"><span class="earnings-counter" data-toggle="counter" data-end="127.95" data-decimals="2" data-prefix="$">0</span><span class="earnings-title">Actual</span></div>
+                      <div class="earnings-value"><span class="earnings-counter" data-toggle="counter" data-end="527" data-decimals="2" data-prefix="$">0</span><span class="earnings-title">Estimado</span></div>
+                      <div class="earnings-value"><span class="earnings-counter" data-toggle="counter" data-end="79" data-suffix="%">0</span><span class="earnings-title">Inc. Ventas</span></div>
+                    </div>
+                    <div class="earnings-chart">
+                      <div id="earnings-chart" style="height: 56px;"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="usage usage-dark">
+                    <div class="usage-head"><span class="usage-head-title">Top saler</span>
+                    </div>
+                    <div class="usage-resume">
+                      <h5 class="usage-data"><span class="usage-title"><?php echo $top_saler ?></span></h5>
+                      <div class="usage-icon"><span class="icon s7-graph3"></span></div>
+                    </div>
+                  </div>
+                  <div class="usage usage-dark">
+                    <div class="usage-head"><span class="usage-head-title">Top user</span>
+                    </div>
+                    <div class="usage-resume">
+                      <h5 class="usage-data"><span class="usage-title"><?php echo $top_user ?></span></h5>
+                      <div class="usage-icon"><span class="icon s7-timer"></span></div>
+                    </div>
+                  </div>
 
-
-            <!-- END PHP TODO LIST-->
-
-
-            <!--<div class="col-lg-6">
-            <div class="widget widget-fullwidth todo-list">
-              <div class="widget-head"><span class="title">Lista de Pendientes</span></div>
-              <div class="todo-list-container">
-                <ul class="todo-tasks">
-                  <li class="todo-task">
-                    <label class="custom-control custom-checkbox">
-                      <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Pellentesque habitant morbi tristique senectus et netus et.</span>
-                    </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-                  </li>
-                  <li class="todo-task">
-                    <label class="custom-control custom-checkbox">
-                      <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Sed id interdum nunc. Ut sodales dolor non ultricies mattis. </span>
-                    </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-                  </li>
-                  <li class="todo-task">
-                    <label class="custom-control custom-checkbox">
-                      <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Pellentesque habitant morbi tristique senectus et netus et.</span>
-                    </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-                  </li>
-                  <li class="todo-task">
-                    <label class="custom-control custom-checkbox">
-                      <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Sed id interdum nunc. Ut sodales dolor non ultricies mattis. </span>
-                    </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-                  </li>
-                  <li class="todo-task">
-                    <label class="custom-control custom-checkbox">
-                      <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Sed id interdum nunc. Ut sodales dolor non ultricies mattis. </span>
-                    </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-                  </li>
-                  <li class="todo-task">
-                    <label class="custom-control custom-checkbox">
-                      <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Pellentesque habitant morbi tristique senectus et netus et.</span>
-                    </label><a class="close" href="#"><span class="icon s7-close"></span></a>
-                  </li>
-                </ul>
-              </div>
-              <div class="todo-new-task">
-                <div class="input-group">
-                  <input class="form-control" type="text" placeholder="Add a new task...">
-                  <div class="input-group-append"><i class="icon s7-plus"></i></div>
                 </div>
-              </div>
-            </div>
-          </div>-->
-            <div class="col-sm-6 col-lg-3">
-              <div class="widget widget-fullwidth earnings">
-                <div class="widget-head">
-                  <div class="tools"><span class="icon s7-refresh-2"></span></div><span class="title">Ventas Semanales</span>
-                </div>
-                <div class="earnings-resume">
-                  <div class="earnings-value earnings-value-big"><span class="earnings-counter" data-toggle="counter" data-end="127.95" data-decimals="2" data-prefix="$">0</span><span class="earnings-title">Actual</span></div>
-                  <div class="earnings-value"><span class="earnings-counter" data-toggle="counter" data-end="527" data-decimals="2" data-prefix="$">0</span><span class="earnings-title">Estimado</span></div>
-                  <div class="earnings-value"><span class="earnings-counter" data-toggle="counter" data-end="79" data-suffix="%">0</span><span class="earnings-title">Inc. Ventas</span></div>
-                </div>
-                <div class="earnings-chart">
-                  <div id="earnings-chart" style="height: 56px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-              <div class="usage usage-dark">
-                <div class="usage-head"><span class="usage-head-title">Top saler</span>
-                </div>
-                <div class="usage-resume">
-                  <h5 class="usage-data"><span class="usage-title"><?php echo $top_saler ?></span></h5>
-                  <div class="usage-icon"><span class="icon s7-graph3"></span></div>
-                </div>
-              </div> 
-              <div class="usage usage-dark">
-                <div class="usage-head"><span class="usage-head-title">Top user</span>
-                </div>
-                <div class="usage-resume">
-                  <h5 class="usage-data"><span class="usage-title"><?php echo $top_user ?></span></h5>
-                  <div class="usage-icon"><span class="icon s7-timer"></span></div>
-                </div>
-              </div> 
-              
-            </div>
-            <!-- <div class="col-sm-6 col-lg-3">
+                <!-- <div class="col-sm-6 col-lg-3">
                <div class="usage usage-dark">
                 <div class="usage-head"><span class="usage-head-title">Marketing</span>
                   <div class="usage-head-tools"><span class="icon s7-refresh-2"></span></div>
@@ -674,27 +661,27 @@ include("conexion.php");
                   <div class="usage-icon"><span class="icon s7-timer"></span></div>
                 </div> 
               </div> -->
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-        <div class="col-md-6"></div>
-          <div class="col-md-6">
-            <div class="form-group row">
-              <div class="col-12">
-                <div class="usage usage-dark">
-                  <div class="usage-head"><span class="usage-head-title">Cantidad de aeronaves</span>
+          <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <div class="col-12">
+                  <div class="usage usage-dark">
+                    <div class="usage-head"><span class="usage-head-title">Cantidad de aeronaves</span>
+                    </div>
+                    <div class="usage-resume">
+                      <h5 class="usage-data"><span class="usage-title"><?php echo $plane_quantity ?></span></h5>
+                      <div class="usage-icon"><span class="icon s7-paper-plane"></span></div>
+                    </div>
                   </div>
-                  <div class="usage-resume">
-                    <h5 class="usage-data"><span class="usage-title" ><?php echo $plane_quantity ?></span></h5>
-                    <div class="usage-icon"><span class="icon s7-paper-plane"></span></div>
-                  </div>
-                </div> 
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
       <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
       <script src="assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js" type="text/javascript"></script>
@@ -721,15 +708,15 @@ include("conexion.php");
         let selectElement = document.getElementById("matricula_selector");
         let matricula_selector_form = document.getElementById("matricula_selector_form");
 
-        if(user_type== "owner"){
+        if (user_type == "owner") {
           document.getElementById("matricula_selector_form").style.display = "block";
         }
 
         cargarDatosTabla();
 
-        
+
         // Agrega un evento de cambio al select
-        selectElement.addEventListener("change", function () {
+        selectElement.addEventListener("change", function() {
           let selectedValue = selectElement.value;
           console.log(selectedValue);
           matricula_selector_form.submit();
@@ -746,7 +733,7 @@ include("conexion.php");
             type: "GET", // type of the HTTP request
             success: function(data) {
               cargarDatosTabla();
-              document.getElementById("task-text").value="";
+              document.getElementById("task-text").value = "";
               let log_user_type = localStorage.getItem("user_type");
               let log_email = localStorage.getItem("email");
               let log_username = localStorage.getItem("username");
@@ -755,7 +742,7 @@ include("conexion.php");
                 type: "GET"
               });
             }
-            
+
           });
         }
 
@@ -775,32 +762,33 @@ include("conexion.php");
               });
             }
           });
-          
+
         }
 
 
 
-        function cargarDatosTabla(){
-          let user_type = localStorage.getItem("user_type") == "unset"? 0:1;
+        function cargarDatosTabla() {
+          let user_type = localStorage.getItem("user_type") == "unset" ? 0 : 1;
           $.ajax({
-              url: "task_query.php?task_to_delete=" +0 + "&task_to_add=" + 0 + "&user_unset=" + user_type,
-              method: "GET",
-              success: function(data) {
-                $("#elementosContainer").html(data);
-              },
-              error: function(error) {
-                console.error("Error al cargar la tabla:", error);
-              }
+            url: "task_query.php?task_to_delete=" + 0 + "&task_to_add=" + 0 + "&user_unset=" + user_type,
+            method: "GET",
+            success: function(data) {
+              $("#elementosContainer").html(data);
+            },
+            error: function(error) {
+              console.error("Error al cargar la tabla:", error);
+            }
           });
         }
-        function doneTask(id){
+
+        function doneTask(id) {
           $.ajax({
-              url: "task_query.php?done_task=" + id,
-              method: "GET",
-              success: function(data) {
-                console.log(data)
-                deleteTask(id);
-              }
+            url: "task_query.php?done_task=" + id,
+            method: "GET",
+            success: function(data) {
+              console.log(data)
+              deleteTask(id);
+            }
           });
         }
       </script>

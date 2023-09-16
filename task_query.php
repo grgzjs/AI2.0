@@ -7,9 +7,11 @@
     if (isset($_GET["task_to_add"]) && isset($_GET["task_to_delete"])) {
         $task_to_add = $_GET["task_to_add"];
         $task_to_delete = $_GET["task_to_delete"];
+        //echo "ENTRE A TASKS? tasktoadd: $task_to_add & delete: $task_to_delete";
         //If I don't want to delete, I create a task
-        if($task_to_delete == 0 && $task_to_add != 0){
-            $task_added = mysqli_query($con, "INSERT INTO tasks (`status`, task) VALUES('pending', '$task_to_add')");
+        //if($task_to_delete == 0 && $task_to_add != 0){
+        if(isset($task_to_add) && $task_to_add != "0"){
+            $task_added = mysqli_query($con, "INSERT INTO tasks (`status`, `task`) VALUES('pending', '$task_to_add')");
             echo json_encode(true);
             return;
         }
@@ -17,7 +19,7 @@
         //If I don't want to add a task, I delete one
         if($task_to_add == 0 && $task_to_delete != 0){
             $task_deleted = mysqli_query($con, "DELETE FROM tasks WHERE id = $task_to_delete;");
-            echo json_encode(true);
+            //echo json_encode(true);
             return;
         }
         //If I don't want to add or delete a task, I return all tasks

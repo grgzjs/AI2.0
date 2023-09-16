@@ -236,7 +236,7 @@
         if (document.getElementsByClassName("open")[0])
             document.getElementsByClassName("open")[0].classList.remove("open");
 
-        let current_page = location.pathname.substring(13);
+        let current_page = location.pathname.substring(1);
         console.log(current_page);
         if (home.includes(current_page)) {
             console.log("home-tab opened")

@@ -214,7 +214,8 @@
                     <?php
                     $get_currencies_query = mysqli_query($con, "SELECT moneda FROM currency");
                     while ($currency_row = mysqli_fetch_assoc($get_currencies_query)) {
-                      echo "<option value='" . $currency_row['moneda'] . "'>" . $currency_row['moneda'] . "</option>";
+                      $selected = ($currency_row['moneda'] == "USD")?"selected":"";
+                      echo "<option ".$selected." value='" . $currency_row['moneda'] . "'>" . $currency_row['moneda'] . "</option>";
                     }
                     // <option value="Generales">Generales</option>
                     ?>
@@ -242,7 +243,7 @@
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Origen</div>
                   <div class="col-12 col-sm-8 col-lg-2 center-text">Destino</div>
                   <div class="col-12 col-sm-8 col-lg-1 center-text">Pax</div>
-                  <div class="col-12 col-sm-8 col-lg-2 center-text">Tiempo de Vuelo</div>
+                  <div class="col-12 col-sm-8 col-lg-2 center-text">Distancia</div>
                 </div>
                 <?php
                 //if (isset($_POST['aksi']) && $_POST['aksi'] == 'edit') {
@@ -271,7 +272,8 @@
                         <input required class="form-control" type="number" min="1" value="<?php echo $rowdetail['Pax']; ?>" placeholder="pax" name="<?php echo 'fpaxh' . $i; ?>" id="<?php echo 'fpax' . $i; ?>">
                       </div>
                       <div class="col-12 col-sm-8 col-lg-1">
-                        <input required class="form-control" type="text" value="<?php echo $rowdetail['tiempo_vuelo']; ?>" name="<?php echo 'fh_vueloh' . $i; ?>" id="<?php echo 'h_vuelo' . $i; ?>" onchange="editSubtotal(this.value)">
+                        <input required class="form-control" type="text" value="<?php echo $rowdetail['km_vuelo']; ?>" placeholder="Km" name="<?php echo 'fkm_vueloh' . $i; ?>" id="<?php echo 'km_vuelo' . $i; ?>">
+                        <input required class="form-control" type="hidden" value="<?php echo $rowdetail['tiempo_vuelo']; ?>" name="<?php echo 'fh_vueloh' . $i; ?>" id="<?php echo 'h_vuelo' . $i; ?>" onchange="editSubtotal(this.value)">
                         <input required class="form-control" type="hidden" value="<?php echo $rowdetail['nm_vuelo']; ?>" placeholder="kms" name="<?php echo 'fnm_vueloh' . $i; ?>" id="<?php echo 'nm_vuelo' . $i; ?>">
                         <input required class="form-control" type="hidden" value="<?php echo $rowdetail['Id']; ?>" placeholder="" name="<?php echo 'fidh' . $i; ?>" id="<?php echo 'fid' . $i; ?>">
                       </div>
@@ -335,7 +337,8 @@
                   <input class="form-control" type="hidden" placeholder="" name="nm_vuelo1" id="nm_vuelo<?php echo $i; ?>" onchange="//editSubtotal(this.value)" readonly>
                   <!-- </div> -->
                   <div class="col-12 col-sm-8 col-lg-1">
-                    <input <?php echo isset($edit) ? "" : "required" ?> class="form-control" type="text" placeholder="Hs" name="h_vuelo1" id="h_vuelo<?php echo $i; ?>" onchange="editSubtotal(this.value)">
+                    <input <?php echo isset($edit) ? "" : "required" ?> class="form-control" type="text" placeholder="Km" name="km_vuelo1" id="km_vuelo<?php echo $i; ?>" onchange="editSubtotal(this.value)">
+                    <input class="form-control" type="hidden" placeholder="Hs" name="h_vuelo1" id="h_vuelo<?php echo $i; ?>" onchange="editSubtotal(this.value)">
                   </div>
                   <button id="add-tramo-btn" class="btn btn-primary" onclick='javascript:add_tramo()' type="button">
                     <img src="assets/img/icons/icono-11.png" alt="" class="ai-icon">
@@ -466,7 +469,7 @@
         return;
       }
       else if (request_made) {
-        currency = currency == "USD" ? "MXN" : "USD";
+        currency = currency == "USD" ? "ARS" : "USD";
         calculate_pernocta();
         editSubtotal();
         return;
@@ -647,15 +650,32 @@
       nm_input.id = 'nm_vuelo' + tramo
       nm_input.readOnly = 'readonly'
 
+      let km_div = document.createElement('div')
+      new_container.appendChild(km_div)
+      let km_input = document.createElement('input')
+      km_div.appendChild(km_input)
+
+      km_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
+      km_input.classList.add('form-control')
+      km_input.setAttribute('required', '')
+      km_input.type = 'text'
+      km_input.placeholder = 'Km'
+      km_input.name = 'km_vuelo' + tramo
+      km_input.id = 'km_vuelo' + tramo
+      // h_input.readOnly = 'readonly'
+      km_input.addEventListener('change', function() {
+        editSubtotal(this.value);
+      }, false)
+
       let h_div = document.createElement('div')
       new_container.appendChild(h_div)
       let h_input = document.createElement('input')
       h_div.appendChild(h_input)
 
-      h_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
-      h_input.classList.add('form-control')
-      h_input.setAttribute('required', '')
-      h_input.type = 'text'
+      //h_div.classList.add('col-12', 'col-sm-8', 'col-lg-1')
+      //h_input.classList.add('form-control')
+      //h_input.setAttribute('required', '')
+      h_input.type = 'hidden'
       h_input.placeholder = 'Hs'
       h_input.name = 'h_vuelo' + tramo
       h_input.id = 'h_vuelo' + tramo
@@ -698,21 +718,21 @@
 
     function editSubtotal(newPrice) {
       let new_price = 0
-      let total_hours = 0
+      let total_kms = 0
 
       for (let i = 1; i < 10; i++) {
-        let h_vuelo = document.getElementById("h_vuelo" + i)
-        if (h_vuelo == null) break
-        if (h_vuelo.value) {
-          let leg_flight_time = h_vuelo.value + taxi_time
-          total_hours += parseFloat(leg_flight_time) > 0 && parseFloat(leg_flight_time) < 1 ? 1 : parseFloat(leg_flight_time)
+        let km_vuelo = document.getElementById("km_vuelo" + i);
+        if (km_vuelo == null) break;
+        if (km_vuelo.value) {
+          let leg_flight_km = km_vuelo.value;
+          total_kms += parseFloat(leg_flight_km);
         }
       }      
 
       if (currency == "USD") {
-        new_price = total_hours * hPrice;
+        new_price = total_kms * kmPrice;
       } else {
-        new_price = total_hours * hPrice * rate;
+        new_price = total_kms * kmPrice * rate;
       }
 
       new_price = Math.round((new_price + Number.EPSILON) * 100) / 100;
@@ -895,10 +915,10 @@
         let new_price = 0;
 
         let distance_km = json_data["totals"]["distance_km"];
-        // document.getElementById("km_vuelo" + tramo).value = distance_km;
+        document.getElementById("km_vuelo" + tramo).value = distance_km;
 
         let distance_nm = json_data["totals"]["distance_nm"];
-        document.getElementById("nm_vuelo" + tramo).value = distance_nm;
+        //document.getElementById("nm_vuelo" + tramo).value = distance_nm;
 
         let flight_time_min = json_data["totals"]["flight_time_min"];
         let hora = Math.round(((flight_time_min / 60) + Number.EPSILON) * 100) / 100;
@@ -907,7 +927,7 @@
         //document.getElementById("h_vuelo" + tramo).setAttribute("value", Math.round((hora_minutos + Number.EPSILON) * 100) / 100);
         flight_time_min = flight_time_min > 60 ? flight_time_min : 60;
 
-        if (false) {
+        if (true) {
           new_price = distance_km * kmPrice;
         } else {
           new_price = ((flight_time_min) + 15) / 60 * hPrice; //15 = taxi time

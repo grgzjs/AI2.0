@@ -125,8 +125,8 @@ include("conexion.php");
         $fabricacion       = mysqli_real_escape_string($con, (strip_tags($_POST["fabricacion"], ENT_QUOTES))); //Escanpando caracteres
         $capacidad       = mysqli_real_escape_string($con, (strip_tags($_POST["capacidad"], ENT_QUOTES))); //Escanpando caracteres  
         $cruisespeed       = mysqli_real_escape_string($con, (strip_tags($_POST["cruisespeed"], ENT_QUOTES))); //Escanpando caracteres
-        // $preciokm         = mysqli_real_escape_string($con, (strip_tags($_POST["preciokm"], ENT_QUOTES))); //Escanpando caracteres
-        $precioh = mysqli_real_escape_string($con, (strip_tags($_POST["precioh"], ENT_QUOTES)));
+        $preciokm         = mysqli_real_escape_string($con, (strip_tags($_POST["preciokm"], ENT_QUOTES))); //Escanpando caracteres
+        //$precioh = mysqli_real_escape_string($con, (strip_tags($_POST["precioh"], ENT_QUOTES)));
         $pesomaximo       = mysqli_real_escape_string($con, (strip_tags($_POST["pesomaximo"], ENT_QUOTES))); //Escanpando caracteres
         $ascentspeed     = mysqli_real_escape_string($con, (strip_tags($_POST["ascentspeed"], ENT_QUOTES))); //Escanpando caracteres
         // $fuelstop     = mysqli_real_escape_string($con, (strip_tags($_POST["fuelstop"], ENT_QUOTES))); //Escanpando caracteres
@@ -182,9 +182,9 @@ include("conexion.php");
         }
         
         if ($matricula) {
-          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',precioh='$precioh',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop', taxitime='$taxitime',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
+          $sql = "update Aircraft set matricula='$matricula',aeronave='$aeronave',fabricacion='$fabricacion',capacidad='$capacidad',cruisespeed='$cruisespeed',preciokm='$preciokm',pesomaximo='$pesomaximo',ascentspeed='$ascentspeed',fuelstop='$fuelstop', taxitime='$taxitime',distancia='$distancia',pernocta='$pernocta',descentspeed='$descentspeed' where matricula='$matricula'";
         } else {
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,taxitime,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop', '$taxitime','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,taxitime,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop', '$taxitime','$distancia','$pernocta','$descentspeed')";
         }
 
         echo '<script>console.log("' . $sql . '")</script>';
@@ -193,7 +193,7 @@ include("conexion.php");
         echo '<script>console.log("update1: ' . $update . '")</script>';
 
         if ($update == 1) {
-          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,precioh,pesomaximo,ascentspeed,fuelstop,taxitime,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$precioh','$pesomaximo','$ascentspeed','$fuelstop', '$taxitime','$distancia','$pernocta','$descentspeed')";
+          $sql = "insert into Aircraft (matricula,aeronave,fabricacion,capacidad,cruisespeed,preciokm,pesomaximo,ascentspeed,fuelstop,taxitime,distancia,pernocta,descentspeed) Values ('$matricula','$aeronave','$fabricacion','$capacidad','$cruisespeed','$preciokm','$pesomaximo','$ascentspeed','$fuelstop', '$taxitime','$distancia','$pernocta','$descentspeed')";
           $update = mysqli_query($con, $sql);
 
           echo '<script>console.log("' . $sql . '")</script>';
@@ -224,7 +224,7 @@ include("conexion.php");
         "fabricacion" => "",
         "capacidad" => "",
         "cruisespeed" => "",
-        "precioh" => "",
+        "preciokm" => "",
         "pesomaximo" => "",
         "ascentspeed" => "",
         "fuelstop" => "",
@@ -295,24 +295,24 @@ include("conexion.php");
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Crucero
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Millas Nauticas x hr" name="cruisespeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Km x hr" name="cruisespeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <!-- <div class="col-12 col-sm-8 col-lg-2">Precio KM
-                        <input class="form-control" type="text" value="<?php //echo $rowaircraft['preciokm']; ?>" placeholder="Precio KM" name="<?php echo 'preciokm' . $i; ?>">
-                      </div> -->
-                      <div class="col-12 col-sm-8 col-lg-2">Precio Hora
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['precioh']; ?>" placeholder="Precio x Hora" name="precioh<?php //echo 'precioh' . $i; ?>">
+                      <div class="col-12 col-sm-8 col-lg-2">Precio KM
+                        <input class="form-control" type="text" value="<?php echo $rowaircraft['preciokm']; ?>" placeholder="Precio x Km" name="<?php echo 'preciokm' . $i; ?>">
                       </div>
+                      <!-- <div class="col-12 col-sm-8 col-lg-2">Precio Hora
+                        <input class="form-control" required type="text" value="<?php //echo $rowaircraft['precioh']; ?>" placeholder="Precio x Hora" name="precioh<?php //echo 'precioh' . $i; ?>">
+                      </div> -->
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Distancia Maxima
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder=" Millas Nauticas" name="distancia">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder="Kilometros" name="distancia">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Decenso
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="MN x Hr." name="descentspeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['descentspeed']; ?>" placeholder="Km x Hr." name="descentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Precio Pernocta
@@ -321,13 +321,13 @@ include("conexion.php");
                     </div>
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Peso Maximo (lbs)
-                        <input class="form-control" id="pesomaximo" required type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso en Lbs" onblur="javascript:updateInputValue()" name="pesomaximo">
+                      <div class="col-12 col-sm-8 col-lg-2">Peso Maximo (Kg)
+                        <input class="form-control" id="pesomaximo" required type="text" value="<?php echo $rowaircraft['pesomaximo']; ?>" placeholder="Peso en Kilos" onblur="javascript:updateInputValue()" name="pesomaximo">
 
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Ascenso
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="MN x Hr." name="ascentspeed">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['ascentspeed']; ?>" placeholder="Km x Hr." name="ascentspeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <!-- <div class="col-12 col-sm-8 col-lg-2">Precio Fuel Stop
@@ -380,8 +380,8 @@ include("conexion.php");
                       <th style="width:20%;">Matrícula </th>
                       <th style="width:17%;">Tipo de AC </th>
                       <th style="width:15%;">Fabricacion</th>
-                      <!-- <th style="width:10%;">Precio Km</th> -->
-                      <th style="width:10%;">Precio x Hora</th>
+                      <th style="width:10%;">Precio x Km</th> 
+                      <!-- <th style="width:10%;">Precio x Hora</th> -->
                       <th style="width:10%;">Capacidad</th>
                       <th style="width:10%;"></th>
                     </tr>
@@ -408,12 +408,12 @@ include("conexion.php");
                           <td class="cell-detail">
                             <span><?php echo $row['fabricacion']; ?></span>
                           </td>
-                          <!-- <td class="cell-detail">
-                            <span><?php echo $row['preciokm']; ?></span>
-                          </td> -->
                           <td class="cell-detail">
+                            <span><?php echo $row['preciokm']; ?></span>
+                          </td> 
+                          <!-- <td class="cell-detail">
                             <span><?php echo $row['precioh']; ?></span>
-                          </td>
+                          </td> -->
                           <td class="cell-detail">
                             <span><?php echo $row['capacidad']; ?></span>
                           </td>
@@ -499,7 +499,7 @@ include("conexion.php");
   
   if (numeroInput.value !== "") {
     const numero = parseFloat(numeroInput.value);
-    numeroInput.value = numero + " lbs";
+    numeroInput.value = numero + " Kg";
   }
 }
 let form=document.getElementById("aircraft-form");

@@ -264,7 +264,7 @@ include("conexion.php");
         $amount_row = mysqli_fetch_assoc($amount_result);
         $totalamountthismonth = $amount_row['amount'];
 
-        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'MXN'");
+        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'ARS'");
         $amount_row = mysqli_fetch_assoc($amount_result);
         $totalamountthismonth2 = $amount_row['amount'];
 
@@ -279,7 +279,7 @@ include("conexion.php");
         $total_row = mysqli_fetch_assoc($total_result);
         $totaltripsthismonth = $total_row['amount'];
 
-        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND moneda = 'MXN'");
+        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND moneda = 'ARS'");
         $total_row = mysqli_fetch_assoc($total_result);
         $totaltripsthismonth2 = $total_row['amount'];
       } else {
@@ -294,7 +294,7 @@ include("conexion.php");
         $amount_row = mysqli_fetch_assoc($amount_result);
         $totalamountthismonth = $amount_row['amount'];
 
-        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter' AND moneda = 'MXN'");
+        $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND aircraft='$filter' AND moneda = 'ARS'");
         $amount_row = mysqli_fetch_assoc($amount_result);
         $totalamountthismonth2 = $amount_row['amount'];
 
@@ -309,7 +309,7 @@ include("conexion.php");
         $total_row = mysqli_fetch_assoc($total_result);
         $totaltripsthismonth = $total_row['amount'];
 
-        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter' AND moneda = 'MXN'");
+        $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND aircraft='$filter' AND moneda = 'ARS'");
         $total_row = mysqli_fetch_assoc($total_result);
         $totaltripsthismonth2 = $total_row['amount'];
       }
@@ -325,7 +325,7 @@ include("conexion.php");
       $amount_row = mysqli_fetch_assoc($amount_result);
       $totalamountthismonth = $amount_row['amount'];
 
-      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'MXN'");
+      $amount_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND moneda = 'ARS'");
       $amount_row = mysqli_fetch_assoc($amount_result);
       $totalamountthismonth2 = $amount_row['amount'];
 
@@ -340,7 +340,7 @@ include("conexion.php");
       $total_row = mysqli_fetch_assoc($total_result);
       $totaltripsthismonth = $total_row['amount'];
 
-      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND moneda = 'MXN'");
+      $total_result = mysqli_query($con, "SELECT SUM(amount) as amount FROM invoices WHERE MONTH(date) = $month AND YEAR(date) = $year AND status = $status AND moneda = 'ARS'");
       $total_row = mysqli_fetch_assoc($total_result);
       $totaltripsthismonth2 = $total_row['amount'];
     }
@@ -494,7 +494,7 @@ include("conexion.php");
                     <hr class="vertical-hr">
                     <div style="display: flex; flex-direction: column; text-align: right;">
                     <span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totalamountthismonth2; ?>" data-prefix="$">>0</span>
-                      <div class="indicator-value-title">Total Cotizaciones (MXN)</div>
+                      <div class="indicator-value-title">Total Cotizaciones (ARS)</div>
                     </div>
                   </div>
                 </div>
@@ -518,7 +518,7 @@ include("conexion.php");
                     <hr class="vertical-hr">
                     <div style="display: flex; flex-direction: column; text-align: right;">
                     <span class="indicator-value-counter" data-toggle="counter" data-decimals="2" data-end="<?php echo $totaltripsthismonth2; ?>" data-prefix="$">>0</span>
-                      <div class="indicator-value-title">Total Ventas (MXN)</div>
+                      <div class="indicator-value-title">Total Ventas (ARS)</div>
                     </div>
                   </div>
                 </div>
@@ -591,14 +591,12 @@ include("conexion.php");
             <div class="todo-list-container">
               <p>No hay tareas pendientes.</p>
             </div>
-            <form method="POST">
               <div class="todo-new-task" id="todo-new-task">
                 <div class="input-group">
-                  <input class="form-control" type="text" name="task" placeholder="Add a new task...">
-                  <div class="input-group-append"><button class="btn btn-primary" type="submit"><i class="icon s7-plus"></i></button></div>
+                  <input id="task-text" class="form-control" type="text" name="task" placeholder="Agregar una nota...">
+                  <div class="input-group-append"><button class="btn btn-primary" onclick="addTask()"><i class="icon s7-plus"></i></button></div>
                 </div>
               </div>
-            </form>
           </div>
         </div>';
                 }
@@ -727,11 +725,14 @@ include("conexion.php");
 
         function addTask() {
           let task_name = document.getElementById("task-text").value;
+          //console.log('Entre a addTask');
           // execute query to load taks
           $.ajax({
             url: "task_query.php?task_to_add=" + task_name + "&task_to_delete=" + 0, // your php file
             type: "GET", // type of the HTTP request
             success: function(data) {
+              //console.log('Entre a addTask ajax Success');
+              //console.log(data);
               cargarDatosTabla();
               document.getElementById("task-text").value = "";
               let log_user_type = localStorage.getItem("user_type");

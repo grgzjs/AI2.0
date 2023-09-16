@@ -22,35 +22,35 @@
         $fdestino1 = $_POST['fdestino1'];
         $fpax1 = $_POST['fpax1'];
         $nm1 = $_POST['nm_vuelo1'];
-        $h_vuelo1 = $_POST['h_vuelo1'];
+        $km_vuelo1 = $_POST['km_vuelo1'];
 
         $fdate2 = $_POST['fdate2'];
         $forigen2 = $_POST['forigen2'];
         $fdestino2 = $_POST['fdestino2'];
         $fpax2 = $_POST['fpax2'];
         $nm2 = $_POST['nm_vuelo2'];
-        $h_vuelo2 = $_POST['h_vuelo2'];
+        $km_vuelo2 = $_POST['km_vuelo2'];
 
         $fdate3 = $_POST['fdate3'];
         $forigen3 = $_POST['forigen3'];
         $fdestino3 = $_POST['fdestino3'];
         $fpax3 = $_POST['fpax3'];
         $nm3 = $_POST['nm_vuelo3'];
-        $h_vuelo3 = $_POST['h_vuelo3'];
+        $km_vuelo3 = $_POST['km_vuelo3'];
 
         $fdate4 = $_POST['fdate4'];
         $forigen4 = $_POST['forigen4'];
         $fdestino4 = $_POST['fdestino4'];
         $fpax4 = $_POST['fpax4'];
         $nm4 = $_POST['nm_vuelo4'];
-        $h_vuelo4 = $_POST['h_vuelo4'];
+        $km_vuelo4 = $_POST['km_vuelo4'];
 
         $fdate5 = $_POST['fdate5'];
         $forigen5 = $_POST['forigen5'];
         $fdestino5 = $_POST['fdestino5'];
         $fpax5 = $_POST['fpax5'];
         $nm5 = $_POST['nm_vuelo5'];
-        $h_vuelo5 = $_POST['h_vuelo5'];
+        $km_vuelo5 = $_POST['km_vuelo5'];
 
         $subtotal = $subtotal == "" ? 0 : $subtotal;
         $addons = $addons == "" ? 0 : $addons;
@@ -61,7 +61,9 @@
             //echo "<script>console.log('ENTRE A IDPDF')</script>";
             $sql = "UPDATE `invoices` SET `date` = '$date', `aircraft` = '$aircraft', `subtotal` = '$subtotal', `tax` = '$tax', `amount` = '$amount', `addons` = '$addons', `pernocta` = '$pernocta', `buyer_id` = '$idbuyer', `status` = '1' WHERE `invoices`.`quote` = '$idquote'";
         }else{
-            $sql = "insert into invoices (date,buyer_id,aircraft,moneda,subtotal,addons,pernocta,tax,amount,status) Values ('$date',$idbuyer,'$aircraft','$moneda',$subtotal,$addons,$pernocta,$tax,$amount,1)";
+            //echo "<script>console.log('ENTRE A INSETR')</script>";
+            $sql = "insert into invoices (date,buyer_id,aircraft,moneda,subtotal,addons,pernocta,tax,amount,status) Values ('$date',$idbuyer,'$aircraft','$moneda','$subtotal','$addons','$pernocta','$tax','$amount',1)";
+            //echo "<script>console.log('SQL: $sql')</script>";
         }
         $update = mysqli_query($con, $sql);
         $query = "select * from invoices order by date desc";
@@ -81,9 +83,9 @@
                 $fdestinoh = $_POST['fdestinoh'.$i];
                 $fpaxh = $_POST['fpaxh'.$i];
                 $fnm_vueloh = $_POST['fnm_vueloh'.$i];
-                $fh_vueloh = $_POST['fh_vueloh'.$i];
+                $fkm_vueloh = $_POST['fkm_vueloh'.$i];
                 $fidh = $_POST['fidh'.$i];
-                $sql = "UPDATE `invoice_detail` SET `fecha` = '$fdateh', `origen` = '$forigenh', `destino` = '$fdestinoh', `Pax` = '$fpaxh', `nm_vuelo` = '$fnm_vueloh', `tiempo_vuelo` = '$fh_vueloh', `id_invoice` = '$idquote' WHERE `invoice_detail`.`Id` = '$fidh'";
+                $sql = "UPDATE `invoice_detail` SET `fecha` = '$fdateh', `origen` = '$forigenh', `destino` = '$fdestinoh', `Pax` = '$fpaxh', `nm_vuelo` = '$fnm_vueloh', `tiempo_vuelo` = '$fkm_vueloh', `id_invoice` = '$idquote' WHERE `invoice_detail`.`Id` = '$fidh'";
                 $update = mysqli_query($con, $sql);
             }
             $editdetail = mysqli_query($con, "select * from invoice_detail WHERE id_invoice= $quote");
@@ -104,23 +106,23 @@
         }
 
         if (!empty($fdate1)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$nm1','$h_vuelo1','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,km_vuelo,id_invoice) Values ('$fdate1','$forigen1','$fdestino1','$fpax1','$nm1','$km_vuelo1','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate2)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$nm2','$h_vuelo2','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,km_vuelo,id_invoice) Values ('$fdate2','$forigen2','$fdestino2','$fpax2','$nm2','$km_vuelo2','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate3)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$nm3','$h_vuelo3','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,km_vuelo,id_invoice) Values ('$fdate3','$forigen3','$fdestino3','$fpax3','$nm3','$km_vuelo3','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate4)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$nm4','$h_vuelo4','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,km_vuelo,id_invoice) Values ('$fdate4','$forigen4','$fdestino4','$fpax4','$nm4','$km_vuelo4','$quote')";
             $update = mysqli_query($con, $sql);
         }
         if (!empty($fdate5)) {
-            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,tiempo_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$nm5','$h_vuelo5','$quote')";
+            $sql = "insert into invoice_detail (fecha,origen,destino,pax,nm_vuelo,km_vuelo,id_invoice) Values ('$fdate5','$forigen5','$fdestino5','$fpax5','$nm5','$km_vuelo5','$quote')";
             $update = mysqli_query($con, $sql);
         }
     }else{
@@ -148,6 +150,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF</title>
+    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/PDFstyles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -194,7 +197,7 @@
                     <div class="col">Origen</div>
                     <div class="col">Destino</div>
                     <div class="col">Pasajeros</div>
-                    <div class="col">Millas Nauticas</div>
+                    <div class="col">Kilometros</div>
                 </div>
             </div>
             <?php while ($rowdetail_tramo = mysqli_fetch_assoc($detail_tramo)){?>
@@ -203,7 +206,7 @@
                     <div class="col"><?php echo $rowdetail_tramo['origen']?></div>
                     <div class="col"><?php echo $rowdetail_tramo['destino']?></div>
                     <div class="col"><?php echo $rowdetail_tramo['Pax']?></div>
-                    <div class="col"><?php echo $rowdetail_tramo['nm_vuelo']?></div>
+                    <div class="col"><?php echo $rowdetail_tramo['km_vuelo']?></div>
                 </div>
             <?php } ?>
 

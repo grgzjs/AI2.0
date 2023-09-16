@@ -292,7 +292,8 @@
 
                                                         ?>
                                                         <th style="width:40px;height:40px">
-                                                            <input style="width:40px;height:40px" class="form-control pilot-check" onchange="javascript:can_add()" id="<?php echo 'pilotchck' . $itramo ?>" type="checkbox" value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>"> <span class=""></span>
+                                                            <input style="width:40px;height:40px" class="form-control pilot-check" onchange="javascript:can_add()" id="<?php echo 'pilotchck' . $itramo ?>" type="checkbox" value="<?php echo $itramo ?>" name="<?php echo 'pax' . $rowdetail['id'] ?>">
+                                                            <span class=""></span>
                                                         </th>
                                                             
                                                         <?php

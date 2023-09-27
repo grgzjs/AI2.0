@@ -136,7 +136,7 @@ if (isset($_POST['guardar_gasto'])) {
                   <div class="form-group row" id="aicraft-selector-container">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <select required class="form-control custom-select" id="concepto-aircraft">
+                      <select required class="form-control custom-select" id="concepto-aircraft" onchange="formIsValid()">
                         <?php
                         $get_aircrafts_query = mysqli_query($con, "SELECT matricula, aeronave FROM Aircraft");
                         while ($aircraft_row = mysqli_fetch_assoc($get_aircrafts_query)) {
@@ -150,20 +150,20 @@ if (isset($_POST['guardar_gasto'])) {
                   <div class="form-group row" id="concept-container">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input required id="concepto-regular" class="form-control" type="Text" placeholder="Ingrese el concepto">
+                      <input required id="concepto-regular" class="form-control" type="Text" placeholder="Ingrese el concepto" onchange="formIsValid()">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto " onchange="formIsValid()">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Moneda</label>
                     <div class="col-12 col-sm-8 col-lg-6">
                       <!-- <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto "> -->
-                      <select required class="form-control custom-select" id="cambio" name="typeclient">
+                      <select required class="form-control custom-select" id="cambio" name="typeclient" onchange="formIsValid()">
                         <?php
                         $get_currencies_query = mysqli_query($con, "SELECT moneda FROM currency");
                         while ($currency_row = mysqli_fetch_assoc($get_currencies_query)) {
@@ -245,7 +245,7 @@ if (isset($_POST['guardar_gasto'])) {
                   </div>
 
                   <div>
-                    <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Gasto General</button>
+                    <button class="btn btn-space btn-primary" onclick="javascript:save_all()" id="save_all_button" disabled="true">Guardar Gasto General</button>
                   </div>
 
                   <!-- <div class="form-group row">
@@ -285,7 +285,7 @@ if (isset($_POST['guardar_gasto'])) {
               <tbody>
                 <?php
                 // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
-                $sql_gastos_tramo = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from opstramo_gastos ORDER BY spanish_date DESC';
+                $sql_gastos_tramo = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from opstramo_gastos ORDER BY date DESC';
                 $gastos_tramo = mysqli_query($con, $sql_gastos_tramo);
                 while ($rowp = mysqli_fetch_assoc($gastos_tramo)) {
                 ?>
@@ -384,6 +384,7 @@ if (isset($_POST['guardar_gasto'])) {
         document.getElementById("aicraft-selector-container").setAttribute("hidden", "")
         concept_type = "regular";
       }
+      formIsValid();
     }
 
 
@@ -432,6 +433,24 @@ if (isset($_POST['guardar_gasto'])) {
 
 
     function save_all() {
+      let form = document.createElement('form');
+      let input_file = document.getElementById("gastos");
+
+      if (input_file.files.length > 0) {
+        console.log("hay archivo");
+        let form_data = new FormData();
+        form_data.append("gastos_file", input_file.files[0]);
+        fetch("reception_area_query.php", {
+          method: "POST",
+          body: form_data
+        })
+        let file = document.createElement('input')
+        file.value = input_file.files[0].name
+        file.name = "file"
+
+        form.appendChild(file)
+      }
+      
       let user_type = localStorage.getItem("user_type");
       let email = localStorage.getItem("email");
       let username = localStorage.getItem("username");
@@ -440,17 +459,8 @@ if (isset($_POST['guardar_gasto'])) {
         type: "GET"
       });
 
-      let end_point = "reception_area_query.php";
-      let form_data = new FormData();
-      let input_file = document.getElementById("gastos");
-      form_data.append("gastos_file", input_file.files[0]);
-      fetch(end_point, {
-        method: "POST",
-        body: form_data
-      }).then(() => {
 
-        let form = document.createElement('form')
-
+      
         // let tramo = document.createElement('input')
         // tramo.value = document.getElementById('tramo_reserva').value
         // tramo.name = 'tramo_reserva'
@@ -487,10 +497,7 @@ if (isset($_POST['guardar_gasto'])) {
         // let fecha_cambio = document.createElement('input')
         // fecha_cambio.value = document.getElementById('fecha_cambio').value
         // fecha_cambio.name = "fecha_cambio"
-        let file = document.createElement('input')
-        file.value = input_file.files[0].name
-        file.name = "file"
-        console.log("cree el archivo con: " + input_file.files[0].name)
+
         let button1 = document.createElement('button')
         button1.name = 'guardar_gasto'
 
@@ -504,7 +511,6 @@ if (isset($_POST['guardar_gasto'])) {
 
         form.appendChild(cambio)
         // form.appendChild(fecha_cambio)
-        form.appendChild(file)
         form.appendChild(button1)
 
         document.body.appendChild(form)
@@ -512,11 +518,22 @@ if (isset($_POST['guardar_gasto'])) {
         form.method = 'post'
         // form.submit()
         button1.click()
-      }).catch(console.error);
+    
 
 
     }
-
+    function formIsValid(){
+  let tipo_value = document.getElementById('tipo_gasto').value;
+  let concepto_regular_value = document.getElementById('concepto-regular').value;
+  let concepto_aircraft_value = document.getElementById('concepto-aircraft').value;
+  let monto_value = document.getElementById('monto').value
+  let moneda_cambio_value = document.getElementById('cambio').value;
+  if(tipo_value ==="" || (concepto_regular_value ==="" && concept_type =="regular") ||(concepto_aircraft_value ==="" && concept_type =="aircraft") || monto_value ==="" || moneda_cambio_value===""){
+    document.getElementById("save_all_button").disabled=true;
+  }else{
+    document.getElementById("save_all_button").disabled=false;
+  }
+}
     function loginuserhellolist() {
       let form = document.createElement('form')
       form.action = 'hellolist.php'

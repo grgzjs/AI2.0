@@ -294,8 +294,8 @@ include("conexion.php");
                         <input class="form-control" required type="text" value="<?php echo $rowaircraft['capacidad']; ?>" placeholder="Max Pax" name="capacidad">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
-                      <div class="col-12 col-sm-8 col-lg-2">Velocidad Crucero
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Millas Nauticas x hr" name="cruisespeed">
+                      <div class="col-12 col-sm-8 col-lg-2">Nudos
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['cruisespeed']; ?>" placeholder="Nudos x Hr" name="cruisespeed">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <!-- <div class="col-12 col-sm-8 col-lg-2">Precio KM
@@ -308,7 +308,7 @@ include("conexion.php");
                     <div class="form-group row" style="justify-content: center;">
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Distancia Maxima
-                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder=" Millas Nauticas" name="distancia">
+                        <input class="form-control" required type="text" value="<?php echo $rowaircraft['distancia']; ?>" placeholder=" Nudos" name="distancia">
                       </div>
                       <label class="col-12 col-sm-1 col-form-label text-sm-right"></label>
                       <div class="col-12 col-sm-8 col-lg-2">Velocidad Decenso
@@ -419,11 +419,11 @@ include("conexion.php");
                           </td>
                           <td class="text-right">
                             <div class="btn-group btn-hspace">
-                              <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Select <span class="icon-dropdown s7-angle-down"></span></button>
+                              <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button>
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <a class="dropdown-item" onclick="log_edit()" href='javascript:editarmatricula ("<?php echo $row['matricula'] ?>")'>Edit</a>
+                                <a class="dropdown-item"   onclick="log_edit()" href="javascript:editarmatricula('<?php echo $row['matricula'] ?>')">Editar</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" id="delete_client_btn" onclick="log_delete()" href="aircraft_setup.php?aksi=delete&nik=<?php echo $row['matricula']; ?>" title="Eliminar">Delete</a> <!-- onclick="return confirm('Are you sure? <?php //echo $row['matricula']; 
+                                <a class="dropdown-item" id="delete_client_btn" onclick="log_delete()" href="aircraft_setup.php?aksi=delete&nik=<?php echo $row['matricula']; ?>" title="Eliminar">Borrar</a> <!-- onclick="return confirm('Are you sure? <?php //echo $row['matricula']; 
                                                                                                                                                                                                             ?>')" -->
                               </div>
                             </div>
@@ -464,7 +464,7 @@ include("conexion.php");
   </script>
   <script>
       let user_type = localStorage.getItem("user_type");
-      let email = localStorage.getItem("email");
+      let email_value = localStorage.getItem("email");
       let username = localStorage.getItem("username");
     function log_edit(){
       
@@ -476,7 +476,7 @@ include("conexion.php");
     }
     function log_delete(){
       $.ajax({
-                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='deleted aircraft'", // your php file
+                url: "logs_query.php?email=" + email_value + "&username=" + username + "&role=" + user_type + "&action='deleted aircraft'", // your php file
                 type: "GET"
             });
 
@@ -486,7 +486,7 @@ include("conexion.php");
        let submit_btn = document.getElementById("submit_btn");
       submit_btn.addEventListener("click", function(event){
       $.ajax({
-                url: "logs_query.php?email=" + email + "&username=" + username + "&role=" + user_type + "&action='registered aircraft'", // your php file
+                url: "logs_query.php?email=" + email_value + "&username=" + username + "&role=" + user_type + "&action='registered aircraft'", // your php file
                 type: "GET", // type of the HTTP request
                 success: function(data) {
                   console.log(data)
@@ -705,6 +705,7 @@ document.getElementById("aircraft-form").addEventListener("submit", function(eve
       form.appendChild(nik)
       form.appendChild(edit)
       document.body.appendChild(form)
+      log_edit();
       form.submit()
 
     }

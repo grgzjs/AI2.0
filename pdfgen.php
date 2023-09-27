@@ -194,7 +194,7 @@
                     <div class="col">Origen</div>
                     <div class="col">Destino</div>
                     <div class="col">Pasajeros</div>
-                    <div class="col">Millas Nauticas</div>
+                    <div class="col">Kilometros x Hora</div>
                 </div>
             </div>
             <?php while ($rowdetail_tramo = mysqli_fetch_assoc($detail_tramo)){?>
@@ -218,7 +218,7 @@
                     <div class="col">$<?php echo $rowinvoice['addons'] ?></div>
                 </div>
                 <div class="row">
-                    <div class="col-2">Recargo Pernocta:</div>
+                    <div class="col-2">Pernocta:</div>
                     <div class="col">$<?php echo $rowinvoice['pernocta'] ?></div>
                 </div>
                 <div class="row">

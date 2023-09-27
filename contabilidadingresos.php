@@ -120,16 +120,33 @@ if (isset($_POST['guardar_ingreso'])) {
                         <option value="Corporativo" <?php if ($row['typeclient'] == 'Corporativo') {
                                                       echo 'selected';
                                                     } ?>>Corporativo</option>
+                                                    <option value="Paquete">Paquete de Horas</option>
                         <option value="Otros" <?php if ($row['typeclient'] == 'Empleados') {
                                                 echo 'selected';
                                               } ?>>Otros</option>
+                        
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group row" id="contact-container">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Concepto</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <select required class="form-control custom-select" id="concepto-contact"  onchange="formIsValid()">
+
+                        <?php
+                          $get_contect_query = mysqli_query($con, "SELECT username FROM users");
+                          while ($users_row = mysqli_fetch_assoc($get_contect_query)) {
+                            echo "<option value='" . $users_row['username'] . "'>" .$users_row['username']. "</option>";
+                          }
+                          // <option value="Generales">Generales</option>
+                        ?>
                       </select>
                     </div>
                   </div>
                   <div class="form-group row" id="quote-selector-container">
                     <label class="col-12 col-sm-3 col-form-label text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <select required class="form-control custom-select" id="concepto-quote">
+                      <select required class="form-control custom-select" id="concepto-quote"  onchange="formIsValid()">
                         <?php
                         $get_invoices_query = mysqli_query($con, "SELECT i.quote, c.first_name, c.last_name, c.id FROM invoices AS i LEFT JOIN Contact AS c ON i.buyer_id=c.id");
                         while ($invoice_row = mysqli_fetch_assoc($get_invoices_query)) {
@@ -143,20 +160,42 @@ if (isset($_POST['guardar_ingreso'])) {
                   <div class="form-group row" id="concept-container">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Concepto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input required id="concepto-regular" class="form-control" type="Text" placeholder="Ingrese el concepto">
+                      <input required id="concepto-regular" class="form-control" type="Text" placeholder="Ingrese el concepto" onchange="formIsValid()">
                     </div>
                   </div>
+                  <div class="form-group row" id="aicraft-selector-container">
+                    <label class="col-12 col-sm-3 col-form-label text-sm-right">Aeronave</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <select required class="form-control custom-select" id="concepto-aircraft" onchange="formIsValid()">
+                        <?php
+                        $get_aircrafts_query = mysqli_query($con, "SELECT matricula, aeronave FROM Aircraft");
+                        while ($aircraft_row = mysqli_fetch_assoc($get_aircrafts_query)) {
+                          echo "<option value='" . $aircraft_row['matricula'] . "'>" . $aircraft_row['aeronave'] . " (" . $aircraft_row['matricula'] . ")</option>";
+                        }
+                        // <option value="Generales">Generales</option>
+                        ?>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group row" id="cantidad-horas">
+                    <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Cantidad de Horas</label>
+                    <div class="col-12 col-sm-8 col-lg-6">
+                      <input required id="cant_horas" class="form-control" type="Text" placeholder="Ingrese la cantidad de horas" onchange="formIsValid()">
+                    </div>
+                  </div>
+
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Monto</label>
                     <div class="col-12 col-sm-8 col-lg-6">
-                      <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto ">
+                      <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto" onchange="formIsValid()">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-12 col-sm-3 col-form-label text-left text-sm-right">Moneda</label>
                     <div class="col-12 col-sm-8 col-lg-6">
                       <!-- <input required id="monto" class="form-control" type="Text" placeholder="Ingrese el monto "> -->
-                      <select required class="form-control custom-select" id="moneda_cambio" name="typeclient">
+                      <select required class="form-control custom-select" id="moneda_cambio" name="typeclient"  onchange="formIsValid()">
                         <?php
                           $get_currencies_query = mysqli_query($con, "SELECT moneda FROM currency");
                           while ($currency_row = mysqli_fetch_assoc($get_currencies_query)) {
@@ -240,7 +279,7 @@ if (isset($_POST['guardar_ingreso'])) {
                   </div>
 
                   <div>
-                    <button class="btn btn-space btn-primary" onclick="javascript:save_all()">Guardar Ingreso</button>
+                    <button class="btn btn-space btn-primary" onclick="javascript:save_all()" id="save_all_button" disabled="true">Guardar Ingreso</button>
                   </div>
 
                   <!-- <div class="form-group row">
@@ -355,7 +394,7 @@ if (isset($_POST['guardar_ingreso'])) {
                 </thead>
                 <tbody>
                   <?php
-                  $sql_ingresos = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from ingresos_generales';
+                  $sql_ingresos = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from ingresos_generales ORDER BY date DESC';
                   $ingresos = mysqli_query($con, $sql_ingresos);
                   while ($rowp = mysqli_fetch_assoc($ingresos)) {
                     $file_exists = $rowp["file"];
@@ -420,32 +459,60 @@ if (isset($_POST['guardar_ingreso'])) {
     check_type(""); // defaults the selector value
 
     function check_type(selected_type) {
+      
       if (selected_type.value == "Cotizaciones") {
-        // $("#quote-selector-container").show();
-        // $("#concept-container").hide();
         document.getElementById("concept-container").setAttribute("hidden", "")
+
+        document.getElementById("contact-container").setAttribute("hidden", "")
+        document.getElementById("aicraft-selector-container").setAttribute("hidden", "")
+        document.getElementById("cantidad-horas").setAttribute("hidden", "")
+
         document.getElementById("quote-selector-container").removeAttribute("hidden")
         concept_type = "quote"
+      }else if(selected_type.value == "Paquete"){
+        document.getElementById("concept-container").setAttribute("hidden", "")
+
+        document.getElementById("contact-container").removeAttribute("hidden")
+        document.getElementById("aicraft-selector-container").removeAttribute("hidden")
+        document.getElementById("cantidad-horas").removeAttribute("hidden")
+
+        document.getElementById("quote-selector-container").setAttribute("hidden", "")
+        concept_type = "paquete"
       } else {
-        // $("#quote-selector-container").hide();
-        // $("#concept-container").show();
+        
         document.getElementById("concept-container").removeAttribute("hidden")
+
+        document.getElementById("contact-container").setAttribute("hidden", "")
+        document.getElementById("aicraft-selector-container").setAttribute("hidden", "")
+        document.getElementById("cantidad-horas").setAttribute("hidden", "")
+
         document.getElementById("quote-selector-container").setAttribute("hidden", "")
         concept_type = "regular"
       }
+      formIsValid();
     }
 
     function save_all() {
-
-      let end_point = "reception_area_query.php";
-      let form_data = new FormData();
+      let form = document.createElement('form');
+      
       let input_file = document.getElementById("ingreso");
-      form_data.append("ingreso_file", input_file.files[0]);
-      fetch(end_point, {
-        method: "POST",
-        body: form_data
-      }).then(() => {
-        let form = document.createElement('form')
+      if (input_file.files.length > 0) {
+        console.log("hay archivo");
+        let form_data = new FormData();
+        form_data.append("ingreso_file", input_file.files[0]);
+        fetch("reception_area_query.php", {
+          method: "POST",
+          body: form_data
+        })
+        let file = document.createElement('input')
+        file.value = input_file.files[0].name
+        file.name = "file"
+
+        form.appendChild(file)
+      }
+      
+      
+        
 
         // let tramo = document.createElement('input')
         // tramo.value = document.getElementById('tramo_reserva').value
@@ -463,6 +530,8 @@ if (isset($_POST['guardar_ingreso'])) {
           concepto.value = document.getElementById('concepto-regular').value
         } else if (concept_type == "quote") {
           concepto.value = document.getElementById('concepto-quote').value
+        }else if (concept_type == "paquete") {
+          concepto.value = document.getElementById('concepto-contact').value + ", por " + document.getElementById('cant_horas').value + "Hrs.(Aeronave:" + document.getElementById('concepto-aircraft').value + ")";
         }
         concepto.name = "concepto"
 
@@ -481,9 +550,7 @@ if (isset($_POST['guardar_ingreso'])) {
         // fecha_cambio.value = document.getElementById('fecha_cambio').value
         // fecha_cambio.name = "fecha_cambio"
 
-        let file = document.createElement('input')
-        file.value = input_file.files[0].name
-        file.name = "file"
+        
         let button1 = document.createElement('button')
         button1.name = 'guardar_ingreso'
 
@@ -497,7 +564,7 @@ if (isset($_POST['guardar_ingreso'])) {
 
         form.appendChild(cambio)
         // form.appendChild(fecha_cambio)
-        form.appendChild(file)
+        
         form.appendChild(button1)
 
         document.body.appendChild(form)
@@ -513,12 +580,27 @@ if (isset($_POST['guardar_ingreso'])) {
         });
 
         button1.click()
-      }).catch(console.error);
 
 
     }
 
-
+function formIsValid(){
+  let tipo_value = document.getElementById('tipo_ingreso').value;
+  let concepto_regular_value = document.getElementById('concepto-regular').value;
+  let concepto_quote_value = document.getElementById('concepto-quote').value;
+  let concepto_contact_value = document.getElementById('concepto-contact').value;
+  let aircraft_value = document.getElementById('concepto-aircraft').value;
+  let cantidad_horas_value = document.getElementById('cant_horas').value;
+  console.log(cantidad_horas_value)
+  let monto_value = document.getElementById('monto').value;
+  console.log(monto_value)
+  let moneda_cambio_value = document.getElementById('moneda_cambio').value;
+  if(tipo_value ==="" || (cantidad_horas_value ==="" && concept_type =="paquete") || (concepto_regular_value ==="" && concept_type =="regular") ||(concepto_quote_value ==="" && concept_type =="quote") || monto_value ==="" || moneda_cambio_value===""){
+    document.getElementById("save_all_button").disabled=true;
+  }else{
+    document.getElementById("save_all_button").disabled=false;
+  }
+}
 
     function loginuser() {
       let form = document.createElement('form')

@@ -384,9 +384,9 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-12 col-sm-3 col-form-label text-sm-right">Recargo Pernocta:</label>
+                <label class="col-12 col-sm-3 col-form-label text-sm-right">Pernocta:</label>
                 <div class="col-12 col-sm-8 col-lg-6">
-                  <input class="form-control" value="<?php echo isset($edit) ? $rowedit['pernocta'] : "$0" ?>" placeholder="Recargo Pernocta" name="pernocta" id="pernocta" onchange="editTotal()">
+                  <input class="form-control" value="<?php echo isset($edit) ? $rowedit['pernocta'] : "$0" ?>" placeholder="Pernocta" name="pernocta" id="pernocta" onchange="editTotal()">
                 </div>
               </div>
               <div class="form-group row">
@@ -850,7 +850,7 @@
       let ori = elemento_origen.value;
       let des = elemento_destino.value;
 
-      let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + (cruise_speed * 0.539956803)
+      let built_url = 'https://greatcirclemapper.p.rapidapi.com/airports/route/' + ori + '-' + des + '/' + (cruise_speed * 1.852)
       const _0x5dcf22 = _0x4685;
       (function(_0x2fba52, _0xa9040d) {
         const _0x47ba0d = _0x4685,

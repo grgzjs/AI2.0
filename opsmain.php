@@ -150,6 +150,8 @@ include("conexion.php");
                             <div class="btn-group btn-hspace">
                               <button class="btn btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Seleccionar <span class="icon-dropdown s7-angle-down"></span></button>
                               <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                <a class="dropdown-item<?php if ($row['status'] != 3) echo ' disabled'; ?>" href='pdfBriefing.php?id=<?php echo $row['quote'] ?>' title="Briefing">Briefing</a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item<?php if ($row['status'] != 3) echo ' disabled'; ?>" href='pdfTripSheet.php?id=<?php echo $row['quote'] ?>' title="Trip Sheet">Trip Sheet</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href='opsmain2.php?id=<?php echo $row['quote'] ?>' title="Cambiar">Programación</a>

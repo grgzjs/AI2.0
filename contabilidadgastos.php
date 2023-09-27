@@ -285,7 +285,7 @@ if (isset($_POST['guardar_gasto'])) {
               <tbody>
                 <?php
                 // obtener gastos_generales y opstramo_gastos (gastos por tramo) usando join en la query
-                $sql_gastos_tramo = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from opstramo_gastos';
+                $sql_gastos_tramo = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from opstramo_gastos ORDER BY spanish_date DESC';
                 $gastos_tramo = mysqli_query($con, $sql_gastos_tramo);
                 while ($rowp = mysqli_fetch_assoc($gastos_tramo)) {
                 ?>
@@ -310,7 +310,7 @@ if (isset($_POST['guardar_gasto'])) {
                 <?php
                 }
 
-                $sql_gastos_generales = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from gastos_generales';
+                $sql_gastos_generales = 'select *,DATE_FORMAT(date, "%d/%m/%Y") as spanish_date from gastos_generales ORDER BY date DESC';
                 $gastos_generales = mysqli_query($con, $sql_gastos_generales);
                 while ($rowp = mysqli_fetch_assoc($gastos_generales)) {
                   $file_exists = $rowp["file"];
